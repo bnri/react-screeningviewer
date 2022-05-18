@@ -96,18 +96,20 @@ const SaccadeView = ({ ...props }) => {
 
     const groupData = React.useMemo(()=>{
         return {
-            down_fixation_stability: 0.05904507977451076,
-            down_saccade_delay: 0.34178149999999996,
-            down_saccade_speed: 251.22066192543087,
-            left_fixation_stability: 0.05501736333714864,
-            left_saccade_delay: 0.22730400000000017,
-            left_saccade_speed: 385.917055501673,
-            right_fixation_stability: 0.03455070458896356,
-            right_saccade_delay: 0.3469095,
-            right_saccade_speed: 241.7449265136197,
-            up_fixation_stability: 0.03707128434877034,
-            up_saccade_delay: 0.2595645000000004,
-            up_saccade_speed: 46.871934245693936
+            down_fixation_stability: 0.04904507977451076,
+            down_saccade_delay: 0.37178149999999996,
+            down_saccade_speed: 271.22066192543087,
+            left_fixation_stability: 0.04501736333714864,
+            left_saccade_delay: 0.36730400000000017,
+            left_saccade_speed: 285.917055501673,
+            right_fixation_stability: 0.04455070458896356,
+            right_saccade_delay: 0.3669095,
+            right_saccade_speed: 271.7449265136197,
+            up_fixation_stability: 0.04707128434877034,
+            up_saccade_delay: 0.3695645000000004,
+            up_saccade_speed: 246.871934245693936
+
+
         }
     },[]);
 
@@ -150,6 +152,44 @@ const SaccadeView = ({ ...props }) => {
         }
     },[]);
 
+    const radarChartOption2 = React.useMemo(() => {
+        return {
+            maintainAspectRatio: false,
+            responsive: true,
+            devicePixelRatio: window.devicePixelRatio * 3,
+            layout: {
+                padding: 0
+            },
+            scale: {
+                // r: {
+                //     angleLines: {
+                //         display: false
+                //     },
+                //     suggestedMin: 50,
+                //     suggestedMax: 100
+                // }
+                // angleLines: {
+                //     color: "rgba(0, 0, 0, 0.3)"
+                // },
+                ticks: {
+                    fontSize: 10,
+                    // stepSize: 0.01,
+                    beginAtZero: true,
+                    min: 0,
+                },
+                pointLabels: { fontSize: 14, weight: '700' } //left,right,down,up
+            },
+            legend: {
+                // display:false,
+                position: 'top',
+                labels: {
+                    boxWidth: 10,
+                    fontSize: 12,
+                    fontStyle: "bold",
+                }
+            },
+        }
+    },[]);
 
 
     const taskArr = React.useMemo(()=>{
@@ -406,11 +446,13 @@ const SaccadeView = ({ ...props }) => {
             yScaleID: "degree",
             xScaleID: "timeid",
             // value: '7.5',
+
+
             // borderColor: 'rgba(0,0,0,0.2)',
             backgroundColor: "rgba(0,0,0,0.2)",
             borderWidth: 1,
             xMin: (0.5+groupData.up_saccade_delay)*1000,
-            xMax:800,
+            xMax:(0.5+groupData.up_saccade_delay+7.63/groupData.up_saccade_speed)*1000,
             yMin: -10,
             yMax: 10,
         });
@@ -673,10 +715,10 @@ const SaccadeView = ({ ...props }) => {
                                     borderColor: "rgba(255,0,0,0.6)",
                                     fill: false,
                                 },{
-                                    data: [data.analysis.up_saccade_delay * 1000+100,
-                                    data.analysis.right_saccade_delay * 1000-100,
-                                    data.analysis.down_saccade_delay * 1000+100,
-                                    data.analysis.left_saccade_delay * 1000-100],
+                                    data: [groupData.up_saccade_delay * 1000,
+                                        groupData.right_saccade_delay * 1000,
+                                        groupData.down_saccade_delay * 1000,
+                                        groupData.left_saccade_delay * 1000],
                                     label: 'group Avg Latency time (ms)',
                                     // backgroundColor:'red',
                                     borderColor: "rgba(0,0,0,0.2)",
@@ -703,12 +745,51 @@ const SaccadeView = ({ ...props }) => {
                                     // backgroundColor:'red',
                                     borderColor: "rgba(255,0,0,0.6)",
                                     fill: false,
+                                },{
+                                    data: [groupData.up_saccade_speed,
+                                        groupData.right_saccade_speed,
+                                        groupData.down_saccade_speed,
+                                        groupData.left_saccade_speed],
+                                    label: 'Group Avg Speed (degree/s)',
+                                    // backgroundColor:'red',
+                                    borderColor: "rgba(0,0,0,0.2)",
+                                    fill: false,
                                 }]
                             }}
                             options={radarChartOption}
                         />
                     </div>
-                    <div className="cbox3 fixationErrChartWrap">그래프 fixationerr?</div>
+                    <div className="cbox3 fixationErrChartWrap">
+                         <ChartComponent
+                            type="radar"
+                            height={null}
+                            width={null}
+                            data={{
+                                labels: ['Up', 'Right', 'Down', 'Left'],
+                                datasets: [{
+                                    data: [data.analysis.up_fixation_stability,
+                                    data.analysis.right_fixation_stability,
+                                    data.analysis.down_fixation_stability,
+                                    data.analysis.left_fixation_stability],
+                                    label: 'my Avg fixation_err(degree)',
+                                    // backgroundColor:'red',
+                                    borderColor: "rgba(255,0,0,0.6)",
+                                    fill: false,
+                                },{
+                                    data: [groupData.up_fixation_stability,
+                                        groupData.right_fixation_stability,
+                                        groupData.down_fixation_stability,
+                                        groupData.left_fixation_stability],
+                                    label: 'group Avg fixation_err(degree)',
+                                    // backgroundColor:'red',
+                                    borderColor: "rgba(0,0,0,0.2)",
+                                    fill: false,
+                                }]
+                            }}
+                            options={radarChartOption2}
+                        />
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -750,7 +831,21 @@ const SaccadeView = ({ ...props }) => {
                     </div>
                     <div className="cbox2r">
                         <div className="cbox2w">
-                            1
+                        <div className="c_label">
+                                <strong>{"Downward 7.63 Degree"}</strong> 
+                            </div>
+                            <div className="c_chart">
+                            <ChartComponent
+                                type="line"
+                                height={null}
+                                width={null}
+                                data={saccadeTopData}
+                                options={saccadeTopChartOption}
+                            />
+                            </div>
+                            <div className="c_avg">
+                                myAvgLatency : <strong>{(data.analysis.up_saccade_delay*1000).toFixed(0)} ms</strong>, myAvgSpeed : <strong>{data.analysis.up_saccade_speed.toFixed(1)} degree/s</strong>
+                            </div>
                         </div>
                         <div className="cbox2w">
                             2
