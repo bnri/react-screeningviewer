@@ -1,21 +1,23 @@
 {
   "name": "react-screeningviewer",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "private": false,
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
+  "description": "react screening viewer",
+  "module": "dist/ScreeningViewer.js",
+  "main": "dist/ScreeningViewer.js",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.2.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "react-gazeviewer": "^1.0.16"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "rmdir dist /s /q && mkdir dist && babel src/lib -d dist --copy-files",
+    "deploy_npm": "npm version patch && npm publish"
   },
   "eslintConfig": {
     "extends": [
@@ -34,5 +36,34 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "keywords": [
+    "react",
+    "screeningviewer"
+  ],
+  "author": "guripong",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bnri/react-screeningviewer.git"
+  },
+  "peerDependencies": {
+    "react": ">= 17",
+    "react-dom": ">= 17"
+  },
+  "engines": {
+    "node": ">= 14"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/preset-react": "^7.16.7",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.1.1",
+    "@testing-library/user-event": "^13.5.0",
+    "node-sass": "^4.14.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "^5.0.1",
+    "web-vitals": "^2.1.4"
   }
 }
