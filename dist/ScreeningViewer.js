@@ -91,6 +91,7 @@ var ScreeningViewer = function ScreeningViewer(_ref) {
   var props = _extends({}, _ref);
 
   var dataArr = props.dataArr;
+  var onClose = props.onClose;
 
   var _React$useState = _react.default.useState(0),
       _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -126,7 +127,13 @@ var ScreeningViewer = function ScreeningViewer(_ref) {
         set_selDataIndex(index);
       }
     }, data.screeningType);
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "oneLeftBarList",
+    style: {
+      marginTop: '5px'
+    },
+    onClick: onClose
+  }, "\uB098\uAC00\uAE30")), /*#__PURE__*/_react.default.createElement("div", {
     className: "rightContents"
   }, selScreeningType === 'saccade' && /*#__PURE__*/_react.default.createElement(SaccadeView, {
     data: dataArr[selDataIndex]

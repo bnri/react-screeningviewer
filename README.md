@@ -50,14 +50,18 @@ function App() {
     return da;
   },[]);
 
+  const [showViewer,set_showViewer] = React.useState(true);
+
 
   return (
     <div className="App">
-
-      샘플데이터는 22_saccade,45_pursuit,11_antisaccade 을 넣어봄
-
-      <ScreeningViewer dataArr={dataArr} />
-     
+     샘플데이터는 22_saccade,45_pursuit,11_antisaccade 을 넣어봄
+      <button onClick={()=>set_showViewer(true)}>open</button>
+      {showViewer===true&&
+        <ScreeningViewer dataArr={dataArr} 
+          onClose={()=>set_showViewer(false)}
+        />      
+      }
     </div>
   );
 }

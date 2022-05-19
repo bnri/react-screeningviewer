@@ -56,6 +56,7 @@ function get_blink_arr(obj) {
 }
 const ScreeningViewer = ({ ...props }) => {
     const { dataArr } = props;
+    const {onClose} = props;
 
     const [selDataIndex, set_selDataIndex] = React.useState(0);
 
@@ -84,6 +85,9 @@ const ScreeningViewer = ({ ...props }) => {
                         {data.screeningType}
                     </div>)
                 })}
+                <div className="oneLeftBarList" style={{marginTop:'5px'}}onClick={onClose} >
+                    나가기
+                </div>
             </div>
             <div className="rightContents">
                 {selScreeningType === 'saccade' &&
