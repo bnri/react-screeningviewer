@@ -2138,7 +2138,7 @@ const PursuitView = ({...props})=>{
 
                                 // console.log("asfasf",val,index);
                                 if (index % 60 === 0) {
-                                    //#@!
+                                    
                                     return ((val * 1).toFixed(1)-0.5).toFixed(1);
                                 }
                             }
@@ -2453,7 +2453,12 @@ const PursuitView = ({...props})=>{
                     추적안구운동 점수 분포
                 </div>
                 <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    거시기 반만써서 clockwise anticlockwise
+                    <div className="cbox2">
+                            asf
+                    </div>
+                    <div className="cbox2">
+                            어떤컨텐츠가 들어갈예정
+                    </div>    
                 </div>
             </div>
         </div>
