@@ -132,6 +132,17 @@ const SaccadeView = ({ ...props }) => {
 
     const radarChartOption = React.useMemo(() => {
         return {
+            plugins: {
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        return null;
+                        //return value !== 0 ? value.toLocaleString(/* ... */) : ''
+                    },
+                    anchor: 'center',
+                    align: 'center',
+                    color: '#000000'
+                },
+            },
             maintainAspectRatio: false,
             responsive: true,
             devicePixelRatio: window.devicePixelRatio * 3,
@@ -171,6 +182,17 @@ const SaccadeView = ({ ...props }) => {
 
     const radarChartOption2 = React.useMemo(() => {
         return {
+            plugins: {
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        return null;
+                        //return value !== 0 ? value.toLocaleString(/* ... */) : ''
+                    },
+                    anchor: 'center',
+                    align: 'center',
+                    color: '#000000'
+                },
+            },
             maintainAspectRatio: false,
             responsive: true,
             devicePixelRatio: window.devicePixelRatio * 3,

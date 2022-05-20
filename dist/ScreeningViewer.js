@@ -168,6 +168,16 @@ var SaccadeView = function SaccadeView(_ref2) {
 
   var radarChartOption = _react.default.useMemo(function () {
     return {
+      plugins: {
+        datalabels: {
+          formatter: function formatter(value, ctx) {
+            return null; //return value !== 0 ? value.toLocaleString(/* ... */) : ''
+          },
+          anchor: 'center',
+          align: 'center',
+          color: '#000000'
+        }
+      },
       maintainAspectRatio: false,
       responsive: true,
       devicePixelRatio: window.devicePixelRatio * 3,
@@ -211,6 +221,16 @@ var SaccadeView = function SaccadeView(_ref2) {
 
   var radarChartOption2 = _react.default.useMemo(function () {
     return {
+      plugins: {
+        datalabels: {
+          formatter: function formatter(value, ctx) {
+            return null; //return value !== 0 ? value.toLocaleString(/* ... */) : ''
+          },
+          anchor: 'center',
+          align: 'center',
+          color: '#000000'
+        }
+      },
       maintainAspectRatio: false,
       responsive: true,
       devicePixelRatio: window.devicePixelRatio * 3,
