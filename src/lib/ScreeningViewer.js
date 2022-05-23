@@ -68,7 +68,7 @@ const ScreeningViewer = ({ ...props }) => {
     const { dataArr } = props;
     const { onClose } = props;
 
-    const [selDataIndex, set_selDataIndex] = React.useState(2);
+    const [selDataIndex, set_selDataIndex] = React.useState(0);
 
     const selScreeningType = React.useMemo(() => {
         if (dataArr && dataArr[selDataIndex]) {

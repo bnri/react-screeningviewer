@@ -99,7 +99,7 @@ var ScreeningViewer = function ScreeningViewer(_ref) {
   var dataArr = props.dataArr;
   var onClose = props.onClose;
 
-  var _React$useState = _react.default.useState(2),
+  var _React$useState = _react.default.useState(0),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       selDataIndex = _React$useState2[0],
       set_selDataIndex = _React$useState2[1];
