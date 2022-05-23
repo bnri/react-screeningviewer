@@ -87,13 +87,19 @@ function get_blink_arr(obj) {
   return blk_arr;
 }
 
+function customCallbackXtick(val, index) {
+  if (index % 120 === 0) {
+    return ((((val * 1).toFixed(2) * 1).toFixed(2) - 0.5) * 1).toFixed(2) * 1;
+  }
+}
+
 var ScreeningViewer = function ScreeningViewer(_ref) {
   var props = _extends({}, _ref);
 
   var dataArr = props.dataArr;
   var onClose = props.onClose;
 
-  var _React$useState = _react.default.useState(0),
+  var _React$useState = _react.default.useState(2),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       selDataIndex = _React$useState2[0],
       set_selDataIndex = _React$useState2[1];
@@ -614,8 +620,8 @@ var SaccadeView = function SaccadeView(_ref2) {
             displayFormats: {
               mything: 'ss.SSS'
             } ///////여기서조정해야함
-            // min: 0,
-            // max: 10,
+            // min: 0 * 1000,
+            // max: 1.5 * 1000,
 
           },
           //x축 숨기려면 이렇게
@@ -638,12 +644,9 @@ var SaccadeView = function SaccadeView(_ref2) {
             //   enabled: true
             // },
             // stepSize: 10,
-            callback: function callback(val, index) {
-              // console.log("asfasf",val,index);
-              if (index % 120 === 0) {
-                return ((val * 1).toFixed(2) * 1).toFixed(1) - 0.5;
-              }
-            }
+            callback: customCallbackXtick,
+            min: 0,
+            max: 1.5 * 1000
           }
         }],
         yAxes: [{
@@ -829,8 +832,8 @@ var SaccadeView = function SaccadeView(_ref2) {
             displayFormats: {
               mything: 'ss.SSS'
             } ///////여기서조정해야함
-            // min: 0,
-            // max: 10,
+            // min: 0 * 1000,
+            // max: 1.5 * 1000,
 
           },
           //x축 숨기려면 이렇게
@@ -853,12 +856,9 @@ var SaccadeView = function SaccadeView(_ref2) {
             //   enabled: true
             // },
             // stepSize: 10,
-            callback: function callback(val, index) {
-              // console.log("asfasf",val,index);
-              if (index % 120 === 0) {
-                return ((val * 1).toFixed(2) * 1).toFixed(1) - 0.5;
-              }
-            }
+            callback: customCallbackXtick,
+            min: 0,
+            max: 1.5 * 1000
           }
         }],
         yAxes: [{
@@ -1044,8 +1044,6 @@ var SaccadeView = function SaccadeView(_ref2) {
             displayFormats: {
               mything: 'ss.SSS'
             } ///////여기서조정해야함
-            // min: 0,
-            // max: 10,
 
           },
           //x축 숨기려면 이렇게
@@ -1068,12 +1066,9 @@ var SaccadeView = function SaccadeView(_ref2) {
             //   enabled: true
             // },
             // stepSize: 10,
-            callback: function callback(val, index) {
-              // console.log("asfasf",val,index);
-              if (index % 120 === 0) {
-                return ((val * 1).toFixed(2) * 1).toFixed(1) - 0.5;
-              }
-            }
+            callback: customCallbackXtick,
+            min: 0,
+            max: 1.5 * 1000
           }
         }],
         yAxes: [{
@@ -1216,8 +1211,8 @@ var SaccadeView = function SaccadeView(_ref2) {
       // borderColor: 'rgba(0,0,0,0.2)',
       backgroundColor: "rgba(0,0,0,0.2)",
       borderWidth: 1,
-      xMin: (0.5 + groupData.right_saccade_delay) * 1000,
-      xMax: (0.5 + groupData.right_saccade_delay + 7.63 / groupData.right_saccade_speed) * 1000,
+      xMin: (0.5 + groupData.left_saccade_delay) * 1000,
+      xMax: (0.5 + groupData.left_saccade_delay + 7.63 / groupData.left_saccade_speed) * 1000,
       yMin: -10,
       yMax: 10
     });
@@ -1259,8 +1254,8 @@ var SaccadeView = function SaccadeView(_ref2) {
             displayFormats: {
               mything: 'ss.SSS'
             } ///////여기서조정해야함
-            // min: 0,
-            // max: 10,
+            // min: 0 * 1000,
+            // max: 1.5 * 1000,
 
           },
           //x축 숨기려면 이렇게
@@ -1283,12 +1278,9 @@ var SaccadeView = function SaccadeView(_ref2) {
             //   enabled: true
             // },
             // stepSize: 10,
-            callback: function callback(val, index) {
-              // console.log("asfasf",val,index);
-              if (index % 120 === 0) {
-                return ((val * 1).toFixed(2) * 1).toFixed(1) - 0.5;
-              }
-            }
+            callback: customCallbackXtick,
+            min: 0,
+            max: 1.5 * 1000
           }
         }],
         yAxes: [{
@@ -1828,8 +1820,15 @@ var PursuitView = function PursuitView(_ref3) {
       showGazeViewer = _React$useState14[0],
       set_showGazeViewer = _React$useState14[1];
 
+  var groupData = _react.default.useMemo(function () {
+    return {
+      anticlockwise_err: 1.1755913592135074,
+      clockwise_err: 1.1537194245685808
+    };
+  }, []);
+
   var taskArr = _react.default.useMemo(function () {
-    console.log(data);
+    // console.log(data);
     var MONITOR_PX_PER_CM = data.monitorInform.MONITOR_PX_PER_CM;
     var pixel_per_cm = data.monitorInform.MONITOR_PX_PER_CM; //1cm 당 pixel
 
@@ -2005,9 +2004,9 @@ var PursuitView = function PursuitView(_ref3) {
 
         task.blkChartArr = blkChartArr;
       }
-    }
+    } // console.log("taskArr",taskArr);
 
-    console.log("taskArr", taskArr);
+
     return taskArr;
   }, [data]);
 
@@ -2177,9 +2176,7 @@ var PursuitView = function PursuitView(_ref3) {
             // },
             // stepSize: 10,
             callback: function callback(val, index) {
-              // console.log("asfasf",val,index);
               if (index % 60 === 0) {
-                //#@!
                 return ((val * 1).toFixed(1) - 0.5).toFixed(1);
               }
             }
@@ -2483,6 +2480,135 @@ var PursuitView = function PursuitView(_ref3) {
     };
   }, [taskArr]);
 
+  var barChartData = _react.default.useMemo(function () {
+    return {
+      labels: ['clockWise', 'AntiClockWise'],
+      datasets: [{
+        type: 'bar',
+        label: "my err",
+        data: [data.analysis.clockwise_err, data.analysis.anticlockwise_err],
+        // backgroundColor: themeColors,
+        backgroundColor: "#2763DB",
+        barPercentage: 0.8,
+        categoryPercentage: 0.5,
+        borderColor: "transparent"
+      }, {
+        type: 'bar',
+        label: "group err",
+        data: [groupData.clockwise_err, groupData.anticlockwise_err],
+        // backgroundColor: themeColors,
+        backgroundColor: "gray",
+        barPercentage: 0.8,
+        categoryPercentage: 0.5,
+        borderColor: "transparent"
+      }]
+    };
+  }, [groupData, data]);
+
+  var barChartOption = _react.default.useMemo(function () {
+    return {
+      plugins: {
+        datalabels: {
+          formatter: function formatter(value, ctx) {
+            // console.log("value",value,ctx);
+            // if(isgroup){
+            //     return "groupAvgErr\n"+value.toFixed(2);
+            // }
+            // else{
+            //     return "myAvgErr\n"+value.toFixed(2);
+            // }
+            return value.toFixed(2);
+          },
+          anchor: 'center',
+          align: 'center',
+          color: '#fff'
+        }
+      },
+      tooltips: {
+        // mode: 'label',
+        callbacks: {
+          title: function title() {},
+          label: function label(tooltipItems, data) {
+            // console.log("tooltipItems",tooltipItems,data);
+            var isgroup = tooltipItems.datasetIndex === 0 ? false : true;
+
+            if (isgroup) {
+              return "그룹의 " + tooltipItems.xLabel + "_avg_err : " + tooltipItems.yLabel.toFixed(4) + " (degree)";
+            } else {
+              return "나의 " + tooltipItems.xLabel + "_avg_err : " + tooltipItems.yLabel.toFixed(4) + " (degree)";
+            }
+          }
+        },
+        titleFontSize: 16,
+        bodyFontSize: 16
+      },
+      elements: {
+        rectangle: {
+          borderWidth: 1,
+          borderSkipped: "left"
+        },
+        line: {
+          fill: false
+        }
+      },
+      responsive: true,
+      responsiveAnimationDuration: 0,
+      animation: {
+        duration: 0
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+          gridLines: {
+            color: "transparent",
+            defaultFontStyle: "normal"
+          },
+          scaleLabel: {
+            defaultFontStyle: "normal",
+            display: false,
+            labelString: "degree",
+            fontSize: 14,
+            fontStyle: "bold"
+          },
+          ticks: {
+            stepSize: 0.2,
+            max: 2,
+            min: 0,
+            fontSize: 14,
+            fontStyle: "bold"
+          }
+        }],
+        yAxes: [{
+          display: true,
+          gridLines: {
+            color: "transparent"
+          },
+          scaleLabel: {
+            display: true,
+            labelString: "degree",
+            fontSize: 14,
+            fontStyle: "bold"
+          },
+          ticks: {
+            // stepSize: 2,
+            // max:30,
+            min: 0,
+            fontSize: 14,
+            fontStyle: "bold"
+          }
+        }]
+      },
+      maintainAspectRatio: false,
+      title: {
+        display: true,
+        text: "추적안구운동 평균 err"
+      },
+      legend: {
+        display: true
+      }
+    };
+  }, []);
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "PursuitView"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -2559,7 +2685,17 @@ var PursuitView = function PursuitView(_ref3) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, "\uAC70\uC2DC\uAE30 \uBC18\uB9CC\uC368\uC11C clockwise anticlockwise"))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "cbox2"
+  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+    type: "bar",
+    height: null,
+    width: null,
+    data: barChartData,
+    options: barChartOption
+  })), /*#__PURE__*/_react.default.createElement("div", {
+    className: "cbox2"
+  }, "\uC5B4\uB5A4\uCEE8\uD150\uCE20\uAC00 \uB4E4\uC5B4\uAC08\uC608\uC815")))), /*#__PURE__*/_react.default.createElement("div", {
     className: "row"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
@@ -2711,7 +2847,7 @@ var PursuitView = function PursuitView(_ref3) {
     className: "title"
   }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 (pursuit)\uC740 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9(pursuit)\uC740 \uCC9C\uCC9C\uD788 \uC6C0\uC9C1\uC774\uB294 \uB300\uC0C1\uC744 \uB530\uB77C \uBD80\uB4DC\uB7FD\uACE0 \uC5F0\uC18D\uC801\uC73C\uB85C \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uB294 \uAC83\uC785\uB2C8\uB2E4. \uC77C\uBC18\uC801\uC73C\uB85C \uC2DC\uC120\uC740 \uBE60\uB974\uAC8C \uB3C4\uC57D\uD558\uACE0 \uACE0\uC815\uD558\uB294 \uAC83\uC744 \uBC18\uBCF5\uD560 \uBFD0\uC774\uBA70,  \uBD80\uB4DC\uB7FD\uACE0 \uC5F0\uC18D\uC801\uC73C\uB85C \uC774\uB3D9\uD558\uB294 \uAC83\uC740 \uACE0\uB3C4\uC758 \uC548\uAD6C\uC6B4\uB3D9 \uD1B5\uC81C\uB2A5\uB825\uC774 \uD544\uC694\uD558\uAE30 \uB54C\uBB38\uC5D0, \uC601\uC7A5\uB958\uB098 \uACE0\uC591\uC774 \uC815\uB3C4\uC758 \uACE0\uB4F1\uB3D9\uBB3C\uC5D0\uAC8C\uC11C \uB098\uD0C0\uB098\uB294 \uB2A5\uB825\uC785\uB2C8\uB2E4.\u200B"), /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9\uC740 \uC9D1\uC911\uB825\uC774 \uB0AE\uC544\uC9C0\uAC70\uB098 \uB178\uD654\uC5D0 \uC758\uD574 \uC800\uD558\uB418\uC9C0\uB9CC, \uC2DC\uB825 \uC800\uD558\uB098 \uC548\uC9C4(\uC548\uAD6C \uC9C4\uD0D5)  \uBC0F \uAC01\uC885 \uC2E0\uACBD\uACC4 \uC774\uC0C1\uC73C\uB85C \uC778\uD574 \uB098\uD0C0\uB098\uAE30\uB3C4 \uD569\uB2C8\uB2E4. \u200B"), /*#__PURE__*/_react.default.createElement("li", null, "\uC704\uCE58\uD3B8\uCC28 (position error)"), /*#__PURE__*/_react.default.createElement("li", null, "\uC5F0\uC18D\uC131??"))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9(pursuit)\uC740 \uCC9C\uCC9C\uD788 \uC6C0\uC9C1\uC774\uB294 \uB300\uC0C1\uC744 \uB530\uB77C \uBD80\uB4DC\uB7FD\uACE0 \uC5F0\uC18D\uC801\uC73C\uB85C \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uB294 \uAC83\uC785\uB2C8\uB2E4. \uC77C\uBC18\uC801\uC73C\uB85C \uC2DC\uC120\uC740 \uBE60\uB974\uAC8C \uB3C4\uC57D\uD558\uACE0 \uACE0\uC815\uD558\uB294 \uAC83\uC744 \uBC18\uBCF5\uD560 \uBFD0\uC774\uBA70,  \uBD80\uB4DC\uB7FD\uACE0 \uC5F0\uC18D\uC801\uC73C\uB85C \uC774\uB3D9\uD558\uB294 \uAC83\uC740 \uACE0\uB3C4\uC758 \uC548\uAD6C\uC6B4\uB3D9 \uD1B5\uC81C\uB2A5\uB825\uC774 \uD544\uC694\uD558\uAE30 \uB54C\uBB38\uC5D0, \uC601\uC7A5\uB958\uB098 \uACE0\uC591\uC774 \uC815\uB3C4\uC758 \uACE0\uB4F1\uB3D9\uBB3C\uC5D0\uAC8C\uC11C \uB098\uD0C0\uB098\uB294 \uB2A5\uB825\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9\uC740 \uC9D1\uC911\uB825\uC774 \uB0AE\uC544\uC9C0\uAC70\uB098 \uB178\uD654\uC5D0 \uC758\uD574 \uC800\uD558\uB418\uC9C0\uB9CC, \uC2DC\uB825 \uC800\uD558\uB098 \uC548\uC9C4(\uC548\uAD6C \uC9C4\uD0D5)  \uBC0F \uAC01\uC885 \uC2E0\uACBD\uACC4 \uC774\uC0C1\uC73C\uB85C \uC778\uD574 \uB098\uD0C0\uB098\uAE30\uB3C4 \uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC704\uCE58\uD3B8\uCC28 (position error)"), /*#__PURE__*/_react.default.createElement("li", null, "\uC5F0\uC18D\uC131??"))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
     className: "GazeViewerWrap"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "modal"
@@ -2732,7 +2868,6 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
   var props = _extends({}, _ref4);
 
   var data = props.data;
-  console.log(data);
 
   var _React$useState19 = _react.default.useState(false),
       _React$useState20 = _slicedToArray(_React$useState19, 2),
@@ -2740,6 +2875,960 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       set_showGazeViewer = _React$useState20[1];
 
   var transparentCanvasRef = _react.default.useRef();
+
+  var groupData = _react.default.useMemo(function () {
+    return {
+      down_fixation_stability: 0.04904507977451076,
+      down_saccade_delay: 0.37178149999999996,
+      down_saccade_speed: 271.22066192543087,
+      left_fixation_stability: 0.04501736333714864,
+      left_saccade_delay: 0.36730400000000017,
+      left_saccade_speed: 285.917055501673,
+      right_fixation_stability: 0.04455070458896356,
+      right_saccade_delay: 0.3669095,
+      right_saccade_speed: 271.7449265136197,
+      up_fixation_stability: 0.04707128434877034,
+      up_saccade_delay: 0.3695645000000004,
+      up_saccade_speed: 246.871934245693936,
+      left_antisaccade_delay: 0.42823249999999987,
+      right_antisaccade_delay: 0.4170207500000001
+    };
+  }, []);
+
+  var barChartData = _react.default.useMemo(function () {
+    return {
+      labels: ['따라보기', '반대보기'],
+      datasets: [{
+        type: 'bar',
+        label: "my avg delay",
+        data: [(data.analysis.left_saccade_delay + data.analysis.right_saccade_delay) * 500, (data.analysis.left_antisaccade_delay + data.analysis.right_antisaccade_delay) * 500],
+        // backgroundColor: themeColors,
+        backgroundColor: "red",
+        barPercentage: 0.8,
+        categoryPercentage: 0.5,
+        borderColor: "transparent"
+      }, {
+        type: 'bar',
+        label: "group avg delay",
+        data: [(groupData.left_saccade_delay + groupData.right_saccade_delay) * 500, (groupData.left_antisaccade_delay + groupData.right_antisaccade_delay) * 500],
+        // backgroundColor: themeColors,
+        backgroundColor: "gray",
+        barPercentage: 0.8,
+        categoryPercentage: 0.5,
+        borderColor: "transparent"
+      }]
+    };
+  }, [groupData, data]);
+
+  var barChartOption = _react.default.useMemo(function () {
+    return {
+      plugins: {
+        datalabels: {
+          formatter: function formatter(value, ctx) {
+            // const isgroup =value.dataIndex===0?false:true;
+            // console.log("value",value,ctx);
+            // if(isgroup){
+            //     return "groupAvgErr\n"+value.toFixed(2);
+            // }
+            // else{
+            //     return "myAvgErr\n"+value.toFixed(2);
+            // }
+            return value.toFixed(0);
+          },
+          anchor: 'center',
+          align: 'center',
+          color: '#fff'
+        }
+      },
+      tooltips: {
+        // mode: 'label',
+        callbacks: {
+          title: function title() {},
+          label: function label(tooltipItems, data) {
+            console.log("tooltipItems", tooltipItems, data);
+            var label = data.datasets[tooltipItems.datasetIndex].label;
+            return label + "(평균) : " + tooltipItems.yLabel.toFixed(4) + " (ms)";
+          }
+        },
+        titleFontSize: 16,
+        bodyFontSize: 16
+      },
+      elements: {
+        rectangle: {
+          borderWidth: 1,
+          borderSkipped: "left"
+        },
+        line: {
+          fill: false
+        }
+      },
+      responsive: true,
+      responsiveAnimationDuration: 0,
+      animation: {
+        duration: 0
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+          gridLines: {
+            color: "transparent",
+            defaultFontStyle: "normal"
+          },
+          scaleLabel: {
+            defaultFontStyle: "normal",
+            display: false,
+            labelString: "???",
+            fontSize: 14,
+            fontStyle: "bold"
+          },
+          ticks: {
+            stepSize: 0.2,
+            max: 2,
+            min: 0,
+            fontSize: 14,
+            fontStyle: "bold"
+          }
+        }],
+        yAxes: [{
+          display: true,
+          gridLines: {
+            color: "transparent"
+          },
+          scaleLabel: {
+            display: true,
+            labelString: "지체시간(ms)",
+            fontSize: 14,
+            fontStyle: "bold"
+          },
+          ticks: {
+            // stepSize: 2,
+            // max:30,
+            min: 0,
+            fontSize: 14,
+            fontStyle: "bold"
+          }
+        }]
+      },
+      maintainAspectRatio: false,
+      title: {
+        display: true,
+        text: "평균 지체시간(delay)"
+      },
+      legend: {
+        display: true
+      }
+    };
+  }, []);
+
+  var taskArr = _react.default.useMemo(function () {
+    var MONITOR_PX_PER_CM = data.monitorInform.MONITOR_PX_PER_CM;
+    var pixel_per_cm = data.monitorInform.MONITOR_PX_PER_CM; //1cm 당 pixel
+
+    var degree_per_cm = Math.atan(1 / data.defaultZ) * 180 / Math.PI;
+    var w = data.screenW;
+    var h = data.screenH;
+    var screeningObjectList = data.screeningObjectList;
+    var taskArr = {
+      left: [],
+      right: []
+    };
+
+    for (var i = 0; i < screeningObjectList.length; i++) {
+      taskArr[screeningObjectList[i].analysis.direction].push(_objectSpread(_objectSpread({}, screeningObjectList[i]), {}, {
+        gazeData: data.taskArr[i],
+        analysis: data.analysisArr[i]
+      }));
+    }
+
+    for (var key in taskArr) {
+      for (var _i4 = 0; _i4 < taskArr[key].length; _i4++) {
+        var task = taskArr[key][_i4];
+        var type = task.type;
+        var gazeArr = task.gazeData;
+        var blink_arr = get_blink_arr(gazeArr);
+        task.blinkArr = blink_arr; // % 로되어있는걸 degree 로 변환작업, 중점이 0,0 x,y degree
+
+        for (var j = 0; j < gazeArr.length; j++) {
+          var target_pixels = {
+            x: null,
+            y: null
+          };
+
+          if (type === "teleport") {
+            //2~5 고정임
+            if (gazeArr[j].relTime * 1 < task.startWaitTime * 1) {
+              target_pixels.x = task.startCoord.x - w / 2;
+              target_pixels.y = task.startCoord.y - h / 2;
+            } else if (gazeArr[j].relTime * 1 < task.duration * 1 + task.startWaitTime * 1) {
+              target_pixels.x = task.endCoord.x - w / 2;
+              target_pixels.y = task.endCoord.y - h / 2;
+            } else {
+              if (task.isReturn) {
+                target_pixels.x = task.startCoord.x - w / 2;
+                target_pixels.y = task.startCoord.y - h / 2;
+              } else {
+                target_pixels.x = task.endCoord.x - w / 2;
+                target_pixels.y = task.endCoord.y - h / 2;
+              }
+            }
+
+            var target_xcm = target_pixels.x / pixel_per_cm;
+            var target_ycm = target_pixels.y / pixel_per_cm;
+            var target_xdegree = target_xcm * degree_per_cm;
+            var target_ydegree = target_ycm * degree_per_cm;
+            gazeArr[j].target_xdegree = target_xdegree;
+            gazeArr[j].target_ydegree = target_ydegree;
+          } else if (type === "circular") {
+            var radian = Math.PI / 180;
+            var radius = task.radius;
+
+            if (gazeArr[j].relTime * 1 < task.startWaitTime) {
+              var cosTheta = Math.cos(task.startDegree * radian);
+              var sineTheta = Math.sin(task.startDegree * radian);
+              target_pixels.x = task.centerCoord.x + radius * cosTheta * MONITOR_PX_PER_CM - w / 2;
+              target_pixels.y = task.centerCoord.y - radius * sineTheta * MONITOR_PX_PER_CM - h / 2;
+            } else if (gazeArr[j].relTime * 1 < task.duration * 1 + task.startWaitTime * 1) {
+              var nowDegree = -((task.startDegree - task.endDegree) * (gazeArr[j].relTime - task.startWaitTime) / task.duration - task.startDegree);
+
+              var _cosTheta5 = Math.cos(nowDegree * radian);
+
+              var _sineTheta5 = Math.sin(nowDegree * radian);
+
+              target_pixels.x = task.centerCoord.x + radius * _cosTheta5 * MONITOR_PX_PER_CM - w / 2;
+              target_pixels.y = task.centerCoord.y - radius * _sineTheta5 * MONITOR_PX_PER_CM - h / 2;
+            } else {
+              var _cosTheta6 = Math.cos(task.endDegree * radian);
+
+              var _sineTheta6 = Math.sin(task.endDegree * radian);
+
+              target_pixels.x = task.centerCoord.x + radius * _cosTheta6 * MONITOR_PX_PER_CM - w / 2;
+              target_pixels.y = task.centerCoord.y - radius * _sineTheta6 * MONITOR_PX_PER_CM - h / 2;
+            }
+
+            var _target_xcm3 = target_pixels.x / pixel_per_cm;
+
+            var _target_ycm3 = target_pixels.y / pixel_per_cm;
+
+            var _target_xdegree3 = _target_xcm3 * degree_per_cm;
+
+            var _target_ydegree3 = _target_ycm3 * degree_per_cm;
+
+            gazeArr[j].target_xdegree = _target_xdegree3;
+            gazeArr[j].target_ydegree = _target_ydegree3;
+          }
+
+          if (gazeArr[j].RPOGV) {
+            var xpixel = (gazeArr[j].RPOGX - 0.5) * w;
+            var ypixel = (gazeArr[j].RPOGY - 0.5) * h;
+            var xcm = xpixel / pixel_per_cm;
+            var ycm = ypixel / pixel_per_cm;
+            var xdegree = xcm * degree_per_cm;
+            var ydegree = ycm * degree_per_cm;
+            gazeArr[j].xdegree = xdegree;
+            gazeArr[j].ydegree = ydegree;
+          } else {
+            gazeArr[j].xdegree = null;
+            gazeArr[j].ydegree = null;
+          }
+        } // const startRelTime = task.startWaitTime - 1;
+        // const endRelTime = task.relativeEndTime - task.endWaitTime-1.5;
+
+
+        var startRelTime = task.startWaitTime - 0.5;
+        var endRelTime = task.relativeEndTime - task.endWaitTime - 2;
+
+        if (key === 'top' || key === 'bottom') {
+          var target_ydegreeChartArr = [];
+          var ydegreeChartArr = [];
+
+          for (var _j5 = 0; _j5 < gazeArr.length; _j5++) {
+            if (gazeArr[_j5].relTime >= startRelTime && gazeArr[_j5].relTime <= endRelTime) {
+              target_ydegreeChartArr.push({
+                x: (gazeArr[_j5].relTime - startRelTime) * 1000,
+                y: gazeArr[_j5].target_ydegree
+              });
+              ydegreeChartArr.push({
+                x: (gazeArr[_j5].relTime - startRelTime) * 1000,
+                y: gazeArr[_j5].ydegree
+              });
+            }
+          }
+
+          task.target_ydegreeChartArr = target_ydegreeChartArr;
+          task.ydegreeChartArr = ydegreeChartArr;
+        } else {
+          //right || left
+          var target_xdegreeChartArr = [];
+          var xdegreeChartArr = [];
+
+          for (var _j6 = 0; _j6 < gazeArr.length; _j6++) {
+            if (gazeArr[_j6].relTime >= startRelTime && gazeArr[_j6].relTime <= endRelTime) {
+              target_xdegreeChartArr.push({
+                x: (gazeArr[_j6].relTime - startRelTime) * 1000,
+                y: gazeArr[_j6].target_xdegree
+              });
+              xdegreeChartArr.push({
+                x: (gazeArr[_j6].relTime - startRelTime) * 1000,
+                y: gazeArr[_j6].xdegree
+              });
+            }
+          }
+
+          task.target_xdegreeChartArr = target_xdegreeChartArr;
+          task.xdegreeChartArr = xdegreeChartArr;
+        }
+
+        var blkChartArr = [];
+
+        for (var _j7 = 0; _j7 < task.blinkArr.length; _j7++) {
+          if (task.blinkArr[_j7].BLKS >= endRelTime) {// console.log("찾음",task.blinkArr[j].BLKS)
+          } else if (task.blinkArr[_j7].BLKS >= startRelTime && task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD >= endRelTime) {
+            blkChartArr.push({
+              x: (task.blinkArr[_j7].BLKS - startRelTime) * 1000,
+              y: 0
+            });
+            blkChartArr.push({
+              x: (task.blinkArr[_j7].BLKS - startRelTime) * 1000,
+              y: 1
+            });
+            blkChartArr.push({
+              x: endRelTime * 1000,
+              y: 1
+            });
+            blkChartArr.push({
+              x: endRelTime * 1000,
+              y: 0
+            });
+          } else if (task.blinkArr[_j7].BLKS - startRelTime >= 0) {
+            blkChartArr.push({
+              x: (task.blinkArr[_j7].BLKS - startRelTime) * 1000,
+              y: 0
+            });
+            blkChartArr.push({
+              x: (task.blinkArr[_j7].BLKS - startRelTime) * 1000,
+              y: 1
+            });
+            blkChartArr.push({
+              x: (task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime) * 1000,
+              y: 1
+            });
+            blkChartArr.push({
+              x: (task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime) * 1000,
+              y: 0
+            });
+          } else if (task.blinkArr[_j7].BLKS - startRelTime <= 0 && task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime >= 0) {
+            blkChartArr.push({
+              x: 0,
+              y: 0
+            });
+            blkChartArr.push({
+              x: 0,
+              y: 1
+            });
+            blkChartArr.push({
+              x: (task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime) * 1000,
+              y: 1
+            });
+            blkChartArr.push({
+              x: (task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime) * 1000,
+              y: 0
+            });
+          }
+        }
+
+        task.blkChartArr = blkChartArr;
+        var latencyChart = {
+          s: (task.analysis.startTime - startRelTime) * 1000
+        };
+        task.latencyChart = latencyChart;
+      }
+    } // console.log("taskArr",taskArr);
+
+
+    return taskArr;
+  }, [data]);
+
+  var antiSaccadeLeftChartOption = _react.default.useMemo(function () {
+    var annotation = [];
+    var leftTaskArr = taskArr.left;
+    var sum = 0;
+
+    for (var i = 0; i < leftTaskArr.length; i++) {
+      // console.log("bottomTaskArr",bottomTaskArr);
+      annotation.push({
+        drawTime: "afterDatasetsDraw",
+        // (default)
+        type: "box",
+        mode: "horizontal",
+        yScaleID: "degree",
+        xScaleID: "timeid",
+        // value: '7.5',
+        borderColor: "rgba(255,0,0,0.7)",
+        backgroundColor: "transparent",
+        borderWidth: 1,
+        xMin: leftTaskArr[i].latencyChart.s,
+        xMax: leftTaskArr[i].latencyChart.s,
+        yMin: -10,
+        yMax: 10
+      });
+      sum += leftTaskArr[i].latencyChart.s;
+    }
+
+    var avg = sum / leftTaskArr.length;
+    annotation.push({
+      drawTime: "afterDatasetsDraw",
+      // (default)
+      type: "box",
+      mode: "horizontal",
+      yScaleID: "degree",
+      xScaleID: "timeid",
+      // value: '7.5',
+      borderColor: "rgba(0,0,255,0.7)",
+      backgroundColor: "transparent",
+      borderWidth: 3,
+      xMin: avg,
+      xMax: avg,
+      yMin: -10,
+      yMax: 10
+    });
+    annotation.push({
+      drawTime: "afterDatasetsDraw",
+      // (default)
+      type: "box",
+      mode: "horizontal",
+      yScaleID: "degree",
+      xScaleID: "timeid",
+      // value: '7.5',
+      borderColor: "black",
+      backgroundColor: "transparent",
+      borderWidth: 3,
+      xMin: (groupData.left_antisaccade_delay + 0.5) * 1000,
+      xMax: (groupData.left_antisaccade_delay + 0.5) * 1000,
+      yMin: -10,
+      yMax: 10
+    }); //groupData
+    // annotation.push({
+    //     drawTime: "beforeDatasetsDraw", // (default)
+    //     type: "box",
+    //     mode: "horizontal",
+    //     yScaleID: "degree",
+    //     xScaleID: "timeid",
+    //     // value: '7.5',
+    //     // borderColor: 'rgba(0,0,0,0.2)',
+    //     backgroundColor: "rgba(0,0,0,0.2)",
+    //     borderWidth: 1,
+    //     xMin: (0.5 + groupData.left_saccade_delay) * 1000,
+    //     xMax: (0.5 + groupData.left_saccade_delay + 7.63 / groupData.left_saccade_speed) * 1000,
+    //     yMin: -10,
+    //     yMax: 10,
+    // });
+
+    return {
+      plugins: {
+        datalabels: {
+          formatter: function formatter(value, ctx) {
+            return null; //return value !== 0 ? value.toLocaleString(/* ... */) : ''
+          },
+          anchor: 'center',
+          align: 'center',
+          color: '#000000'
+        }
+      },
+      annotation: {
+        events: ["click"],
+        annotations: annotation
+      },
+      maintainAspectRatio: false,
+      devicePixelRatio: window.devicePixelRatio * 3,
+      animation: {
+        duration: 0
+      },
+      tooltips: {
+        callbacks: {
+          title: function title(tooltipItem, data) {
+            return '';
+          }
+        }
+      },
+      scales: {
+        xAxes: [{
+          id: "timeid",
+          display: true,
+          // 실제시간 임시로 true//
+          type: 'time',
+          time: {
+            unit: 'mything',
+            displayFormats: {
+              mything: 'ss.SSS'
+            } ///////여기서조정해야함
+            // min: 0 * 1000,
+            // max: 1.5 * 1000,
+
+          },
+          //x축 숨기려면 이렇게
+          // gridLines: {
+          //     color: "rgba(0, 0, 0, 0)",
+          // },
+          scaleLabel: {
+            /////////////////x축아래 라벨
+            display: false,
+            labelString: 'Time(s)',
+            fontStyle: 'bold',
+            fontColor: "black"
+          },
+          ticks: {
+            source: 'data',
+            //auto,data,labels
+            // autoSkip: true,
+            // maxRotation: 0,
+            // major: {
+            //   enabled: true
+            // },
+            // stepSize: 10,
+            callback: customCallbackXtick,
+            min: 0,
+            max: 1.5 * 1000
+          }
+        }],
+        yAxes: [{
+          id: "degree",
+          position: 'left',
+          scaleLabel: {
+            /////////////////x축아래 라벨
+            display: true,
+            labelString: 'Position(d)',
+            fontStyle: 'bold',
+            fontColor: "black"
+          },
+          ticks: {
+            max: 10,
+            min: -10
+          },
+          gridLines: {
+            color: "rgba(0, 0, 0, 0)"
+          }
+        }, {
+          id: "ax_blink",
+          stepSize: 1,
+          position: 'left',
+          // 오른쪽의 Fixation 옆 Blink축
+          display: false,
+          ticks: {
+            max: 1
+          },
+          gridLines: {
+            color: "rgba(0, 0, 0, 0)"
+          }
+        }]
+      }
+    };
+  }, [taskArr, groupData]);
+
+  var antiSaccadeLeftData = _react.default.useMemo(function () {
+    return {
+      datasets: [{
+        //targety
+        data: taskArr.left[0].target_xdegreeChartArr,
+        steppedLine: "before",
+        label: "targetH",
+        borderColor: "rgba(0,255,0,0.8)",
+        //"#0000ff",
+        backgroundColor: 'rgba(0,255,0,0.8)',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }, {
+        //eyex
+        data: taskArr.left[0].xdegreeChartArr,
+        steppedLine: "before",
+        label: "gH1",
+        borderColor: "rgba(255,0,0,0.7)",
+        //"#0000ff",
+        backgroundColor: 'rgba(255,0,0,0.7)',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }, {
+        //eyex
+        data: taskArr.left[1].xdegreeChartArr,
+        steppedLine: "before",
+        label: "gH2",
+        borderColor: "rgba(0,0,255,0.7)",
+        //"#0000ff",
+        backgroundColor: 'rgba(0,0,255,0.7)',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }, {
+        //eyex
+        data: taskArr.left[2].xdegreeChartArr,
+        steppedLine: "before",
+        label: "gH3",
+        borderColor: "orange",
+        //"#0000ff",
+        backgroundColor: 'orange',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }, {
+        //eyex
+        data: taskArr.left[3].xdegreeChartArr,
+        steppedLine: "before",
+        label: "gH4",
+        borderColor: "pink",
+        //"#0000ff",
+        backgroundColor: 'pink',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }]
+    };
+  }, [taskArr]);
+
+  var antiSaccadeRightChartOption = _react.default.useMemo(function () {
+    var annotation = [];
+    var rightTaskArr = taskArr.right;
+    var sum = 0;
+
+    for (var i = 0; i < rightTaskArr.length; i++) {
+      // console.log("bottomTaskArr",bottomTaskArr);
+      annotation.push({
+        drawTime: "afterDatasetsDraw",
+        // (default)
+        type: "box",
+        mode: "horizontal",
+        yScaleID: "degree",
+        xScaleID: "timeid",
+        // value: '7.5',
+        borderColor: "rgba(255,0,0,0.7)",
+        backgroundColor: "transparent",
+        borderWidth: 1,
+        xMin: rightTaskArr[i].latencyChart.s,
+        xMax: rightTaskArr[i].latencyChart.s,
+        yMin: -10,
+        yMax: 10
+      });
+      sum += rightTaskArr[i].latencyChart.s;
+    }
+
+    var avg = sum / rightTaskArr.length;
+    annotation.push({
+      drawTime: "afterDatasetsDraw",
+      // (default)
+      type: "box",
+      mode: "horizontal",
+      yScaleID: "degree",
+      xScaleID: "timeid",
+      // value: '7.5',
+      borderColor: "rgba(0,0,255,0.7)",
+      backgroundColor: "transparent",
+      borderWidth: 3,
+      xMin: avg,
+      xMax: avg,
+      yMin: -10,
+      yMax: 10
+    });
+    annotation.push({
+      drawTime: "afterDatasetsDraw",
+      // (default)
+      type: "box",
+      mode: "horizontal",
+      yScaleID: "degree",
+      xScaleID: "timeid",
+      // value: '7.5',
+      borderColor: "black",
+      backgroundColor: "transparent",
+      borderWidth: 3,
+      xMin: (groupData.right_antisaccade_delay + 0.5) * 1000,
+      xMax: (groupData.right_antisaccade_delay + 0.5) * 1000,
+      yMin: -10,
+      yMax: 10
+    });
+    return {
+      plugins: {
+        datalabels: {
+          formatter: function formatter(value, ctx) {
+            return null; //return value !== 0 ? value.toLocaleString(/* ... */) : ''
+          },
+          anchor: 'center',
+          align: 'center',
+          color: '#000000'
+        }
+      },
+      annotation: {
+        events: ["click"],
+        annotations: annotation
+      },
+      maintainAspectRatio: false,
+      devicePixelRatio: window.devicePixelRatio * 3,
+      animation: {
+        duration: 0
+      },
+      tooltips: {
+        callbacks: {
+          title: function title(tooltipItem, data) {
+            return '';
+          }
+        }
+      },
+      scales: {
+        xAxes: [{
+          id: "timeid",
+          display: true,
+          // 실제시간 임시로 true//
+          type: 'time',
+          time: {
+            unit: 'mything',
+            displayFormats: {
+              mything: 'ss.SSS'
+            } ///////여기서조정해야함
+            // min: 0 * 1000,
+            // max: 1.5 * 1000,
+
+          },
+          //x축 숨기려면 이렇게
+          // gridLines: {
+          //     color: "rgba(0, 0, 0, 0)",
+          // },
+          scaleLabel: {
+            /////////////////x축아래 라벨
+            display: false,
+            labelString: 'Time(s)',
+            fontStyle: 'bold',
+            fontColor: "black"
+          },
+          ticks: {
+            source: 'data',
+            //auto,data,labels
+            // autoSkip: true,
+            // maxRotation: 0,
+            // major: {
+            //   enabled: true
+            // },
+            // stepSize: 10,
+            callback: customCallbackXtick,
+            min: 0,
+            max: 1.5 * 1000
+          }
+        }],
+        yAxes: [{
+          id: "degree",
+          position: 'left',
+          scaleLabel: {
+            /////////////////x축아래 라벨
+            display: true,
+            labelString: 'Position(d)',
+            fontStyle: 'bold',
+            fontColor: "black"
+          },
+          ticks: {
+            max: 10,
+            min: -10
+          },
+          gridLines: {
+            color: "rgba(0, 0, 0, 0)"
+          }
+        }, {
+          id: "ax_blink",
+          stepSize: 1,
+          position: 'left',
+          // 오른쪽의 Fixation 옆 Blink축
+          display: false,
+          ticks: {
+            max: 1
+          },
+          gridLines: {
+            color: "rgba(0, 0, 0, 0)"
+          }
+        }]
+      }
+    };
+  }, [taskArr, groupData]);
+
+  var antiSaccadeRightData = _react.default.useMemo(function () {
+    return {
+      datasets: [{
+        //targety
+        data: taskArr.right[0].target_xdegreeChartArr,
+        steppedLine: "before",
+        label: "targetH",
+        borderColor: "rgba(0,255,0,0.8)",
+        //"#0000ff",
+        backgroundColor: 'rgba(0,255,0,0.8)',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }, {
+        //eyex
+        data: taskArr.right[0].xdegreeChartArr,
+        steppedLine: "before",
+        label: "gH1",
+        borderColor: "rgba(255,0,0,0.7)",
+        //"#0000ff",
+        backgroundColor: 'rgba(255,0,0,0.7)',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }, {
+        //eyex
+        data: taskArr.right[1].xdegreeChartArr,
+        steppedLine: "before",
+        label: "gH2",
+        borderColor: "rgba(0,0,255,0.7)",
+        //"#0000ff",
+        backgroundColor: 'rgba(0,0,255,0.7)',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }, {
+        //eyex
+        data: taskArr.right[2].xdegreeChartArr,
+        steppedLine: "before",
+        label: "gH3",
+        borderColor: "orange",
+        //"#0000ff",
+        backgroundColor: 'orange',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }, {
+        //eyex
+        data: taskArr.right[3].xdegreeChartArr,
+        steppedLine: "before",
+        label: "gH4",
+        borderColor: "pink",
+        //"#0000ff",
+        backgroundColor: 'pink',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }]
+    };
+  }, [taskArr]);
+
+  var _React$useState21 = _react.default.useState(true),
+      _React$useState22 = _slicedToArray(_React$useState21, 2),
+      showLeftward = _React$useState22[0],
+      set_showLeftward = _React$useState22[1];
+
+  var _React$useState23 = _react.default.useState(true),
+      _React$useState24 = _slicedToArray(_React$useState23, 2),
+      showRightward = _React$useState24[0],
+      set_showRightward = _React$useState24[1];
+
+  var drawTransparentCanvas = _react.default.useCallback(function () {
+    if (!data || !taskArr || !transparentCanvasRef) return;
+    var canvas = transparentCanvasRef.current;
+    var rctx = canvas.getContext('2d');
+    var Wpx = 1020; //340 *2
+
+    var Hpx = 1020;
+    rctx.clearRect(0, 0, Wpx, Hpx);
+
+    for (var key in taskArr) {
+      for (var k = 0; k < taskArr[key].length; k++) {
+        var task = taskArr[key][k];
+        var startRelTime = task.startWaitTime - 0.5;
+        var endRelTime = task.relativeEndTime - task.endWaitTime - 2;
+        var gazeArr = task.gazeData;
+
+        if (key === 'left') {
+          if (showLeftward === false) break;
+          rctx.strokeStyle = 'rgba(0,0,255,0.3)';
+          rctx.fillStyle = 'rgba(0,0,255,0.3)';
+        } else if (key === 'right') {
+          if (showRightward === false) break;
+          rctx.strokeStyle = 'rgba(255,0,255,0.3)';
+          rctx.fillStyle = 'rgba(255,0,255,0.3)';
+        }
+
+        var beforeX = null,
+            beforeY = null;
+
+        for (var i = 0; i < gazeArr.length; i++) {
+          if (gazeArr[i].relTime >= startRelTime && gazeArr[i].relTime <= endRelTime) {
+            rctx.beginPath();
+            rctx.lineWidth = 9; //340 : 20 =  x :gazeArr[i].xdegree+10
+            //340px : 20degree = xpx : 
+            // x = 340*(gazeArr[i].xdegree+10)/20 
+
+            var x = (gazeArr[i].xdegree + 10) * Wpx / 20;
+            var y = (gazeArr[i].ydegree + 10) * Hpx / 20;
+            rctx.arc(x, y, 1, 0, Math.PI * 2);
+            rctx.fill();
+            rctx.stroke();
+
+            if (beforeX !== null && beforeY !== null) {
+              rctx.beginPath();
+              rctx.lineWidth = 9;
+              rctx.moveTo(beforeX, beforeY);
+              rctx.lineTo(x, y);
+              rctx.stroke();
+            }
+
+            beforeX = x;
+            beforeY = y;
+          }
+        }
+      }
+    }
+  }, [data, taskArr, showLeftward, showRightward]);
+
+  _react.default.useEffect(function () {
+    if (taskArr) {
+      drawTransparentCanvas();
+    }
+  }, [taskArr, drawTransparentCanvas]);
 
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "AntiSaccadeView"
@@ -2817,7 +3906,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, "\uAC70\uC2DC\uAE30 \uBC18\uB9CC\uC368\uC11C clockwise anticlockwise")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uBC29\uD5A5\uC815\uD655\uC131\uAC11\uC2F1 \uC5C6\uC74C \uADF8\uB798\uD504 \uD45C\uD604\uBD88\uAC00")), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
     style: {
       width: '420px'
@@ -2831,7 +3920,13 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, "\uAC70\uC2DC\uAE30 \uBC18\uB9CC\uC368\uC11C clockwise anticlockwise"))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+    type: "bar",
+    height: null,
+    width: null,
+    data: barChartData,
+    options: barChartOption
+  })))), /*#__PURE__*/_react.default.createElement("div", {
     className: "row"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
@@ -2857,7 +3952,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       paddingTop: '3px',
       boxSizing: 'border-box'
     }
-  }, "Radius : 7.63 Degree  \xA0\xA0 Speed : 72 Degree/s"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Radius : 7.63 Degree"), /*#__PURE__*/_react.default.createElement("div", {
     style: {
       height: 'calc(100% - 60px)',
       display: 'flex',
@@ -2870,7 +3965,13 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       width: '340px',
       height: '340px'
     }
-  }, /*#__PURE__*/_react.default.createElement("canvas", {
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "target center"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "target left"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "target right"
+  }), /*#__PURE__*/_react.default.createElement("canvas", {
     className: "transparentCanvas",
     ref: transparentCanvasRef,
     width: 1020,
@@ -2881,7 +3982,27 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       height: '30px',
       display: 'flex'
     }
-  }, "\uB77C\uBCA8"))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "clickzone",
+    style: {
+      textDecoration: showRightward === true ? "" : "line-through"
+    },
+    onClick: function onClick() {
+      return set_showRightward(!showRightward);
+    }
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "rightward"
+  }), "Rightward(\uC88C\uCE21\uC73C\uB85C)"), "\xA0\xA0", /*#__PURE__*/_react.default.createElement("div", {
+    className: "clickzone",
+    style: {
+      textDecoration: showLeftward === true ? "" : "line-through"
+    },
+    onClick: function onClick() {
+      return set_showLeftward(!showLeftward);
+    }
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "leftward"
+  }), "Leftward(\uC6B0\uCE21\uC73C\uB85C)"), "\xA0\xA0"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
     style: {
       width: '1000px',
@@ -2915,17 +4036,29 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
     className: "cbox2w"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "c_label"
-  }, /*#__PURE__*/_react.default.createElement("strong", null, "Anti-saccade, Leftward")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("strong", null, "Anti-saccade, Leftward (오른쪽을 봐야함)")), /*#__PURE__*/_react.default.createElement("div", {
     className: "c_chart"
-  }, "333"), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+    type: "line",
+    height: null,
+    width: null,
+    data: antiSaccadeLeftData,
+    options: antiSaccadeLeftChartOption
+  })), /*#__PURE__*/_react.default.createElement("div", {
     className: "c_avg"
   }, "\uC124\uBA853")), /*#__PURE__*/_react.default.createElement("div", {
     className: "cbox2w"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "c_label"
-  }, /*#__PURE__*/_react.default.createElement("strong", null, "Anti-saccade Rightward")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("strong", null, "Anti-saccade, Rightward (왼쪽을 봐야함)")), /*#__PURE__*/_react.default.createElement("div", {
     className: "c_chart"
-  }, "444"), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+    type: "line",
+    height: null,
+    width: null,
+    data: antiSaccadeRightData,
+    options: antiSaccadeRightChartOption
+  })), /*#__PURE__*/_react.default.createElement("div", {
     className: "c_avg"
   }, "\uC124\uBA854")))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "row",
@@ -2936,21 +4069,21 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
     className: "titleUnderline"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
-  }, "\uBC18\uB300\uB85C \uBCF4\uAE30(anti saccade)\uB294 \uBB34\uC5C7\uC778\uAC00\uC694?\u200B"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uBC18\uB300\uB85C \uBCF4\uAE30(anti saccade)\uB294 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uBC18\uB300\uB85C \uBCF4\uAE30\uB294 \uC9C0\uAC01\uB41C \uC0AC\uBB3C\uC744 \uC790\uB3D9\uC801\uC73C\uB85C \uBC14\uB77C\uBCF4\uB294 \uAC83\uC744 \uD1B5\uC81C\uD558\uB294 \uB2A5\uB825\uC744 \uCE21\uC815\uD569\uB2C8\uB2E4.\u200B"), /*#__PURE__*/_react.default.createElement("li", null, "\uB530\uB77C\uBCF4\uAE30(pro saccade)\uACFC\uC81C\uB294 \uC9C0\uAC01\uB41C \uB300\uC0C1\uC744 \uBC14\uB77C\uBCF4\uB294 \uACFC\uC81C\uC774\uACE0, \uBC18\uB300\uB85C \uBCF4\uAE30(anti saccade)\uACFC\uC81C\uB294 \uC9C0\uAC01\uB41C \uB300\uC0C1\uC744 \uBCF4\uC9C0 \uC54A\uACE0 \uBC18\uB300\uB85C \uC2DC\uC120\uC744 \uC774\uB3D9\uD558\uB294 \uACFC\uC81C\uC785\uB2C8\uB2E4. \uBB34\uC5B8\uAC00 \uBCF4\uC774\uBA74 \uBC18\uC0AC\uC801\uC73C\uB85C \uC2DC\uC120\uC774 \uAC00\uB824\uB294 \uACBD\uD5A5\uC774 \uC788\uAE30 \uB54C\uBB38\uC5D0, \uC9C0\uAC01\uC5D0 \uB300\uD55C \uD589\uB3D9\uC744 \uD1B5\uC81C\uD558\uB294 \uB2A5\uB825\uC774\uB098 \uC9D1\uC911\uB825\uC774 \uB0AE\uC73C\uBA74 \uBC18\uB300\uBCF4\uAE30 \uACFC\uC81C\uB97C \uD558\uAE30 \uC5B4\uB835\uC2B5\uB2C8\uB2E4. \uC9D1\uC911\uB825 \uC800\uD558, \uB09C\uB3C5\uC99D, ADHD \uB4F1\uC758 \uC99D\uC0C1\uACFC \uAD00\uB828\uC774 \uC788\uB294 \uACBD\uC6B0\uAC00 \uC788\uC2B5\uB2C8\uB2E4.\u200B \u200B")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uBC18\uB300\uB85C \uBCF4\uAE30\uB294 \uC9C0\uAC01\uB41C \uC0AC\uBB3C\uC744 \uC790\uB3D9\uC801\uC73C\uB85C \uBC14\uB77C\uBCF4\uB294 \uAC83\uC744 \uD1B5\uC81C\uD558\uB294 \uB2A5\uB825\uC744 \uCE21\uC815\uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uB530\uB77C\uBCF4\uAE30(pro saccade)\uACFC\uC81C\uB294 \uC9C0\uAC01\uB41C \uB300\uC0C1\uC744 \uBC14\uB77C\uBCF4\uB294 \uACFC\uC81C\uC774\uACE0, \uBC18\uB300\uB85C \uBCF4\uAE30(anti saccade)\uACFC\uC81C\uB294 \uC9C0\uAC01\uB41C \uB300\uC0C1\uC744 \uBCF4\uC9C0 \uC54A\uACE0 \uBC18\uB300\uB85C \uC2DC\uC120\uC744 \uC774\uB3D9\uD558\uB294 \uACFC\uC81C\uC785\uB2C8\uB2E4. \uBB34\uC5B8\uAC00 \uBCF4\uC774\uBA74 \uBC18\uC0AC\uC801\uC73C\uB85C \uC2DC\uC120\uC774 \uAC00\uB824\uB294 \uACBD\uD5A5\uC774 \uC788\uAE30 \uB54C\uBB38\uC5D0, \uC9C0\uAC01\uC5D0 \uB300\uD55C \uD589\uB3D9\uC744 \uD1B5\uC81C\uD558\uB294 \uB2A5\uB825\uC774\uB098 \uC9D1\uC911\uB825\uC774 \uB0AE\uC73C\uBA74 \uBC18\uB300\uBCF4\uAE30 \uACFC\uC81C\uB97C \uD558\uAE30 \uC5B4\uB835\uC2B5\uB2C8\uB2E4. \uC9D1\uC911\uB825 \uC800\uD558, \uB09C\uB3C5\uC99D, ADHD \uB4F1\uC758 \uC99D\uC0C1\uACFC \uAD00\uB828\uC774 \uC788\uB294 \uACBD\uC6B0\uAC00 \uC788\uC2B5\uB2C8\uB2E4.")))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleUnderline"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
-  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC815\uD655\uB3C4\uB294 \uBB34\uC5C7\uC778\uAC00\uC694?\u200B"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC815\uD655\uB3C4\uB294 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB530\uB77C\uBCF4\uAE30\uB294 \uB300\uC0C1\uC774 \uC788\uB294 \uCABD\uC73C\uB85C, \uBC18\uB300\uBCF4\uAE30\uB294 \uB300\uC0C1\uC758 \uBC18\uB300\uCABD\uC73C\uB85C \uC2DC\uC120\uC774 \uC6C0\uC9C1\uC600\uB294\uC9C0\uB97C \uCE21\uC815\uD55C \uBE44\uC728\uC785\uB2C8\uB2E4. \uBC18\uB300\uBCF4\uAE30\uC758 \uC815\uD655\uB3C4\uAC00 \uB192\uC740 \uAC83\uC774 \uBC14\uB78C\uC9C1\uD569\uB2C8\uB2E4.\u200B")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB530\uB77C\uBCF4\uAE30\uB294 \uB300\uC0C1\uC774 \uC788\uB294 \uCABD\uC73C\uB85C, \uBC18\uB300\uBCF4\uAE30\uB294 \uB300\uC0C1\uC758 \uBC18\uB300\uCABD\uC73C\uB85C \uC2DC\uC120\uC774 \uC6C0\uC9C1\uC600\uB294\uC9C0\uB97C \uCE21\uC815\uD55C \uBE44\uC728\uC785\uB2C8\uB2E4. \uBC18\uB300\uBCF4\uAE30\uC758 \uC815\uD655\uB3C4\uAC00 \uB192\uC740 \uAC83\uC774 \uBC14\uB78C\uC9C1\uD569\uB2C8\uB2E4.")))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleUnderline"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
-  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC9C0\uCCB4\uC2DC\uAC04\uC740 \uBB34\uC5C7\uC778\uAC00\uC694?\u200B"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC9C0\uCCB4\uC2DC\uAC04\uC740 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB300\uC0C1\uC744 \uBCF4\uACE0 \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uAE30 \uC804\uAE4C\uC9C0 \uC18C\uC694\uB418\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBC18\uB300\uBCF4\uAE30\uD560 \uB54C \uC9C0\uCCB4\uC2DC\uAC04\uC774 \uC9E7\uC740 \uAC83\uC774 \uBC14\uB78C\uC9C1\uD569\uB2C8\uB2E4.\u200B"))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB300\uC0C1\uC744 \uBCF4\uACE0 \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uAE30 \uC804\uAE4C\uC9C0 \uC18C\uC694\uB418\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBC18\uB300\uBCF4\uAE30\uD560 \uB54C \uC9C0\uCCB4\uC2DC\uAC04\uC774 \uC9E7\uC740 \uAC83\uC774 \uBC14\uB78C\uC9C1\uD569\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
     className: "GazeViewerWrap"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "modal"

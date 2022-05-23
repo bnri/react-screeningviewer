@@ -9,6 +9,7 @@ import "chartjs-plugin-annotation";
 
 import GazeViewer from "react-gazeviewer";
 
+
 function get_blink_arr(obj) {
     let rawGaze = obj;
     var blk_arr = [];
@@ -54,11 +55,20 @@ function get_blink_arr(obj) {
     //console.log(blk_arr.length);
     return blk_arr;
 }
+
+function customCallbackXtick(val, index) {
+
+
+    if (index % 120 === 0) {
+        return ((((val * 1).toFixed(2) * 1).toFixed(2) - 0.5) * 1).toFixed(2) * 1;
+    }
+}
+
 const ScreeningViewer = ({ ...props }) => {
     const { dataArr } = props;
-    const {onClose} = props;
+    const { onClose } = props;
 
-    const [selDataIndex, set_selDataIndex] = React.useState(0);
+    const [selDataIndex, set_selDataIndex] = React.useState(2);
 
     const selScreeningType = React.useMemo(() => {
         if (dataArr && dataArr[selDataIndex]) {
@@ -85,7 +95,7 @@ const ScreeningViewer = ({ ...props }) => {
                         {data.screeningType}
                     </div>)
                 })}
-                <div className="oneLeftBarList" style={{marginTop:'5px'}}onClick={onClose} >
+                <div className="oneLeftBarList" style={{ marginTop: '5px' }} onClick={onClose} >
                     나가기
                 </div>
             </div>
@@ -93,7 +103,7 @@ const ScreeningViewer = ({ ...props }) => {
                 {selScreeningType === 'saccade' &&
                     <SaccadeView data={dataArr[selDataIndex]} />
                 }
-                   {selScreeningType === 'pursuit' &&
+                {selScreeningType === 'pursuit' &&
                     <PursuitView data={dataArr[selDataIndex]} />
                 }
                 {selScreeningType === 'antisaccade' &&
@@ -408,10 +418,10 @@ const SaccadeView = ({ ...props }) => {
 
                 let blkChartArr = [];
                 for (let j = 0; j < task.blinkArr.length; j++) {
-                    if(task.blinkArr[j].BLKS >= endRelTime){
+                    if (task.blinkArr[j].BLKS >= endRelTime) {
                         // console.log("찾음",task.blinkArr[j].BLKS)
                     }
-                    else if(task.blinkArr[j].BLKS>=startRelTime && task.blinkArr[j].BLKS + task.blinkArr[j].BLKD >=endRelTime){
+                    else if (task.blinkArr[j].BLKS >= startRelTime && task.blinkArr[j].BLKS + task.blinkArr[j].BLKD >= endRelTime) {
                         blkChartArr.push({
                             x: (task.blinkArr[j].BLKS - startRelTime) * 1000,
                             y: 0
@@ -605,8 +615,8 @@ const SaccadeView = ({ ...props }) => {
                             },
 
                             ///////여기서조정해야함
-                            // min: 0,
-                            // max: 10,
+                            // min: 0 * 1000,
+                            // max: 1.5 * 1000,
                         },
                         //x축 숨기려면 이렇게
                         // gridLines: {
@@ -626,13 +636,9 @@ const SaccadeView = ({ ...props }) => {
                             //   enabled: true
                             // },
                             // stepSize: 10,
-                            callback: function (val, index) {
-
-                                // console.log("asfasf",val,index);
-                                if (index % 120 === 0) {
-                                    return ((val * 1).toFixed(2) * 1).toFixed(1) - 0.5;
-                                }
-                            }
+                            callback: customCallbackXtick,
+                            min:0,
+                            max:1.5*1000
                         }
                     }
                 ],
@@ -825,8 +831,8 @@ const SaccadeView = ({ ...props }) => {
                             },
 
                             ///////여기서조정해야함
-                            // min: 0,
-                            // max: 10,
+                            // min: 0 * 1000,
+                            // max: 1.5 * 1000,
                         },
                         //x축 숨기려면 이렇게
                         // gridLines: {
@@ -846,13 +852,9 @@ const SaccadeView = ({ ...props }) => {
                             //   enabled: true
                             // },
                             // stepSize: 10,
-                            callback: function (val, index) {
-
-                                // console.log("asfasf",val,index);
-                                if (index % 120 === 0) {
-                                    return ((val * 1).toFixed(2) * 1).toFixed(1) - 0.5;
-                                }
-                            }
+                            callback: customCallbackXtick,
+                            min:0,
+                            max:1.5*1000
                         }
                     }
                 ],
@@ -1045,8 +1047,7 @@ const SaccadeView = ({ ...props }) => {
                             },
 
                             ///////여기서조정해야함
-                            // min: 0,
-                            // max: 10,
+                        
                         },
                         //x축 숨기려면 이렇게
                         // gridLines: {
@@ -1066,13 +1067,9 @@ const SaccadeView = ({ ...props }) => {
                             //   enabled: true
                             // },
                             // stepSize: 10,
-                            callback: function (val, index) {
-
-                                // console.log("asfasf",val,index);
-                                if (index % 120 === 0) {
-                                    return ((val * 1).toFixed(2) * 1).toFixed(1) - 0.5;
-                                }
-                            }
+                            callback: customCallbackXtick,
+                            min:0,
+                            max:1.5*1000
                         }
                     }
                 ],
@@ -1214,8 +1211,8 @@ const SaccadeView = ({ ...props }) => {
             // borderColor: 'rgba(0,0,0,0.2)',
             backgroundColor: "rgba(0,0,0,0.2)",
             borderWidth: 1,
-            xMin: (0.5 + groupData.right_saccade_delay) * 1000,
-            xMax: (0.5 + groupData.right_saccade_delay + 7.63 / groupData.right_saccade_speed) * 1000,
+            xMin: (0.5 + groupData.left_saccade_delay) * 1000,
+            xMax: (0.5 + groupData.left_saccade_delay + 7.63 / groupData.left_saccade_speed) * 1000,
             yMin: -10,
             yMax: 10,
         });
@@ -1264,8 +1261,8 @@ const SaccadeView = ({ ...props }) => {
                             },
 
                             ///////여기서조정해야함
-                            // min: 0,
-                            // max: 10,
+                            // min: 0 * 1000,
+                            // max: 1.5 * 1000,
                         },
                         //x축 숨기려면 이렇게
                         // gridLines: {
@@ -1285,13 +1282,9 @@ const SaccadeView = ({ ...props }) => {
                             //   enabled: true
                             // },
                             // stepSize: 10,
-                            callback: function (val, index) {
-
-                                // console.log("asfasf",val,index);
-                                if (index % 120 === 0) {
-                                    return ((val * 1).toFixed(2) * 1).toFixed(1) - 0.5;
-                                }
-                            }
+                            callback: customCallbackXtick,
+                            min:0,
+                            max:1.5*1000
                         }
                     }
                 ],
@@ -1379,10 +1372,10 @@ const SaccadeView = ({ ...props }) => {
     }, [taskArr]);
 
     const transparentCanvasRef = React.useRef();
-    const [showUpward,set_showUpward] = React.useState(true);
-    const [showDownward,set_showDownward] = React.useState(true);
-    const [showLeftward,set_showLeftward] = React.useState(true);
-    const [showRightward,set_showRightward] = React.useState(true);
+    const [showUpward, set_showUpward] = React.useState(true);
+    const [showDownward, set_showDownward] = React.useState(true);
+    const [showLeftward, set_showLeftward] = React.useState(true);
+    const [showRightward, set_showRightward] = React.useState(true);
 
     const drawTransparentCanvas = React.useCallback(() => {
         if (!data || !taskArr || !transparentCanvasRef) return;
@@ -1400,23 +1393,23 @@ const SaccadeView = ({ ...props }) => {
 
                 let gazeArr = task.gazeData;
                 if (key === 'top') {
-                    if(showUpward===false) break;
+                    if (showUpward === false) break;
                     rctx.strokeStyle = 'rgba(255,0,0,0.3)';
-                    rctx.fillStyle = 'rgba(255,0,0,0.3)';                    
+                    rctx.fillStyle = 'rgba(255,0,0,0.3)';
                 } else if (key === 'bottom') {
-                    if(showDownward===false)break;
+                    if (showDownward === false) break;
                     rctx.strokeStyle = 'rgba(0,255,0,0.3)';
                     rctx.fillStyle = 'rgba(0,255,0,0.3)';
                 } else if (key === 'left') {
-                    if(showLeftward===false)break;
+                    if (showLeftward === false) break;
                     rctx.strokeStyle = 'rgba(0,0,255,0.3)';
                     rctx.fillStyle = 'rgba(0,0,255,0.3)';
                 } else if (key === 'right') {
-                    if(showRightward===false)break;
+                    if (showRightward === false) break;
                     rctx.strokeStyle = 'rgba(255,0,255,0.3)';
                     rctx.fillStyle = 'rgba(255,0,255,0.3)';
                 }
-              
+
                 let beforeX = null, beforeY = null;
                 for (let i = 0; i < gazeArr.length; i++) {
                     if (gazeArr[i].relTime >= startRelTime && gazeArr[i].relTime <= endRelTime) {
@@ -1453,8 +1446,8 @@ const SaccadeView = ({ ...props }) => {
             }
 
         }
+    }, [data, taskArr, showUpward, showDownward, showLeftward, showRightward]);
 
-    }, [data, taskArr,showUpward,showDownward,showLeftward,showRightward]);
 
     React.useEffect(() => {
         if (taskArr) {
@@ -1621,17 +1614,17 @@ const SaccadeView = ({ ...props }) => {
                     </div>
                     <div className="customLabel" style={{ height: '30px', display: 'flex' }}>
                         <div className="clickzone" style={{
-                            textDecoration:showUpward===true?"":"line-through"
-                        }}onClick={()=>set_showUpward(!showUpward)}><div className="upward"/>Upward</div>&nbsp;&nbsp;
+                            textDecoration: showUpward === true ? "" : "line-through"
+                        }} onClick={() => set_showUpward(!showUpward)}><div className="upward" />Upward</div>&nbsp;&nbsp;
                         <div className="clickzone" style={{
-                            textDecoration:showRightward===true?"":"line-through"
-                        }}onClick={()=>set_showRightward(!showRightward)}><div className="rightward"/>Rightward</div>&nbsp;&nbsp;
+                            textDecoration: showRightward === true ? "" : "line-through"
+                        }} onClick={() => set_showRightward(!showRightward)}><div className="rightward" />Rightward</div>&nbsp;&nbsp;
                         <div className="clickzone" style={{
-                            textDecoration:showDownward===true?"":"line-through"
-                        }}onClick={()=>set_showDownward(!showDownward)}><div className="downward"/>Downward</div>&nbsp;&nbsp;
+                            textDecoration: showDownward === true ? "" : "line-through"
+                        }} onClick={() => set_showDownward(!showDownward)}><div className="downward" />Downward</div>&nbsp;&nbsp;
                         <div className="clickzone" style={{
-                            textDecoration:showLeftward===true?"":"line-through"
-                        }}onClick={()=>set_showLeftward(!showLeftward)}><div className="leftward"/>Leftward</div>&nbsp;&nbsp;
+                            textDecoration: showLeftward === true ? "" : "line-through"
+                        }} onClick={() => set_showLeftward(!showLeftward)}><div className="leftward" />Leftward</div>&nbsp;&nbsp;
 
                     </div>
                 </div>
@@ -1761,14 +1754,21 @@ const SaccadeView = ({ ...props }) => {
 }
 
 
-const PursuitView = ({...props})=>{
+const PursuitView = ({ ...props }) => {
     const { data } = props;
     const [showGazeViewer, set_showGazeViewer] = React.useState(false);
 
 
 
+    const groupData = React.useMemo(() => {
+        return {
+            anticlockwise_err: 1.1755913592135074,
+            clockwise_err: 1.1537194245685808
+        }
+    }, []);
+
     const taskArr = React.useMemo(() => {
-        console.log(data);
+        // console.log(data);
         const MONITOR_PX_PER_CM = data.monitorInform.MONITOR_PX_PER_CM;
         const pixel_per_cm = data.monitorInform.MONITOR_PX_PER_CM; //1cm 당 pixel
         const degree_per_cm = Math.atan(1 / data.defaultZ) * 180 / Math.PI;
@@ -1793,7 +1793,7 @@ const PursuitView = ({...props})=>{
         }
 
 
-        
+
         for (let key in taskArr) {
 
             for (let i = 0; i < taskArr[key].length; i++) {
@@ -1883,17 +1883,17 @@ const PursuitView = ({...props})=>{
                         gazeArr[j].ydegree = null;
                     }
                 }
-           
+
                 const startRelTime = task.startWaitTime - 0.5;
-                const endRelTime = task.relativeEndTime - task.endWaitTime +0.5; //이거도 해줘야할듯
+                const endRelTime = task.relativeEndTime - task.endWaitTime + 0.5; //이거도 해줘야할듯
 
                 // console.log("endRelTime",endRelTime);
                 let blkChartArr = [];
                 for (let j = 0; j < task.blinkArr.length; j++) {
-                    if(task.blinkArr[j].BLKS >= endRelTime){
+                    if (task.blinkArr[j].BLKS >= endRelTime) {
                         // console.log("찾음",task.blinkArr[j].BLKS)
                     }
-                    else if(task.blinkArr[j].BLKS>=startRelTime && task.blinkArr[j].BLKS + task.blinkArr[j].BLKD >=endRelTime){
+                    else if (task.blinkArr[j].BLKS >= startRelTime && task.blinkArr[j].BLKS + task.blinkArr[j].BLKD >= endRelTime) {
                         blkChartArr.push({
                             x: (task.blinkArr[j].BLKS - startRelTime) * 1000,
                             y: 0
@@ -1948,24 +1948,24 @@ const PursuitView = ({...props})=>{
                             y: 0
                         })
                     }
-              
+
                 }
                 task.blkChartArr = blkChartArr;
 
 
-           
+
             }
 
         }
-        
-        console.log("taskArr",taskArr);
+
+        // console.log("taskArr",taskArr);
         return taskArr;
     }, [data])
 
     const transparentCanvasRef = React.useRef();
 
-    const [showClockwise,set_showClockwise] = React.useState(true);
-    const [showAntiClockwise,set_showAntiClockwise] = React.useState(true);
+    const [showClockwise, set_showClockwise] = React.useState(true);
+    const [showAntiClockwise, set_showAntiClockwise] = React.useState(true);
 
     const drawTransparentCanvas = React.useCallback(() => {
         if (!data || !taskArr || !transparentCanvasRef) return;
@@ -1979,15 +1979,15 @@ const PursuitView = ({...props})=>{
             for (let k = 0; k < taskArr[key].length; k++) {
                 const task = taskArr[key][k];
                 const startRelTime = task.startWaitTime - 0.5;
-                const endRelTime = task.relativeEndTime - task.endWaitTime +0.5;
+                const endRelTime = task.relativeEndTime - task.endWaitTime + 0.5;
 
                 let gazeArr = task.gazeData;
                 if (key === 'clockwise') {
-                    if(showClockwise===false) break;
+                    if (showClockwise === false) break;
                     rctx.strokeStyle = 'rgba(255,0,0,0.3)';
                     rctx.fillStyle = 'rgba(255,0,0,0.3)';
                 } else if (key === 'anticlockwise') {
-                    if(showAntiClockwise===false) break;
+                    if (showAntiClockwise === false) break;
                     rctx.strokeStyle = 'rgba(0,255,0,0.3)';
                     rctx.fillStyle = 'rgba(0,255,0,0.3)';
                 }
@@ -2029,7 +2029,7 @@ const PursuitView = ({...props})=>{
 
         }
 
-    }, [data, taskArr,showClockwise,showAntiClockwise]);
+    }, [data, taskArr, showClockwise, showAntiClockwise]);
 
     React.useEffect(() => {
         if (taskArr) {
@@ -2037,8 +2037,8 @@ const PursuitView = ({...props})=>{
         }
     }, [taskArr, drawTransparentCanvas])
 
-    const pursuitChartOption = React.useMemo(()=>{
-        let annotationArr=[{
+    const pursuitChartOption = React.useMemo(() => {
+        let annotationArr = [{
             drawTime: "afterDatasetsDraw", // (default)
             type: "box",
             mode: "horizontal",
@@ -2048,8 +2048,8 @@ const PursuitView = ({...props})=>{
             borderColor: "rgba(0,255,0,0.7)",
             backgroundColor: "rgba(0,255,0,0.7)",
             borderWidth: 3,
-            xMin: 0.5*1000,
-            xMax: 0.5*1000,
+            xMin: 0.5 * 1000,
+            xMax: 0.5 * 1000,
             yMin: -10,
             yMax: 10
         },
@@ -2063,8 +2063,8 @@ const PursuitView = ({...props})=>{
             borderColor: "rgba(0,255,0,0.7)",
             backgroundColor: "rgba(0,255,0,0.7)",
             borderWidth: 3,
-            xMin: 10.5*1000,
-            xMax: 10.5*1000,
+            xMin: 10.5 * 1000,
+            xMax: 10.5 * 1000,
             yMin: -10,
             yMax: 10
         }];
@@ -2136,10 +2136,10 @@ const PursuitView = ({...props})=>{
                             // stepSize: 10,
                             callback: function (val, index) {
 
-                                // console.log("asfasf",val,index);
+
                                 if (index % 60 === 0) {
-                                    
-                                    return ((val * 1).toFixed(1)-0.5).toFixed(1);
+
+                                    return ((val * 1).toFixed(1) - 0.5).toFixed(1);
                                 }
                             }
                         }
@@ -2180,35 +2180,35 @@ const PursuitView = ({...props})=>{
             },
 
         }
-    },[]);
-    const clockWiseData = React.useMemo(()=>{
+    }, []);
+    const clockWiseData = React.useMemo(() => {
         const task = taskArr['clockwise'][0];
         const startRelTime = task.startWaitTime - 0.5;
-        const endRelTime = task.relativeEndTime - task.endWaitTime +0.5;
+        const endRelTime = task.relativeEndTime - task.endWaitTime + 0.5;
         let gazeArr = task.gazeData;
-        let targetV_arr=[];
-        let targetH_arr=[];
-        let gazeV_arr=[];
-        let gazeH_arr=[];
+        let targetV_arr = [];
+        let targetH_arr = [];
+        let gazeV_arr = [];
+        let gazeH_arr = [];
         for (let i = 0; i < gazeArr.length; i++) {
             if (gazeArr[i].relTime >= startRelTime && gazeArr[i].relTime <= endRelTime) {
                 targetV_arr.push({
-                    x:(gazeArr[i].relTime-startRelTime)*1000,
-                    y:gazeArr[i].target_ydegree
+                    x: (gazeArr[i].relTime - startRelTime) * 1000,
+                    y: gazeArr[i].target_ydegree
                 });
                 targetH_arr.push({
-                    x:(gazeArr[i].relTime-startRelTime)*1000,
-                    y:gazeArr[i].target_xdegree
+                    x: (gazeArr[i].relTime - startRelTime) * 1000,
+                    y: gazeArr[i].target_xdegree
                 });
 
                 gazeV_arr.push({
-                    x:(gazeArr[i].relTime-startRelTime)*1000,
-                    y:gazeArr[i].ydegree
+                    x: (gazeArr[i].relTime - startRelTime) * 1000,
+                    y: gazeArr[i].ydegree
                 })
 
                 gazeH_arr.push({
-                    x:(gazeArr[i].relTime-startRelTime)*1000,
-                    y:gazeArr[i].xdegree
+                    x: (gazeArr[i].relTime - startRelTime) * 1000,
+                    y: gazeArr[i].xdegree
                 })
             }
         }
@@ -2267,7 +2267,7 @@ const PursuitView = ({...props})=>{
                     pointRadius: 0.3, //데이터 포인터크기
                     pointHoverRadius: 2, //hover 데이터포인터크기
                 },
-          
+
                 { //BLINK
                     data: task.blkChartArr,
                     steppedLine: "before",
@@ -2296,35 +2296,35 @@ const PursuitView = ({...props})=>{
                 // },
             ],
         }
-    },[taskArr]);
-    const antiClockWiseData = React.useMemo(()=>{
+    }, [taskArr]);
+    const antiClockWiseData = React.useMemo(() => {
         const task = taskArr['anticlockwise'][0];
         const startRelTime = task.startWaitTime - 0.5;
-        const endRelTime = task.relativeEndTime - task.endWaitTime +0.5;
+        const endRelTime = task.relativeEndTime - task.endWaitTime + 0.5;
         let gazeArr = task.gazeData;
-        let targetV_arr=[];
-        let targetH_arr=[];
-        let gazeV_arr=[];
-        let gazeH_arr=[];
+        let targetV_arr = [];
+        let targetH_arr = [];
+        let gazeV_arr = [];
+        let gazeH_arr = [];
         for (let i = 0; i < gazeArr.length; i++) {
             if (gazeArr[i].relTime >= startRelTime && gazeArr[i].relTime <= endRelTime) {
                 targetV_arr.push({
-                    x:(gazeArr[i].relTime-startRelTime)*1000,
-                    y:gazeArr[i].target_ydegree
+                    x: (gazeArr[i].relTime - startRelTime) * 1000,
+                    y: gazeArr[i].target_ydegree
                 });
                 targetH_arr.push({
-                    x:(gazeArr[i].relTime-startRelTime)*1000,
-                    y:gazeArr[i].target_xdegree
+                    x: (gazeArr[i].relTime - startRelTime) * 1000,
+                    y: gazeArr[i].target_xdegree
                 });
 
                 gazeV_arr.push({
-                    x:(gazeArr[i].relTime-startRelTime)*1000,
-                    y:gazeArr[i].ydegree
+                    x: (gazeArr[i].relTime - startRelTime) * 1000,
+                    y: gazeArr[i].ydegree
                 })
 
                 gazeH_arr.push({
-                    x:(gazeArr[i].relTime-startRelTime)*1000,
-                    y:gazeArr[i].xdegree
+                    x: (gazeArr[i].relTime - startRelTime) * 1000,
+                    y: gazeArr[i].xdegree
                 })
             }
         }
@@ -2383,7 +2383,7 @@ const PursuitView = ({...props})=>{
                     pointRadius: 0.3, //데이터 포인터크기
                     pointHoverRadius: 2, //hover 데이터포인터크기
                 },
-          
+
                 { //BLINK
                     data: task.blkChartArr,
                     steppedLine: "before",
@@ -2412,9 +2412,154 @@ const PursuitView = ({...props})=>{
                 // },
             ],
         }
-    },[taskArr]);
+    }, [taskArr]);
 
+    const barChartData = React.useMemo(() => {
+        return {
+            labels: ['clockWise', 'AntiClockWise'],
+            datasets: [
+                {
+                    type: 'bar',
+                    label: "my err",
+                    data: [data.analysis.clockwise_err, data.analysis.anticlockwise_err],
+                    // backgroundColor: themeColors,
+                    backgroundColor: "#2763DB",
+                    barPercentage: 0.8,
+                    categoryPercentage: 0.5,
+                    borderColor: "transparent"
+                },
+                {
+                    type: 'bar',
+                    label: "group err",
+                    data: [groupData.clockwise_err, groupData.anticlockwise_err],
+                    // backgroundColor: themeColors,
+                    backgroundColor: "gray",
+                    barPercentage: 0.8,
+                    categoryPercentage: 0.5,
+                    borderColor: "transparent"
+                }
+            ]
+        };
+    }, [groupData, data]);
 
+    const barChartOption = React.useMemo(() => {
+        return {
+
+            plugins: {
+                datalabels: {
+                    formatter: (value, ctx) => {
+
+                        // console.log("value",value,ctx);
+                        // if(isgroup){
+                        //     return "groupAvgErr\n"+value.toFixed(2);
+                        // }
+                        // else{
+                        //     return "myAvgErr\n"+value.toFixed(2);
+                        // }
+                        return value.toFixed(2);
+
+                    },
+                    anchor: 'center',
+                    align: 'center',
+                    color: '#fff'
+                },
+            },
+            tooltips: {
+                // mode: 'label',
+                callbacks: {
+                    title: function () { },
+                    label: function (tooltipItems, data) {
+                        // console.log("tooltipItems",tooltipItems,data);
+                        const isgroup = tooltipItems.datasetIndex === 0 ? false : true;
+                        if (isgroup) {
+                            return (
+                                "그룹의 " + tooltipItems.xLabel + "_avg_err : " +
+                                tooltipItems.yLabel.toFixed(4) + " (degree)"
+                            )
+                        }
+                        else {
+                            return (
+                                "나의 " + tooltipItems.xLabel + "_avg_err : " +
+                                tooltipItems.yLabel.toFixed(4) + " (degree)"
+                            )
+                        }
+
+                    }
+                },
+                titleFontSize: 16,
+                bodyFontSize: 16
+            },
+            elements: {
+                rectangle: {
+                    borderWidth: 1,
+                    borderSkipped: "left",
+                },
+                line: {
+                    fill: false
+                }
+            },
+            responsive: true,
+            responsiveAnimationDuration: 0,
+            animation: {
+                duration: 0
+
+            },
+            scales: {
+                xAxes: [
+                    {
+                        display: true,
+                        gridLines: {
+                            color: "transparent",
+                            defaultFontStyle: "normal",
+                        },
+                        scaleLabel: {
+                            defaultFontStyle: "normal",
+                            display: false,
+                            labelString: "degree",
+                            fontSize: 14,
+                            fontStyle: "bold",
+                        },
+                        ticks: {
+                            stepSize: 0.2,
+                            max: 2,
+                            min: 0,
+                            fontSize: 14,
+                            fontStyle: "bold",
+                        }
+                    }
+                ],
+                yAxes: [
+                    {
+                        display: true,
+                        gridLines: {
+                            color: "transparent"
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: "degree",
+                            fontSize: 14,
+                            fontStyle: "bold",
+                        },
+                        ticks: {
+                            // stepSize: 2,
+                            // max:30,
+                            min: 0,
+                            fontSize: 14,
+                            fontStyle: "bold",
+                        }
+                    },
+                ]
+            },
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: "추적안구운동 평균 err"
+            },
+            legend: {
+                display: true,
+            }
+        };
+    }, []);
     return (<div className="PursuitView">
         <div className="row">
             <div className="titleBox">
@@ -2441,7 +2586,7 @@ const PursuitView = ({...props})=>{
                 </div>
             </div>
             <div className="titleBox" style={{ width: '330px' }}>
-                <div className="title">                    
+                <div className="title">
                     추적안구운동 점수 분포
                 </div>
                 <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -2454,11 +2599,17 @@ const PursuitView = ({...props})=>{
                 </div>
                 <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <div className="cbox2">
-                            asf
+                        <ChartComponent
+                            type="bar"
+                            height={null}
+                            width={null}
+                            data={barChartData}
+                            options={barChartOption}
+                        />
                     </div>
                     <div className="cbox2">
-                            어떤컨텐츠가 들어갈예정
-                    </div>    
+                        어떤컨텐츠가 들어갈예정
+                    </div>
                 </div>
             </div>
         </div>
@@ -2477,23 +2628,23 @@ const PursuitView = ({...props})=>{
                         <div className="_10degreeDiv" style={{ width: '340px', height: '340px' }}>
                             <div className="target circle" />
                             <div className="target centerx">
-                                <div style={{height:'50%',width:'100%',display:'flex'}}>
-                                    <div className="lt"/><div className="rt"/>
+                                <div style={{ height: '50%', width: '100%', display: 'flex' }}>
+                                    <div className="lt" /><div className="rt" />
                                 </div>
-                                <div style={{height:'50%',width:'100%',display:'flex'}}>
-                                    <div className="lb"/><div className="rb"/>
+                                <div style={{ height: '50%', width: '100%', display: 'flex' }}>
+                                    <div className="lb" /><div className="rb" />
                                 </div>
                             </div>
                             <canvas className="transparentCanvas" ref={transparentCanvasRef} width={1020} height={1020} />
                         </div>
                     </div>
                     <div className="customLabel" style={{ height: '30px', display: 'flex' }}>
-                    <div className="clickzone" style={{
-                            textDecoration:showClockwise===true?"":"line-through"
-                        }}onClick={()=>set_showClockwise(!showClockwise)}><div className="upward"/>Clockwise</div>&nbsp;&nbsp;
                         <div className="clickzone" style={{
-                            textDecoration:showAntiClockwise===true?"":"line-through"
-                        }}onClick={()=>set_showAntiClockwise(!showAntiClockwise)}><div className="downward"/>AntiClockwise</div>&nbsp;&nbsp;
+                            textDecoration: showClockwise === true ? "" : "line-through"
+                        }} onClick={() => set_showClockwise(!showClockwise)}><div className="upward" />Clockwise</div>&nbsp;&nbsp;
+                        <div className="clickzone" style={{
+                            textDecoration: showAntiClockwise === true ? "" : "line-through"
+                        }} onClick={() => set_showAntiClockwise(!showAntiClockwise)}><div className="downward" />AntiClockwise</div>&nbsp;&nbsp;
 
 
                     </div>
@@ -2505,7 +2656,7 @@ const PursuitView = ({...props})=>{
                 </div>
                 <div className="cbox">
                     <div className="cbox2r">
-                        <div style={{width:'calc(100% - 8px)',height:'100%',marginLeft:'1px',border:'1px solid black',boxSizing:'border-box'}}>
+                        <div style={{ width: 'calc(100% - 8px)', height: '100%', marginLeft: '1px', border: '1px solid black', boxSizing: 'border-box' }}>
                             <div className="c_label">
                                 <strong>{"Clockwise"}</strong>
                             </div>
@@ -2521,19 +2672,19 @@ const PursuitView = ({...props})=>{
                         </div>
                     </div>
                     <div className="cbox2r">
-                        <div style={{width:'calc(100% - 8px)',height:'100%',marginLeft:'1px',border:'1px solid black',boxSizing:'border-box'}}>
+                        <div style={{ width: 'calc(100% - 8px)', height: '100%', marginLeft: '1px', border: '1px solid black', boxSizing: 'border-box' }}>
                             <div className="c_label">
                                 <strong>{"AntiClockwise"}</strong>
                             </div>
                             <div className="c_chart">
-                            <ChartComponent
+                                <ChartComponent
                                     type="line"
                                     height={null}
                                     width={null}
                                     data={antiClockWiseData}
                                     options={pursuitChartOption}
                                 />
-                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2550,16 +2701,16 @@ const PursuitView = ({...props})=>{
                 <div className="explain">
                     <ul>
                         <li>
-                        추적안구운동(pursuit)은 천천히 움직이는 대상을 따라 부드럽고 연속적으로 시선을 움직이는 것입니다. 일반적으로 시선은 빠르게 도약하고 고정하는 것을 반복할 뿐이며,  부드럽고 연속적으로 이동하는 것은 고도의 안구운동 통제능력이 필요하기 때문에, 영장류나 고양이 정도의 고등동물에게서 나타나는 능력입니다.​
+                            추적안구운동(pursuit)은 천천히 움직이는 대상을 따라 부드럽고 연속적으로 시선을 움직이는 것입니다. 일반적으로 시선은 빠르게 도약하고 고정하는 것을 반복할 뿐이며,  부드럽고 연속적으로 이동하는 것은 고도의 안구운동 통제능력이 필요하기 때문에, 영장류나 고양이 정도의 고등동물에게서 나타나는 능력입니다.
                         </li>
                         <li>
-                        추적안구운동은 집중력이 낮아지거나 노화에 의해 저하되지만, 시력 저하나 안진(안구 진탕)  및 각종 신경계 이상으로 인해 나타나기도 합니다. ​
+                            추적안구운동은 집중력이 낮아지거나 노화에 의해 저하되지만, 시력 저하나 안진(안구 진탕)  및 각종 신경계 이상으로 인해 나타나기도 합니다.
                         </li>
                         <li>
-                        위치편차 (position error)
+                            위치편차 (position error)
                         </li>
                         <li>
-                        연속성??
+                            연속성??
                         </li>
                     </ul>
 
@@ -2582,14 +2733,1000 @@ const PursuitView = ({...props})=>{
     </div>)
 }
 
-const AntiSaccadeView = ({...props})=>{
-    const {data} = props;
-    console.log(data);
+const AntiSaccadeView = ({ ...props }) => {
+    const { data } = props;
+
     const [showGazeViewer, set_showGazeViewer] = React.useState(false);
     const transparentCanvasRef = React.useRef();
+    const groupData = React.useMemo(() => {
+        return {
+            down_fixation_stability: 0.04904507977451076,
+            down_saccade_delay: 0.37178149999999996,
+            down_saccade_speed: 271.22066192543087,
+            left_fixation_stability: 0.04501736333714864,
+            left_saccade_delay: 0.36730400000000017,
+            left_saccade_speed: 285.917055501673,
+            right_fixation_stability: 0.04455070458896356,
+            right_saccade_delay: 0.3669095,
+            right_saccade_speed: 271.7449265136197,
+            up_fixation_stability: 0.04707128434877034,
+            up_saccade_delay: 0.3695645000000004,
+            up_saccade_speed: 246.871934245693936,
+            left_antisaccade_delay: 0.42823249999999987,
+            right_antisaccade_delay: 0.4170207500000001
+        }
+    }, []);
+
+    const barChartData = React.useMemo(() => {
+        return {
+            labels: ['따라보기', '반대보기'],
+            datasets: [
+                {
+                    type: 'bar',
+                    label: "my avg delay",
+                    data: [(data.analysis.left_saccade_delay+data.analysis.right_saccade_delay) * 500, (data.analysis.left_antisaccade_delay+data.analysis.right_antisaccade_delay) * 500],
+                    // backgroundColor: themeColors,
+                    backgroundColor: "red",
+                    barPercentage: 0.8,
+                    categoryPercentage: 0.5,
+                    borderColor: "transparent"
+                },
+                {
+                    type: 'bar',
+                    label: "group avg delay",
+                    data: [(groupData.left_saccade_delay+groupData.right_saccade_delay) * 500, (groupData.left_antisaccade_delay+groupData.right_antisaccade_delay) * 500],
+                    // backgroundColor: themeColors,
+                    backgroundColor: "gray",
+                    barPercentage: 0.8,
+                    categoryPercentage: 0.5,
+                    borderColor: "transparent"
+                },
+             
+            ]
+        };
+    }, [groupData, data]);
+
+    const barChartOption = React.useMemo(() => {
+        return {
+
+            plugins: {
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        // const isgroup =value.dataIndex===0?false:true;
+
+                        // console.log("value",value,ctx);
+                        // if(isgroup){
+                        //     return "groupAvgErr\n"+value.toFixed(2);
+                        // }
+                        // else{
+                        //     return "myAvgErr\n"+value.toFixed(2);
+                        // }
+                        return value.toFixed(0);
+
+                    },
+                    anchor: 'center',
+                    align: 'center',
+                    color: '#fff'
+                },
+            },
+            tooltips: {
+                // mode: 'label',
+                callbacks: {
+                    title: function () { },
+                    label: function (tooltipItems, data) {
+                        console.log("tooltipItems", tooltipItems, data);
+                        const label = data.datasets[tooltipItems.datasetIndex].label;
+
+                        return (
+                            label + "(평균) : " +
+                            tooltipItems.yLabel.toFixed(4) + " (ms)"
+                        )
+
+
+                    }
+                },
+                titleFontSize: 16,
+                bodyFontSize: 16
+            },
+            elements: {
+                rectangle: {
+                    borderWidth: 1,
+                    borderSkipped: "left",
+                },
+                line: {
+                    fill: false
+                }
+            },
+            responsive: true,
+            responsiveAnimationDuration: 0,
+            animation: {
+                duration: 0
+
+            },
+            scales: {
+                xAxes: [
+                    {
+                        display: true,
+                        gridLines: {
+                            color: "transparent",
+                            defaultFontStyle: "normal",
+                        },
+                        scaleLabel: {
+                            defaultFontStyle: "normal",
+                            display: false,
+                            labelString: "???",
+                            fontSize: 14,
+                            fontStyle: "bold",
+                        },
+                        ticks: {
+                            stepSize: 0.2,
+                            max: 2,
+                            min: 0,
+                            fontSize: 14,
+                            fontStyle: "bold",
+                        }
+                    }
+                ],
+                yAxes: [
+                    {
+                        display: true,
+                        gridLines: {
+                            color: "transparent"
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: "지체시간(ms)",
+                            fontSize: 14,
+                            fontStyle: "bold",
+                        },
+                        ticks: {
+                            // stepSize: 2,
+                            // max:30,
+                            min: 0,
+                            fontSize: 14,
+                            fontStyle: "bold",
+                        }
+                    },
+                ]
+            },
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: "평균 지체시간(delay)"
+            },
+            legend: {
+                display: true,
+            }
+        };
+    }, []);
+
+
+    const taskArr = React.useMemo(() => {
+
+        const MONITOR_PX_PER_CM = data.monitorInform.MONITOR_PX_PER_CM;
+        const pixel_per_cm = data.monitorInform.MONITOR_PX_PER_CM; //1cm 당 pixel
+        const degree_per_cm = Math.atan(1 / data.defaultZ) * 180 / Math.PI;
+        const w = data.screenW;
+        const h = data.screenH;
+
+        const screeningObjectList = data.screeningObjectList;
+
+
+        let taskArr = {
+            left: [],
+            right: []
+        };
+        for (let i = 0; i < screeningObjectList.length; i++) {
+
+            taskArr[screeningObjectList[i].analysis.direction].push({
+                ...screeningObjectList[i],
+                gazeData: data.taskArr[i],
+                analysis: data.analysisArr[i]
+            });
+        }
+
+
+        for (let key in taskArr) {
+
+            for (let i = 0; i < taskArr[key].length; i++) {
+                const task = taskArr[key][i];
+
+                const type = task.type;
+                let gazeArr = task.gazeData;
+
+                let blink_arr = get_blink_arr(gazeArr);
+                task.blinkArr = blink_arr;
+
+                // % 로되어있는걸 degree 로 변환작업, 중점이 0,0 x,y degree
+                for (let j = 0; j < gazeArr.length; j++) {
+                    let target_pixels = {
+                        x: null,
+                        y: null,
+                    };
+                    if (type === "teleport") {
+                        //2~5 고정임
+
+                        if (gazeArr[j].relTime * 1 < task.startWaitTime * 1) {
+                            target_pixels.x = task.startCoord.x - w / 2;
+                            target_pixels.y = task.startCoord.y - h / 2;
+                        } else if (gazeArr[j].relTime * 1 < task.duration * 1 + task.startWaitTime * 1) {
+                            target_pixels.x = task.endCoord.x - w / 2;
+                            target_pixels.y = task.endCoord.y - h / 2;
+                        } else {
+                            if (task.isReturn) {
+                                target_pixels.x = task.startCoord.x - w / 2;
+                                target_pixels.y = task.startCoord.y - h / 2;
+                            } else {
+                                target_pixels.x = task.endCoord.x - w / 2;
+                                target_pixels.y = task.endCoord.y - h / 2;
+                            }
+                        }
+                        let target_xcm = target_pixels.x / pixel_per_cm;
+                        let target_ycm = target_pixels.y / pixel_per_cm;
+                        let target_xdegree = target_xcm * degree_per_cm;
+                        let target_ydegree = target_ycm * degree_per_cm;
+                        gazeArr[j].target_xdegree = target_xdegree;
+                        gazeArr[j].target_ydegree = target_ydegree;
+                    } else if (type === "circular") {
+                        const radian = Math.PI / 180;
+                        const radius = task.radius;
+
+                        if (gazeArr[j].relTime * 1 < task.startWaitTime) {
+                            const cosTheta = Math.cos(task.startDegree * radian);
+                            const sineTheta = Math.sin(task.startDegree * radian);
+                            target_pixels.x = task.centerCoord.x + radius * cosTheta * MONITOR_PX_PER_CM - w / 2;
+                            target_pixels.y = task.centerCoord.y - radius * sineTheta * MONITOR_PX_PER_CM - h / 2;
+                        } else if (gazeArr[j].relTime * 1 < task.duration * 1 + task.startWaitTime * 1) {
+                            let nowDegree = -(
+                                ((task.startDegree - task.endDegree) * (gazeArr[j].relTime - task.startWaitTime)) / task.duration -
+                                task.startDegree
+                            );
+                            const cosTheta = Math.cos(nowDegree * radian);
+                            const sineTheta = Math.sin(nowDegree * radian);
+                            target_pixels.x = task.centerCoord.x + radius * cosTheta * MONITOR_PX_PER_CM - w / 2;
+                            target_pixels.y = task.centerCoord.y - radius * sineTheta * MONITOR_PX_PER_CM - h / 2;
+                        } else {
+                            const cosTheta = Math.cos(task.endDegree * radian);
+                            const sineTheta = Math.sin(task.endDegree * radian);
+                            target_pixels.x = task.centerCoord.x + radius * cosTheta * MONITOR_PX_PER_CM - w / 2;
+                            target_pixels.y = task.centerCoord.y - radius * sineTheta * MONITOR_PX_PER_CM - h / 2;
+                        }
+                        let target_xcm = target_pixels.x / pixel_per_cm;
+                        let target_ycm = target_pixels.y / pixel_per_cm;
+                        let target_xdegree = target_xcm * degree_per_cm;
+                        let target_ydegree = target_ycm * degree_per_cm;
+                        gazeArr[j].target_xdegree = target_xdegree;
+                        gazeArr[j].target_ydegree = target_ydegree;
+                    }
+
+                    if (gazeArr[j].RPOGV) {
+                        let xpixel = (gazeArr[j].RPOGX - 0.5) * w;
+                        let ypixel = (gazeArr[j].RPOGY - 0.5) * h;
+
+                        let xcm = xpixel / pixel_per_cm;
+                        let ycm = ypixel / pixel_per_cm;
+                        let xdegree = xcm * degree_per_cm;
+                        let ydegree = ycm * degree_per_cm;
+
+                        gazeArr[j].xdegree = xdegree;
+                        gazeArr[j].ydegree = ydegree;
+                    } else {
+                        gazeArr[j].xdegree = null;
+                        gazeArr[j].ydegree = null;
+                    }
+                }
+                // const startRelTime = task.startWaitTime - 1;
+                // const endRelTime = task.relativeEndTime - task.endWaitTime-1.5;
+                const startRelTime = task.startWaitTime - 0.5;
+                const endRelTime = task.relativeEndTime - task.endWaitTime - 2;
+                if (key === 'top' || key === 'bottom') {
+                    let target_ydegreeChartArr = [];
+                    let ydegreeChartArr = [];
+
+                    for (let j = 0; j < gazeArr.length; j++) {
+                        if (gazeArr[j].relTime >= startRelTime && gazeArr[j].relTime <= endRelTime) {
+                            target_ydegreeChartArr.push({
+                                x: (gazeArr[j].relTime - startRelTime) * 1000,
+                                y: gazeArr[j].target_ydegree,
+                            })
+                            ydegreeChartArr.push({
+                                x: (gazeArr[j].relTime - startRelTime) * 1000,
+                                y: gazeArr[j].ydegree,
+                            })
+
+
+
+                        }
+
+
+
+                    }
+
+                    task.target_ydegreeChartArr = target_ydegreeChartArr;
+                    task.ydegreeChartArr = ydegreeChartArr;
+                }
+                else {
+                    //right || left
+                    let target_xdegreeChartArr = [];
+                    let xdegreeChartArr = [];
+
+                    for (let j = 0; j < gazeArr.length; j++) {
+                        if (gazeArr[j].relTime >= startRelTime && gazeArr[j].relTime <= endRelTime) {
+                            target_xdegreeChartArr.push({
+                                x: (gazeArr[j].relTime - startRelTime) * 1000,
+                                y: gazeArr[j].target_xdegree,
+                            })
+                            xdegreeChartArr.push({
+                                x: (gazeArr[j].relTime - startRelTime) * 1000,
+                                y: gazeArr[j].xdegree,
+                            })
+
+
+
+                        }
+
+
+
+                    }
+
+                    task.target_xdegreeChartArr = target_xdegreeChartArr;
+                    task.xdegreeChartArr = xdegreeChartArr;
+                }
+
+
+                let blkChartArr = [];
+                for (let j = 0; j < task.blinkArr.length; j++) {
+                    if (task.blinkArr[j].BLKS >= endRelTime) {
+                        // console.log("찾음",task.blinkArr[j].BLKS)
+                    }
+                    else if (task.blinkArr[j].BLKS >= startRelTime && task.blinkArr[j].BLKS + task.blinkArr[j].BLKD >= endRelTime) {
+                        blkChartArr.push({
+                            x: (task.blinkArr[j].BLKS - startRelTime) * 1000,
+                            y: 0
+                        });
+                        blkChartArr.push({
+                            x: (task.blinkArr[j].BLKS - startRelTime) * 1000,
+                            y: 1
+                        })
+                        blkChartArr.push({
+                            x: endRelTime * 1000,
+                            y: 1
+                        })
+                        blkChartArr.push({
+                            x: endRelTime * 1000,
+                            y: 0
+                        })
+                    }
+                    else if ((task.blinkArr[j].BLKS - startRelTime) >= 0) {
+
+                        blkChartArr.push({
+                            x: (task.blinkArr[j].BLKS - startRelTime) * 1000,
+                            y: 0
+                        });
+                        blkChartArr.push({
+                            x: (task.blinkArr[j].BLKS - startRelTime) * 1000,
+                            y: 1
+                        })
+                        blkChartArr.push({
+                            x: (task.blinkArr[j].BLKS + task.blinkArr[j].BLKD - startRelTime) * 1000,
+                            y: 1
+                        })
+                        blkChartArr.push({
+                            x: (task.blinkArr[j].BLKS + task.blinkArr[j].BLKD - startRelTime) * 1000,
+                            y: 0
+                        })
+                    }
+                    else if ((task.blinkArr[j].BLKS - startRelTime) <= 0 && (task.blinkArr[j].BLKS + task.blinkArr[j].BLKD - startRelTime) >= 0) {
+                        blkChartArr.push({
+                            x: 0,
+                            y: 0
+                        });
+                        blkChartArr.push({
+                            x: 0,
+                            y: 1
+                        })
+                        blkChartArr.push({
+                            x: (task.blinkArr[j].BLKS + task.blinkArr[j].BLKD - startRelTime) * 1000,
+                            y: 1
+                        })
+                        blkChartArr.push({
+                            x: (task.blinkArr[j].BLKS + task.blinkArr[j].BLKD - startRelTime) * 1000,
+                            y: 0
+                        })
+                    }
+                }
+                task.blkChartArr = blkChartArr;
+
+                let latencyChart = {
+                    s: (task.analysis.startTime - startRelTime) * 1000,
+
+                };
+
+
+                task.latencyChart = latencyChart;
+            }
+
+        }
+
+        // console.log("taskArr",taskArr);
+        return taskArr;
+    }, [data])
+
+    const antiSaccadeLeftChartOption = React.useMemo(() => {
+        let annotation = [];
+
+        let leftTaskArr = taskArr.left;
+        let sum = 0;
+        for (let i = 0; i < leftTaskArr.length; i++) {
+            // console.log("bottomTaskArr",bottomTaskArr);
+            annotation.push({
+                drawTime: "afterDatasetsDraw", // (default)
+                type: "box",
+                mode: "horizontal",
+                yScaleID: "degree",
+                xScaleID: "timeid",
+                // value: '7.5',
+                borderColor: "rgba(255,0,0,0.7)",
+                backgroundColor: "transparent",
+                borderWidth: 1,
+                xMin: leftTaskArr[i].latencyChart.s,
+                xMax: leftTaskArr[i].latencyChart.s,
+                yMin: -10,
+                yMax: 10
+            });
+            sum += leftTaskArr[i].latencyChart.s;
+        }
+        let avg = sum / leftTaskArr.length;
+
+        annotation.push({
+            drawTime: "afterDatasetsDraw", // (default)
+            type: "box",
+            mode: "horizontal",
+            yScaleID: "degree",
+            xScaleID: "timeid",
+            // value: '7.5',
+            borderColor: "rgba(0,0,255,0.7)",
+            backgroundColor: "transparent",
+            borderWidth: 3,
+            xMin: avg,
+            xMax: avg,
+            yMin: -10,
+            yMax: 10
+        });
+        annotation.push({
+            drawTime: "afterDatasetsDraw", // (default)
+            type: "box",
+            mode: "horizontal",
+            yScaleID: "degree",
+            xScaleID: "timeid",
+            // value: '7.5',
+            borderColor: "black",
+            backgroundColor: "transparent",
+            borderWidth: 3,
+            xMin: (groupData.left_antisaccade_delay + 0.5) * 1000,
+            xMax: (groupData.left_antisaccade_delay + 0.5) * 1000,
+            yMin: -10,
+            yMax: 10
+        });
+
+        //groupData
+
+        // annotation.push({
+        //     drawTime: "beforeDatasetsDraw", // (default)
+        //     type: "box",
+        //     mode: "horizontal",
+        //     yScaleID: "degree",
+        //     xScaleID: "timeid",
+        //     // value: '7.5',
+
+
+        //     // borderColor: 'rgba(0,0,0,0.2)',
+        //     backgroundColor: "rgba(0,0,0,0.2)",
+        //     borderWidth: 1,
+        //     xMin: (0.5 + groupData.left_saccade_delay) * 1000,
+        //     xMax: (0.5 + groupData.left_saccade_delay + 7.63 / groupData.left_saccade_speed) * 1000,
+        //     yMin: -10,
+        //     yMax: 10,
+        // });
+
+        return {
+            plugins: {
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        return null;
+                        //return value !== 0 ? value.toLocaleString(/* ... */) : ''
+                    },
+                    anchor: 'center',
+                    align: 'center',
+                    color: '#000000'
+                },
+            },
+            annotation: {
+                events: ["click"],
+                annotations: annotation,
+            },
+            maintainAspectRatio: false,
+            devicePixelRatio: window.devicePixelRatio * 3,
+            animation: {
+                duration: 0,
+            },
+            tooltips: {
+                callbacks: {
+
+                    title: function (tooltipItem, data) {
+                        return '';
+                    }
+                }
+            },
+            scales: {
+                xAxes: [
+                    {
+                        id: "timeid",
+                        display: true,       // 실제시간 임시로 true//
+                        type: 'time',
+                        time: {
+
+                            unit: 'mything',
+
+                            displayFormats: {
+                                mything: 'ss.SSS'
+                            },
+
+                            ///////여기서조정해야함
+                            // min: 0 * 1000,
+                            // max: 1.5 * 1000,
+                        },
+                        //x축 숨기려면 이렇게
+                        // gridLines: {
+                        //     color: "rgba(0, 0, 0, 0)",
+                        // },
+                        scaleLabel: { /////////////////x축아래 라벨
+                            display: false,
+                            labelString: 'Time(s)',
+                            fontStyle: 'bold',
+                            fontColor: "black"
+                        },
+                        ticks: {
+                            source: 'data', //auto,data,labels
+                            // autoSkip: true,
+                            // maxRotation: 0,
+                            // major: {
+                            //   enabled: true
+                            // },
+                            // stepSize: 10,
+                            callback: customCallbackXtick,
+                            min:0,
+                            max:1.5*1000
+                        }
+                    }
+                ],
+                yAxes: [
+                    {
+                        id: "degree",
+                        position: 'left',
+                        scaleLabel: { /////////////////x축아래 라벨
+                            display: true,
+                            labelString: 'Position(d)',
+                            fontStyle: 'bold',
+                            fontColor: "black"
+                        },
+                        ticks: {
+                            max: 10,
+                            min: -10,
+
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
+                        },
+                    },
+                    {
+                        id: "ax_blink",
+                        stepSize: 1,
+                        position: 'left',
+                        // 오른쪽의 Fixation 옆 Blink축
+                        display: false,
+                        ticks: {
+                            max: 1,
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
+                        },
+                    }]
+            },
+
+        };
+    }, [taskArr, groupData]);
+
+
+    const antiSaccadeLeftData = React.useMemo(() => {
+        return {
+            datasets: [
+                { //targety
+                    data: taskArr.left[0].target_xdegreeChartArr,
+                    steppedLine: "before",
+                    label: "targetH",
+                    borderColor: "rgba(0,255,0,0.8)",//"#0000ff",
+                    backgroundColor: 'rgba(0,255,0,0.8)',
+                    fill: false,
+                    yAxisID: "degree",
+                    xAxisID: "timeid",
+                    borderWidth: 1.5,
+                    pointRadius: 0.3, //데이터 포인터크기
+                    pointHoverRadius: 2, //hover 데이터포인터크기
+                },
+                { //eyex
+                    data: taskArr.left[0].xdegreeChartArr,
+                    steppedLine: "before",
+                    label: "gH1",
+                    borderColor: "rgba(255,0,0,0.7)",//"#0000ff",
+                    backgroundColor: 'rgba(255,0,0,0.7)',
+                    fill: false,
+                    yAxisID: "degree",
+                    xAxisID: "timeid",
+                    borderWidth: 1.5,
+                    pointRadius: 0.3, //데이터 포인터크기
+                    pointHoverRadius: 2, //hover 데이터포인터크기
+                },
+                { //eyex
+                    data: taskArr.left[1].xdegreeChartArr,
+                    steppedLine: "before",
+                    label: "gH2",
+                    borderColor: "rgba(0,0,255,0.7)",//"#0000ff",
+                    backgroundColor: 'rgba(0,0,255,0.7)',
+                    fill: false,
+                    yAxisID: "degree",
+                    xAxisID: "timeid",
+                    borderWidth: 1.5,
+                    pointRadius: 0.3, //데이터 포인터크기
+                    pointHoverRadius: 2, //hover 데이터포인터크기
+                },
+                { //eyex
+                    data: taskArr.left[2].xdegreeChartArr,
+                    steppedLine: "before",
+                    label: "gH3",
+                    borderColor: "orange",//"#0000ff",
+                    backgroundColor: 'orange',
+                    fill: false,
+                    yAxisID: "degree",
+                    xAxisID: "timeid",
+                    borderWidth: 1.5,
+                    pointRadius: 0.3, //데이터 포인터크기
+                    pointHoverRadius: 2, //hover 데이터포인터크기
+                },
+                { //eyex
+                    data: taskArr.left[3].xdegreeChartArr,
+                    steppedLine: "before",
+                    label: "gH4",
+                    borderColor: "pink",//"#0000ff",
+                    backgroundColor: 'pink',
+                    fill: false,
+                    yAxisID: "degree",
+                    xAxisID: "timeid",
+                    borderWidth: 1.5,
+                    pointRadius: 0.3, //데이터 포인터크기
+                    pointHoverRadius: 2, //hover 데이터포인터크기
+                }
+            ],
+        }
+    }, [taskArr]);
+
+    const antiSaccadeRightChartOption = React.useMemo(() => {
+        let annotation = [];
+
+        let rightTaskArr = taskArr.right;
+        let sum = 0;
+        for (let i = 0; i < rightTaskArr.length; i++) {
+            // console.log("bottomTaskArr",bottomTaskArr);
+            annotation.push({
+                drawTime: "afterDatasetsDraw", // (default)
+                type: "box",
+                mode: "horizontal",
+                yScaleID: "degree",
+                xScaleID: "timeid",
+                // value: '7.5',
+                borderColor: "rgba(255,0,0,0.7)",
+                backgroundColor: "transparent",
+                borderWidth: 1,
+                xMin: rightTaskArr[i].latencyChart.s,
+                xMax: rightTaskArr[i].latencyChart.s,
+                yMin: -10,
+                yMax: 10
+            });
+            sum += rightTaskArr[i].latencyChart.s;
+        }
+        let avg = sum / rightTaskArr.length;
+
+        annotation.push({
+            drawTime: "afterDatasetsDraw", // (default)
+            type: "box",
+            mode: "horizontal",
+            yScaleID: "degree",
+            xScaleID: "timeid",
+            // value: '7.5',
+            borderColor: "rgba(0,0,255,0.7)",
+            backgroundColor: "transparent",
+            borderWidth: 3,
+            xMin: avg,
+            xMax: avg,
+            yMin: -10,
+            yMax: 10
+        });
+        annotation.push({
+            drawTime: "afterDatasetsDraw", // (default)
+            type: "box",
+            mode: "horizontal",
+            yScaleID: "degree",
+            xScaleID: "timeid",
+            // value: '7.5',
+            borderColor: "black",
+            backgroundColor: "transparent",
+            borderWidth: 3,
+            xMin: (groupData.right_antisaccade_delay + 0.5) * 1000,
+            xMax: (groupData.right_antisaccade_delay + 0.5) * 1000,
+            yMin: -10,
+            yMax: 10
+        });
+
+
+
+        return {
+            plugins: {
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        return null;
+                        //return value !== 0 ? value.toLocaleString(/* ... */) : ''
+                    },
+                    anchor: 'center',
+                    align: 'center',
+                    color: '#000000'
+                },
+            },
+            annotation: {
+                events: ["click"],
+                annotations: annotation,
+            },
+            maintainAspectRatio: false,
+            devicePixelRatio: window.devicePixelRatio * 3,
+            animation: {
+                duration: 0,
+            },
+            tooltips: {
+                callbacks: {
+
+                    title: function (tooltipItem, data) {
+                        return '';
+                    }
+                }
+            },
+            scales: {
+                xAxes: [
+                    {
+                        id: "timeid",
+                        display: true,       // 실제시간 임시로 true//
+                        type: 'time',
+                        time: {
+
+                            unit: 'mything',
+
+                            displayFormats: {
+                                mything: 'ss.SSS'
+                            },
+
+                            ///////여기서조정해야함
+                            // min: 0 * 1000,
+                            // max: 1.5 * 1000,
+                        },
+                        //x축 숨기려면 이렇게
+                        // gridLines: {
+                        //     color: "rgba(0, 0, 0, 0)",
+                        // },
+                        scaleLabel: { /////////////////x축아래 라벨
+                            display: false,
+                            labelString: 'Time(s)',
+                            fontStyle: 'bold',
+                            fontColor: "black"
+                        },
+                        ticks: {
+                            source: 'data', //auto,data,labels
+                            // autoSkip: true,
+                            // maxRotation: 0,
+                            // major: {
+                            //   enabled: true
+                            // },
+                            // stepSize: 10,
+                            callback: customCallbackXtick,
+                            min:0,
+                            max:1.5*1000
+                        }
+                    }
+                ],
+                yAxes: [
+                    {
+                        id: "degree",
+                        position: 'left',
+                        scaleLabel: { /////////////////x축아래 라벨
+                            display: true,
+                            labelString: 'Position(d)',
+                            fontStyle: 'bold',
+                            fontColor: "black"
+                        },
+                        ticks: {
+                            max: 10,
+                            min: -10,
+
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
+                        },
+                    },
+                    {
+                        id: "ax_blink",
+                        stepSize: 1,
+                        position: 'left',
+                        // 오른쪽의 Fixation 옆 Blink축
+                        display: false,
+                        ticks: {
+                            max: 1,
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
+                        },
+                    }]
+            },
+
+        };
+    }, [taskArr, groupData]);
+
+
+    const antiSaccadeRightData = React.useMemo(() => {
+        return {
+            datasets: [
+                { //targety
+                    data: taskArr.right[0].target_xdegreeChartArr,
+                    steppedLine: "before",
+                    label: "targetH",
+                    borderColor: "rgba(0,255,0,0.8)",//"#0000ff",
+                    backgroundColor: 'rgba(0,255,0,0.8)',
+                    fill: false,
+                    yAxisID: "degree",
+                    xAxisID: "timeid",
+                    borderWidth: 1.5,
+                    pointRadius: 0.3, //데이터 포인터크기
+                    pointHoverRadius: 2, //hover 데이터포인터크기
+                },
+                { //eyex
+                    data: taskArr.right[0].xdegreeChartArr,
+                    steppedLine: "before",
+                    label: "gH1",
+                    borderColor: "rgba(255,0,0,0.7)",//"#0000ff",
+                    backgroundColor: 'rgba(255,0,0,0.7)',
+                    fill: false,
+                    yAxisID: "degree",
+                    xAxisID: "timeid",
+                    borderWidth: 1.5,
+                    pointRadius: 0.3, //데이터 포인터크기
+                    pointHoverRadius: 2, //hover 데이터포인터크기
+                },
+                { //eyex
+                    data: taskArr.right[1].xdegreeChartArr,
+                    steppedLine: "before",
+                    label: "gH2",
+                    borderColor: "rgba(0,0,255,0.7)",//"#0000ff",
+                    backgroundColor: 'rgba(0,0,255,0.7)',
+                    fill: false,
+                    yAxisID: "degree",
+                    xAxisID: "timeid",
+                    borderWidth: 1.5,
+                    pointRadius: 0.3, //데이터 포인터크기
+                    pointHoverRadius: 2, //hover 데이터포인터크기
+                },
+                { //eyex
+                    data: taskArr.right[2].xdegreeChartArr,
+                    steppedLine: "before",
+                    label: "gH3",
+                    borderColor: "orange",//"#0000ff",
+                    backgroundColor: 'orange',
+                    fill: false,
+                    yAxisID: "degree",
+                    xAxisID: "timeid",
+                    borderWidth: 1.5,
+                    pointRadius: 0.3, //데이터 포인터크기
+                    pointHoverRadius: 2, //hover 데이터포인터크기
+                },
+                { //eyex
+                    data: taskArr.right[3].xdegreeChartArr,
+                    steppedLine: "before",
+                    label: "gH4",
+                    borderColor: "pink",//"#0000ff",
+                    backgroundColor: 'pink',
+                    fill: false,
+                    yAxisID: "degree",
+                    xAxisID: "timeid",
+                    borderWidth: 1.5,
+                    pointRadius: 0.3, //데이터 포인터크기
+                    pointHoverRadius: 2, //hover 데이터포인터크기
+                }
+            ],
+        }
+    }, [taskArr]);
+
+
+    const [showLeftward, set_showLeftward] = React.useState(true);
+    const [showRightward, set_showRightward] = React.useState(true);
+    const drawTransparentCanvas = React.useCallback(() => {
+        if (!data || !taskArr || !transparentCanvasRef) return;
+        const canvas = transparentCanvasRef.current;
+        const rctx = canvas.getContext('2d');
+
+        const Wpx = 1020; //340 *2
+        const Hpx = 1020;
+        rctx.clearRect(0, 0, Wpx, Hpx);
+        for (let key in taskArr) {
+            for (let k = 0; k < taskArr[key].length; k++) {
+                const task = taskArr[key][k];
+                const startRelTime = task.startWaitTime - 0.5;
+                const endRelTime = task.relativeEndTime - task.endWaitTime - 2;
+
+                let gazeArr = task.gazeData;
+                if (key === 'left') {
+                    if (showLeftward === false) break;
+                    rctx.strokeStyle = 'rgba(0,0,255,0.3)';
+                    rctx.fillStyle = 'rgba(0,0,255,0.3)';
+                } else if (key === 'right') {
+                    if (showRightward === false) break;
+                    rctx.strokeStyle = 'rgba(255,0,255,0.3)';
+                    rctx.fillStyle = 'rgba(255,0,255,0.3)';
+                }
+
+                let beforeX = null, beforeY = null;
+                for (let i = 0; i < gazeArr.length; i++) {
+                    if (gazeArr[i].relTime >= startRelTime && gazeArr[i].relTime <= endRelTime) {
+                        rctx.beginPath();
+                        rctx.lineWidth = 9;
+
+                        //340 : 20 =  x :gazeArr[i].xdegree+10
+                        //340px : 20degree = xpx : 
+                        // x = 340*(gazeArr[i].xdegree+10)/20 
+                        let x = (gazeArr[i].xdegree + 10) * Wpx / 20;
+                        let y = (gazeArr[i].ydegree + 10) * Hpx / 20;
+                        rctx.arc(x,
+                            y,
+                            1, 0, Math.PI * 2);
+                        rctx.fill();
+                        rctx.stroke();
+
+                        if (beforeX !== null && beforeY !== null) {
+                            rctx.beginPath();
+                            rctx.lineWidth = 9;
+                            rctx.moveTo(beforeX, beforeY);
+                            rctx.lineTo(x, y);
+                            rctx.stroke();
+                        }
+                        beforeX = x;
+                        beforeY = y;
+                    }
+
+
+
+
+                }
+
+            }
+
+        }
+    }, [data, taskArr, showLeftward, showRightward]);
+
+
+    React.useEffect(() => {
+        if (taskArr) {
+            drawTransparentCanvas();
+        }
+    }, [taskArr, drawTransparentCanvas])
+
+
 
     return (<div className="AntiSaccadeView">
-          <div className="row">
+        <div className="row">
             <div className="titleBox">
                 <div className="title">
                     반대로 보기 결과
@@ -2614,7 +3751,7 @@ const AntiSaccadeView = ({...props})=>{
                 </div>
             </div>
             <div className="titleBox" style={{ width: '330px' }}>
-                <div className="title">                    
+                <div className="title">
                     반대로 보기 점수 분포
                 </div>
                 <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -2626,7 +3763,7 @@ const AntiSaccadeView = ({...props})=>{
                     방향 정확성
                 </div>
                 <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    거시기 반만써서 clockwise anticlockwise
+                    방향정확성갑싱 없음 그래프 표현불가
                 </div>
             </div>
             <div className="titleBox" style={{ width: '420px' }}>
@@ -2634,7 +3771,13 @@ const AntiSaccadeView = ({...props})=>{
                     지체시간(delay)
                 </div>
                 <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    거시기 반만써서 clockwise anticlockwise
+                    <ChartComponent
+                        type="bar"
+                        height={null}
+                        width={null}
+                        data={barChartData}
+                        options={barChartOption}
+                    />
                 </div>
             </div>
         </div>
@@ -2647,16 +3790,26 @@ const AntiSaccadeView = ({...props})=>{
                 </div>
                 <div className="cbox">
                     <div style={{ height: '30px', display: 'flex', justifyContent: 'center', paddingLeft: '10px', paddingTop: '3px', boxSizing: 'border-box' }}>
-                        Radius : 7.63 Degree  &nbsp;&nbsp; Speed : 72 Degree/s
+                        Radius : 7.63 Degree
                     </div>
                     <div style={{ height: 'calc(100% - 60px)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div className="_10degreeDiv" style={{ width: '340px', height: '340px' }}>
-                    
+                            <div className="target center" />
+                            <div className="target left" />
+                            <div className="target right" />
+
                             <canvas className="transparentCanvas" ref={transparentCanvasRef} width={1020} height={1020} />
                         </div>
                     </div>
                     <div className="customLabel" style={{ height: '30px', display: 'flex' }}>
-                        라벨
+
+                        <div className="clickzone" style={{
+                            textDecoration: showRightward === true ? "" : "line-through"
+                        }} onClick={() => set_showRightward(!showRightward)}><div className="rightward" />Rightward(좌측으로)</div>&nbsp;&nbsp;
+                        <div className="clickzone" style={{
+                            textDecoration: showLeftward === true ? "" : "line-through"
+                        }} onClick={() => set_showLeftward(!showLeftward)}><div className="leftward" />Leftward(우측으로)</div>&nbsp;&nbsp;
+
                     </div>
                 </div>
             </div>
@@ -2664,17 +3817,17 @@ const AntiSaccadeView = ({...props})=>{
                 <div className="title">
                     시간에 따른 시선이동
                 </div>
-                 <div className="cbox">
+                <div className="cbox">
                     <div className="cbox2r">
                         <div className="cbox2w">
                             <div className="c_label">
                                 <strong>{"Pro-saccade, Leftward"}</strong>
                             </div>
                             <div className="c_chart">
-                              11111
+                                11111
                             </div>
                             <div className="c_avg">
-                           설명1
+                                설명1
                             </div>
                         </div>
 
@@ -2683,20 +3836,27 @@ const AntiSaccadeView = ({...props})=>{
                                 <strong>{"Pro-saccade, Rightward"}</strong>
                             </div>
                             <div className="c_chart">
-                         2222
+                                2222
                             </div>
                             <div className="c_avg">
-                              설명2
+                                설명2
                             </div>
                         </div>
                     </div>
                     <div className="cbox2r">
                         <div className="cbox2w">
                             <div className="c_label">
-                                <strong>{"Anti-saccade, Leftward"}</strong>
+                                <strong>{"Anti-saccade, Leftward (오른쪽을 봐야함)"}</strong>
                             </div>
                             <div className="c_chart">
-                          333
+                                <ChartComponent
+                                    type="line"
+                                    height={null}
+                                    width={null}
+                                    data={antiSaccadeLeftData}
+                                    options={antiSaccadeLeftChartOption}
+                                />
+
                             </div>
                             <div className="c_avg">
                                 설명3
@@ -2704,13 +3864,19 @@ const AntiSaccadeView = ({...props})=>{
                         </div>
                         <div className="cbox2w">
                             <div className="c_label">
-                                <strong>{"Anti-saccade Rightward"}</strong>
+                                <strong>{"Anti-saccade, Rightward (왼쪽을 봐야함)"}</strong>
                             </div>
                             <div className="c_chart">
-                            444
+                                <ChartComponent
+                                    type="line"
+                                    height={null}
+                                    width={null}
+                                    data={antiSaccadeRightData}
+                                    options={antiSaccadeRightChartOption}
+                                />
                             </div>
                             <div className="c_avg">
-                             설명4
+                                설명4
                             </div>
                         </div>
                     </div>
@@ -2719,51 +3885,51 @@ const AntiSaccadeView = ({...props})=>{
         </div>
 
         {/* 3째줄 */}
-        <div className="row" style={{display:'block'}}>
+        <div className="row" style={{ display: 'block' }}>
 
             <div className="titleUnderline">
                 <div className="title">
-                반대로 보기(anti saccade)는 무엇인가요?​
+                    반대로 보기(anti saccade)는 무엇인가요?
                 </div>
                 <div className="explain">
                     <ul>
                         <li>
-                        반대로 보기는 지각된 사물을 자동적으로 바라보는 것을 통제하는 능력을 측정합니다.​
+                            반대로 보기는 지각된 사물을 자동적으로 바라보는 것을 통제하는 능력을 측정합니다.
                         </li>
                         <li>
-                        따라보기(pro saccade)과제는 지각된 대상을 바라보는 과제이고, 반대로 보기(anti saccade)과제는 지각된 대상을 보지 않고 반대로 시선을 이동하는 과제입니다. 무언가 보이면 반사적으로 시선이 가려는 경향이 있기 때문에, 지각에 대한 행동을 통제하는 능력이나 집중력이 낮으면 반대보기 과제를 하기 어렵습니다. 집중력 저하, 난독증, ADHD 등의 증상과 관련이 있는 경우가 있습니다.​ ​
+                            따라보기(pro saccade)과제는 지각된 대상을 바라보는 과제이고, 반대로 보기(anti saccade)과제는 지각된 대상을 보지 않고 반대로 시선을 이동하는 과제입니다. 무언가 보이면 반사적으로 시선이 가려는 경향이 있기 때문에, 지각에 대한 행동을 통제하는 능력이나 집중력이 낮으면 반대보기 과제를 하기 어렵습니다. 집중력 저하, 난독증, ADHD 등의 증상과 관련이 있는 경우가 있습니다.
                         </li>
-                   
+
                     </ul>
 
                 </div>
             </div>
             <div className="titleUnderline">
                 <div className="title">
-                반대로 보기 정확도는 무엇인가요?​
+                    반대로 보기 정확도는 무엇인가요?
                 </div>
                 <div className="explain">
                     <ul>
                         <li>
-                        따라보기는 대상이 있는 쪽으로, 반대보기는 대상의 반대쪽으로 시선이 움직였는지를 측정한 비율입니다. 반대보기의 정확도가 높은 것이 바람직합니다.​
+                            따라보기는 대상이 있는 쪽으로, 반대보기는 대상의 반대쪽으로 시선이 움직였는지를 측정한 비율입니다. 반대보기의 정확도가 높은 것이 바람직합니다.
                         </li>
-                 
-                   
+
+
                     </ul>
 
                 </div>
             </div>
             <div className="titleUnderline">
                 <div className="title">
-                반대로 보기 지체시간은 무엇인가요?​
+                    반대로 보기 지체시간은 무엇인가요?
                 </div>
                 <div className="explain">
                     <ul>
                         <li>
-                        대상을 보고 시선을 움직이기 전까지 소요되는 시간입니다. 반대보기할 때 지체시간이 짧은 것이 바람직합니다.​
+                            대상을 보고 시선을 움직이기 전까지 소요되는 시간입니다. 반대보기할 때 지체시간이 짧은 것이 바람직합니다.
                         </li>
-                        
-                   
+
+
                     </ul>
 
                 </div>
@@ -2784,4 +3950,6 @@ const AntiSaccadeView = ({...props})=>{
         }
     </div>)
 }
+
+
 export default ScreeningViewer;
