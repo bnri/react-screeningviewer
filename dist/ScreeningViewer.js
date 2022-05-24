@@ -23,12 +23,6 @@ var _reactGazeviewer = _interopRequireDefault(require("react-gazeviewer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -42,6 +36,12 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function get_blink_arr(obj) {
   var rawGaze = obj;
@@ -91,6 +91,237 @@ function customCallbackXtick(val, index) {
   if (index % 120 === 0) {
     return ((((val * 1).toFixed(2) * 1).toFixed(2) - 0.5) * 1).toFixed(2) * 1;
   }
+}
+
+function dataToTaskArr(data) {
+  // console.log("허허data",data);
+  var MONITOR_PX_PER_CM = data.monitorInform.MONITOR_PX_PER_CM;
+  var pixel_per_cm = data.monitorInform.MONITOR_PX_PER_CM; //1cm 당 pixel
+
+  var degree_per_cm = Math.atan(1 / data.defaultZ) * 180 / Math.PI;
+  var w = data.screenW;
+  var h = data.screenH;
+  var screeningObjectList = data.screeningObjectList;
+  var taskArr = {
+    left: [],
+    right: [],
+    bottom: [],
+    top: []
+  };
+
+  for (var i = 0; i < screeningObjectList.length; i++) {
+    // console.log("screeningObjectList[i].analysis.direction",screeningObjectList[i].analysis.direction);
+    taskArr[screeningObjectList[i].analysis.direction].push(_objectSpread(_objectSpread({}, screeningObjectList[i]), {}, {
+      gazeData: data.taskArr[i],
+      analysis: data.analysisArr[i]
+    }));
+  }
+
+  for (var key in taskArr) {
+    for (var _i = 0; _i < taskArr[key].length; _i++) {
+      var task = taskArr[key][_i];
+      var type = task.type;
+      var gazeArr = task.gazeData;
+      var blink_arr = get_blink_arr(gazeArr);
+      task.blinkArr = blink_arr; // % 로되어있는걸 degree 로 변환작업, 중점이 0,0 x,y degree
+
+      for (var j = 0; j < gazeArr.length; j++) {
+        var target_pixels = {
+          x: null,
+          y: null
+        };
+
+        if (type === "teleport") {
+          //2~5 고정임
+          if (gazeArr[j].relTime * 1 < task.startWaitTime * 1) {
+            target_pixels.x = task.startCoord.x - w / 2;
+            target_pixels.y = task.startCoord.y - h / 2;
+          } else if (gazeArr[j].relTime * 1 < task.duration * 1 + task.startWaitTime * 1) {
+            target_pixels.x = task.endCoord.x - w / 2;
+            target_pixels.y = task.endCoord.y - h / 2;
+          } else {
+            if (task.isReturn) {
+              target_pixels.x = task.startCoord.x - w / 2;
+              target_pixels.y = task.startCoord.y - h / 2;
+            } else {
+              target_pixels.x = task.endCoord.x - w / 2;
+              target_pixels.y = task.endCoord.y - h / 2;
+            }
+          }
+
+          var target_xcm = target_pixels.x / pixel_per_cm;
+          var target_ycm = target_pixels.y / pixel_per_cm;
+          var target_xdegree = target_xcm * degree_per_cm;
+          var target_ydegree = target_ycm * degree_per_cm;
+          gazeArr[j].target_xdegree = target_xdegree;
+          gazeArr[j].target_ydegree = target_ydegree;
+        } else if (type === "circular") {
+          var radian = Math.PI / 180;
+          var radius = task.radius;
+
+          if (gazeArr[j].relTime * 1 < task.startWaitTime) {
+            var cosTheta = Math.cos(task.startDegree * radian);
+            var sineTheta = Math.sin(task.startDegree * radian);
+            target_pixels.x = task.centerCoord.x + radius * cosTheta * MONITOR_PX_PER_CM - w / 2;
+            target_pixels.y = task.centerCoord.y - radius * sineTheta * MONITOR_PX_PER_CM - h / 2;
+          } else if (gazeArr[j].relTime * 1 < task.duration * 1 + task.startWaitTime * 1) {
+            var nowDegree = -((task.startDegree - task.endDegree) * (gazeArr[j].relTime - task.startWaitTime) / task.duration - task.startDegree);
+
+            var _cosTheta = Math.cos(nowDegree * radian);
+
+            var _sineTheta = Math.sin(nowDegree * radian);
+
+            target_pixels.x = task.centerCoord.x + radius * _cosTheta * MONITOR_PX_PER_CM - w / 2;
+            target_pixels.y = task.centerCoord.y - radius * _sineTheta * MONITOR_PX_PER_CM - h / 2;
+          } else {
+            var _cosTheta2 = Math.cos(task.endDegree * radian);
+
+            var _sineTheta2 = Math.sin(task.endDegree * radian);
+
+            target_pixels.x = task.centerCoord.x + radius * _cosTheta2 * MONITOR_PX_PER_CM - w / 2;
+            target_pixels.y = task.centerCoord.y - radius * _sineTheta2 * MONITOR_PX_PER_CM - h / 2;
+          }
+
+          var _target_xcm = target_pixels.x / pixel_per_cm;
+
+          var _target_ycm = target_pixels.y / pixel_per_cm;
+
+          var _target_xdegree = _target_xcm * degree_per_cm;
+
+          var _target_ydegree = _target_ycm * degree_per_cm;
+
+          gazeArr[j].target_xdegree = _target_xdegree;
+          gazeArr[j].target_ydegree = _target_ydegree;
+        }
+
+        if (gazeArr[j].RPOGV) {
+          var xpixel = (gazeArr[j].RPOGX - 0.5) * w;
+          var ypixel = (gazeArr[j].RPOGY - 0.5) * h;
+          var xcm = xpixel / pixel_per_cm;
+          var ycm = ypixel / pixel_per_cm;
+          var xdegree = xcm * degree_per_cm;
+          var ydegree = ycm * degree_per_cm;
+          gazeArr[j].xdegree = xdegree;
+          gazeArr[j].ydegree = ydegree;
+        } else {
+          gazeArr[j].xdegree = null;
+          gazeArr[j].ydegree = null;
+        }
+      } // const startRelTime = task.startWaitTime - 1;
+      // const endRelTime = task.relativeEndTime - task.endWaitTime-1.5;
+
+
+      var startRelTime = task.startWaitTime - 0.5;
+      var endRelTime = task.relativeEndTime - task.endWaitTime - 2;
+
+      if (key === 'top' || key === 'bottom') {
+        var target_ydegreeChartArr = [];
+        var ydegreeChartArr = [];
+
+        for (var _j = 0; _j < gazeArr.length; _j++) {
+          if (gazeArr[_j].relTime >= startRelTime && gazeArr[_j].relTime <= endRelTime) {
+            target_ydegreeChartArr.push({
+              x: (gazeArr[_j].relTime - startRelTime) * 1000,
+              y: gazeArr[_j].target_ydegree
+            });
+            ydegreeChartArr.push({
+              x: (gazeArr[_j].relTime - startRelTime) * 1000,
+              y: gazeArr[_j].ydegree
+            });
+          }
+        }
+
+        task.target_ydegreeChartArr = target_ydegreeChartArr;
+        task.ydegreeChartArr = ydegreeChartArr;
+      } else {
+        //right || left
+        var target_xdegreeChartArr = [];
+        var xdegreeChartArr = [];
+
+        for (var _j2 = 0; _j2 < gazeArr.length; _j2++) {
+          if (gazeArr[_j2].relTime >= startRelTime && gazeArr[_j2].relTime <= endRelTime) {
+            target_xdegreeChartArr.push({
+              x: (gazeArr[_j2].relTime - startRelTime) * 1000,
+              y: gazeArr[_j2].target_xdegree
+            });
+            xdegreeChartArr.push({
+              x: (gazeArr[_j2].relTime - startRelTime) * 1000,
+              y: gazeArr[_j2].xdegree
+            });
+          }
+        }
+
+        task.target_xdegreeChartArr = target_xdegreeChartArr;
+        task.xdegreeChartArr = xdegreeChartArr;
+      }
+
+      var blkChartArr = [];
+
+      for (var _j3 = 0; _j3 < task.blinkArr.length; _j3++) {
+        if (task.blinkArr[_j3].BLKS >= endRelTime) {// console.log("찾음",task.blinkArr[j].BLKS)
+        } else if (task.blinkArr[_j3].BLKS >= startRelTime && task.blinkArr[_j3].BLKS + task.blinkArr[_j3].BLKD >= endRelTime) {
+          blkChartArr.push({
+            x: (task.blinkArr[_j3].BLKS - startRelTime) * 1000,
+            y: 0
+          });
+          blkChartArr.push({
+            x: (task.blinkArr[_j3].BLKS - startRelTime) * 1000,
+            y: 1
+          });
+          blkChartArr.push({
+            x: endRelTime * 1000,
+            y: 1
+          });
+          blkChartArr.push({
+            x: endRelTime * 1000,
+            y: 0
+          });
+        } else if (task.blinkArr[_j3].BLKS - startRelTime >= 0) {
+          blkChartArr.push({
+            x: (task.blinkArr[_j3].BLKS - startRelTime) * 1000,
+            y: 0
+          });
+          blkChartArr.push({
+            x: (task.blinkArr[_j3].BLKS - startRelTime) * 1000,
+            y: 1
+          });
+          blkChartArr.push({
+            x: (task.blinkArr[_j3].BLKS + task.blinkArr[_j3].BLKD - startRelTime) * 1000,
+            y: 1
+          });
+          blkChartArr.push({
+            x: (task.blinkArr[_j3].BLKS + task.blinkArr[_j3].BLKD - startRelTime) * 1000,
+            y: 0
+          });
+        } else if (task.blinkArr[_j3].BLKS - startRelTime <= 0 && task.blinkArr[_j3].BLKS + task.blinkArr[_j3].BLKD - startRelTime >= 0) {
+          blkChartArr.push({
+            x: 0,
+            y: 0
+          });
+          blkChartArr.push({
+            x: 0,
+            y: 1
+          });
+          blkChartArr.push({
+            x: (task.blinkArr[_j3].BLKS + task.blinkArr[_j3].BLKD - startRelTime) * 1000,
+            y: 1
+          });
+          blkChartArr.push({
+            x: (task.blinkArr[_j3].BLKS + task.blinkArr[_j3].BLKD - startRelTime) * 1000,
+            y: 0
+          });
+        }
+      }
+
+      task.blkChartArr = blkChartArr;
+      var latencyChart = {
+        s: (task.analysis.startTime - startRelTime) * 1000
+      };
+      task.latencyChart = latencyChart;
+    }
+  }
+
+  return taskArr;
 }
 
 var ScreeningViewer = function ScreeningViewer(_ref) {
@@ -350,31 +581,31 @@ var SaccadeView = function SaccadeView(_ref2) {
             } else if (gazeArr[j].relTime * 1 < task.duration * 1 + task.startWaitTime * 1) {
               var nowDegree = -((task.startDegree - task.endDegree) * (gazeArr[j].relTime - task.startWaitTime) / task.duration - task.startDegree);
 
-              var _cosTheta = Math.cos(nowDegree * radian);
+              var _cosTheta3 = Math.cos(nowDegree * radian);
 
-              var _sineTheta = Math.sin(nowDegree * radian);
+              var _sineTheta3 = Math.sin(nowDegree * radian);
 
-              target_pixels.x = task.centerCoord.x + radius * _cosTheta * MONITOR_PX_PER_CM - w / 2;
-              target_pixels.y = task.centerCoord.y - radius * _sineTheta * MONITOR_PX_PER_CM - h / 2;
+              target_pixels.x = task.centerCoord.x + radius * _cosTheta3 * MONITOR_PX_PER_CM - w / 2;
+              target_pixels.y = task.centerCoord.y - radius * _sineTheta3 * MONITOR_PX_PER_CM - h / 2;
             } else {
-              var _cosTheta2 = Math.cos(task.endDegree * radian);
+              var _cosTheta4 = Math.cos(task.endDegree * radian);
 
-              var _sineTheta2 = Math.sin(task.endDegree * radian);
+              var _sineTheta4 = Math.sin(task.endDegree * radian);
 
-              target_pixels.x = task.centerCoord.x + radius * _cosTheta2 * MONITOR_PX_PER_CM - w / 2;
-              target_pixels.y = task.centerCoord.y - radius * _sineTheta2 * MONITOR_PX_PER_CM - h / 2;
+              target_pixels.x = task.centerCoord.x + radius * _cosTheta4 * MONITOR_PX_PER_CM - w / 2;
+              target_pixels.y = task.centerCoord.y - radius * _sineTheta4 * MONITOR_PX_PER_CM - h / 2;
             }
 
-            var _target_xcm = target_pixels.x / pixel_per_cm;
+            var _target_xcm2 = target_pixels.x / pixel_per_cm;
 
-            var _target_ycm = target_pixels.y / pixel_per_cm;
+            var _target_ycm2 = target_pixels.y / pixel_per_cm;
 
-            var _target_xdegree = _target_xcm * degree_per_cm;
+            var _target_xdegree2 = _target_xcm2 * degree_per_cm;
 
-            var _target_ydegree = _target_ycm * degree_per_cm;
+            var _target_ydegree2 = _target_ycm2 * degree_per_cm;
 
-            gazeArr[j].target_xdegree = _target_xdegree;
-            gazeArr[j].target_ydegree = _target_ydegree;
+            gazeArr[j].target_xdegree = _target_xdegree2;
+            gazeArr[j].target_ydegree = _target_ydegree2;
           }
 
           if (gazeArr[j].RPOGV) {
@@ -401,15 +632,15 @@ var SaccadeView = function SaccadeView(_ref2) {
           var target_ydegreeChartArr = [];
           var ydegreeChartArr = [];
 
-          for (var _j = 0; _j < gazeArr.length; _j++) {
-            if (gazeArr[_j].relTime >= startRelTime && gazeArr[_j].relTime <= endRelTime) {
+          for (var _j4 = 0; _j4 < gazeArr.length; _j4++) {
+            if (gazeArr[_j4].relTime >= startRelTime && gazeArr[_j4].relTime <= endRelTime) {
               target_ydegreeChartArr.push({
-                x: (gazeArr[_j].relTime - startRelTime) * 1000,
-                y: gazeArr[_j].target_ydegree
+                x: (gazeArr[_j4].relTime - startRelTime) * 1000,
+                y: gazeArr[_j4].target_ydegree
               });
               ydegreeChartArr.push({
-                x: (gazeArr[_j].relTime - startRelTime) * 1000,
-                y: gazeArr[_j].ydegree
+                x: (gazeArr[_j4].relTime - startRelTime) * 1000,
+                y: gazeArr[_j4].ydegree
               });
             }
           }
@@ -421,15 +652,15 @@ var SaccadeView = function SaccadeView(_ref2) {
           var target_xdegreeChartArr = [];
           var xdegreeChartArr = [];
 
-          for (var _j2 = 0; _j2 < gazeArr.length; _j2++) {
-            if (gazeArr[_j2].relTime >= startRelTime && gazeArr[_j2].relTime <= endRelTime) {
+          for (var _j5 = 0; _j5 < gazeArr.length; _j5++) {
+            if (gazeArr[_j5].relTime >= startRelTime && gazeArr[_j5].relTime <= endRelTime) {
               target_xdegreeChartArr.push({
-                x: (gazeArr[_j2].relTime - startRelTime) * 1000,
-                y: gazeArr[_j2].target_xdegree
+                x: (gazeArr[_j5].relTime - startRelTime) * 1000,
+                y: gazeArr[_j5].target_xdegree
               });
               xdegreeChartArr.push({
-                x: (gazeArr[_j2].relTime - startRelTime) * 1000,
-                y: gazeArr[_j2].xdegree
+                x: (gazeArr[_j5].relTime - startRelTime) * 1000,
+                y: gazeArr[_j5].xdegree
               });
             }
           }
@@ -440,15 +671,15 @@ var SaccadeView = function SaccadeView(_ref2) {
 
         var blkChartArr = [];
 
-        for (var _j3 = 0; _j3 < task.blinkArr.length; _j3++) {
-          if (task.blinkArr[_j3].BLKS >= endRelTime) {// console.log("찾음",task.blinkArr[j].BLKS)
-          } else if (task.blinkArr[_j3].BLKS >= startRelTime && task.blinkArr[_j3].BLKS + task.blinkArr[_j3].BLKD >= endRelTime) {
+        for (var _j6 = 0; _j6 < task.blinkArr.length; _j6++) {
+          if (task.blinkArr[_j6].BLKS >= endRelTime) {// console.log("찾음",task.blinkArr[j].BLKS)
+          } else if (task.blinkArr[_j6].BLKS >= startRelTime && task.blinkArr[_j6].BLKS + task.blinkArr[_j6].BLKD >= endRelTime) {
             blkChartArr.push({
-              x: (task.blinkArr[_j3].BLKS - startRelTime) * 1000,
+              x: (task.blinkArr[_j6].BLKS - startRelTime) * 1000,
               y: 0
             });
             blkChartArr.push({
-              x: (task.blinkArr[_j3].BLKS - startRelTime) * 1000,
+              x: (task.blinkArr[_j6].BLKS - startRelTime) * 1000,
               y: 1
             });
             blkChartArr.push({
@@ -459,24 +690,24 @@ var SaccadeView = function SaccadeView(_ref2) {
               x: endRelTime * 1000,
               y: 0
             });
-          } else if (task.blinkArr[_j3].BLKS - startRelTime >= 0) {
+          } else if (task.blinkArr[_j6].BLKS - startRelTime >= 0) {
             blkChartArr.push({
-              x: (task.blinkArr[_j3].BLKS - startRelTime) * 1000,
+              x: (task.blinkArr[_j6].BLKS - startRelTime) * 1000,
               y: 0
             });
             blkChartArr.push({
-              x: (task.blinkArr[_j3].BLKS - startRelTime) * 1000,
+              x: (task.blinkArr[_j6].BLKS - startRelTime) * 1000,
               y: 1
             });
             blkChartArr.push({
-              x: (task.blinkArr[_j3].BLKS + task.blinkArr[_j3].BLKD - startRelTime) * 1000,
+              x: (task.blinkArr[_j6].BLKS + task.blinkArr[_j6].BLKD - startRelTime) * 1000,
               y: 1
             });
             blkChartArr.push({
-              x: (task.blinkArr[_j3].BLKS + task.blinkArr[_j3].BLKD - startRelTime) * 1000,
+              x: (task.blinkArr[_j6].BLKS + task.blinkArr[_j6].BLKD - startRelTime) * 1000,
               y: 0
             });
-          } else if (task.blinkArr[_j3].BLKS - startRelTime <= 0 && task.blinkArr[_j3].BLKS + task.blinkArr[_j3].BLKD - startRelTime >= 0) {
+          } else if (task.blinkArr[_j6].BLKS - startRelTime <= 0 && task.blinkArr[_j6].BLKS + task.blinkArr[_j6].BLKD - startRelTime >= 0) {
             blkChartArr.push({
               x: 0,
               y: 0
@@ -486,11 +717,11 @@ var SaccadeView = function SaccadeView(_ref2) {
               y: 1
             });
             blkChartArr.push({
-              x: (task.blinkArr[_j3].BLKS + task.blinkArr[_j3].BLKD - startRelTime) * 1000,
+              x: (task.blinkArr[_j6].BLKS + task.blinkArr[_j6].BLKD - startRelTime) * 1000,
               y: 1
             });
             blkChartArr.push({
-              x: (task.blinkArr[_j3].BLKS + task.blinkArr[_j3].BLKD - startRelTime) * 1000,
+              x: (task.blinkArr[_j6].BLKS + task.blinkArr[_j6].BLKD - startRelTime) * 1000,
               y: 0
             });
           }
@@ -1532,7 +1763,7 @@ var SaccadeView = function SaccadeView(_ref2) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, "\uB0B4\uC810\uC218\uB3C4\uC5C6\uACE0, \uADF8\uB8F9\uC810\uC218\uB3C4\uC5C6\uB2E4")), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
     style: {
       width: '850px'
@@ -1898,31 +2129,31 @@ var PursuitView = function PursuitView(_ref3) {
             } else if (gazeArr[j].relTime * 1 < task.duration * 1 + task.startWaitTime * 1) {
               var nowDegree = -((task.startDegree - task.endDegree) * (gazeArr[j].relTime - task.startWaitTime) / task.duration - task.startDegree);
 
-              var _cosTheta3 = Math.cos(nowDegree * radian);
+              var _cosTheta5 = Math.cos(nowDegree * radian);
 
-              var _sineTheta3 = Math.sin(nowDegree * radian);
+              var _sineTheta5 = Math.sin(nowDegree * radian);
 
-              target_pixels.x = task.centerCoord.x + radius * _cosTheta3 * MONITOR_PX_PER_CM - w / 2;
-              target_pixels.y = task.centerCoord.y - radius * _sineTheta3 * MONITOR_PX_PER_CM - h / 2;
+              target_pixels.x = task.centerCoord.x + radius * _cosTheta5 * MONITOR_PX_PER_CM - w / 2;
+              target_pixels.y = task.centerCoord.y - radius * _sineTheta5 * MONITOR_PX_PER_CM - h / 2;
             } else {
-              var _cosTheta4 = Math.cos(task.endDegree * radian);
+              var _cosTheta6 = Math.cos(task.endDegree * radian);
 
-              var _sineTheta4 = Math.sin(task.endDegree * radian);
+              var _sineTheta6 = Math.sin(task.endDegree * radian);
 
-              target_pixels.x = task.centerCoord.x + radius * _cosTheta4 * MONITOR_PX_PER_CM - w / 2;
-              target_pixels.y = task.centerCoord.y - radius * _sineTheta4 * MONITOR_PX_PER_CM - h / 2;
+              target_pixels.x = task.centerCoord.x + radius * _cosTheta6 * MONITOR_PX_PER_CM - w / 2;
+              target_pixels.y = task.centerCoord.y - radius * _sineTheta6 * MONITOR_PX_PER_CM - h / 2;
             }
 
-            var _target_xcm2 = target_pixels.x / pixel_per_cm;
+            var _target_xcm3 = target_pixels.x / pixel_per_cm;
 
-            var _target_ycm2 = target_pixels.y / pixel_per_cm;
+            var _target_ycm3 = target_pixels.y / pixel_per_cm;
 
-            var _target_xdegree2 = _target_xcm2 * degree_per_cm;
+            var _target_xdegree3 = _target_xcm3 * degree_per_cm;
 
-            var _target_ydegree2 = _target_ycm2 * degree_per_cm;
+            var _target_ydegree3 = _target_ycm3 * degree_per_cm;
 
-            gazeArr[j].target_xdegree = _target_xdegree2;
-            gazeArr[j].target_ydegree = _target_ydegree2;
+            gazeArr[j].target_xdegree = _target_xdegree3;
+            gazeArr[j].target_ydegree = _target_ydegree3;
           }
 
           if (gazeArr[j].RPOGV) {
@@ -1946,15 +2177,15 @@ var PursuitView = function PursuitView(_ref3) {
 
         var blkChartArr = [];
 
-        for (var _j4 = 0; _j4 < task.blinkArr.length; _j4++) {
-          if (task.blinkArr[_j4].BLKS >= endRelTime) {// console.log("찾음",task.blinkArr[j].BLKS)
-          } else if (task.blinkArr[_j4].BLKS >= startRelTime && task.blinkArr[_j4].BLKS + task.blinkArr[_j4].BLKD >= endRelTime) {
+        for (var _j7 = 0; _j7 < task.blinkArr.length; _j7++) {
+          if (task.blinkArr[_j7].BLKS >= endRelTime) {// console.log("찾음",task.blinkArr[j].BLKS)
+          } else if (task.blinkArr[_j7].BLKS >= startRelTime && task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD >= endRelTime) {
             blkChartArr.push({
-              x: (task.blinkArr[_j4].BLKS - startRelTime) * 1000,
+              x: (task.blinkArr[_j7].BLKS - startRelTime) * 1000,
               y: 0
             });
             blkChartArr.push({
-              x: (task.blinkArr[_j4].BLKS - startRelTime) * 1000,
+              x: (task.blinkArr[_j7].BLKS - startRelTime) * 1000,
               y: 1
             });
             blkChartArr.push({
@@ -1965,24 +2196,24 @@ var PursuitView = function PursuitView(_ref3) {
               x: endRelTime * 1000,
               y: 0
             });
-          } else if (task.blinkArr[_j4].BLKS - startRelTime >= 0) {
+          } else if (task.blinkArr[_j7].BLKS - startRelTime >= 0) {
             blkChartArr.push({
-              x: (task.blinkArr[_j4].BLKS - startRelTime) * 1000,
+              x: (task.blinkArr[_j7].BLKS - startRelTime) * 1000,
               y: 0
             });
             blkChartArr.push({
-              x: (task.blinkArr[_j4].BLKS - startRelTime) * 1000,
+              x: (task.blinkArr[_j7].BLKS - startRelTime) * 1000,
               y: 1
             });
             blkChartArr.push({
-              x: (task.blinkArr[_j4].BLKS + task.blinkArr[_j4].BLKD - startRelTime) * 1000,
+              x: (task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime) * 1000,
               y: 1
             });
             blkChartArr.push({
-              x: (task.blinkArr[_j4].BLKS + task.blinkArr[_j4].BLKD - startRelTime) * 1000,
+              x: (task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime) * 1000,
               y: 0
             });
-          } else if (task.blinkArr[_j4].BLKS - startRelTime <= 0 && task.blinkArr[_j4].BLKS + task.blinkArr[_j4].BLKD - startRelTime >= 0) {
+          } else if (task.blinkArr[_j7].BLKS - startRelTime <= 0 && task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime >= 0) {
             blkChartArr.push({
               x: 0,
               y: 0
@@ -1992,11 +2223,11 @@ var PursuitView = function PursuitView(_ref3) {
               y: 1
             });
             blkChartArr.push({
-              x: (task.blinkArr[_j4].BLKS + task.blinkArr[_j4].BLKD - startRelTime) * 1000,
+              x: (task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime) * 1000,
               y: 1
             });
             blkChartArr.push({
-              x: (task.blinkArr[_j4].BLKS + task.blinkArr[_j4].BLKD - startRelTime) * 1000,
+              x: (task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime) * 1000,
               y: 0
             });
           }
@@ -2891,16 +3122,18 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       up_saccade_delay: 0.3695645000000004,
       up_saccade_speed: 246.871934245693936,
       left_antisaccade_delay: 0.42823249999999987,
-      right_antisaccade_delay: 0.4170207500000001
+      right_antisaccade_delay: 0.4170207500000001,
+      avgErrFrequencyRatio: 0.125,
+      avgErrTime: 0.01229166666666666
     };
   }, []);
 
-  var barChartData = _react.default.useMemo(function () {
+  var delayBarChartData = _react.default.useMemo(function () {
     return {
       labels: ['따라보기', '반대보기'],
       datasets: [{
         type: 'bar',
-        label: "my avg delay",
+        label: "me",
         data: [(data.analysis.left_saccade_delay + data.analysis.right_saccade_delay) * 500, (data.analysis.left_antisaccade_delay + data.analysis.right_antisaccade_delay) * 500],
         // backgroundColor: themeColors,
         backgroundColor: "red",
@@ -2909,7 +3142,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
         borderColor: "transparent"
       }, {
         type: 'bar',
-        label: "group avg delay",
+        label: "group",
         data: [(groupData.left_saccade_delay + groupData.right_saccade_delay) * 500, (groupData.left_antisaccade_delay + groupData.right_antisaccade_delay) * 500],
         // backgroundColor: themeColors,
         backgroundColor: "gray",
@@ -2920,7 +3153,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
     };
   }, [groupData, data]);
 
-  var barChartOption = _react.default.useMemo(function () {
+  var delayBarChartOption = _react.default.useMemo(function () {
     return {
       plugins: {
         datalabels: {
@@ -2945,7 +3178,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
         callbacks: {
           title: function title() {},
           label: function label(tooltipItems, data) {
-            console.log("tooltipItems", tooltipItems, data);
+            // console.log("tooltipItems", tooltipItems, data);
             var label = data.datasets[tooltipItems.datasetIndex].label;
             return label + "(평균) : " + tooltipItems.yLabel.toFixed(4) + " (ms)";
           }
@@ -3011,7 +3244,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       },
       maintainAspectRatio: false,
       title: {
-        display: true,
+        display: false,
         text: "평균 지체시간(delay)"
       },
       legend: {
@@ -3020,262 +3253,159 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
     };
   }, []);
 
-  var taskArr = _react.default.useMemo(function () {
-    var MONITOR_PX_PER_CM = data.monitorInform.MONITOR_PX_PER_CM;
-    var pixel_per_cm = data.monitorInform.MONITOR_PX_PER_CM; //1cm 당 pixel
-
-    var degree_per_cm = Math.atan(1 / data.defaultZ) * 180 / Math.PI;
-    var w = data.screenW;
-    var h = data.screenH;
-    var screeningObjectList = data.screeningObjectList;
-    var taskArr = {
-      left: [],
-      right: []
+  var errBarChartData = _react.default.useMemo(function () {
+    // console.log("groupData.avgErrFrequencyRatio",groupData.avgErrFrequencyRatio);
+    // console.log("data.analysis.avgErrTime/0.5", (data.analysis.avgErrTime/0.5));
+    return {
+      labels: ['오류 횟수', '평균 오류 시간'],
+      datasets: [{
+        type: 'bar',
+        label: "me",
+        data: [data.analysis.avgErrFrequencyRatio * 100, data.analysis.avgErrTime / 0.5 * 100],
+        // backgroundColor: themeColors,
+        backgroundColor: "red",
+        barPercentage: 0.8,
+        categoryPercentage: 0.5,
+        borderColor: "transparent"
+      }, {
+        type: 'bar',
+        label: "group",
+        data: [groupData.avgErrFrequencyRatio * 100, groupData.avgErrTime / 0.5 * 100],
+        // backgroundColor: themeColors,
+        backgroundColor: "gray",
+        barPercentage: 0.8,
+        categoryPercentage: 0.5,
+        borderColor: "transparent"
+      }]
     };
+  }, [groupData, data]);
 
-    for (var i = 0; i < screeningObjectList.length; i++) {
-      taskArr[screeningObjectList[i].analysis.direction].push(_objectSpread(_objectSpread({}, screeningObjectList[i]), {}, {
-        gazeData: data.taskArr[i],
-        analysis: data.analysisArr[i]
-      }));
-    }
-
-    for (var key in taskArr) {
-      for (var _i4 = 0; _i4 < taskArr[key].length; _i4++) {
-        var task = taskArr[key][_i4];
-        var type = task.type;
-        var gazeArr = task.gazeData;
-        var blink_arr = get_blink_arr(gazeArr);
-        task.blinkArr = blink_arr; // % 로되어있는걸 degree 로 변환작업, 중점이 0,0 x,y degree
-
-        for (var j = 0; j < gazeArr.length; j++) {
-          var target_pixels = {
-            x: null,
-            y: null
-          };
-
-          if (type === "teleport") {
-            //2~5 고정임
-            if (gazeArr[j].relTime * 1 < task.startWaitTime * 1) {
-              target_pixels.x = task.startCoord.x - w / 2;
-              target_pixels.y = task.startCoord.y - h / 2;
-            } else if (gazeArr[j].relTime * 1 < task.duration * 1 + task.startWaitTime * 1) {
-              target_pixels.x = task.endCoord.x - w / 2;
-              target_pixels.y = task.endCoord.y - h / 2;
-            } else {
-              if (task.isReturn) {
-                target_pixels.x = task.startCoord.x - w / 2;
-                target_pixels.y = task.startCoord.y - h / 2;
-              } else {
-                target_pixels.x = task.endCoord.x - w / 2;
-                target_pixels.y = task.endCoord.y - h / 2;
-              }
-            }
-
-            var target_xcm = target_pixels.x / pixel_per_cm;
-            var target_ycm = target_pixels.y / pixel_per_cm;
-            var target_xdegree = target_xcm * degree_per_cm;
-            var target_ydegree = target_ycm * degree_per_cm;
-            gazeArr[j].target_xdegree = target_xdegree;
-            gazeArr[j].target_ydegree = target_ydegree;
-          } else if (type === "circular") {
-            var radian = Math.PI / 180;
-            var radius = task.radius;
-
-            if (gazeArr[j].relTime * 1 < task.startWaitTime) {
-              var cosTheta = Math.cos(task.startDegree * radian);
-              var sineTheta = Math.sin(task.startDegree * radian);
-              target_pixels.x = task.centerCoord.x + radius * cosTheta * MONITOR_PX_PER_CM - w / 2;
-              target_pixels.y = task.centerCoord.y - radius * sineTheta * MONITOR_PX_PER_CM - h / 2;
-            } else if (gazeArr[j].relTime * 1 < task.duration * 1 + task.startWaitTime * 1) {
-              var nowDegree = -((task.startDegree - task.endDegree) * (gazeArr[j].relTime - task.startWaitTime) / task.duration - task.startDegree);
-
-              var _cosTheta5 = Math.cos(nowDegree * radian);
-
-              var _sineTheta5 = Math.sin(nowDegree * radian);
-
-              target_pixels.x = task.centerCoord.x + radius * _cosTheta5 * MONITOR_PX_PER_CM - w / 2;
-              target_pixels.y = task.centerCoord.y - radius * _sineTheta5 * MONITOR_PX_PER_CM - h / 2;
-            } else {
-              var _cosTheta6 = Math.cos(task.endDegree * radian);
-
-              var _sineTheta6 = Math.sin(task.endDegree * radian);
-
-              target_pixels.x = task.centerCoord.x + radius * _cosTheta6 * MONITOR_PX_PER_CM - w / 2;
-              target_pixels.y = task.centerCoord.y - radius * _sineTheta6 * MONITOR_PX_PER_CM - h / 2;
-            }
-
-            var _target_xcm3 = target_pixels.x / pixel_per_cm;
-
-            var _target_ycm3 = target_pixels.y / pixel_per_cm;
-
-            var _target_xdegree3 = _target_xcm3 * degree_per_cm;
-
-            var _target_ydegree3 = _target_ycm3 * degree_per_cm;
-
-            gazeArr[j].target_xdegree = _target_xdegree3;
-            gazeArr[j].target_ydegree = _target_ydegree3;
-          }
-
-          if (gazeArr[j].RPOGV) {
-            var xpixel = (gazeArr[j].RPOGX - 0.5) * w;
-            var ypixel = (gazeArr[j].RPOGY - 0.5) * h;
-            var xcm = xpixel / pixel_per_cm;
-            var ycm = ypixel / pixel_per_cm;
-            var xdegree = xcm * degree_per_cm;
-            var ydegree = ycm * degree_per_cm;
-            gazeArr[j].xdegree = xdegree;
-            gazeArr[j].ydegree = ydegree;
-          } else {
-            gazeArr[j].xdegree = null;
-            gazeArr[j].ydegree = null;
-          }
-        } // const startRelTime = task.startWaitTime - 1;
-        // const endRelTime = task.relativeEndTime - task.endWaitTime-1.5;
-
-
-        var startRelTime = task.startWaitTime - 0.5;
-        var endRelTime = task.relativeEndTime - task.endWaitTime - 2;
-
-        if (key === 'top' || key === 'bottom') {
-          var target_ydegreeChartArr = [];
-          var ydegreeChartArr = [];
-
-          for (var _j5 = 0; _j5 < gazeArr.length; _j5++) {
-            if (gazeArr[_j5].relTime >= startRelTime && gazeArr[_j5].relTime <= endRelTime) {
-              target_ydegreeChartArr.push({
-                x: (gazeArr[_j5].relTime - startRelTime) * 1000,
-                y: gazeArr[_j5].target_ydegree
-              });
-              ydegreeChartArr.push({
-                x: (gazeArr[_j5].relTime - startRelTime) * 1000,
-                y: gazeArr[_j5].ydegree
-              });
-            }
-          }
-
-          task.target_ydegreeChartArr = target_ydegreeChartArr;
-          task.ydegreeChartArr = ydegreeChartArr;
-        } else {
-          //right || left
-          var target_xdegreeChartArr = [];
-          var xdegreeChartArr = [];
-
-          for (var _j6 = 0; _j6 < gazeArr.length; _j6++) {
-            if (gazeArr[_j6].relTime >= startRelTime && gazeArr[_j6].relTime <= endRelTime) {
-              target_xdegreeChartArr.push({
-                x: (gazeArr[_j6].relTime - startRelTime) * 1000,
-                y: gazeArr[_j6].target_xdegree
-              });
-              xdegreeChartArr.push({
-                x: (gazeArr[_j6].relTime - startRelTime) * 1000,
-                y: gazeArr[_j6].xdegree
-              });
-            }
-          }
-
-          task.target_xdegreeChartArr = target_xdegreeChartArr;
-          task.xdegreeChartArr = xdegreeChartArr;
+  var errBarChartOption = _react.default.useMemo(function () {
+    return {
+      plugins: {
+        datalabels: {
+          formatter: function formatter(value, ctx) {
+            // const isgroup =value.dataIndex===0?false:true;
+            // console.log("value",value,ctx);
+            // if(isgroup){
+            //     return "groupAvgErr\n"+value.toFixed(2);
+            // }
+            // else{
+            //     return "myAvgErr\n"+value.toFixed(2);
+            // }
+            return value.toFixed(1) + '%';
+          },
+          anchor: 'center',
+          align: 'center',
+          color: '#fff'
         }
-
-        var blkChartArr = [];
-
-        for (var _j7 = 0; _j7 < task.blinkArr.length; _j7++) {
-          if (task.blinkArr[_j7].BLKS >= endRelTime) {// console.log("찾음",task.blinkArr[j].BLKS)
-          } else if (task.blinkArr[_j7].BLKS >= startRelTime && task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD >= endRelTime) {
-            blkChartArr.push({
-              x: (task.blinkArr[_j7].BLKS - startRelTime) * 1000,
-              y: 0
-            });
-            blkChartArr.push({
-              x: (task.blinkArr[_j7].BLKS - startRelTime) * 1000,
-              y: 1
-            });
-            blkChartArr.push({
-              x: endRelTime * 1000,
-              y: 1
-            });
-            blkChartArr.push({
-              x: endRelTime * 1000,
-              y: 0
-            });
-          } else if (task.blinkArr[_j7].BLKS - startRelTime >= 0) {
-            blkChartArr.push({
-              x: (task.blinkArr[_j7].BLKS - startRelTime) * 1000,
-              y: 0
-            });
-            blkChartArr.push({
-              x: (task.blinkArr[_j7].BLKS - startRelTime) * 1000,
-              y: 1
-            });
-            blkChartArr.push({
-              x: (task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime) * 1000,
-              y: 1
-            });
-            blkChartArr.push({
-              x: (task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime) * 1000,
-              y: 0
-            });
-          } else if (task.blinkArr[_j7].BLKS - startRelTime <= 0 && task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime >= 0) {
-            blkChartArr.push({
-              x: 0,
-              y: 0
-            });
-            blkChartArr.push({
-              x: 0,
-              y: 1
-            });
-            blkChartArr.push({
-              x: (task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime) * 1000,
-              y: 1
-            });
-            blkChartArr.push({
-              x: (task.blinkArr[_j7].BLKS + task.blinkArr[_j7].BLKD - startRelTime) * 1000,
-              y: 0
-            });
+      },
+      tooltips: {
+        // mode: 'label',
+        callbacks: {
+          title: function title() {},
+          label: function label(tooltipItems, data) {
+            // console.log("tooltipItems", tooltipItems, data);
+            var label = data.datasets[tooltipItems.datasetIndex].label;
+            return label + "(평균) : " + tooltipItems.yLabel.toFixed(4) + " (%)";
           }
+        },
+        titleFontSize: 16,
+        bodyFontSize: 16
+      },
+      elements: {
+        rectangle: {
+          borderWidth: 1,
+          borderSkipped: "left"
+        },
+        line: {
+          fill: false
         }
-
-        task.blkChartArr = blkChartArr;
-        var latencyChart = {
-          s: (task.analysis.startTime - startRelTime) * 1000
-        };
-        task.latencyChart = latencyChart;
+      },
+      responsive: true,
+      responsiveAnimationDuration: 0,
+      animation: {
+        duration: 0
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+          gridLines: {
+            color: "transparent",
+            defaultFontStyle: "normal"
+          },
+          scaleLabel: {
+            defaultFontStyle: "normal",
+            display: false,
+            labelString: "???",
+            fontSize: 14,
+            fontStyle: "bold"
+          },
+          ticks: {
+            stepSize: 0.2,
+            max: 2,
+            min: 0,
+            fontSize: 14,
+            fontStyle: "bold"
+          }
+        }],
+        yAxes: [{
+          display: true,
+          gridLines: {
+            color: "transparent"
+          },
+          scaleLabel: {
+            display: true,
+            labelString: "percent(%)",
+            fontSize: 14,
+            fontStyle: "bold"
+          },
+          ticks: {
+            // stepSize: 2,
+            // max:30,
+            min: 0,
+            fontSize: 14,
+            fontStyle: "bold"
+          }
+        }]
+      },
+      maintainAspectRatio: false,
+      title: {
+        display: false,
+        text: "평균 오류비율(ratio)"
+      },
+      legend: {
+        display: true
       }
-    } // console.log("taskArr",taskArr);
+    };
+  }, []);
 
-
-    return taskArr;
+  var taskArr = _react.default.useMemo(function () {
+    console.log("antiSaccadeData", data);
+    var ta = dataToTaskArr(data);
+    console.log("ta", ta);
+    return ta;
   }, [data]);
 
   var antiSaccadeLeftChartOption = _react.default.useMemo(function () {
     var annotation = [];
     var leftTaskArr = taskArr.left;
-    var sum = 0;
-
-    for (var i = 0; i < leftTaskArr.length; i++) {
-      // console.log("bottomTaskArr",bottomTaskArr);
-      annotation.push({
-        drawTime: "afterDatasetsDraw",
-        // (default)
-        type: "box",
-        mode: "horizontal",
-        yScaleID: "degree",
-        xScaleID: "timeid",
-        // value: '7.5',
-        borderColor: "rgba(255,0,0,0.7)",
-        backgroundColor: "transparent",
-        borderWidth: 1,
-        xMin: leftTaskArr[i].latencyChart.s,
-        xMax: leftTaskArr[i].latencyChart.s,
-        yMin: -10,
-        yMax: 10
-      });
-      sum += leftTaskArr[i].latencyChart.s;
-    }
-
-    var avg = sum / leftTaskArr.length;
-    annotation.push({
+    annotation = [{
+      drawTime: "afterDatasetsDraw",
+      // (default)
+      type: "box",
+      mode: "horizontal",
+      yScaleID: "degree",
+      xScaleID: "timeid",
+      // value: '7.5',
+      borderColor: "rgba(255,0,0,0.7)",
+      backgroundColor: "transparent",
+      borderWidth: 1,
+      xMin: leftTaskArr[0].latencyChart.s,
+      xMax: leftTaskArr[0].latencyChart.s,
+      yMin: -10,
+      yMax: 10
+    }, {
       drawTime: "afterDatasetsDraw",
       // (default)
       type: "box",
@@ -3285,12 +3415,42 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       // value: '7.5',
       borderColor: "rgba(0,0,255,0.7)",
       backgroundColor: "transparent",
-      borderWidth: 3,
-      xMin: avg,
-      xMax: avg,
+      borderWidth: 1,
+      xMin: leftTaskArr[1].latencyChart.s,
+      xMax: leftTaskArr[1].latencyChart.s,
       yMin: -10,
       yMax: 10
-    });
+    }, {
+      drawTime: "afterDatasetsDraw",
+      // (default)
+      type: "box",
+      mode: "horizontal",
+      yScaleID: "degree",
+      xScaleID: "timeid",
+      // value: '7.5',
+      borderColor: "orange",
+      backgroundColor: "transparent",
+      borderWidth: 1,
+      xMin: leftTaskArr[2].latencyChart.s,
+      xMax: leftTaskArr[2].latencyChart.s,
+      yMin: -10,
+      yMax: 10
+    }, {
+      drawTime: "afterDatasetsDraw",
+      // (default)
+      type: "box",
+      mode: "horizontal",
+      yScaleID: "degree",
+      xScaleID: "timeid",
+      // value: '7.5',
+      borderColor: "pink",
+      backgroundColor: "transparent",
+      borderWidth: 1,
+      xMin: leftTaskArr[3].latencyChart.s,
+      xMax: leftTaskArr[3].latencyChart.s,
+      yMin: -10,
+      yMax: 10
+    }];
     annotation.push({
       drawTime: "afterDatasetsDraw",
       // (default)
@@ -3299,7 +3459,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       yScaleID: "degree",
       xScaleID: "timeid",
       // value: '7.5',
-      borderColor: "black",
+      borderColor: "gray",
       backgroundColor: "transparent",
       borderWidth: 3,
       xMin: (groupData.left_antisaccade_delay + 0.5) * 1000,
@@ -3513,31 +3673,22 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
   var antiSaccadeRightChartOption = _react.default.useMemo(function () {
     var annotation = [];
     var rightTaskArr = taskArr.right;
-    var sum = 0;
-
-    for (var i = 0; i < rightTaskArr.length; i++) {
-      // console.log("bottomTaskArr",bottomTaskArr);
-      annotation.push({
-        drawTime: "afterDatasetsDraw",
-        // (default)
-        type: "box",
-        mode: "horizontal",
-        yScaleID: "degree",
-        xScaleID: "timeid",
-        // value: '7.5',
-        borderColor: "rgba(255,0,0,0.7)",
-        backgroundColor: "transparent",
-        borderWidth: 1,
-        xMin: rightTaskArr[i].latencyChart.s,
-        xMax: rightTaskArr[i].latencyChart.s,
-        yMin: -10,
-        yMax: 10
-      });
-      sum += rightTaskArr[i].latencyChart.s;
-    }
-
-    var avg = sum / rightTaskArr.length;
-    annotation.push({
+    annotation = [{
+      drawTime: "afterDatasetsDraw",
+      // (default)
+      type: "box",
+      mode: "horizontal",
+      yScaleID: "degree",
+      xScaleID: "timeid",
+      // value: '7.5',
+      borderColor: "rgba(255,0,0,0.7)",
+      backgroundColor: "transparent",
+      borderWidth: 1,
+      xMin: rightTaskArr[0].latencyChart.s,
+      xMax: rightTaskArr[0].latencyChart.s,
+      yMin: -10,
+      yMax: 10
+    }, {
       drawTime: "afterDatasetsDraw",
       // (default)
       type: "box",
@@ -3547,12 +3698,60 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       // value: '7.5',
       borderColor: "rgba(0,0,255,0.7)",
       backgroundColor: "transparent",
-      borderWidth: 3,
-      xMin: avg,
-      xMax: avg,
+      borderWidth: 1,
+      xMin: rightTaskArr[1].latencyChart.s,
+      xMax: rightTaskArr[1].latencyChart.s,
       yMin: -10,
       yMax: 10
-    });
+    }, {
+      drawTime: "afterDatasetsDraw",
+      // (default)
+      type: "box",
+      mode: "horizontal",
+      yScaleID: "degree",
+      xScaleID: "timeid",
+      // value: '7.5',
+      borderColor: "orange",
+      backgroundColor: "transparent",
+      borderWidth: 1,
+      xMin: rightTaskArr[2].latencyChart.s,
+      xMax: rightTaskArr[2].latencyChart.s,
+      yMin: -10,
+      yMax: 10
+    }, {
+      drawTime: "afterDatasetsDraw",
+      // (default)
+      type: "box",
+      mode: "horizontal",
+      yScaleID: "degree",
+      xScaleID: "timeid",
+      // value: '7.5',
+      borderColor: "pink",
+      backgroundColor: "transparent",
+      borderWidth: 1,
+      xMin: rightTaskArr[3].latencyChart.s,
+      xMax: rightTaskArr[3].latencyChart.s,
+      yMin: -10,
+      yMax: 10
+    }]; // for (let i = 0; i < rightTaskArr.length; i++) {
+    //     // console.log("bottomTaskArr",bottomTaskArr);
+    //     annotation.push({
+    //         drawTime: "afterDatasetsDraw", // (default)
+    //         type: "box",
+    //         mode: "horizontal",
+    //         yScaleID: "degree",
+    //         xScaleID: "timeid",
+    //         // value: '7.5',
+    //         borderColor: "rgba(255,0,0,0.7)",
+    //         backgroundColor: "transparent",
+    //         borderWidth: 1,
+    //         xMin: rightTaskArr[i].latencyChart.s,
+    //         xMax: rightTaskArr[i].latencyChart.s,
+    //         yMin: -10,
+    //         yMax: 10
+    //     });
+    // }
+
     annotation.push({
       drawTime: "afterDatasetsDraw",
       // (default)
@@ -3561,7 +3760,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       yScaleID: "degree",
       xScaleID: "timeid",
       // value: '7.5',
-      borderColor: "black",
+      borderColor: "gray",
       backgroundColor: "transparent",
       borderWidth: 3,
       xMin: (groupData.right_antisaccade_delay + 0.5) * 1000,
@@ -3756,6 +3955,434 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
     };
   }, [taskArr]);
 
+  var saccadeTaskArr = _react.default.useMemo(function () {
+    var taskArr = dataToTaskArr(data.saccadeData);
+    console.log("taskArr", taskArr);
+    return taskArr;
+  }, [data]);
+
+  var saccadeLeftChartOption = _react.default.useMemo(function () {
+    var annotation = [];
+    var leftTaskArr = saccadeTaskArr.left;
+
+    for (var i = 0; i < leftTaskArr.length; i++) {
+      // console.log("bottomTaskArr",bottomTaskArr);
+      annotation.push({
+        drawTime: "afterDatasetsDraw",
+        // (default)
+        type: "box",
+        mode: "horizontal",
+        yScaleID: "degree",
+        xScaleID: "timeid",
+        // value: '7.5',
+        borderColor: i === 0 ? "rgba(255,0,0,0.7)" : "rgba(0,0,255,0.7)",
+        backgroundColor: "transparent",
+        borderWidth: 1,
+        xMin: leftTaskArr[i].latencyChart.s,
+        xMax: leftTaskArr[i].latencyChart.s,
+        yMin: -10,
+        yMax: 10
+      }); // annotation.push({
+      //     drawTime: "afterDatasetsDraw", // (default)
+      //     type: "box",
+      //     mode: "horizontal",
+      //     yScaleID: "degree",
+      //     xScaleID: "timeid",
+      //     // value: '7.5',
+      //     borderColor: i === 0 ? "rgba(255,0,0,0.7)" : "rgba(0,0,255,0.7)",
+      //     backgroundColor: "transparent",
+      //     borderWidth: 1,
+      //     xMin: leftTaskArr[i].latencyChart.e,
+      //     xMax: leftTaskArr[i].latencyChart.e,
+      //     yMin: -10,
+      //     yMax: 10
+      // });
+    } //groupData
+
+
+    annotation.push({
+      drawTime: "beforeDatasetsDraw",
+      // (default)
+      type: "box",
+      mode: "horizontal",
+      yScaleID: "degree",
+      xScaleID: "timeid",
+      // value: '7.5',
+      borderColor: 'gray',
+      backgroundColor: "transparent",
+      borderWidth: 3,
+      xMin: (0.5 + groupData.left_saccade_delay) * 1000,
+      xMax: (0.5 + groupData.left_saccade_delay) * 1000,
+      // xMax: (0.5 + groupData.left_saccade_delay + 7.63 / groupData.left_saccade_speed) * 1000,
+      yMin: -10,
+      yMax: 10
+    });
+    return {
+      plugins: {
+        datalabels: {
+          formatter: function formatter(value, ctx) {
+            return null;
+          },
+          anchor: 'center',
+          align: 'center',
+          color: '#000000'
+        }
+      },
+      annotation: {
+        events: ["click"],
+        annotations: annotation
+      },
+      maintainAspectRatio: false,
+      devicePixelRatio: window.devicePixelRatio * 3,
+      animation: {
+        duration: 0
+      },
+      tooltips: {
+        callbacks: {
+          title: function title(tooltipItem, data) {
+            return '';
+          }
+        }
+      },
+      scales: {
+        xAxes: [{
+          id: "timeid",
+          display: true,
+          // 실제시간 임시로 true//
+          type: 'time',
+          time: {
+            unit: 'mything',
+            displayFormats: {
+              mything: 'ss.SSS'
+            } ///////여기서조정해야함
+            // min: 0 * 1000,
+            // max: 1.5 * 1000,
+
+          },
+          //x축 숨기려면 이렇게
+          // gridLines: {
+          //     color: "rgba(0, 0, 0, 0)",
+          // },
+          scaleLabel: {
+            /////////////////x축아래 라벨
+            display: false,
+            labelString: 'Time(s)',
+            fontStyle: 'bold',
+            fontColor: "black"
+          },
+          ticks: {
+            source: 'data',
+            //auto,data,labels
+            // autoSkip: true,
+            // maxRotation: 0,
+            // major: {
+            //   enabled: true
+            // },
+            // stepSize: 10,
+            callback: customCallbackXtick,
+            min: 0,
+            max: 1.5 * 1000
+          }
+        }],
+        yAxes: [{
+          id: "degree",
+          position: 'left',
+          scaleLabel: {
+            /////////////////x축아래 라벨
+            display: true,
+            labelString: 'Position(d)',
+            fontStyle: 'bold',
+            fontColor: "black"
+          },
+          ticks: {
+            max: 10,
+            min: -10
+          },
+          gridLines: {
+            color: "rgba(0, 0, 0, 0)"
+          }
+        }, {
+          id: "ax_blink",
+          stepSize: 1,
+          position: 'left',
+          // 오른쪽의 Fixation 옆 Blink축
+          display: false,
+          ticks: {
+            max: 1
+          },
+          gridLines: {
+            color: "rgba(0, 0, 0, 0)"
+          }
+        }]
+      }
+    };
+  }, [saccadeTaskArr, groupData]);
+
+  var saccadeLeftData = _react.default.useMemo(function () {
+    return {
+      datasets: [{
+        //targety
+        data: saccadeTaskArr.left[0].target_xdegreeChartArr,
+        steppedLine: "before",
+        label: "targetH",
+        borderColor: "rgba(0,255,0,0.8)",
+        //"#0000ff",
+        backgroundColor: 'rgba(0,255,0,0.8)',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }, {
+        //eyex
+        data: saccadeTaskArr.left[0].xdegreeChartArr,
+        steppedLine: "before",
+        label: "gazeH1",
+        borderColor: "rgba(255,0,0,0.7)",
+        //"#0000ff",
+        backgroundColor: 'rgba(255,0,0,0.7)',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }, {
+        //eyex
+        data: saccadeTaskArr.left[1].xdegreeChartArr,
+        steppedLine: "before",
+        label: "gazeH2",
+        borderColor: "rgba(0,0,255,0.7)",
+        //"#0000ff",
+        backgroundColor: 'rgba(0,0,255,0.7)',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }]
+    };
+  }, [saccadeTaskArr]);
+
+  var saccadeRightChartOption = _react.default.useMemo(function () {
+    var annotation = [];
+    var rightTaskArr = saccadeTaskArr.right;
+
+    for (var i = 0; i < rightTaskArr.length; i++) {
+      // console.log("bottomTaskArr",bottomTaskArr);
+      annotation.push({
+        drawTime: "afterDatasetsDraw",
+        // (default)
+        type: "box",
+        mode: "horizontal",
+        yScaleID: "degree",
+        xScaleID: "timeid",
+        // value: '7.5',
+        borderColor: i === 0 ? "rgba(255,0,0,0.7)" : "rgba(0,0,255,0.7)",
+        backgroundColor: "transparent",
+        borderWidth: 1,
+        xMin: rightTaskArr[i].latencyChart.s,
+        xMax: rightTaskArr[i].latencyChart.s,
+        yMin: -10,
+        yMax: 10
+      }); // annotation.push({
+      //     drawTime: "afterDatasetsDraw", // (default)
+      //     type: "box",
+      //     mode: "horizontal",
+      //     yScaleID: "degree",
+      //     xScaleID: "timeid",
+      //     // value: '7.5',
+      //     borderColor: i === 0 ? "rgba(255,0,0,0.7)" : "rgba(0,0,255,0.7)",
+      //     backgroundColor: "transparent",
+      //     borderWidth: 1,
+      //     xMin: leftTaskArr[i].latencyChart.e,
+      //     xMax: leftTaskArr[i].latencyChart.e,
+      //     yMin: -10,
+      //     yMax: 10
+      // });
+    } //groupData
+
+
+    annotation.push({
+      drawTime: "beforeDatasetsDraw",
+      // (default)
+      type: "box",
+      mode: "horizontal",
+      yScaleID: "degree",
+      xScaleID: "timeid",
+      // value: '7.5',
+      borderColor: 'gray',
+      backgroundColor: "transparent",
+      borderWidth: 3,
+      xMin: (0.5 + groupData.right_saccade_delay) * 1000,
+      xMax: (0.5 + groupData.right_saccade_delay) * 1000,
+      // xMax: (0.5 + groupData.left_saccade_delay + 7.63 / groupData.left_saccade_speed) * 1000,
+      yMin: -10,
+      yMax: 10
+    });
+    return {
+      plugins: {
+        datalabels: {
+          formatter: function formatter(value, ctx) {
+            return null;
+          },
+          anchor: 'center',
+          align: 'center',
+          color: '#000000'
+        }
+      },
+      annotation: {
+        events: ["click"],
+        annotations: annotation
+      },
+      maintainAspectRatio: false,
+      devicePixelRatio: window.devicePixelRatio * 3,
+      animation: {
+        duration: 0
+      },
+      tooltips: {
+        callbacks: {
+          title: function title(tooltipItem, data) {
+            return '';
+          }
+        }
+      },
+      scales: {
+        xAxes: [{
+          id: "timeid",
+          display: true,
+          // 실제시간 임시로 true//
+          type: 'time',
+          time: {
+            unit: 'mything',
+            displayFormats: {
+              mything: 'ss.SSS'
+            } ///////여기서조정해야함
+            // min: 0 * 1000,
+            // max: 1.5 * 1000,
+
+          },
+          //x축 숨기려면 이렇게
+          // gridLines: {
+          //     color: "rgba(0, 0, 0, 0)",
+          // },
+          scaleLabel: {
+            /////////////////x축아래 라벨
+            display: false,
+            labelString: 'Time(s)',
+            fontStyle: 'bold',
+            fontColor: "black"
+          },
+          ticks: {
+            source: 'data',
+            //auto,data,labels
+            // autoSkip: true,
+            // maxRotation: 0,
+            // major: {
+            //   enabled: true
+            // },
+            // stepSize: 10,
+            callback: customCallbackXtick,
+            min: 0,
+            max: 1.5 * 1000
+          }
+        }],
+        yAxes: [{
+          id: "degree",
+          position: 'left',
+          scaleLabel: {
+            /////////////////x축아래 라벨
+            display: true,
+            labelString: 'Position(d)',
+            fontStyle: 'bold',
+            fontColor: "black"
+          },
+          ticks: {
+            max: 10,
+            min: -10
+          },
+          gridLines: {
+            color: "rgba(0, 0, 0, 0)"
+          }
+        }, {
+          id: "ax_blink",
+          stepSize: 1,
+          position: 'left',
+          // 오른쪽의 Fixation 옆 Blink축
+          display: false,
+          ticks: {
+            max: 1
+          },
+          gridLines: {
+            color: "rgba(0, 0, 0, 0)"
+          }
+        }]
+      }
+    };
+  }, [saccadeTaskArr, groupData]);
+
+  var saccadeRightData = _react.default.useMemo(function () {
+    return {
+      datasets: [{
+        //targety
+        data: saccadeTaskArr.right[0].target_xdegreeChartArr,
+        steppedLine: "before",
+        label: "targetH",
+        borderColor: "rgba(0,255,0,0.8)",
+        //"#0000ff",
+        backgroundColor: 'rgba(0,255,0,0.8)',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }, {
+        //eyex
+        data: saccadeTaskArr.right[0].xdegreeChartArr,
+        steppedLine: "before",
+        label: "gazeH1",
+        borderColor: "rgba(255,0,0,0.7)",
+        //"#0000ff",
+        backgroundColor: 'rgba(255,0,0,0.7)',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }, {
+        //eyex
+        data: saccadeTaskArr.right[1].xdegreeChartArr,
+        steppedLine: "before",
+        label: "gazeH2",
+        borderColor: "rgba(0,0,255,0.7)",
+        //"#0000ff",
+        backgroundColor: 'rgba(0,0,255,0.7)',
+        fill: false,
+        yAxisID: "degree",
+        xAxisID: "timeid",
+        borderWidth: 1.5,
+        pointRadius: 0.3,
+        //데이터 포인터크기
+        pointHoverRadius: 2 //hover 데이터포인터크기
+
+      }]
+    };
+  }, [saccadeTaskArr]);
+
   var _React$useState21 = _react.default.useState(true),
       _React$useState22 = _slicedToArray(_React$useState21, 2),
       showLeftward = _React$useState22[0],
@@ -3899,21 +4526,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
-  }, "\uBC29\uD5A5 \uC815\uD655\uC131"), /*#__PURE__*/_react.default.createElement("div", {
-    className: "cbox",
-    style: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }
-  }, "\uBC29\uD5A5\uC815\uD655\uC131\uAC11\uC2F1 \uC5C6\uC74C \uADF8\uB798\uD504 \uD45C\uD604\uBD88\uAC00")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "titleBox",
-    style: {
-      width: '420px'
-    }
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "title"
-  }, "\uC9C0\uCCB4\uC2DC\uAC04(delay)"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uC774\uB3D9\uBC29\uD5A5 \uC624\uB958(percent)"), /*#__PURE__*/_react.default.createElement("div", {
     className: "cbox",
     style: {
       display: 'flex',
@@ -3924,8 +4537,28 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
     type: "bar",
     height: null,
     width: null,
-    data: barChartData,
-    options: barChartOption
+    data: errBarChartData,
+    options: errBarChartOption
+  }))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "titleBox",
+    style: {
+      width: '420px'
+    }
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "title"
+  }, "\uD3C9\uADE0 \uC9C0\uCCB4\uC2DC\uAC04(latency)"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "cbox",
+    style: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+    type: "bar",
+    height: null,
+    width: null,
+    data: delayBarChartData,
+    options: delayBarChartOption
   })))), /*#__PURE__*/_react.default.createElement("div", {
     className: "row"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -4020,7 +4653,13 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
     className: "c_label"
   }, /*#__PURE__*/_react.default.createElement("strong", null, "Pro-saccade, Leftward")), /*#__PURE__*/_react.default.createElement("div", {
     className: "c_chart"
-  }, "11111"), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+    type: "line",
+    height: null,
+    width: null,
+    data: saccadeLeftData,
+    options: saccadeLeftChartOption
+  })), /*#__PURE__*/_react.default.createElement("div", {
     className: "c_avg"
   }, "\uC124\uBA851")), /*#__PURE__*/_react.default.createElement("div", {
     className: "cbox2w"
@@ -4028,7 +4667,13 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
     className: "c_label"
   }, /*#__PURE__*/_react.default.createElement("strong", null, "Pro-saccade, Rightward")), /*#__PURE__*/_react.default.createElement("div", {
     className: "c_chart"
-  }, "2222"), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+    type: "line",
+    height: null,
+    width: null,
+    data: saccadeRightData,
+    options: saccadeRightChartOption
+  })), /*#__PURE__*/_react.default.createElement("div", {
     className: "c_avg"
   }, "\uC124\uBA852"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "cbox2r"

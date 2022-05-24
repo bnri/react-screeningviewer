@@ -2,14 +2,15 @@ import React from 'react';
 import './App.css';
 import ScreeningViewer from './lib/ScreeningViewer';
 
-import _22 from './lib/datasample/22_saccade.json';
-import _45 from './lib/datasample/45_pursuit.json';
-import _11 from './lib/datasample/11_antisaccade.json';
+
+import _24 from './lib/datasample/24_saccade.json';
+import _46 from './lib/datasample/46_pursuit.json';
+import _14 from './lib/datasample/14_antisaccade.json';
 
 function App() {
 
   const dataArr = React.useMemo(()=>{
-    let da =[_22,_45,_11];
+    let da =[_24,_46,_14];
     for(let i = 0 ; i<da.length; i++){
       let newraw= da[i];
       if(newraw){
