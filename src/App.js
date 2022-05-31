@@ -3,14 +3,14 @@ import './App.css';
 import ScreeningViewer from './lib/ScreeningViewer';
 
 
-import _24 from './lib/datasample/24_saccade.json';
-import _46 from './lib/datasample/46_pursuit.json';
-import _14 from './lib/datasample/14_antisaccade.json';
+import _74 from './lib/datasample/74_saccade.json';
+import _80 from './lib/datasample/80_pursuit.json';
+import _53 from './lib/datasample/53_antisaccade.json';
 
 function App() {
 
   const dataArr = React.useMemo(()=>{
-    let da =[_24,_46,_14];
+    let da =[_74,_80,_53];
     for(let i = 0 ; i<da.length; i++){
       let newraw= da[i];
       if(newraw){
@@ -51,7 +51,7 @@ function App() {
   return (
     <div className="App">
 
-      샘플데이터는 22_saccade,45_pursuit,11_antisaccade 을 넣어봄
+      샘플데이터는 74_saccade,80_pursuit,53_antisaccade 을 넣어봄
       <button onClick={()=>set_showViewer(true)}>open</button>
       {showViewer===true&&
         <ScreeningViewer dataArr={dataArr} 

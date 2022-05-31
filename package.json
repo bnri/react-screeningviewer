@@ -12,7 +12,7 @@
   "module": "dist/ScreeningViewer.js",
   "main": "dist/ScreeningViewer.js",
   "dependencies": {
-    "react-gazeviewer": "^1.0.18"
+    "react-gazeviewer": "^1.0.19"
   },
   "scripts": {
     "start": "react-scripts start",
