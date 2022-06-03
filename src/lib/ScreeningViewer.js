@@ -3,12 +3,47 @@ import './ScreeningViewer.scss';
 import { imgbase64forPDF } from './img/base64';
 
 import ChartComponent from "react-chartjs-2"
+import { Line } from "react-chartjs-2";
 import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
 import "chartjs-plugin-datalabels";
 import "chartjs-plugin-annotation";
 
 import GazeViewer from "react-gazeviewer";
 
+const getGaussianMyPercent = function(mean, std,x) {
+    
+    // let variance = std*std;
+
+    var erfc = function(x) {
+        var z = Math.abs(x);
+        var t = 1 / (1 + z / 2);
+        var r = t * Math.exp(-z * z - 1.26551223 + t * (1.00002368 +
+                t * (0.37409196 + t * (0.09678418 + t * (-0.18628806 +
+                t * (0.27886807 + t * (-1.13520398 + t * (1.48851587 +
+                t * (-0.82215223 + t * 0.17087277)))))))))
+        return x >= 0 ? r : 2 - r;
+      };
+    let cdf = 0.5 * erfc(-(x - mean) / (std * Math.sqrt(2)));
+
+    // return {
+    //     cdf: cdf,
+    //     myPercent: ((1- cdf) * 100).toFixed(2)*1
+    // }
+    return ((1- cdf) * 100).toFixed(2)*1;
+}
+
+function getGaussian(std, avg, xArr) {
+    let a = 1 / (Math.sqrt(2 * Math.PI) * std);
+    let b = Math.E;
+    let yArr = [];
+    for (let i = 0; i < xArr.length; i++) {
+        let x = xArr[i];
+        let c = -  ((Math.pow((x - avg), 2)) / (2 * Math.pow(std, 2)));
+        let y = a * Math.pow(b, c);
+        yArr.push(y*1000);
+    }
+    return yArr;
+}
 
 function get_blink_arr(obj) {
     let rawGaze = obj;
@@ -315,10 +350,216 @@ function dataToTaskArr(data){
     return taskArr;
 }
 
+const BarChartGrade = ({...props})=>{
+    const {myScore,avgGroupScore,stdGroupScore} = props;
+
+    const chartOption = React.useMemo(()=>{
+        return {
+            plugins: {
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        return null;
+                        //return value !== 0 ? value.toLocaleString(/* ... */) : ''
+                    },
+                    anchor: 'center',
+                    align: 'center',
+                    color: '#000000'
+                },
+            },
+            maintainAspectRatio: false,
+            // devicePixelRatio: window.devicePixelRatio * 3,
+            annotation: {
+                annotations:[
+                    {
+                        drawTime: "afterDatasetsDraw",
+                        type: 'line',
+                        mode: 'vertical',
+                        scaleID: "x1",
+                        value: myScore,
+                        borderColor: 'red',
+                        borderWidth: 1,
+                        label: {
+                          content: '내점수 : '+(myScore*1).toFixed(1)+'점',
+                          enabled: true,
+                          fontSize: 12,
+                          position: "top"
+                        },
+                    },
+                    {
+                        drawTime: "afterDatasetsDraw",
+                        type: 'line',
+                        mode: 'vertical',
+                        scaleID: "x1",
+    
+                        value: avgGroupScore,
+                        borderColor: 'green',
+                        /*borderDash: [2,6], */
+    
+                        borderWidth: 1,
+                        label: {
+                          content: "그룹평균 : "+(avgGroupScore*1).toFixed(1)+'점',
+                          enabled: true,
+                          fontSize: 12,
+                          position: "middle"
+                        },
+                      },
+                      {
+                        drawTime: "afterDatasetsDraw",
+                        type: 'line',
+                        mode: 'vertical',
+                        scaleID: "x1",
+    
+                        value: avgGroupScore-stdGroupScore,
+                        borderColor: 'green',
+                        borderDash: [2,6],
+                        borderWidth: 1,
+                        label: {
+                          content: "Q1",
+                          enabled: false,
+                          fontSize: 8,
+                          position: "top"
+                        },
+                      },
+                      {
+                        drawTime: "afterDatasetsDraw",
+                        type: 'line',
+                        mode: 'vertical',
+                        scaleID: "x1",
+                        value: avgGroupScore+stdGroupScore,
+                        borderColor: 'green',
+                        borderDash: [2,6],
+                        borderWidth: 1,
+                        label: {
+                          content: "Q3",
+                          enabled: false,
+                          fontSize: 8,
+                          position: "top"
+                        },
+                      },
+                ]
+            },  
+            animation: {
+                duration: 0,
+            },
+            tooltips: {
+                callbacks: {
+    
+                    title: function (tooltipItem, data) {
+                        return '';
+                    }
+                }
+            },
+            legend:{
+              display:false,
+                labels:{
+                    fontSize:14,
+                }
+    
+            },
+            scales: {
+                xAxes: [
+                    {
+                        id: "x1",
+                        display: true,       // 실제시간 임시로 true//
+                        type: 'linear',
+    
+                        gridLines: {
+                            display:true,
+                            color: "rgba(0, 0, 0, 0)",
+                        },
+                        ticks: {
+                            source: 'data', //auto,data,labels
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: '부족                                  우수',
+                            fontSize:15,
+                        },
+                    }
+                ],
+                yAxes: [
+                    {
+                        id: "y1",
+                        position: 'left',
+                        gridLines: {
+                            display:true,
+                            color: "rgba(0, 0, 0, 0)",
+                        },
+                        scaleLabel: { /////////////////x축아래 라벨
+                            display: true,
+                            labelString: '비율 (%)',
+                            //fontStyle: 'bold',
+                            fontSize:15,
+                        },
+                    },
+                ]
+            },
+    
+        }
+    },[myScore,avgGroupScore,stdGroupScore])
+    const chartData = React.useMemo(()=>{
+        let groupavg = avgGroupScore;
+        let groupstd = stdGroupScore?stdGroupScore:1;
+        // console.log("groupstd",groupstd);
+        let xarr = [];
+        for (let i = 0; i <= 100; i++) {
+            xarr.push(i);
+        }
+        let yarr = getGaussian(groupstd, groupavg, xarr);
+    
+    //    console.log(xarr);
+    //    console.log(yarr);
+    
+        let newdata =[];
+        for(let i = 0 ; i <=100 ; i++){
+            newdata.push({
+                x:xarr[i],
+                y:yarr[i]
+            });
+        };
+
+        let chartdata = {
+            datasets: [
+                {
+                    data: newdata,
+                    //steppedLine: "before",
+                    steppedLine:false,
+                    label: '',
+                   
+                    borderColor: "rgba(0,0,255,0.4)",//"#0000ff",
+                    backgroundColor: 'rgba(0,0,255,0.4)',
+                    fill: false,
+                    yAxisID: "y1",
+                    xAxisID: "x1",
+                    borderWidth: 1.5,
+                    pointRadius: 0, //데이터 포인터크기
+                    pointHoverRadius: 0, //hover 데이터포인터크기
+                }
+            ],
+        }
+        return chartdata;
+    },[avgGroupScore,stdGroupScore])
+    return (<>
+         <Line
+            
+            data={chartData} options={chartOption} ref={(reference) => {
+                //console.log("~~~~~~~~~~~~~");
+
+                //       console.log(reference);
+                //lineChart = reference;
+
+            }}
+
+        />
+    </>)
+}
 
 const ScreeningViewer = ({ ...props }) => {
     const { dataArr } = props;
     const { onClose } = props;
+    const {groupData,userInform} = props;
 
     const [selDataIndex, set_selDataIndex] = React.useState(0);
 
@@ -330,7 +571,33 @@ const ScreeningViewer = ({ ...props }) => {
             return null;
         }
     }, [dataArr, selDataIndex])
+    const targetGroupData = React.useMemo(()=>{
+        //groupData에서 알맞은 그룹을 찾아야함
+        const testeeMomentAge=Math.floor(userInform.testeeMomentAge);
+     
+        let target=null;
+        for(let i = 0 ; i <groupData.length; i++){
+            if(testeeMomentAge<7){
+                if (groupData[i].s_age === 0 && groupData[i].e_age === 7) {
 
+                    target = groupData[i];
+                    break;
+                }
+            }else if (testeeMomentAge >= 20) {
+                if (groupData[i].s_age === 20 && groupData[i].e_age === 1000) {
+                    target = groupData[i];
+                    break;
+                  }
+            }else {
+                if (groupData[i].s_age === testeeMomentAge && groupData[i].e_age === (testeeMomentAge + 1)) {
+                    target = groupData[i];
+                    break;
+                }
+            }
+        }
+        console.log("targetGroupData",target)
+        return target;
+    },[userInform,groupData]);
     return (<div className="ScreeningViewer">
         <div className="contents">
             <div className="leftbar no-drag">
@@ -352,14 +619,14 @@ const ScreeningViewer = ({ ...props }) => {
                 </div>
             </div>
             <div className="rightContents">
-                {selScreeningType === 'saccade' &&
-                    <SaccadeView data={dataArr[selDataIndex]} />
+                {selScreeningType === 'saccade' && targetGroupData&&
+                    <SaccadeView data={dataArr[selDataIndex]}  targetGroupData={targetGroupData} />
                 }
                 {selScreeningType === 'pursuit' &&
-                    <PursuitView data={dataArr[selDataIndex]} />
+                    <PursuitView data={dataArr[selDataIndex]} targetGroupData={targetGroupData}/>
                 }
                 {selScreeningType === 'antisaccade' &&
-                    <AntiSaccadeView data={dataArr[selDataIndex]} />
+                    <AntiSaccadeView data={dataArr[selDataIndex]} targetGroupData={targetGroupData}/>
                 }
             </div>
         </div>
@@ -368,29 +635,7 @@ const ScreeningViewer = ({ ...props }) => {
 
 
 const SaccadeView = ({ ...props }) => {
-    const { data } = props;
-
-
-    const groupData = React.useMemo(() => {
-        return {
-            down_fixation_stability: 0.04904507977451076,
-            down_saccade_delay: 0.37178149999999996,
-            down_saccade_speed: 271.22066192543087,
-            left_fixation_stability: 0.04501736333714864,
-            left_saccade_delay: 0.36730400000000017,
-            left_saccade_speed: 285.917055501673,
-            right_fixation_stability: 0.04455070458896356,
-            right_saccade_delay: 0.3669095,
-            right_saccade_speed: 271.7449265136197,
-            up_fixation_stability: 0.04707128434877034,
-            up_saccade_delay: 0.3695645000000004,
-            up_saccade_speed: 246.871934245693936
-
-
-        }
-    }, []);
-
-
+    const { data ,targetGroupData} = props;
 
     const radarChartOption = React.useMemo(() => {
         return {
@@ -801,8 +1046,8 @@ const SaccadeView = ({ ...props }) => {
             // borderColor: 'rgba(0,0,0,0.2)',
             backgroundColor: "rgba(0,0,0,0.2)",
             borderWidth: 1,
-            xMin: (0.5 + groupData.up_saccade_delay) * 1000,
-            xMax: (0.5 + groupData.up_saccade_delay + 7.63 / groupData.up_saccade_speed) * 1000,
+            xMin: (0.5 + targetGroupData.avg_up_saccade_delay) * 1000,
+            xMax: (0.5 + targetGroupData.avg_up_saccade_delay + 7.63 / targetGroupData.avg_up_saccade_speed) * 1000,
             yMin: -10,
             yMax: 10,
         });
@@ -929,7 +1174,7 @@ const SaccadeView = ({ ...props }) => {
             },
 
         };
-    }, [taskArr, groupData]);
+    }, [taskArr, targetGroupData]);
 
     const saccadeTopData = React.useMemo(() => {
         return {
@@ -1033,8 +1278,8 @@ const SaccadeView = ({ ...props }) => {
             // borderColor: 'rgba(0,0,0,0.2)',
             backgroundColor: "rgba(0,0,0,0.2)",
             borderWidth: 1,
-            xMin: (0.5 + groupData.down_saccade_delay) * 1000,
-            xMax: (0.5 + groupData.down_saccade_delay + 7.63 / groupData.down_saccade_speed) * 1000,
+            xMin: (0.5 + targetGroupData.avg_down_saccade_delay) * 1000,
+            xMax: (0.5 + targetGroupData.avg_down_saccade_delay + 7.63 / targetGroupData.avg_down_saccade_speed) * 1000,
             yMin: -10,
             yMax: 10,
         });
@@ -1145,7 +1390,7 @@ const SaccadeView = ({ ...props }) => {
             },
 
         };
-    }, [taskArr, groupData]);
+    }, [taskArr, targetGroupData]);
 
     const saccadeBottomData = React.useMemo(() => {
         return {
@@ -1249,8 +1494,8 @@ const SaccadeView = ({ ...props }) => {
             // borderColor: 'rgba(0,0,0,0.2)',
             backgroundColor: "rgba(0,0,0,0.2)",
             borderWidth: 1,
-            xMin: (0.5 + groupData.right_saccade_delay) * 1000,
-            xMax: (0.5 + groupData.right_saccade_delay + 7.63 / groupData.right_saccade_speed) * 1000,
+            xMin: (0.5 + targetGroupData.avg_right_saccade_delay) * 1000,
+            xMax: (0.5 + targetGroupData.avg_right_saccade_delay + 7.63 / targetGroupData.avg_right_saccade_speed) * 1000,
             yMin: -10,
             yMax: 10,
         });
@@ -1360,7 +1605,7 @@ const SaccadeView = ({ ...props }) => {
             },
 
         };
-    }, [taskArr, groupData]);
+    }, [taskArr, targetGroupData]);
 
     const saccadeRightData = React.useMemo(() => {
         return {
@@ -1463,8 +1708,8 @@ const SaccadeView = ({ ...props }) => {
             // borderColor: 'rgba(0,0,0,0.2)',
             backgroundColor: "rgba(0,0,0,0.2)",
             borderWidth: 1,
-            xMin: (0.5 + groupData.left_saccade_delay) * 1000,
-            xMax: (0.5 + groupData.left_saccade_delay + 7.63 / groupData.left_saccade_speed) * 1000,
+            xMin: (0.5 + targetGroupData.avg_left_saccade_delay) * 1000,
+            xMax: (0.5 + targetGroupData.avg_left_saccade_delay + 7.63 / targetGroupData.avg_left_saccade_speed) * 1000,
             yMin: -10,
             yMax: 10,
         });
@@ -1575,7 +1820,7 @@ const SaccadeView = ({ ...props }) => {
             },
 
         };
-    }, [taskArr, groupData]);
+    }, [taskArr, targetGroupData]);
 
     const saccadeLeftData = React.useMemo(() => {
         return {
@@ -1710,6 +1955,44 @@ const SaccadeView = ({ ...props }) => {
 
     const [showGazeViewer, set_showGazeViewer] = React.useState(false);
 
+    const myPercent = React.useMemo(()=>{
+        let x = data.analysis.saccade_score;
+        let avg = targetGroupData.avg_saccade_score;
+        let std = targetGroupData.std_saccade_score || 1;
+        let p =getGaussianMyPercent(avg,std,x);
+        // console.log("p",p);
+        return p;
+    },[data,targetGroupData]);
+
+    const myState = React.useMemo(()=>{
+        let mystate;
+        if (myPercent <= 10) {
+            mystate = '최우수'
+         
+
+        }
+        else if (myPercent > 10 && myPercent <= 25) {
+            mystate = '우수'
+         
+        
+        }
+        else if (myPercent > 25 && myPercent <= 75) {
+            mystate = "양호"
+      
+   
+        }
+        else if (myPercent > 75 && myPercent <= 90) {
+            mystate = "미흡"
+            
+          
+        }
+        else {
+            mystate = "주의"
+     
+          
+        }
+        return mystate;
+    },[myPercent])
     return (<div className="SaccadeView">
         <div className="row">
             <div className="titleBox">
@@ -1719,17 +2002,17 @@ const SaccadeView = ({ ...props }) => {
                 <div className="cbox">
                     <div style={{ height: '60%', display: 'flex' }}>
                         <div style={{ width: '55%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                            <img src={imgbase64forPDF["최우수"]} alt="" style={{ height: '50%' }} />
+                            <img src={imgbase64forPDF[myState]} alt="" style={{ height: '50%' }} />
 
                         </div>
                         <div style={{ width: '45%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', fontSize: '19px', fontWeight: '700', paddingLeft: '7px', paddingTop: '12px' }}>
-                            최우수
+                            {myState}
                         </div>
                     </div>
                     <div style={{ height: '40%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: '15px', borderTop: '1px solid #1A408E' }}>
                         <ul>
-                            <li>내 평균: x% (상위 x%)</li>
-                            <li>또래 평균 점수: x점</li>
+                            <li>내 점수: {data.analysis.saccade_score.toFixed(2)}점 (상위 {myPercent}%)</li>
+                            <li>또래 평균 점수: {targetGroupData.avg_saccade_score.toFixed(2)}점</li>
                             <li>전체 평균 점수: x점</li>
                         </ul>
                     </div>
@@ -1740,7 +2023,11 @@ const SaccadeView = ({ ...props }) => {
                     도약안구운동 점수 분포
                 </div>
                 <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                  
+                  <BarChartGrade
+                    myScore={data.analysis.saccade_score}
+                    avgGroupScore={targetGroupData.avg_saccade_score}
+                    stdGroupScore={targetGroupData.std_saccade_score}
+                    />
                 </div>
             </div>
             <div className="titleBox" style={{ width: '850px' }}>
@@ -1765,10 +2052,10 @@ const SaccadeView = ({ ...props }) => {
                                     borderColor: "rgba(255,0,0,0.6)",
                                     fill: false,
                                 }, {
-                                    data: [groupData.up_saccade_delay * 1000,
-                                    groupData.right_saccade_delay * 1000,
-                                    groupData.down_saccade_delay * 1000,
-                                    groupData.left_saccade_delay * 1000],
+                                    data: [targetGroupData.avg_up_saccade_delay * 1000,
+                                        targetGroupData.avg_right_saccade_delay * 1000,
+                                        targetGroupData.avg_down_saccade_delay * 1000,
+                                        targetGroupData.avg_left_saccade_delay * 1000],
                                     label: 'group Avg Latency time (ms)',
                                     // backgroundColor:'red',
                                     borderColor: "rgba(0,0,0,0.2)",
@@ -1796,10 +2083,10 @@ const SaccadeView = ({ ...props }) => {
                                     borderColor: "rgba(255,0,0,0.6)",
                                     fill: false,
                                 }, {
-                                    data: [groupData.up_saccade_speed,
-                                    groupData.right_saccade_speed,
-                                    groupData.down_saccade_speed,
-                                    groupData.left_saccade_speed],
+                                    data: [targetGroupData.avg_up_saccade_speed,
+                                        targetGroupData.avg_right_saccade_speed,
+                                        targetGroupData.avg_down_saccade_speed,
+                                        targetGroupData.avg_left_saccade_speed],
                                     label: 'group Avg Speed (degree/s)',
                                     // backgroundColor:'red',
                                     borderColor: "rgba(0,0,0,0.2)",
@@ -1826,10 +2113,10 @@ const SaccadeView = ({ ...props }) => {
                                     borderColor: "rgba(255,0,0,0.6)",
                                     fill: false,
                                 }, {
-                                    data: [groupData.up_fixation_stability,
-                                    groupData.right_fixation_stability,
-                                    groupData.down_fixation_stability,
-                                    groupData.left_fixation_stability],
+                                    data: [targetGroupData.avg_up_fixation_stability,
+                                        targetGroupData.avg_right_fixation_stability,
+                                        targetGroupData.avg_down_fixation_stability,
+                                        targetGroupData.avg_left_fixation_stability],
                                     label: 'group Avg fixation_err(degree)',
                                     // backgroundColor:'red',
                                     borderColor: "rgba(0,0,0,0.2)",
@@ -2007,18 +2294,12 @@ const SaccadeView = ({ ...props }) => {
 
 
 const PursuitView = ({ ...props }) => {
-    const { data } = props;
+    const { data,targetGroupData } = props;
     const [showGazeViewer, set_showGazeViewer] = React.useState(false);
 
 
 
-    const groupData = React.useMemo(() => {
-        return {
-            anticlockwise_err: 1.1755913592135074,
-            clockwise_err: 1.1537194245685808
-        }
-    }, []);
-
+ 
     const taskArr = React.useMemo(() => {
         // console.log(data);
         const MONITOR_PX_PER_CM = data.monitorInform.MONITOR_PX_PER_CM;
@@ -2683,7 +2964,7 @@ const PursuitView = ({ ...props }) => {
                 {
                     type: 'bar',
                     label: "group err",
-                    data: [groupData.clockwise_err, groupData.anticlockwise_err],
+                    data: [targetGroupData.avg_clockwise_err, targetGroupData.avg_anticlockwise_err],
                     // backgroundColor: themeColors,
                     backgroundColor: "gray",
                     barPercentage: 0.8,
@@ -2692,7 +2973,7 @@ const PursuitView = ({ ...props }) => {
                 }
             ]
         };
-    }, [groupData, data]);
+    }, [targetGroupData, data]);
 
     const barChartOption = React.useMemo(() => {
         return {
@@ -2812,6 +3093,45 @@ const PursuitView = ({ ...props }) => {
             }
         };
     }, []);
+
+    const myPercent = React.useMemo(()=>{
+        let x = data.analysis.pursuit_score;
+        let avg = targetGroupData.avg_pursuit_score;
+        let std = targetGroupData.std_pursuit_score || 1;
+        let p =getGaussianMyPercent(avg,std,x);
+        // console.log("p",p);
+        return p;
+    },[data,targetGroupData]);
+    const myState = React.useMemo(()=>{
+        let mystate;
+        if (myPercent <= 10) {
+            mystate = '최우수'
+         
+
+        }
+        else if (myPercent > 10 && myPercent <= 25) {
+            mystate = '우수'
+         
+        
+        }
+        else if (myPercent > 25 && myPercent <= 75) {
+            mystate = "양호"
+      
+   
+        }
+        else if (myPercent > 75 && myPercent <= 90) {
+            mystate = "미흡"
+            
+          
+        }
+        else {
+            mystate = "주의"
+     
+          
+        }
+        return mystate;
+    },[myPercent])
+    
     return (<div className="PursuitView">
         <div className="row">
             <div className="titleBox">
@@ -2821,17 +3141,17 @@ const PursuitView = ({ ...props }) => {
                 <div className="cbox">
                     <div style={{ height: '60%', display: 'flex' }}>
                         <div style={{ width: '55%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                            <img src={imgbase64forPDF["최우수"]} alt="" style={{ height: '50%' }} />
+                            <img src={imgbase64forPDF[myState]} alt="" style={{ height: '50%' }} />
 
                         </div>
                         <div style={{ width: '45%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', fontSize: '19px', fontWeight: '700', paddingLeft: '7px', paddingTop: '12px' }}>
-                            최우수
+                            {myState}
                         </div>
                     </div>
                     <div style={{ height: '40%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: '15px', borderTop: '1px solid #1A408E' }}>
                         <ul>
-                            <li>내 평균: x% (상위 x%)</li>
-                            <li>또래 평균 점수: x점</li>
+                            <li>내 평균: {data.analysis.pursuit_score.toFixed(2)}점 (상위 {myPercent}%)</li>
+                            <li>또래 평균 점수: {targetGroupData.avg_pursuit_score.toFixed(2)}점</li>
                             <li>전체 평균 점수: x점</li>
                         </ul>
                     </div>
@@ -2842,7 +3162,11 @@ const PursuitView = ({ ...props }) => {
                     추적안구운동 점수 분포
                 </div>
                 <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    내점수도없고, 그룹점수도없다
+                    <BarChartGrade
+                    myScore={data.analysis.pursuit_score}
+                    avgGroupScore={targetGroupData.avg_pursuit_score}
+                    stdGroupScore={targetGroupData.std_pursuit_score}
+                    />
                 </div>
             </div>
             <div className="titleBox" style={{ width: '850px' }}>
@@ -2986,30 +3310,11 @@ const PursuitView = ({ ...props }) => {
 }
 
 const AntiSaccadeView = ({ ...props }) => {
-    const { data } = props;
+    const { data ,targetGroupData} = props;
 
     const [showGazeViewer, set_showGazeViewer] = React.useState(false);
     const transparentCanvasRef = React.useRef();
-    const groupData = React.useMemo(() => {
-        return {
-            down_fixation_stability: 0.04904507977451076,
-            down_saccade_delay: 0.37178149999999996,
-            down_saccade_speed: 271.22066192543087,
-            left_fixation_stability: 0.04501736333714864,
-            left_saccade_delay: 0.36730400000000017,
-            left_saccade_speed: 285.917055501673,
-            right_fixation_stability: 0.04455070458896356,
-            right_saccade_delay: 0.3669095,
-            right_saccade_speed: 271.7449265136197,
-            up_fixation_stability: 0.04707128434877034,
-            up_saccade_delay: 0.3695645000000004,
-            up_saccade_speed: 246.871934245693936,
-            left_antisaccade_delay: 0.42823249999999987,
-            right_antisaccade_delay: 0.4170207500000001,
-            avgErrFrequencyRatio: 0.125,
-            avgErrTime: 0.01229166666666666
-        }
-    }, []);
+
 
     const delayBarChartData = React.useMemo(() => {
         return {
@@ -3028,7 +3333,8 @@ const AntiSaccadeView = ({ ...props }) => {
                 {
                     type: 'bar',
                     label: "group",
-                    data: [(groupData.left_saccade_delay+groupData.right_saccade_delay) * 500, (groupData.left_antisaccade_delay+groupData.right_antisaccade_delay) * 500],
+                    data: [(targetGroupData.avg_left_saccade_delay+targetGroupData.avg_right_saccade_delay) * 500, 
+                        (targetGroupData.avg_left_antisaccade_delay+targetGroupData.avg_right_antisaccade_delay) * 500],
                     // backgroundColor: themeColors,
                     backgroundColor: "gray",
                     barPercentage: 0.8,
@@ -3038,7 +3344,7 @@ const AntiSaccadeView = ({ ...props }) => {
              
             ]
         };
-    }, [groupData, data]);
+    }, [targetGroupData, data]);
 
     const delayBarChartOption = React.useMemo(() => {
         return {
@@ -3173,7 +3479,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 {
                     type: 'bar',
                     label: "group",
-                    data: [groupData.avgErrFrequencyRatio*100, (groupData.avgErrTime/0.5*100)],
+                    data: [targetGroupData.avg_avgErrFrequencyRatio*100, (targetGroupData.avg_avgErrTime/0.5*100)],
                     // backgroundColor: themeColors,
                     backgroundColor: "gray",
                     barPercentage: 0.8,
@@ -3183,7 +3489,7 @@ const AntiSaccadeView = ({ ...props }) => {
              
             ]
         };
-    }, [groupData, data]);
+    }, [targetGroupData, data]);
 
     const errBarChartOption = React.useMemo(() => {
         return {
@@ -3300,9 +3606,9 @@ const AntiSaccadeView = ({ ...props }) => {
     }, []);
 
     const taskArr = React.useMemo(() => {
-        console.log("antiSaccadeData",data);
+        // console.log("antiSaccadeData",data);
         let ta = dataToTaskArr(data);
-        console.log("ta",ta);
+        // console.log("ta",ta);
         return ta;
     }, [data])
 
@@ -3387,8 +3693,8 @@ const AntiSaccadeView = ({ ...props }) => {
             borderColor: "gray",
             backgroundColor: "transparent",
             borderWidth: 3,
-            xMin: (groupData.left_antisaccade_delay + 0.5) * 1000,
-            xMax: (groupData.left_antisaccade_delay + 0.5) * 1000,
+            xMin: (targetGroupData.avg_left_antisaccade_delay + 0.5) * 1000,
+            xMax: (targetGroupData.avg_left_antisaccade_delay + 0.5) * 1000,
             yMin: -10,
             yMax: 10
         });
@@ -3519,7 +3825,7 @@ const AntiSaccadeView = ({ ...props }) => {
             },
 
         };
-    }, [taskArr, groupData]);
+    }, [taskArr, targetGroupData]);
 
 
     const antiSaccadeLeftData = React.useMemo(() => {
@@ -3690,8 +3996,8 @@ const AntiSaccadeView = ({ ...props }) => {
             borderColor: "gray",
             backgroundColor: "transparent",
             borderWidth: 3,
-            xMin: (groupData.right_antisaccade_delay + 0.5) * 1000,
-            xMax: (groupData.right_antisaccade_delay + 0.5) * 1000,
+            xMin: (targetGroupData.avg_right_antisaccade_delay + 0.5) * 1000,
+            xMax: (targetGroupData.avg_right_antisaccade_delay + 0.5) * 1000,
             yMin: -10,
             yMax: 10
         });
@@ -3804,7 +4110,7 @@ const AntiSaccadeView = ({ ...props }) => {
             },
 
         };
-    }, [taskArr, groupData]);
+    }, [taskArr, targetGroupData]);
 
 
     const antiSaccadeRightData = React.useMemo(() => {
@@ -3883,7 +4189,7 @@ const AntiSaccadeView = ({ ...props }) => {
  
     const saccadeTaskArr = React.useMemo(()=>{
         let taskArr=dataToTaskArr(data.saccadeData);
-        console.log("taskArr",taskArr);
+        // console.log("taskArr",taskArr);
         return taskArr;
     },[data]);
 
@@ -3944,8 +4250,8 @@ const AntiSaccadeView = ({ ...props }) => {
             borderColor: 'gray',
             backgroundColor: "transparent",
             borderWidth: 3,
-            xMin: (0.5 + groupData.left_saccade_delay) * 1000,
-            xMax: (0.5 + groupData.left_saccade_delay) * 1000,
+            xMin: (0.5 + targetGroupData.avg_left_saccade_delay) * 1000,
+            xMax: (0.5 + targetGroupData.avg_left_saccade_delay) * 1000,
             // xMax: (0.5 + groupData.left_saccade_delay + 7.63 / groupData.left_saccade_speed) * 1000,
             yMin: -10,
             yMax: 10,
@@ -4057,7 +4363,7 @@ const AntiSaccadeView = ({ ...props }) => {
             },
 
         };
-    }, [saccadeTaskArr, groupData]);
+    }, [saccadeTaskArr, targetGroupData]);
 
     const saccadeLeftData = React.useMemo(() => {
         return {
@@ -4160,8 +4466,8 @@ const AntiSaccadeView = ({ ...props }) => {
             borderColor: 'gray',
             backgroundColor: "transparent",
             borderWidth: 3,
-            xMin: (0.5 + groupData.right_saccade_delay) * 1000,
-            xMax: (0.5 + groupData.right_saccade_delay) * 1000,
+            xMin: (0.5 + targetGroupData.avg_right_saccade_delay) * 1000,
+            xMax: (0.5 + targetGroupData.avg_right_saccade_delay) * 1000,
             // xMax: (0.5 + groupData.left_saccade_delay + 7.63 / groupData.left_saccade_speed) * 1000,
             yMin: -10,
             yMax: 10,
@@ -4273,7 +4579,7 @@ const AntiSaccadeView = ({ ...props }) => {
             },
 
         };
-    }, [saccadeTaskArr, groupData]);
+    }, [saccadeTaskArr, targetGroupData]);
 
     const saccadeRightData = React.useMemo(() => {
         return {
@@ -4395,6 +4701,44 @@ const AntiSaccadeView = ({ ...props }) => {
     }, [taskArr, drawTransparentCanvas])
 
 
+    const myPercent = React.useMemo(()=>{
+        let x = data.analysis.antisaccade_score;
+        let avg = targetGroupData.avg_antisaccade_score;
+        let std = targetGroupData.std_antisaccade_score || 1;
+        let p =getGaussianMyPercent(avg,std,x);
+        // console.log("p",p);
+        return p;
+    },[data,targetGroupData]);
+
+    const myState = React.useMemo(()=>{
+        let mystate;
+        if (myPercent <= 10) {
+            mystate = '최우수'
+         
+
+        }
+        else if (myPercent > 10 && myPercent <= 25) {
+            mystate = '우수'
+         
+        
+        }
+        else if (myPercent > 25 && myPercent <= 75) {
+            mystate = "양호"
+      
+   
+        }
+        else if (myPercent > 75 && myPercent <= 90) {
+            mystate = "미흡"
+            
+          
+        }
+        else {
+            mystate = "주의"
+     
+          
+        }
+        return mystate;
+    },[myPercent])
 
     return (<div className="AntiSaccadeView">
         <div className="row">
@@ -4405,17 +4749,17 @@ const AntiSaccadeView = ({ ...props }) => {
                 <div className="cbox">
                     <div style={{ height: '60%', display: 'flex' }}>
                         <div style={{ width: '55%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                            <img src={imgbase64forPDF["최우수"]} alt="" style={{ height: '50%' }} />
+                            <img src={imgbase64forPDF[myState]} alt="" style={{ height: '50%' }} />
 
                         </div>
                         <div style={{ width: '45%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', fontSize: '19px', fontWeight: '700', paddingLeft: '7px', paddingTop: '12px' }}>
-                            최우수
+                            {myState}
                         </div>
                     </div>
                     <div style={{ height: '40%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: '15px', borderTop: '1px solid #1A408E' }}>
                         <ul>
-                            <li>내 평균: x% (상위 x%)</li>
-                            <li>또래 평균 점수: x점</li>
+                            <li>내 평균: {data.analysis.antisaccade_score.toFixed(2)}점 (상위 {myPercent}%)</li>
+                            <li>또래 평균 점수: {targetGroupData.avg_antisaccade_score.toFixed(2)}점</li>
                             <li>전체 평균 점수: x점</li>
                         </ul>
                     </div>
@@ -4426,7 +4770,11 @@ const AntiSaccadeView = ({ ...props }) => {
                     반대로 보기 점수 분포
                 </div>
                 <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    내점수도없고, 그룹점수도없다
+                    <BarChartGrade
+                    myScore={data.analysis.antisaccade_score}
+                    avgGroupScore={targetGroupData.avg_antisaccade_score}
+                    stdGroupScore={targetGroupData.std_antisaccade_score}
+                    />
                 </div>
             </div>
             <div className="titleBox" style={{ width: '420px' }}>
