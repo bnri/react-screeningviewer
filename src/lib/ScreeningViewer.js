@@ -556,6 +556,51 @@ const BarChartGrade = ({...props})=>{
     </>)
 }
 
+const DownLoadPDF = ({...props})=>{
+    const {dataArr,targetGroupData,everyGroupData,AgencyLogoBase64,handlePDFstart} = props;
+
+    return (<div className="DownLoadPDF" style={{display:'flex'}}>
+        <div style={{width:'490px',marginRight:'10px'}}>
+             <div style={{marginTop:'10px',borderBottom:'1px solid #1a408e',padding:'10px'}}>
+                <div>
+                    PDF의 기관 로고 이미지
+                </div>
+                <div style={{height:'200px',backgroundColor:'gray',display:'flex',justifyContent:'center',alignItems:'center'}}>
+                    <img src={(AgencyLogoBase64?AgencyLogoBase64:imgbase64forPDF['기본로고'])}
+                        alt="" style={{ maxWidth: '150px',
+                            maxHeight: '150px',backgroundColor:'white'}}
+                    />
+                </div>
+                <div style={{cursor:'default',marginTop:'10px'}}>
+                    <ul>
+                        <li>
+                            로고 이미지를 등록 하시려면 <span className="mh" onClick={()=>{
+                                //   history.push('/setting/pay');
+                            }}>계정설정</span>에서 이미지를 설정하십시오. 
+                        </li>
+                        <li>
+                            로고 이미지를 변경 하신뒤에 로그아웃 후 재 로그인 해 주세요.
+                        </li>
+                        <li>
+                            가능한 가로 세로의 길이가 같은 이미지를 등록해 주세요.
+                        </li>
+                        <li>
+                            gif파일은 PDF변환 기관로고 이미지로 동작하지 않습니다.
+                        </li>
+                    </ul>
+ 
+                </div>
+                <div style={{padding:'10px',display:'flex',justifyContent:'center',alignItems:'center'}}>
+                    <button className="StartMakingPDF-btn" onClick={handlePDFstart}>보고서 다운받기 및 미리보기</button>
+                </div>
+            </div>
+            </div>
+            <div style={{ width: '900px', height: '750px', outline: '2px solid #1A408E' }}>
+            오른쪽
+            </div>
+    </div>)
+}
+
 const ScreeningViewer = ({ ...props }) => {
     const { dataArr } = props;
     const { onClose } = props;
@@ -564,7 +609,10 @@ const ScreeningViewer = ({ ...props }) => {
     const [selDataIndex, set_selDataIndex] = React.useState(0);
 
     const selScreeningType = React.useMemo(() => {
-        if (dataArr && dataArr[selDataIndex]) {
+        if(selDataIndex===dataArr.length){
+            return "보고서 다운로드"
+        }
+        else if (dataArr && dataArr[selDataIndex]) {
             return dataArr[selDataIndex].screeningType;
         }
         else {
@@ -598,6 +646,14 @@ const ScreeningViewer = ({ ...props }) => {
         console.log("targetGroupData",target)
         return target;
     },[userInform,groupData]);
+
+    const everyGroupData = React.useMemo(()=>{
+
+        return groupData[groupData.length-1];
+    },[groupData])
+    const handlePDFstart = ()=>{
+        
+    }
     return (<div className="ScreeningViewer">
         <div className="contents">
             <div className="leftbar no-drag">
@@ -614,19 +670,42 @@ const ScreeningViewer = ({ ...props }) => {
                         {data.screeningType}
                     </div>)
                 })}
+                {dataArr&&selDataIndex!==null&&
+                    (()=>{
+                        let cn = "oneLeftBarList";
+
+                        if(selDataIndex === dataArr.length){
+                            cn += " selected"
+                        }
+
+                        return (<div className={cn} style={{marginTop:'10px'}}key={"oneLeftBar"+(dataArr.length)}
+                             onClick={()=>{
+                                set_selDataIndex(dataArr.length)
+                             }}>
+                                보고서 다운로드
+                            </div>)
+                    })()
+                }
+            
                 <div className="oneLeftBarList" style={{ marginTop: '5px' }} onClick={onClose} >
                     나가기
                 </div>
             </div>
             <div className="rightContents">
                 {selScreeningType === 'saccade' && targetGroupData&&
-                    <SaccadeView data={dataArr[selDataIndex]}  targetGroupData={targetGroupData} />
+                    <SaccadeView data={dataArr[selDataIndex]}  targetGroupData={targetGroupData} everyGroupData={everyGroupData}/>
                 }
                 {selScreeningType === 'pursuit' &&
-                    <PursuitView data={dataArr[selDataIndex]} targetGroupData={targetGroupData}/>
+                    <PursuitView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData}/>
                 }
                 {selScreeningType === 'antisaccade' &&
-                    <AntiSaccadeView data={dataArr[selDataIndex]} targetGroupData={targetGroupData}/>
+                    <AntiSaccadeView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData}/>
+                }
+                {selScreeningType==="보고서 다운로드" &&
+                    <DownLoadPDF dataArr={dataArr} 
+                        handlePDFstart={handlePDFstart}
+                          targetGroupData={targetGroupData} everyGroupData={everyGroupData}
+                    />
                 }
             </div>
         </div>
@@ -635,7 +714,7 @@ const ScreeningViewer = ({ ...props }) => {
 
 
 const SaccadeView = ({ ...props }) => {
-    const { data ,targetGroupData} = props;
+    const { data ,targetGroupData , everyGroupData} = props;
 
     const radarChartOption = React.useMemo(() => {
         return {
@@ -1194,7 +1273,7 @@ const SaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.top[0].ydegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gazeV1",
                     borderColor: "rgba(255,0,0,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(255,0,0,0.7)',
@@ -1207,7 +1286,7 @@ const SaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.top[1].ydegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine:false,
                     label: "gazeV2",
                     borderColor: "rgba(0,0,255,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(0,0,255,0.7)',
@@ -1410,7 +1489,7 @@ const SaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.bottom[0].ydegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gazeV1",
                     borderColor: "rgba(255,0,0,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(255,0,0,0.7)',
@@ -1423,7 +1502,7 @@ const SaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.bottom[1].ydegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gazeV2",
                     borderColor: "rgba(0,0,255,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(0,0,255,0.7)',
@@ -1625,7 +1704,7 @@ const SaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.right[0].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gazeH1",
                     borderColor: "rgba(255,0,0,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(255,0,0,0.7)',
@@ -1638,7 +1717,7 @@ const SaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.right[1].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gazeH2",
                     borderColor: "rgba(0,0,255,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(0,0,255,0.7)',
@@ -1840,7 +1919,7 @@ const SaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.left[0].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine:false,
                     label: "gazeH1",
                     borderColor: "rgba(255,0,0,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(255,0,0,0.7)',
@@ -1853,7 +1932,7 @@ const SaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.left[1].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gazeH2",
                     borderColor: "rgba(0,0,255,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(0,0,255,0.7)',
@@ -1993,6 +2072,8 @@ const SaccadeView = ({ ...props }) => {
         }
         return mystate;
     },[myPercent])
+
+    
     return (<div className="SaccadeView">
         <div className="row">
             <div className="titleBox">
@@ -2013,7 +2094,7 @@ const SaccadeView = ({ ...props }) => {
                         <ul>
                             <li>내 점수: {data.analysis.saccade_score.toFixed(2)}점 (상위 {myPercent}%)</li>
                             <li>또래 평균 점수: {targetGroupData.avg_saccade_score.toFixed(2)}점</li>
-                            <li>전체 평균 점수: x점</li>
+                            <li>전체 평균 점수: {everyGroupData.avg_saccade_score.toFixed(2)}점</li>
                         </ul>
                     </div>
                 </div>
@@ -2294,7 +2375,7 @@ const SaccadeView = ({ ...props }) => {
 
 
 const PursuitView = ({ ...props }) => {
-    const { data,targetGroupData } = props;
+    const { data,targetGroupData, everyGroupData } = props;
     const [showGazeViewer, set_showGazeViewer] = React.useState(false);
 
 
@@ -3152,7 +3233,7 @@ const PursuitView = ({ ...props }) => {
                         <ul>
                             <li>내 평균: {data.analysis.pursuit_score.toFixed(2)}점 (상위 {myPercent}%)</li>
                             <li>또래 평균 점수: {targetGroupData.avg_pursuit_score.toFixed(2)}점</li>
-                            <li>전체 평균 점수: x점</li>
+                            <li>전체 평균 점수: {everyGroupData.avg_pursuit_score.toFixed(2)}점</li>
                         </ul>
                     </div>
                 </div>
@@ -3310,7 +3391,7 @@ const PursuitView = ({ ...props }) => {
 }
 
 const AntiSaccadeView = ({ ...props }) => {
-    const { data ,targetGroupData} = props;
+    const { data ,targetGroupData, everyGroupData} = props;
 
     const [showGazeViewer, set_showGazeViewer] = React.useState(false);
     const transparentCanvasRef = React.useRef();
@@ -3834,6 +3915,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 { //targety
                     data: taskArr.left[0].target_xdegreeChartArr,
                     steppedLine: "before",
+
                     label: "targetH",
                     borderColor: "rgba(0,255,0,0.8)",//"#0000ff",
                     backgroundColor: 'rgba(0,255,0,0.8)',
@@ -3843,10 +3925,11 @@ const AntiSaccadeView = ({ ...props }) => {
                     borderWidth: 1.5,
                     pointRadius: 0.3, //데이터 포인터크기
                     pointHoverRadius: 2, //hover 데이터포인터크기
+        
                 },
                 { //eyex
                     data: taskArr.left[0].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gH1",
                     borderColor: "rgba(255,0,0,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(255,0,0,0.7)',
@@ -3859,7 +3942,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.left[1].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gH2",
                     borderColor: "rgba(0,0,255,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(0,0,255,0.7)',
@@ -3872,7 +3955,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.left[2].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gH3",
                     borderColor: "orange",//"#0000ff",
                     backgroundColor: 'orange',
@@ -3885,7 +3968,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.left[3].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gH4",
                     borderColor: "pink",//"#0000ff",
                     backgroundColor: 'pink',
@@ -4131,7 +4214,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.right[0].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gH1",
                     borderColor: "rgba(255,0,0,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(255,0,0,0.7)',
@@ -4144,7 +4227,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.right[1].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gH2",
                     borderColor: "rgba(0,0,255,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(0,0,255,0.7)',
@@ -4157,7 +4240,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.right[2].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gH3",
                     borderColor: "orange",//"#0000ff",
                     backgroundColor: 'orange',
@@ -4170,7 +4253,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.right[3].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gH4",
                     borderColor: "pink",//"#0000ff",
                     backgroundColor: 'pink',
@@ -4383,7 +4466,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: saccadeTaskArr.left[0].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gazeH1",
                     borderColor: "rgba(255,0,0,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(255,0,0,0.7)',
@@ -4396,7 +4479,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: saccadeTaskArr.left[1].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gazeH2",
                     borderColor: "rgba(0,0,255,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(0,0,255,0.7)',
@@ -4599,7 +4682,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: saccadeTaskArr.right[0].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gazeH1",
                     borderColor: "rgba(255,0,0,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(255,0,0,0.7)',
@@ -4612,7 +4695,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: saccadeTaskArr.right[1].xdegreeChartArr,
-                    steppedLine: "before",
+                    steppedLine: false,
                     label: "gazeH2",
                     borderColor: "rgba(0,0,255,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(0,0,255,0.7)',
@@ -4760,7 +4843,7 @@ const AntiSaccadeView = ({ ...props }) => {
                         <ul>
                             <li>내 평균: {data.analysis.antisaccade_score.toFixed(2)}점 (상위 {myPercent}%)</li>
                             <li>또래 평균 점수: {targetGroupData.avg_antisaccade_score.toFixed(2)}점</li>
-                            <li>전체 평균 점수: x점</li>
+                            <li>전체 평균 점수: {everyGroupData.avg_antisaccade_score.toFixed(2)}점</li>
                         </ul>
                     </div>
                 </div>
