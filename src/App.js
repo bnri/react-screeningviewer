@@ -1303,10 +1303,17 @@ function App() {
 
   const userInform = React.useMemo(()=>{
     return {
-      testeeMomentAge:20
+      testeeMomentAge:20,
+      testeeName:"가나다",
+      testeeID:"가나다id",
+      testeeClass:"개나리반"
     }
   },[])
-
+  const resultInform = React.useMemo(()=>{
+    return {
+      savetime:"2022-00-00 00:00:00"
+    }
+  },[])
   return (
     <div className="App">
 
@@ -1317,6 +1324,7 @@ function App() {
           groupData={groupData}
           onClose={() => set_showViewer(false)}
           userInform={userInform}
+          resultInform={resultInform}
         />
       }
 

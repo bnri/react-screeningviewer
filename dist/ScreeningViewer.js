@@ -1,5 +1,7 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,7 +13,7 @@ require("./ScreeningViewer.scss");
 
 var _base = require("./img/base64");
 
-var _reactChartjs = _interopRequireDefault(require("react-chartjs-2"));
+var _reactChartjs = _interopRequireWildcard(require("react-chartjs-2"));
 
 require("chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js");
 
@@ -20,6 +22,16 @@ require("chartjs-plugin-datalabels");
 require("chartjs-plugin-annotation");
 
 var _reactGazeviewer = _interopRequireDefault(require("react-gazeviewer"));
+
+var _reactIframe = _interopRequireDefault(require("react-iframe"));
+
+var _pdfmake = _interopRequireDefault(require("pdfmake/build/pdfmake"));
+
+var _vfs_fonts_jejumj_gd_cn = _interopRequireDefault(require("./vfs_fonts_jejumj_gd_cn.js"));
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42,6 +54,172 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var vfs = _vfs_fonts_jejumj_gd_cn.default.pdfMake.vfs; // console.log("vfs",vfs);
+
+_pdfmake.default.vfs = vfs;
+_pdfmake.default.fonts = {
+  '제주명조': {
+    normal: "jejumyungjo.ttf",
+    bold: "jejugothic.ttf",
+    italics: 'cjk.ttf'
+  }
+};
+_pdfmake.default.tableLayouts = {
+  showblackline: {
+    hLineWidth: function hLineWidth(i, node) {
+      if (i === 0 || i === node.table.body.length) {
+        //맨앞 맨뒤 
+        return 1;
+      }
+
+      return i === node.table.headerRows ? 1 : 1;
+    },
+    vLineWidth: function vLineWidth(i) {
+      return 1;
+    },
+    hLineColor: function hLineColor(i) {
+      var color = 'black'; // if(i===2) color='red';
+      // else if(i===3) color='blue';
+      // else if(i===4) color='green';
+
+      return color;
+    },
+    vLineColor: function vLineColor(i) {
+      var color = 'black'; // if(i===2) color='red';
+      // else if(i===3) color='blue';
+      // else if(i===4) color='green';
+
+      return color;
+    }
+  },
+  showline: {
+    hLineWidth: function hLineWidth(i, node) {
+      if (i === 0 || i === node.table.body.length) {
+        //맨앞 맨뒤 
+        return 1;
+      }
+
+      return i === node.table.headerRows ? 1 : 1;
+    },
+    vLineWidth: function vLineWidth(i) {
+      return 1;
+    },
+    hLineColor: function hLineColor(i) {
+      var color = '#1A408E'; // if(i===2) color='red';
+      // else if(i===3) color='blue';
+      // else if(i===4) color='green';
+
+      return color;
+    },
+    vLineColor: function vLineColor(i) {
+      var color = '#1A408E'; // if(i===2) color='red';
+      // else if(i===3) color='blue';
+      // else if(i===4) color='green';
+
+      return color;
+    }
+  },
+  hideline: {
+    hLineWidth: function hLineWidth(i, node) {
+      if (i === 0 || i === node.table.body.length) {
+        //맨앞 맨뒤 
+        return 0;
+      }
+
+      return i === node.table.headerRows ? 0 : 0;
+    },
+    vLineWidth: function vLineWidth(i) {
+      return 0;
+    },
+    hLineColor: function hLineColor(i) {
+      var color = '#1A408E'; // if(i===2) color='red';
+      // else if(i===3) color='blue';
+      // else if(i===4) color='green';
+
+      return color;
+    }
+  },
+  headerunderline: {
+    hLineWidth: function hLineWidth(i, node) {
+      if (i === 0 || i === node.table.body.length) {
+        return 0;
+      }
+
+      return i === node.table.headerRows ? 2 : 0;
+    },
+    hLineHeight: function hLineHeight(i, node) {
+      return 0;
+    },
+    vLineWidth: function vLineWidth(i) {
+      return 0;
+    },
+    hLineColor: function hLineColor(i) {
+      return '#1A408E'; //                  return i === 1 ? 'red' : '#aaa';
+    }
+  },
+  titletable: {
+    hLineWidth: function hLineWidth(i, node) {
+      if (i === 0 || i === node.table.body.length) {
+        return 0;
+      }
+
+      return i === node.table.headerRows ? 0 : 1;
+    },
+    vLineWidth: function vLineWidth(i) {
+      return 0;
+    },
+    hLineColor: function hLineColor(i) {
+      return '#1A408E'; // return '#7367f0';
+      // return i === 1 ? 'black' : 'black';
+    } //   paddingTop: function (i) {
+    //     return 40;
+    //   },
+    //   paddingLeft: function (i) {
+    //      return i === 0 ? 0 : 8;
+    //    },
+    //   paddingRight: function (i, node) {
+    //     return (i === node.table.widths.length - 1) ? 0 : 8;
+    //   }
+
+  }
+};
+
+var moment = require("moment-timezone");
+
+moment.tz.setDefault("Asia/Seoul");
+
+var getGaussianMyPercent = function getGaussianMyPercent(mean, std, x) {
+  // let variance = std*std;
+  var erfc = function erfc(x) {
+    var z = Math.abs(x);
+    var t = 1 / (1 + z / 2);
+    var r = t * Math.exp(-z * z - 1.26551223 + t * (1.00002368 + t * (0.37409196 + t * (0.09678418 + t * (-0.18628806 + t * (0.27886807 + t * (-1.13520398 + t * (1.48851587 + t * (-0.82215223 + t * 0.17087277)))))))));
+    return x >= 0 ? r : 2 - r;
+  };
+
+  var cdf = 0.5 * erfc(-(x - mean) / (std * Math.sqrt(2))); // return {
+  //     cdf: cdf,
+  //     myPercent: ((1- cdf) * 100).toFixed(2)*1
+  // }
+
+  return ((1 - cdf) * 100).toFixed(2) * 1;
+};
+
+function getGaussian(std, avg, xArr) {
+  var a = 1 / (Math.sqrt(2 * Math.PI) * std);
+  var b = Math.E;
+  var yArr = [];
+
+  for (var i = 0; i < xArr.length; i++) {
+    var x = xArr[i];
+    var c = -(Math.pow(x - avg, 2) / (2 * Math.pow(std, 2)));
+    var y = a * Math.pow(b, c);
+    yArr.push(y * 1000);
+  }
+
+  return yArr;
+}
 
 function get_blink_arr(obj) {
   var rawGaze = obj;
@@ -324,11 +502,211 @@ function dataToTaskArr(data) {
   return taskArr;
 }
 
-var ScreeningViewer = function ScreeningViewer(_ref) {
+var BarChartGrade = function BarChartGrade(_ref) {
   var props = _extends({}, _ref);
+
+  var myScore = props.myScore,
+      avgGroupScore = props.avgGroupScore,
+      stdGroupScore = props.stdGroupScore;
+
+  var chartOption = _react.default.useMemo(function () {
+    return {
+      plugins: {
+        datalabels: {
+          formatter: function formatter(value, ctx) {
+            return null; //return value !== 0 ? value.toLocaleString(/* ... */) : ''
+          },
+          anchor: 'center',
+          align: 'center',
+          color: '#000000'
+        }
+      },
+      maintainAspectRatio: false,
+      // devicePixelRatio: window.devicePixelRatio * 3,
+      annotation: {
+        annotations: [{
+          drawTime: "afterDatasetsDraw",
+          type: 'line',
+          mode: 'vertical',
+          scaleID: "x1",
+          value: myScore,
+          borderColor: 'red',
+          borderWidth: 1,
+          label: {
+            content: '내점수 : ' + (myScore * 1).toFixed(1) + '점',
+            enabled: true,
+            fontSize: 12,
+            position: "top"
+          }
+        }, {
+          drawTime: "afterDatasetsDraw",
+          type: 'line',
+          mode: 'vertical',
+          scaleID: "x1",
+          value: avgGroupScore,
+          borderColor: 'green',
+
+          /*borderDash: [2,6], */
+          borderWidth: 1,
+          label: {
+            content: "그룹평균 : " + (avgGroupScore * 1).toFixed(1) + '점',
+            enabled: true,
+            fontSize: 12,
+            position: "middle"
+          }
+        }, {
+          drawTime: "afterDatasetsDraw",
+          type: 'line',
+          mode: 'vertical',
+          scaleID: "x1",
+          value: avgGroupScore - stdGroupScore,
+          borderColor: 'green',
+          borderDash: [2, 6],
+          borderWidth: 1,
+          label: {
+            content: "Q1",
+            enabled: false,
+            fontSize: 8,
+            position: "top"
+          }
+        }, {
+          drawTime: "afterDatasetsDraw",
+          type: 'line',
+          mode: 'vertical',
+          scaleID: "x1",
+          value: avgGroupScore + stdGroupScore,
+          borderColor: 'green',
+          borderDash: [2, 6],
+          borderWidth: 1,
+          label: {
+            content: "Q3",
+            enabled: false,
+            fontSize: 8,
+            position: "top"
+          }
+        }]
+      },
+      animation: {
+        duration: 0
+      },
+      tooltips: {
+        callbacks: {
+          title: function title(tooltipItem, data) {
+            return '';
+          }
+        }
+      },
+      legend: {
+        display: false,
+        labels: {
+          fontSize: 14
+        }
+      },
+      scales: {
+        xAxes: [{
+          id: "x1",
+          display: true,
+          // 실제시간 임시로 true//
+          type: 'linear',
+          gridLines: {
+            display: true,
+            color: "rgba(0, 0, 0, 0)"
+          },
+          ticks: {
+            source: 'data',
+            //auto,data,labels
+            suggestedMin: 0,
+            suggestedMax: 100
+          },
+          scaleLabel: {
+            display: true,
+            labelString: '부족                                  우수',
+            fontSize: 15
+          }
+        }],
+        yAxes: [{
+          id: "y1",
+          position: 'left',
+          gridLines: {
+            display: true,
+            color: "rgba(0, 0, 0, 0)"
+          },
+          scaleLabel: {
+            /////////////////x축아래 라벨
+            display: true,
+            labelString: '비율 (%)',
+            //fontStyle: 'bold',
+            fontSize: 15
+          }
+        }]
+      }
+    };
+  }, [myScore, avgGroupScore, stdGroupScore]);
+
+  var chartData = _react.default.useMemo(function () {
+    var groupavg = avgGroupScore;
+    var groupstd = stdGroupScore ? stdGroupScore : 1; // console.log("groupstd",groupstd);
+
+    var xarr = [];
+
+    for (var i = 0; i <= 100; i++) {
+      xarr.push(i);
+    }
+
+    var yarr = getGaussian(groupstd, groupavg, xarr); //    console.log(xarr);
+    //    console.log(yarr);
+
+    var newdata = [];
+
+    for (var _i2 = 0; _i2 <= 100; _i2++) {
+      newdata.push({
+        x: xarr[_i2],
+        y: yarr[_i2]
+      });
+    }
+
+    ;
+    var chartdata = {
+      datasets: [{
+        data: newdata,
+        //steppedLine: "before",
+        steppedLine: false,
+        label: '',
+        borderColor: "rgba(0,0,255,0.4)",
+        //"#0000ff",
+        backgroundColor: 'rgba(0,0,255,0.4)',
+        fill: false,
+        yAxisID: "y1",
+        xAxisID: "x1",
+        borderWidth: 1.5,
+        pointRadius: 0,
+        //데이터 포인터크기
+        pointHoverRadius: 0 //hover 데이터포인터크기
+
+      }]
+    };
+    return chartdata;
+  }, [avgGroupScore, stdGroupScore]);
+
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_reactChartjs.Line, {
+    data: chartData,
+    options: chartOption,
+    ref: function ref(reference) {//console.log("~~~~~~~~~~~~~");
+      //       console.log(reference);
+      //lineChart = reference;
+    }
+  }));
+};
+
+var ScreeningViewer = function ScreeningViewer(_ref2) {
+  var props = _extends({}, _ref2);
 
   var dataArr = props.dataArr;
   var onClose = props.onClose;
+  var groupData = props.groupData,
+      userInform = props.userInform,
+      AgencyLogoBase64 = props.AgencyLogoBase64,
+      resultInform = props.resultInform;
 
   var _React$useState = _react.default.useState(0),
       _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -336,12 +714,373 @@ var ScreeningViewer = function ScreeningViewer(_ref) {
       set_selDataIndex = _React$useState2[1];
 
   var selScreeningType = _react.default.useMemo(function () {
-    if (dataArr && dataArr[selDataIndex]) {
+    if (selDataIndex === dataArr.length) {
+      return "보고서 다운로드";
+    } else if (dataArr && dataArr[selDataIndex]) {
       return dataArr[selDataIndex].screeningType;
     } else {
       return null;
     }
   }, [dataArr, selDataIndex]);
+
+  var targetGroupData = _react.default.useMemo(function () {
+    //groupData에서 알맞은 그룹을 찾아야함
+    var testeeMomentAge = Math.floor(userInform.testeeMomentAge);
+    var target = null;
+
+    for (var i = 0; i < groupData.length; i++) {
+      if (testeeMomentAge < 7) {
+        if (groupData[i].s_age === 0 && groupData[i].e_age === 7) {
+          target = groupData[i];
+          break;
+        }
+      } else if (testeeMomentAge >= 20) {
+        if (groupData[i].s_age === 20 && groupData[i].e_age === 1000) {
+          target = groupData[i];
+          break;
+        }
+      } else {
+        if (groupData[i].s_age === testeeMomentAge && groupData[i].e_age === testeeMomentAge + 1) {
+          target = groupData[i];
+          break;
+        }
+      }
+    } // console.log("targetGroupData",target)
+
+
+    return target;
+  }, [userInform, groupData]);
+
+  var everyGroupData = _react.default.useMemo(function () {
+    return groupData[groupData.length - 1];
+  }, [groupData]);
+
+  var _React$useState3 = _react.default.useState(null),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      isPDFing = _React$useState4[0],
+      set_isPDFing = _React$useState4[1];
+
+  var _React$useState5 = _react.default.useState(null),
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      docDefinition = _React$useState6[0],
+      set_docDefinition = _React$useState6[1];
+
+  var _React$useState7 = _react.default.useState(null),
+      _React$useState8 = _slicedToArray(_React$useState7, 2),
+      progressNow = _React$useState8[0],
+      set_progressNow = _React$useState8[1];
+
+  var _React$useState9 = _react.default.useState(null),
+      _React$useState10 = _slicedToArray(_React$useState9, 2),
+      PDFURL = _React$useState10[0],
+      set_PDFURL = _React$useState10[1];
+
+  var progressMax = _react.default.useMemo(function () {
+    if (!dataArr) return 0;
+    return dataArr.length;
+  }, [dataArr]);
+
+  var handlePDFstart = function handlePDFstart() {
+    set_progressNow(0);
+    set_isPDFing(true);
+    set_docDefinition({
+      pageSize: 'A4',
+      info: {
+        title: '진단 요약 결과',
+        author: 'bnri',
+        subject: '진단 요약 결과',
+        keywords: ''
+      },
+      background: function background(currentPage, pageCount) {
+        if (currentPage * 1 === 1) {
+          return [{
+            margin: [20, 26],
+            layout: 'headerunderline',
+            // optional
+            table: {
+              // headers are automatically repeated if the table spans over multiple pages
+              // you can declare how many rows should be treated as headers
+              headerRows: 1,
+              widths: ['*', '*'],
+              body: [[{
+                text: '',
+                margin: [0, 10, 0, 10],
+                border: [false, false, false, false]
+              }, {
+                text: ' ',
+                margin: [0, 10, 0, 10],
+                border: [false, false, false, false]
+              }], [{
+                text: '',
+                border: [false, false, false, false]
+              }, {
+                text: '',
+                border: [false, false, false, false]
+              }]]
+            }
+          }, {
+            image: 'readerseyeLogo',
+            //fit: [200, 200],
+            fit: [100, 180],
+            opacity: 1,
+            //흐림 배경이미지.
+            absolutePosition: {
+              x: 470,
+              y: 28
+            } //absolutePosition: { x: 550, y: 800 },
+
+          }, {
+            text: userInform && userInform.testeeName ? "".concat(userInform.testeeName, " (").concat(userInform.testeeID, ") ").concat(userInform.testeeClass) : "testeeName (testeeID) testeeClass",
+            bold: true,
+            // color: '#7367f0',
+            color: 'black',
+            absolutePosition: {
+              x: 46,
+              y: 41
+            }
+          }, {
+            text: resultInform && resultInform.savetime ? "".concat(resultInform.savetime) : "saveTime",
+            bold: true,
+            // color: '#7367f0',
+            color: 'black',
+            absolutePosition: {
+              x: 46,
+              y: 61
+            }
+          }];
+        } else {
+          return [{
+            margin: [20, 26],
+            layout: 'headerunderline',
+            // optional
+            table: {
+              // headers are automatically repeated if the table spans over multiple pages
+              // you can declare how many rows should be treated as headers
+              headerRows: 1,
+              widths: ['*', '*'],
+              body: [[{
+                text: '',
+                margin: [0, 10, 0, 10]
+              }, {
+                text: ' ',
+                margin: [0, 10, 0, 10]
+              }], ['', '']]
+            }
+          }, {
+            image: '학원로고',
+            // image: 'agencyLogo',
+            //fit: [200, 200],
+            fit: [20, 20],
+            opacity: 1,
+            //흐림 배경이미지.
+            absolutePosition: {
+              x: 21,
+              y: 37
+            } //absolutePosition: { x: 550, y: 800 },
+
+          }, {
+            text: userInform.agencyName ? userInform.agencyName : "agencyName",
+            bold: true,
+            // color: '#7367f0',
+            color: 'black',
+            absolutePosition: {
+              x: 46,
+              y: 41
+            }
+          }, {
+            image: 'readerseyeLogo',
+            //fit: [200, 200],
+            fit: [100, 180],
+            opacity: 1,
+            //흐림 배경이미지.
+            absolutePosition: {
+              x: 470,
+              y: 28
+            } //absolutePosition: { x: 550, y: 800 },
+
+          }];
+        }
+      },
+      footer: function footer(currentPage, pageCount) {
+        if (currentPage === 1) {
+          return null;
+        }
+
+        return {
+          table: {
+            widths: [600, 100],
+            body: [[{
+              text: currentPage - 1 + ' / ' + (pageCount - 1),
+              alignment: 'center',
+              fontSize: 10
+            }]]
+          },
+          layout: 'noBorders'
+        };
+      },
+      compress: true,
+      //압축 저용량
+      content: [{
+        name: 'mainpage',
+        margin: [30, 30, 30, 30],
+        table: {
+          widths: ['*', '*'],
+          headerRows: 1,
+          body: [[{
+            text: ' '
+          }, {
+            text: ' '
+          }], [{
+            margin: [10, 220, 10, 270],
+            text: "스크리닝 검사 리포트",
+            bold: true,
+            fontSize: 26,
+            alignment: 'center',
+            colSpan: 2
+          }], [{
+            margin: [10, 10, 10, 20],
+            text: moment().format('YYYY.MM.DD'),
+            alignment: 'center',
+            fontSize: 16,
+            colSpan: 2
+          }], [{
+            margin: [10, 20, 10, 10],
+            columns: [{
+              width: '*',
+              text: ''
+            }, {
+              width: 'auto',
+              image: '학원로고',
+              // image: 'agencyLogo',
+              //fit: [200, 200],
+              fit: [60, 60]
+            }, {
+              margin: [8, 20, 0, 0],
+              width: 'auto',
+              text: userInform.agencyName ? userInform.agencyName : "agencyName",
+              fontSize: 20,
+              bold: true
+            }, {
+              width: '*',
+              text: ''
+            }],
+            colSpan: 2
+          }]]
+        },
+        layout: {
+          hLineWidth: function hLineWidth(i, node) {
+            if (i === 0 || i === node.table.body.length) {
+              return 0;
+            }
+
+            return i === node.table.headerRows ? 0 : 0;
+          },
+          hLineHeight: function hLineHeight(i, node) {
+            return 2;
+          },
+          vLineWidth: function vLineWidth(i) {
+            return 0;
+          },
+          hLineColor: function hLineColor(i) {
+            return i === 1 ? 'black' : '#aaa';
+          }
+        },
+        pageBreak: 'after'
+      } //main page
+      ],
+      images: {
+        'readerseyeLogo': _base.imgbase64forPDF['리더스아이로고가로'],
+        '학원로고': AgencyLogoBase64 ? AgencyLogoBase64 : _base.imgbase64forPDF['기본로고'],
+        // defaultAgencyLogo: defaultagencylogo,
+        '최우수': _base.imgbase64forPDF['최우수'],
+        '우수': _base.imgbase64forPDF['우수'],
+        '양호': _base.imgbase64forPDF['양호'],
+        '미흡': _base.imgbase64forPDF['미흡'],
+        '주의': _base.imgbase64forPDF['주의'],
+        '센텐스마스크': _base.imgbase64forPDF['센텐스마스크'],
+        '지구력': _base.imgbase64forPDF['지구력'],
+        '키워드파인딩': _base.imgbase64forPDF['키워드파인딩'],
+        '많이읽기': _base.imgbase64forPDF['많이읽기'],
+        '비주얼스팬': _base.imgbase64forPDF['비주얼스팬'],
+        '어휘력': _base.imgbase64forPDF['어휘력'],
+        '유창한': _base.imgbase64forPDF['유창한'],
+        '어려운': _base.imgbase64forPDF['어려운'],
+        '미숙한': _base.imgbase64forPDF['미숙한'],
+        '읽기능력피라미드': _base.imgbase64forPDF['읽기능력피라미드']
+      },
+      styles: {
+        header: {
+          fontSize: 14,
+          bold: true,
+          alignment: 'left'
+        },
+        tableExample: {
+          margin: [0, 20, 0, 10]
+        },
+        tableHeader: {
+          bold: true,
+          fontSize: 12,
+          color: 'black'
+        },
+        tableParagraph: {
+          bold: false,
+          fontSize: 9,
+          lineHeight: 1.6,
+          color: 'black'
+        }
+      },
+      pageBreakBefore: function pageBreakBefore(currentNode, followingNodesOnPage, nodesOnNextPage, previousNodesOnPage) {
+        return currentNode.headlineLevel === 1;
+      },
+      //headlineLevel: 1,
+      defaultStyle: {
+        font: '제주명조'
+      }
+    });
+  };
+
+  _react.default.useEffect(function () {
+    if (isPDFing) {
+      if (progressNow === progressMax) {
+        set_isPDFing('exit');
+      } else if (progressNow < progressMax) {
+        console.log("1초 뒤에 progressNow:", progressNow + 1);
+        setTimeout(function () {
+          set_progressNow(progressNow + 1);
+        }, 1000);
+      }
+    }
+  }, [isPDFing, progressNow, progressMax]);
+
+  _react.default.useEffect(function () {
+    if (progressNow !== null) {
+      set_selDataIndex(progressNow);
+    }
+  }, [progressNow]);
+
+  _react.default.useEffect(function () {
+    if (isPDFing) {
+      console.log("selDataIndex", selDataIndex);
+    }
+  }, [isPDFing, selDataIndex]);
+
+  _react.default.useEffect(function () {
+    if (isPDFing === 'exit') {
+      var pdfDocGenerator = _pdfmake.default.createPdf(docDefinition);
+
+      pdfDocGenerator.getBlob(function (blob) {
+        // console.log(blob);
+        set_isPDFing(null);
+        set_progressNow(null);
+        set_PDFURL(URL.createObjectURL(blob));
+        console.log("보고서 변환종료!");
+        set_docDefinition(null);
+      }); // let downloadfilename ;
+      // //Agency_클래스_사용자이름(아이디)_날짜시간.pdf
+      // downloadfilename=`${userinform.agencyName}_${userinform.testeeClass?userinform.testeeClass:'클래스'}_[${userinform.testeeName}(${userinform.testeeID})]_${moment(textSetResultsData[0].savetime).format("YYYY년MM월DD일HH시mm분ss초")+'.pdf'}`;
+      // pdfDocGenerator.download(downloadfilename);
+    }
+  }, [isPDFing, docDefinition]);
 
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "ScreeningViewer"
@@ -364,7 +1103,24 @@ var ScreeningViewer = function ScreeningViewer(_ref) {
         set_selDataIndex(index);
       }
     }, data.screeningType);
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  }), dataArr && selDataIndex !== null && function () {
+    var cn = "oneLeftBarList";
+
+    if (selDataIndex === dataArr.length) {
+      cn += " selected";
+    }
+
+    return /*#__PURE__*/_react.default.createElement("div", {
+      className: cn,
+      style: {
+        marginTop: '10px'
+      },
+      key: "oneLeftBar" + dataArr.length,
+      onClick: function onClick() {
+        set_selDataIndex(dataArr.length);
+      }
+    }, "\uBCF4\uACE0\uC11C \uB2E4\uC6B4\uB85C\uB4DC");
+  }(), /*#__PURE__*/_react.default.createElement("div", {
     className: "oneLeftBarList",
     style: {
       marginTop: '5px'
@@ -372,36 +1128,33 @@ var ScreeningViewer = function ScreeningViewer(_ref) {
     onClick: onClose
   }, "\uB098\uAC00\uAE30")), /*#__PURE__*/_react.default.createElement("div", {
     className: "rightContents"
-  }, selScreeningType === 'saccade' && /*#__PURE__*/_react.default.createElement(SaccadeView, {
-    data: dataArr[selDataIndex]
+  }, selScreeningType === 'saccade' && targetGroupData && /*#__PURE__*/_react.default.createElement(SaccadeView, {
+    data: dataArr[selDataIndex],
+    targetGroupData: targetGroupData,
+    everyGroupData: everyGroupData
   }), selScreeningType === 'pursuit' && /*#__PURE__*/_react.default.createElement(PursuitView, {
-    data: dataArr[selDataIndex]
+    data: dataArr[selDataIndex],
+    targetGroupData: targetGroupData,
+    everyGroupData: everyGroupData
   }), selScreeningType === 'antisaccade' && /*#__PURE__*/_react.default.createElement(AntiSaccadeView, {
-    data: dataArr[selDataIndex]
+    data: dataArr[selDataIndex],
+    targetGroupData: targetGroupData,
+    everyGroupData: everyGroupData
+  }), selScreeningType === "보고서 다운로드" && /*#__PURE__*/_react.default.createElement(DownLoadPDF, {
+    dataArr: dataArr,
+    handlePDFstart: handlePDFstart,
+    iframesrc: PDFURL,
+    targetGroupData: targetGroupData,
+    everyGroupData: everyGroupData
   }))));
 };
 
-var SaccadeView = function SaccadeView(_ref2) {
-  var props = _extends({}, _ref2);
+var SaccadeView = function SaccadeView(_ref3) {
+  var props = _extends({}, _ref3);
 
-  var data = props.data;
-
-  var groupData = _react.default.useMemo(function () {
-    return {
-      down_fixation_stability: 0.04904507977451076,
-      down_saccade_delay: 0.37178149999999996,
-      down_saccade_speed: 271.22066192543087,
-      left_fixation_stability: 0.04501736333714864,
-      left_saccade_delay: 0.36730400000000017,
-      left_saccade_speed: 285.917055501673,
-      right_fixation_stability: 0.04455070458896356,
-      right_saccade_delay: 0.3669095,
-      right_saccade_speed: 271.7449265136197,
-      up_fixation_stability: 0.04707128434877034,
-      up_saccade_delay: 0.3695645000000004,
-      up_saccade_speed: 246.871934245693936
-    };
-  }, []);
+  var data = props.data,
+      targetGroupData = props.targetGroupData,
+      everyGroupData = props.everyGroupData;
 
   var radarChartOption = _react.default.useMemo(function () {
     return {
@@ -532,8 +1285,8 @@ var SaccadeView = function SaccadeView(_ref2) {
     }
 
     for (var key in taskArr) {
-      for (var _i2 = 0; _i2 < taskArr[key].length; _i2++) {
-        var task = taskArr[key][_i2];
+      for (var _i3 = 0; _i3 < taskArr[key].length; _i3++) {
+        var task = taskArr[key][_i3];
         var type = task.type;
         var gazeArr = task.gazeData;
         var blink_arr = get_blink_arr(gazeArr);
@@ -792,8 +1545,8 @@ var SaccadeView = function SaccadeView(_ref2) {
       // borderColor: 'rgba(0,0,0,0.2)',
       backgroundColor: "rgba(0,0,0,0.2)",
       borderWidth: 1,
-      xMin: (0.5 + groupData.up_saccade_delay) * 1000,
-      xMax: (0.5 + groupData.up_saccade_delay + 7.63 / groupData.up_saccade_speed) * 1000,
+      xMin: (0.5 + targetGroupData.avg_up_saccade_delay) * 1000,
+      xMax: (0.5 + targetGroupData.avg_up_saccade_delay + 7.63 / targetGroupData.avg_up_saccade_speed) * 1000,
       yMin: -10,
       yMax: 10
     }); // annotation.push({
@@ -912,7 +1665,7 @@ var SaccadeView = function SaccadeView(_ref2) {
         }]
       }
     };
-  }, [taskArr, groupData]);
+  }, [taskArr, targetGroupData]);
 
   var saccadeTopData = _react.default.useMemo(function () {
     return {
@@ -935,7 +1688,7 @@ var SaccadeView = function SaccadeView(_ref2) {
       }, {
         //eyex
         data: taskArr.top[0].ydegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gazeV1",
         borderColor: "rgba(255,0,0,0.7)",
         //"#0000ff",
@@ -951,7 +1704,7 @@ var SaccadeView = function SaccadeView(_ref2) {
       }, {
         //eyex
         data: taskArr.top[1].ydegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gazeV2",
         borderColor: "rgba(0,0,255,0.7)",
         //"#0000ff",
@@ -1020,8 +1773,8 @@ var SaccadeView = function SaccadeView(_ref2) {
       // borderColor: 'rgba(0,0,0,0.2)',
       backgroundColor: "rgba(0,0,0,0.2)",
       borderWidth: 1,
-      xMin: (0.5 + groupData.down_saccade_delay) * 1000,
-      xMax: (0.5 + groupData.down_saccade_delay + 7.63 / groupData.down_saccade_speed) * 1000,
+      xMin: (0.5 + targetGroupData.avg_down_saccade_delay) * 1000,
+      xMax: (0.5 + targetGroupData.avg_down_saccade_delay + 7.63 / targetGroupData.avg_down_saccade_speed) * 1000,
       yMin: -10,
       yMax: 10
     });
@@ -1124,7 +1877,7 @@ var SaccadeView = function SaccadeView(_ref2) {
         }]
       }
     };
-  }, [taskArr, groupData]);
+  }, [taskArr, targetGroupData]);
 
   var saccadeBottomData = _react.default.useMemo(function () {
     return {
@@ -1147,7 +1900,7 @@ var SaccadeView = function SaccadeView(_ref2) {
       }, {
         //eyex
         data: taskArr.bottom[0].ydegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gazeV1",
         borderColor: "rgba(255,0,0,0.7)",
         //"#0000ff",
@@ -1163,7 +1916,7 @@ var SaccadeView = function SaccadeView(_ref2) {
       }, {
         //eyex
         data: taskArr.bottom[1].ydegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gazeV2",
         borderColor: "rgba(0,0,255,0.7)",
         //"#0000ff",
@@ -1232,8 +1985,8 @@ var SaccadeView = function SaccadeView(_ref2) {
       // borderColor: 'rgba(0,0,0,0.2)',
       backgroundColor: "rgba(0,0,0,0.2)",
       borderWidth: 1,
-      xMin: (0.5 + groupData.right_saccade_delay) * 1000,
-      xMax: (0.5 + groupData.right_saccade_delay + 7.63 / groupData.right_saccade_speed) * 1000,
+      xMin: (0.5 + targetGroupData.avg_right_saccade_delay) * 1000,
+      xMax: (0.5 + targetGroupData.avg_right_saccade_delay + 7.63 / targetGroupData.avg_right_saccade_speed) * 1000,
       yMin: -10,
       yMax: 10
     });
@@ -1334,7 +2087,7 @@ var SaccadeView = function SaccadeView(_ref2) {
         }]
       }
     };
-  }, [taskArr, groupData]);
+  }, [taskArr, targetGroupData]);
 
   var saccadeRightData = _react.default.useMemo(function () {
     return {
@@ -1357,7 +2110,7 @@ var SaccadeView = function SaccadeView(_ref2) {
       }, {
         //eyex
         data: taskArr.right[0].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gazeH1",
         borderColor: "rgba(255,0,0,0.7)",
         //"#0000ff",
@@ -1373,7 +2126,7 @@ var SaccadeView = function SaccadeView(_ref2) {
       }, {
         //eyex
         data: taskArr.right[1].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gazeH2",
         borderColor: "rgba(0,0,255,0.7)",
         //"#0000ff",
@@ -1442,8 +2195,8 @@ var SaccadeView = function SaccadeView(_ref2) {
       // borderColor: 'rgba(0,0,0,0.2)',
       backgroundColor: "rgba(0,0,0,0.2)",
       borderWidth: 1,
-      xMin: (0.5 + groupData.left_saccade_delay) * 1000,
-      xMax: (0.5 + groupData.left_saccade_delay + 7.63 / groupData.left_saccade_speed) * 1000,
+      xMin: (0.5 + targetGroupData.avg_left_saccade_delay) * 1000,
+      xMax: (0.5 + targetGroupData.avg_left_saccade_delay + 7.63 / targetGroupData.avg_left_saccade_speed) * 1000,
       yMin: -10,
       yMax: 10
     });
@@ -1546,7 +2299,7 @@ var SaccadeView = function SaccadeView(_ref2) {
         }]
       }
     };
-  }, [taskArr, groupData]);
+  }, [taskArr, targetGroupData]);
 
   var saccadeLeftData = _react.default.useMemo(function () {
     return {
@@ -1569,7 +2322,7 @@ var SaccadeView = function SaccadeView(_ref2) {
       }, {
         //eyex
         data: taskArr.left[0].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gazeH1",
         borderColor: "rgba(255,0,0,0.7)",
         //"#0000ff",
@@ -1585,7 +2338,7 @@ var SaccadeView = function SaccadeView(_ref2) {
       }, {
         //eyex
         data: taskArr.left[1].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gazeH2",
         borderColor: "rgba(0,0,255,0.7)",
         //"#0000ff",
@@ -1604,25 +2357,25 @@ var SaccadeView = function SaccadeView(_ref2) {
 
   var transparentCanvasRef = _react.default.useRef();
 
-  var _React$useState3 = _react.default.useState(true),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      showUpward = _React$useState4[0],
-      set_showUpward = _React$useState4[1];
+  var _React$useState11 = _react.default.useState(true),
+      _React$useState12 = _slicedToArray(_React$useState11, 2),
+      showUpward = _React$useState12[0],
+      set_showUpward = _React$useState12[1];
 
-  var _React$useState5 = _react.default.useState(true),
-      _React$useState6 = _slicedToArray(_React$useState5, 2),
-      showDownward = _React$useState6[0],
-      set_showDownward = _React$useState6[1];
+  var _React$useState13 = _react.default.useState(true),
+      _React$useState14 = _slicedToArray(_React$useState13, 2),
+      showDownward = _React$useState14[0],
+      set_showDownward = _React$useState14[1];
 
-  var _React$useState7 = _react.default.useState(true),
-      _React$useState8 = _slicedToArray(_React$useState7, 2),
-      showLeftward = _React$useState8[0],
-      set_showLeftward = _React$useState8[1];
+  var _React$useState15 = _react.default.useState(true),
+      _React$useState16 = _slicedToArray(_React$useState15, 2),
+      showLeftward = _React$useState16[0],
+      set_showLeftward = _React$useState16[1];
 
-  var _React$useState9 = _react.default.useState(true),
-      _React$useState10 = _slicedToArray(_React$useState9, 2),
-      showRightward = _React$useState10[0],
-      set_showRightward = _React$useState10[1];
+  var _React$useState17 = _react.default.useState(true),
+      _React$useState18 = _slicedToArray(_React$useState17, 2),
+      showRightward = _React$useState18[0],
+      set_showRightward = _React$useState18[1];
 
   var drawTransparentCanvas = _react.default.useCallback(function () {
     if (!data || !taskArr || !transparentCanvasRef) return;
@@ -1696,10 +2449,37 @@ var SaccadeView = function SaccadeView(_ref2) {
     }
   }, [taskArr, drawTransparentCanvas]);
 
-  var _React$useState11 = _react.default.useState(false),
-      _React$useState12 = _slicedToArray(_React$useState11, 2),
-      showGazeViewer = _React$useState12[0],
-      set_showGazeViewer = _React$useState12[1];
+  var _React$useState19 = _react.default.useState(false),
+      _React$useState20 = _slicedToArray(_React$useState19, 2),
+      showGazeViewer = _React$useState20[0],
+      set_showGazeViewer = _React$useState20[1];
+
+  var myPercent = _react.default.useMemo(function () {
+    var x = data.analysis.saccade_score;
+    var avg = targetGroupData.avg_saccade_score;
+    var std = targetGroupData.std_saccade_score || 1;
+    var p = getGaussianMyPercent(avg, std, x); // console.log("p",p);
+
+    return p;
+  }, [data, targetGroupData]);
+
+  var myState = _react.default.useMemo(function () {
+    var mystate;
+
+    if (myPercent <= 10) {
+      mystate = '최우수';
+    } else if (myPercent > 10 && myPercent <= 25) {
+      mystate = '우수';
+    } else if (myPercent > 25 && myPercent <= 75) {
+      mystate = "양호";
+    } else if (myPercent > 75 && myPercent <= 90) {
+      mystate = "미흡";
+    } else {
+      mystate = "주의";
+    }
+
+    return mystate;
+  }, [myPercent]);
 
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "SaccadeView"
@@ -1724,7 +2504,7 @@ var SaccadeView = function SaccadeView(_ref2) {
       alignItems: 'center'
     }
   }, /*#__PURE__*/_react.default.createElement("img", {
-    src: _base.imgbase64forPDF["최우수"],
+    src: _base.imgbase64forPDF[myState],
     alt: "",
     style: {
       height: '50%'
@@ -1740,7 +2520,7 @@ var SaccadeView = function SaccadeView(_ref2) {
       paddingLeft: '7px',
       paddingTop: '12px'
     }
-  }, "\uCD5C\uC6B0\uC218")), /*#__PURE__*/_react.default.createElement("div", {
+  }, myState)), /*#__PURE__*/_react.default.createElement("div", {
     style: {
       height: '40%',
       display: 'flex',
@@ -1749,7 +2529,7 @@ var SaccadeView = function SaccadeView(_ref2) {
       paddingLeft: '15px',
       borderTop: '1px solid #1A408E'
     }
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB0B4 \uD3C9\uADE0: x% (\uC0C1\uC704 x%)"), /*#__PURE__*/_react.default.createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: x\uC810"), /*#__PURE__*/_react.default.createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: x\uC810"))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB0B4 \uC810\uC218: ", data.analysis.saccade_score.toFixed(2), "\uC810 (\uC0C1\uC704 ", myPercent, "%)"), /*#__PURE__*/_react.default.createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: ", targetGroupData.avg_saccade_score.toFixed(2), "\uC810"), /*#__PURE__*/_react.default.createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: ", everyGroupData.avg_saccade_score.toFixed(2), "\uC810"))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
     style: {
       width: '330px'
@@ -1763,7 +2543,11 @@ var SaccadeView = function SaccadeView(_ref2) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(BarChartGrade, {
+    myScore: data.analysis.saccade_score,
+    avgGroupScore: targetGroupData.avg_saccade_score,
+    stdGroupScore: targetGroupData.std_saccade_score
+  }))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
     style: {
       width: '850px'
@@ -1792,7 +2576,7 @@ var SaccadeView = function SaccadeView(_ref2) {
         borderColor: "rgba(255,0,0,0.6)",
         fill: false
       }, {
-        data: [groupData.up_saccade_delay * 1000, groupData.right_saccade_delay * 1000, groupData.down_saccade_delay * 1000, groupData.left_saccade_delay * 1000],
+        data: [targetGroupData.avg_up_saccade_delay * 1000, targetGroupData.avg_right_saccade_delay * 1000, targetGroupData.avg_down_saccade_delay * 1000, targetGroupData.avg_left_saccade_delay * 1000],
         label: 'group Avg Latency time (ms)',
         // backgroundColor:'red',
         borderColor: "rgba(0,0,0,0.2)",
@@ -1815,7 +2599,7 @@ var SaccadeView = function SaccadeView(_ref2) {
         borderColor: "rgba(255,0,0,0.6)",
         fill: false
       }, {
-        data: [groupData.up_saccade_speed, groupData.right_saccade_speed, groupData.down_saccade_speed, groupData.left_saccade_speed],
+        data: [targetGroupData.avg_up_saccade_speed, targetGroupData.avg_right_saccade_speed, targetGroupData.avg_down_saccade_speed, targetGroupData.avg_left_saccade_speed],
         label: 'group Avg Speed (degree/s)',
         // backgroundColor:'red',
         borderColor: "rgba(0,0,0,0.2)",
@@ -1838,7 +2622,7 @@ var SaccadeView = function SaccadeView(_ref2) {
         borderColor: "rgba(255,0,0,0.6)",
         fill: false
       }, {
-        data: [groupData.up_fixation_stability, groupData.right_fixation_stability, groupData.down_fixation_stability, groupData.left_fixation_stability],
+        data: [targetGroupData.avg_up_fixation_stability, targetGroupData.avg_right_fixation_stability, targetGroupData.avg_down_fixation_stability, targetGroupData.avg_left_fixation_stability],
         label: 'group Avg fixation_err(degree)',
         // backgroundColor:'red',
         borderColor: "rgba(0,0,0,0.2)",
@@ -2041,22 +2825,17 @@ var SaccadeView = function SaccadeView(_ref2) {
   })))));
 };
 
-var PursuitView = function PursuitView(_ref3) {
-  var props = _extends({}, _ref3);
+var PursuitView = function PursuitView(_ref4) {
+  var props = _extends({}, _ref4);
 
-  var data = props.data;
+  var data = props.data,
+      targetGroupData = props.targetGroupData,
+      everyGroupData = props.everyGroupData;
 
-  var _React$useState13 = _react.default.useState(false),
-      _React$useState14 = _slicedToArray(_React$useState13, 2),
-      showGazeViewer = _React$useState14[0],
-      set_showGazeViewer = _React$useState14[1];
-
-  var groupData = _react.default.useMemo(function () {
-    return {
-      anticlockwise_err: 1.1755913592135074,
-      clockwise_err: 1.1537194245685808
-    };
-  }, []);
+  var _React$useState21 = _react.default.useState(false),
+      _React$useState22 = _slicedToArray(_React$useState21, 2),
+      showGazeViewer = _React$useState22[0],
+      set_showGazeViewer = _React$useState22[1];
 
   var taskArr = _react.default.useMemo(function () {
     // console.log(data);
@@ -2080,8 +2859,8 @@ var PursuitView = function PursuitView(_ref3) {
     }
 
     for (var key in taskArr) {
-      for (var _i3 = 0; _i3 < taskArr[key].length; _i3++) {
-        var task = taskArr[key][_i3];
+      for (var _i4 = 0; _i4 < taskArr[key].length; _i4++) {
+        var task = taskArr[key][_i4];
         var type = task.type;
         var gazeArr = task.gazeData;
         var blink_arr = get_blink_arr(gazeArr);
@@ -2243,15 +3022,15 @@ var PursuitView = function PursuitView(_ref3) {
 
   var transparentCanvasRef = _react.default.useRef();
 
-  var _React$useState15 = _react.default.useState(true),
-      _React$useState16 = _slicedToArray(_React$useState15, 2),
-      showClockwise = _React$useState16[0],
-      set_showClockwise = _React$useState16[1];
+  var _React$useState23 = _react.default.useState(true),
+      _React$useState24 = _slicedToArray(_React$useState23, 2),
+      showClockwise = _React$useState24[0],
+      set_showClockwise = _React$useState24[1];
 
-  var _React$useState17 = _react.default.useState(true),
-      _React$useState18 = _slicedToArray(_React$useState17, 2),
-      showAntiClockwise = _React$useState18[0],
-      set_showAntiClockwise = _React$useState18[1];
+  var _React$useState25 = _react.default.useState(true),
+      _React$useState26 = _slicedToArray(_React$useState25, 2),
+      showAntiClockwise = _React$useState26[0],
+      set_showAntiClockwise = _React$useState26[1];
 
   var drawTransparentCanvas = _react.default.useCallback(function () {
     if (!data || !taskArr || !transparentCanvasRef) return;
@@ -2726,7 +3505,7 @@ var PursuitView = function PursuitView(_ref3) {
       }, {
         type: 'bar',
         label: "group err",
-        data: [groupData.clockwise_err, groupData.anticlockwise_err],
+        data: [targetGroupData.avg_clockwise_err, targetGroupData.avg_anticlockwise_err],
         // backgroundColor: themeColors,
         backgroundColor: "gray",
         barPercentage: 0.8,
@@ -2734,7 +3513,7 @@ var PursuitView = function PursuitView(_ref3) {
         borderColor: "transparent"
       }]
     };
-  }, [groupData, data]);
+  }, [targetGroupData, data]);
 
   var barChartOption = _react.default.useMemo(function () {
     return {
@@ -2840,6 +3619,33 @@ var PursuitView = function PursuitView(_ref3) {
     };
   }, []);
 
+  var myPercent = _react.default.useMemo(function () {
+    var x = data.analysis.pursuit_score;
+    var avg = targetGroupData.avg_pursuit_score;
+    var std = targetGroupData.std_pursuit_score || 1;
+    var p = getGaussianMyPercent(avg, std, x); // console.log("p",p);
+
+    return p;
+  }, [data, targetGroupData]);
+
+  var myState = _react.default.useMemo(function () {
+    var mystate;
+
+    if (myPercent <= 10) {
+      mystate = '최우수';
+    } else if (myPercent > 10 && myPercent <= 25) {
+      mystate = '우수';
+    } else if (myPercent > 25 && myPercent <= 75) {
+      mystate = "양호";
+    } else if (myPercent > 75 && myPercent <= 90) {
+      mystate = "미흡";
+    } else {
+      mystate = "주의";
+    }
+
+    return mystate;
+  }, [myPercent]);
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "PursuitView"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -2863,7 +3669,7 @@ var PursuitView = function PursuitView(_ref3) {
       alignItems: 'center'
     }
   }, /*#__PURE__*/_react.default.createElement("img", {
-    src: _base.imgbase64forPDF["최우수"],
+    src: _base.imgbase64forPDF[myState],
     alt: "",
     style: {
       height: '50%'
@@ -2879,7 +3685,7 @@ var PursuitView = function PursuitView(_ref3) {
       paddingLeft: '7px',
       paddingTop: '12px'
     }
-  }, "\uCD5C\uC6B0\uC218")), /*#__PURE__*/_react.default.createElement("div", {
+  }, myState)), /*#__PURE__*/_react.default.createElement("div", {
     style: {
       height: '40%',
       display: 'flex',
@@ -2888,7 +3694,7 @@ var PursuitView = function PursuitView(_ref3) {
       paddingLeft: '15px',
       borderTop: '1px solid #1A408E'
     }
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB0B4 \uD3C9\uADE0: x% (\uC0C1\uC704 x%)"), /*#__PURE__*/_react.default.createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: x\uC810"), /*#__PURE__*/_react.default.createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: x\uC810"))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB0B4 \uD3C9\uADE0: ", data.analysis.pursuit_score.toFixed(2), "\uC810 (\uC0C1\uC704 ", myPercent, "%)"), /*#__PURE__*/_react.default.createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: ", targetGroupData.avg_pursuit_score.toFixed(2), "\uC810"), /*#__PURE__*/_react.default.createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: ", everyGroupData.avg_pursuit_score.toFixed(2), "\uC810"))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
     style: {
       width: '330px'
@@ -2902,7 +3708,11 @@ var PursuitView = function PursuitView(_ref3) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, "\uB0B4\uC810\uC218\uB3C4\uC5C6\uACE0, \uADF8\uB8F9\uC810\uC218\uB3C4\uC5C6\uB2E4")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(BarChartGrade, {
+    myScore: data.analysis.pursuit_score,
+    avgGroupScore: targetGroupData.avg_pursuit_score,
+    stdGroupScore: targetGroupData.std_pursuit_score
+  }))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
     style: {
       width: '850px'
@@ -3095,38 +3905,19 @@ var PursuitView = function PursuitView(_ref3) {
   })))));
 };
 
-var AntiSaccadeView = function AntiSaccadeView(_ref4) {
-  var props = _extends({}, _ref4);
+var AntiSaccadeView = function AntiSaccadeView(_ref5) {
+  var props = _extends({}, _ref5);
 
-  var data = props.data;
+  var data = props.data,
+      targetGroupData = props.targetGroupData,
+      everyGroupData = props.everyGroupData;
 
-  var _React$useState19 = _react.default.useState(false),
-      _React$useState20 = _slicedToArray(_React$useState19, 2),
-      showGazeViewer = _React$useState20[0],
-      set_showGazeViewer = _React$useState20[1];
+  var _React$useState27 = _react.default.useState(false),
+      _React$useState28 = _slicedToArray(_React$useState27, 2),
+      showGazeViewer = _React$useState28[0],
+      set_showGazeViewer = _React$useState28[1];
 
   var transparentCanvasRef = _react.default.useRef();
-
-  var groupData = _react.default.useMemo(function () {
-    return {
-      down_fixation_stability: 0.04904507977451076,
-      down_saccade_delay: 0.37178149999999996,
-      down_saccade_speed: 271.22066192543087,
-      left_fixation_stability: 0.04501736333714864,
-      left_saccade_delay: 0.36730400000000017,
-      left_saccade_speed: 285.917055501673,
-      right_fixation_stability: 0.04455070458896356,
-      right_saccade_delay: 0.3669095,
-      right_saccade_speed: 271.7449265136197,
-      up_fixation_stability: 0.04707128434877034,
-      up_saccade_delay: 0.3695645000000004,
-      up_saccade_speed: 246.871934245693936,
-      left_antisaccade_delay: 0.42823249999999987,
-      right_antisaccade_delay: 0.4170207500000001,
-      avgErrFrequencyRatio: 0.125,
-      avgErrTime: 0.01229166666666666
-    };
-  }, []);
 
   var delayBarChartData = _react.default.useMemo(function () {
     return {
@@ -3143,7 +3934,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         type: 'bar',
         label: "group",
-        data: [(groupData.left_saccade_delay + groupData.right_saccade_delay) * 500, (groupData.left_antisaccade_delay + groupData.right_antisaccade_delay) * 500],
+        data: [(targetGroupData.avg_left_saccade_delay + targetGroupData.avg_right_saccade_delay) * 500, (targetGroupData.avg_left_antisaccade_delay + targetGroupData.avg_right_antisaccade_delay) * 500],
         // backgroundColor: themeColors,
         backgroundColor: "gray",
         barPercentage: 0.8,
@@ -3151,7 +3942,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
         borderColor: "transparent"
       }]
     };
-  }, [groupData, data]);
+  }, [targetGroupData, data]);
 
   var delayBarChartOption = _react.default.useMemo(function () {
     return {
@@ -3270,7 +4061,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         type: 'bar',
         label: "group",
-        data: [groupData.avgErrFrequencyRatio * 100, groupData.avgErrTime / 0.5 * 100],
+        data: [targetGroupData.avg_avgErrFrequencyRatio * 100, targetGroupData.avg_avgErrTime / 0.5 * 100],
         // backgroundColor: themeColors,
         backgroundColor: "gray",
         barPercentage: 0.8,
@@ -3278,7 +4069,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
         borderColor: "transparent"
       }]
     };
-  }, [groupData, data]);
+  }, [targetGroupData, data]);
 
   var errBarChartOption = _react.default.useMemo(function () {
     return {
@@ -3381,9 +4172,9 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
   }, []);
 
   var taskArr = _react.default.useMemo(function () {
-    console.log("antiSaccadeData", data);
-    var ta = dataToTaskArr(data);
-    console.log("ta", ta);
+    // console.log("antiSaccadeData",data);
+    var ta = dataToTaskArr(data); // console.log("ta",ta);
+
     return ta;
   }, [data]);
 
@@ -3462,8 +4253,8 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       borderColor: "gray",
       backgroundColor: "transparent",
       borderWidth: 3,
-      xMin: (groupData.left_antisaccade_delay + 0.5) * 1000,
-      xMax: (groupData.left_antisaccade_delay + 0.5) * 1000,
+      xMin: (targetGroupData.avg_left_antisaccade_delay + 0.5) * 1000,
+      xMax: (targetGroupData.avg_left_antisaccade_delay + 0.5) * 1000,
       yMin: -10,
       yMax: 10
     }); //groupData
@@ -3582,7 +4373,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
         }]
       }
     };
-  }, [taskArr, groupData]);
+  }, [taskArr, targetGroupData]);
 
   var antiSaccadeLeftData = _react.default.useMemo(function () {
     return {
@@ -3605,7 +4396,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         //eyex
         data: taskArr.left[0].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gH1",
         borderColor: "rgba(255,0,0,0.7)",
         //"#0000ff",
@@ -3621,7 +4412,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         //eyex
         data: taskArr.left[1].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gH2",
         borderColor: "rgba(0,0,255,0.7)",
         //"#0000ff",
@@ -3637,7 +4428,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         //eyex
         data: taskArr.left[2].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gH3",
         borderColor: "orange",
         //"#0000ff",
@@ -3653,7 +4444,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         //eyex
         data: taskArr.left[3].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gH4",
         borderColor: "pink",
         //"#0000ff",
@@ -3763,8 +4554,8 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       borderColor: "gray",
       backgroundColor: "transparent",
       borderWidth: 3,
-      xMin: (groupData.right_antisaccade_delay + 0.5) * 1000,
-      xMax: (groupData.right_antisaccade_delay + 0.5) * 1000,
+      xMin: (targetGroupData.avg_right_antisaccade_delay + 0.5) * 1000,
+      xMax: (targetGroupData.avg_right_antisaccade_delay + 0.5) * 1000,
       yMin: -10,
       yMax: 10
     });
@@ -3867,7 +4658,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
         }]
       }
     };
-  }, [taskArr, groupData]);
+  }, [taskArr, targetGroupData]);
 
   var antiSaccadeRightData = _react.default.useMemo(function () {
     return {
@@ -3890,7 +4681,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         //eyex
         data: taskArr.right[0].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gH1",
         borderColor: "rgba(255,0,0,0.7)",
         //"#0000ff",
@@ -3906,7 +4697,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         //eyex
         data: taskArr.right[1].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gH2",
         borderColor: "rgba(0,0,255,0.7)",
         //"#0000ff",
@@ -3922,7 +4713,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         //eyex
         data: taskArr.right[2].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gH3",
         borderColor: "orange",
         //"#0000ff",
@@ -3938,7 +4729,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         //eyex
         data: taskArr.right[3].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gH4",
         borderColor: "pink",
         //"#0000ff",
@@ -3956,8 +4747,8 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
   }, [taskArr]);
 
   var saccadeTaskArr = _react.default.useMemo(function () {
-    var taskArr = dataToTaskArr(data.saccadeData);
-    console.log("taskArr", taskArr);
+    var taskArr = dataToTaskArr(data.saccadeData); // console.log("taskArr",taskArr);
+
     return taskArr;
   }, [data]);
 
@@ -4011,8 +4802,8 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       borderColor: 'gray',
       backgroundColor: "transparent",
       borderWidth: 3,
-      xMin: (0.5 + groupData.left_saccade_delay) * 1000,
-      xMax: (0.5 + groupData.left_saccade_delay) * 1000,
+      xMin: (0.5 + targetGroupData.avg_left_saccade_delay) * 1000,
+      xMax: (0.5 + targetGroupData.avg_left_saccade_delay) * 1000,
       // xMax: (0.5 + groupData.left_saccade_delay + 7.63 / groupData.left_saccade_speed) * 1000,
       yMin: -10,
       yMax: 10
@@ -4116,7 +4907,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
         }]
       }
     };
-  }, [saccadeTaskArr, groupData]);
+  }, [saccadeTaskArr, targetGroupData]);
 
   var saccadeLeftData = _react.default.useMemo(function () {
     return {
@@ -4139,7 +4930,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         //eyex
         data: saccadeTaskArr.left[0].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gazeH1",
         borderColor: "rgba(255,0,0,0.7)",
         //"#0000ff",
@@ -4155,7 +4946,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         //eyex
         data: saccadeTaskArr.left[1].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gazeH2",
         borderColor: "rgba(0,0,255,0.7)",
         //"#0000ff",
@@ -4222,8 +5013,8 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       borderColor: 'gray',
       backgroundColor: "transparent",
       borderWidth: 3,
-      xMin: (0.5 + groupData.right_saccade_delay) * 1000,
-      xMax: (0.5 + groupData.right_saccade_delay) * 1000,
+      xMin: (0.5 + targetGroupData.avg_right_saccade_delay) * 1000,
+      xMax: (0.5 + targetGroupData.avg_right_saccade_delay) * 1000,
       // xMax: (0.5 + groupData.left_saccade_delay + 7.63 / groupData.left_saccade_speed) * 1000,
       yMin: -10,
       yMax: 10
@@ -4327,7 +5118,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
         }]
       }
     };
-  }, [saccadeTaskArr, groupData]);
+  }, [saccadeTaskArr, targetGroupData]);
 
   var saccadeRightData = _react.default.useMemo(function () {
     return {
@@ -4350,7 +5141,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         //eyex
         data: saccadeTaskArr.right[0].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gazeH1",
         borderColor: "rgba(255,0,0,0.7)",
         //"#0000ff",
@@ -4366,7 +5157,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       }, {
         //eyex
         data: saccadeTaskArr.right[1].xdegreeChartArr,
-        steppedLine: "before",
+        steppedLine: false,
         label: "gazeH2",
         borderColor: "rgba(0,0,255,0.7)",
         //"#0000ff",
@@ -4383,15 +5174,15 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
     };
   }, [saccadeTaskArr]);
 
-  var _React$useState21 = _react.default.useState(true),
-      _React$useState22 = _slicedToArray(_React$useState21, 2),
-      showLeftward = _React$useState22[0],
-      set_showLeftward = _React$useState22[1];
+  var _React$useState29 = _react.default.useState(true),
+      _React$useState30 = _slicedToArray(_React$useState29, 2),
+      showLeftward = _React$useState30[0],
+      set_showLeftward = _React$useState30[1];
 
-  var _React$useState23 = _react.default.useState(true),
-      _React$useState24 = _slicedToArray(_React$useState23, 2),
-      showRightward = _React$useState24[0],
-      set_showRightward = _React$useState24[1];
+  var _React$useState31 = _react.default.useState(true),
+      _React$useState32 = _slicedToArray(_React$useState31, 2),
+      showRightward = _React$useState32[0],
+      set_showRightward = _React$useState32[1];
 
   var drawTransparentCanvas = _react.default.useCallback(function () {
     if (!data || !taskArr || !transparentCanvasRef) return;
@@ -4457,6 +5248,33 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
     }
   }, [taskArr, drawTransparentCanvas]);
 
+  var myPercent = _react.default.useMemo(function () {
+    var x = data.analysis.antisaccade_score;
+    var avg = targetGroupData.avg_antisaccade_score;
+    var std = targetGroupData.std_antisaccade_score || 1;
+    var p = getGaussianMyPercent(avg, std, x); // console.log("p",p);
+
+    return p;
+  }, [data, targetGroupData]);
+
+  var myState = _react.default.useMemo(function () {
+    var mystate;
+
+    if (myPercent <= 10) {
+      mystate = '최우수';
+    } else if (myPercent > 10 && myPercent <= 25) {
+      mystate = '우수';
+    } else if (myPercent > 25 && myPercent <= 75) {
+      mystate = "양호";
+    } else if (myPercent > 75 && myPercent <= 90) {
+      mystate = "미흡";
+    } else {
+      mystate = "주의";
+    }
+
+    return mystate;
+  }, [myPercent]);
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "AntiSaccadeView"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -4480,7 +5298,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       alignItems: 'center'
     }
   }, /*#__PURE__*/_react.default.createElement("img", {
-    src: _base.imgbase64forPDF["최우수"],
+    src: _base.imgbase64forPDF[myState],
     alt: "",
     style: {
       height: '50%'
@@ -4496,7 +5314,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       paddingLeft: '7px',
       paddingTop: '12px'
     }
-  }, "\uCD5C\uC6B0\uC218")), /*#__PURE__*/_react.default.createElement("div", {
+  }, myState)), /*#__PURE__*/_react.default.createElement("div", {
     style: {
       height: '40%',
       display: 'flex',
@@ -4505,7 +5323,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       paddingLeft: '15px',
       borderTop: '1px solid #1A408E'
     }
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB0B4 \uD3C9\uADE0: x% (\uC0C1\uC704 x%)"), /*#__PURE__*/_react.default.createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: x\uC810"), /*#__PURE__*/_react.default.createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: x\uC810"))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB0B4 \uD3C9\uADE0: ", data.analysis.antisaccade_score.toFixed(2), "\uC810 (\uC0C1\uC704 ", myPercent, "%)"), /*#__PURE__*/_react.default.createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: ", targetGroupData.avg_antisaccade_score.toFixed(2), "\uC810"), /*#__PURE__*/_react.default.createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: ", everyGroupData.avg_antisaccade_score.toFixed(2), "\uC810"))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
     style: {
       width: '330px'
@@ -4519,7 +5337,11 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, "\uB0B4\uC810\uC218\uB3C4\uC5C6\uACE0, \uADF8\uB8F9\uC810\uC218\uB3C4\uC5C6\uB2E4")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(BarChartGrade, {
+    myScore: data.analysis.antisaccade_score,
+    avgGroupScore: targetGroupData.avg_antisaccade_score,
+    stdGroupScore: targetGroupData.std_antisaccade_score
+  }))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
     style: {
       width: '420px'
@@ -4743,6 +5565,94 @@ var AntiSaccadeView = function AntiSaccadeView(_ref4) {
   }, /*#__PURE__*/_react.default.createElement(_reactGazeviewer.default, {
     data: data
   })))));
+};
+
+var DownLoadPDF = function DownLoadPDF(_ref6) {
+  var props = _extends({}, _ref6);
+
+  var dataArr = props.dataArr,
+      targetGroupData = props.targetGroupData,
+      everyGroupData = props.everyGroupData,
+      AgencyLogoBase64 = props.AgencyLogoBase64,
+      handlePDFstart = props.handlePDFstart,
+      iframesrc = props.iframesrc;
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "DownLoadPDF",
+    style: {
+      display: 'flex'
+    }
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    style: {
+      width: '490px',
+      marginRight: '10px'
+    }
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    style: {
+      marginTop: '10px',
+      borderBottom: '1px solid #1a408e',
+      padding: '10px'
+    }
+  }, /*#__PURE__*/_react.default.createElement("div", null, "PDF\uC758 \uAE30\uAD00 \uB85C\uACE0 \uC774\uBBF8\uC9C0"), /*#__PURE__*/_react.default.createElement("div", {
+    style: {
+      height: '200px',
+      backgroundColor: 'gray',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    src: AgencyLogoBase64 ? AgencyLogoBase64 : _base.imgbase64forPDF['기본로고'],
+    alt: "",
+    style: {
+      maxWidth: '150px',
+      maxHeight: '150px',
+      backgroundColor: 'white'
+    }
+  })), /*#__PURE__*/_react.default.createElement("div", {
+    style: {
+      cursor: 'default',
+      marginTop: '10px'
+    }
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB85C\uACE0 \uC774\uBBF8\uC9C0\uB97C \uB4F1\uB85D \uD558\uC2DC\uB824\uBA74 ", /*#__PURE__*/_react.default.createElement("span", {
+    className: "mh",
+    onClick: function onClick() {//   history.push('/setting/pay');
+    }
+  }, "\uACC4\uC815\uC124\uC815"), "\uC5D0\uC11C \uC774\uBBF8\uC9C0\uB97C \uC124\uC815\uD558\uC2ED\uC2DC\uC624."), /*#__PURE__*/_react.default.createElement("li", null, "\uB85C\uACE0 \uC774\uBBF8\uC9C0\uB97C \uBCC0\uACBD \uD558\uC2E0\uB4A4\uC5D0 \uB85C\uADF8\uC544\uC6C3 \uD6C4 \uC7AC \uB85C\uADF8\uC778 \uD574 \uC8FC\uC138\uC694."), /*#__PURE__*/_react.default.createElement("li", null, "\uAC00\uB2A5\uD55C \uAC00\uB85C \uC138\uB85C\uC758 \uAE38\uC774\uAC00 \uAC19\uC740 \uC774\uBBF8\uC9C0\uB97C \uB4F1\uB85D\uD574 \uC8FC\uC138\uC694."), /*#__PURE__*/_react.default.createElement("li", null, "gif\uD30C\uC77C\uC740 PDF\uBCC0\uD658 \uAE30\uAD00\uB85C\uACE0 \uC774\uBBF8\uC9C0\uB85C \uB3D9\uC791\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."))), /*#__PURE__*/_react.default.createElement("div", {
+    style: {
+      padding: '10px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/_react.default.createElement("button", {
+    className: "StartMakingPDF-btn",
+    onClick: handlePDFstart
+  }, "\uBCF4\uACE0\uC11C \uB2E4\uC6B4\uBC1B\uAE30 \uBC0F \uBBF8\uB9AC\uBCF4\uAE30")))), /*#__PURE__*/_react.default.createElement("div", {
+    style: {
+      width: '900px',
+      height: '750px',
+      outline: '2px solid #1A408E'
+    }
+  }, iframesrc ? /*#__PURE__*/_react.default.createElement(_reactIframe.default, {
+    url: iframesrc,
+    frameBorder: "0",
+    cellspacing: "0" //width="450px"
+    //height="450px"
+    ,
+    id: "pdfiframe",
+    className: iframesrc ? "pdfiframe visible" : "pdfiframe",
+    display: "block"
+  }) : /*#__PURE__*/_react.default.createElement("div", {
+    style: {
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#ddd',
+      textAlign: 'center'
+    }
+  }, "\uBCF4\uACE0\uC11C \uBBF8\uB9AC\uBCF4\uAE30\uD0ED", /*#__PURE__*/_react.default.createElement("br", null), "\uBBF8\uB9AC\uBCF4\uAE30 \uBC84\uD2BC\uC744 \uB204\uB974\uC2DC\uBA74 \uBCC0\uD658 \uD6C4 \uC5EC\uAE30\uC5D0 \uD45C\uC2DC \uB429\uB2C8\uB2E4.")));
 };
 
 var _default = ScreeningViewer;

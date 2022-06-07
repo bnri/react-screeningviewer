@@ -9,27 +9,166 @@ import "chartjs-plugin-datalabels";
 import "chartjs-plugin-annotation";
 
 import GazeViewer from "react-gazeviewer";
+import Iframe from 'react-iframe'
+import pdfMake from "pdfmake/build/pdfmake";
+// import pdfFonts from "pdfmake/build/vfs_fonts_jejumyungjogodic.js";
+import pdfFonts from "./vfs_fonts_jejumj_gd_cn.js";
+let vfs = (pdfFonts.pdfMake.vfs);
+// console.log("vfs",vfs);
+pdfMake.vfs = vfs;
+pdfMake.fonts = {
+    '제주명조': {
+        normal: "jejumyungjo.ttf",
+        bold: "jejugothic.ttf",
+        italics: 'cjk.ttf'
+    }
+}
+pdfMake.tableLayouts = {
+    showblackline: {
+        hLineWidth: function (i, node) {
+            if (i === 0 || i === node.table.body.length) {
+                //맨앞 맨뒤 
+                return 1;
+            }
+            return (i === node.table.headerRows) ? 1 : 1;
+        },
+        vLineWidth: function (i) {
+            return 1;
+        },
+        hLineColor: function (i) {
+            let color = 'black';
+            // if(i===2) color='red';
+            // else if(i===3) color='blue';
+            // else if(i===4) color='green';
 
-const getGaussianMyPercent = function(mean, std,x) {
-    
+            return color;
+        },
+        vLineColor: function (i) {
+            let color = 'black';
+            // if(i===2) color='red';
+            // else if(i===3) color='blue';
+            // else if(i===4) color='green';
+
+            return color;
+        },
+    },
+    showline: {
+        hLineWidth: function (i, node) {
+            if (i === 0 || i === node.table.body.length) {
+                //맨앞 맨뒤 
+                return 1;
+            }
+            return (i === node.table.headerRows) ? 1 : 1;
+        },
+        vLineWidth: function (i) {
+            return 1;
+        },
+        hLineColor: function (i) {
+            let color = '#1A408E';
+            // if(i===2) color='red';
+            // else if(i===3) color='blue';
+            // else if(i===4) color='green';
+
+            return color;
+        },
+        vLineColor: function (i) {
+            let color = '#1A408E';
+            // if(i===2) color='red';
+            // else if(i===3) color='blue';
+            // else if(i===4) color='green';
+
+            return color;
+        },
+    },
+    hideline: {
+        hLineWidth: function (i, node) {
+            if (i === 0 || i === node.table.body.length) {
+                //맨앞 맨뒤 
+                return 0;
+            }
+            return (i === node.table.headerRows) ? 0 : 0;
+        },
+        vLineWidth: function (i) {
+            return 0;
+        },
+        hLineColor: function (i) {
+            let color = '#1A408E';
+            // if(i===2) color='red';
+            // else if(i===3) color='blue';
+            // else if(i===4) color='green';
+
+            return color;
+        },
+    },
+    headerunderline: {
+        hLineWidth: function (i, node) {
+            if (i === 0 || i === node.table.body.length) {
+                return 0;
+            }
+            return (i === node.table.headerRows) ? 2 : 0;
+        },
+        hLineHeight: function (i, node) {
+            return 0;
+        },
+        vLineWidth: function (i) {
+            return 0;
+        },
+        hLineColor: function (i) {
+            return '#1A408E';
+            //                  return i === 1 ? 'red' : '#aaa';
+        }
+    },
+    titletable: {
+        hLineWidth: function (i, node) {
+            if (i === 0 || i === node.table.body.length) {
+                return 0;
+            }
+            return (i === node.table.headerRows) ? 0 : 1;
+        },
+        vLineWidth: function (i) {
+            return 0;
+        },
+        hLineColor: function (i) {
+            return '#1A408E';
+            // return '#7367f0';
+            // return i === 1 ? 'black' : 'black';
+        },
+        //   paddingTop: function (i) {
+        //     return 40;
+        //   },
+        //   paddingLeft: function (i) {
+        //      return i === 0 ? 0 : 8;
+        //    },
+        //   paddingRight: function (i, node) {
+        //     return (i === node.table.widths.length - 1) ? 0 : 8;
+        //   }
+    }
+};
+
+var moment = require("moment-timezone");
+moment.tz.setDefault("Asia/Seoul");
+
+
+const getGaussianMyPercent = function (mean, std, x) {
+
     // let variance = std*std;
 
-    var erfc = function(x) {
+    var erfc = function (x) {
         var z = Math.abs(x);
         var t = 1 / (1 + z / 2);
         var r = t * Math.exp(-z * z - 1.26551223 + t * (1.00002368 +
-                t * (0.37409196 + t * (0.09678418 + t * (-0.18628806 +
+            t * (0.37409196 + t * (0.09678418 + t * (-0.18628806 +
                 t * (0.27886807 + t * (-1.13520398 + t * (1.48851587 +
-                t * (-0.82215223 + t * 0.17087277)))))))))
+                    t * (-0.82215223 + t * 0.17087277)))))))))
         return x >= 0 ? r : 2 - r;
-      };
+    };
     let cdf = 0.5 * erfc(-(x - mean) / (std * Math.sqrt(2)));
 
     // return {
     //     cdf: cdf,
     //     myPercent: ((1- cdf) * 100).toFixed(2)*1
     // }
-    return ((1- cdf) * 100).toFixed(2)*1;
+    return ((1 - cdf) * 100).toFixed(2) * 1;
 }
 
 function getGaussian(std, avg, xArr) {
@@ -40,7 +179,7 @@ function getGaussian(std, avg, xArr) {
         let x = xArr[i];
         let c = -  ((Math.pow((x - avg), 2)) / (2 * Math.pow(std, 2)));
         let y = a * Math.pow(b, c);
-        yArr.push(y*1000);
+        yArr.push(y * 1000);
     }
     return yArr;
 }
@@ -99,7 +238,7 @@ function customCallbackXtick(val, index) {
     }
 }
 
-function dataToTaskArr(data){
+function dataToTaskArr(data) {
     // console.log("허허data",data);
     const MONITOR_PX_PER_CM = data.monitorInform.MONITOR_PX_PER_CM;
     const pixel_per_cm = data.monitorInform.MONITOR_PX_PER_CM; //1cm 당 pixel
@@ -350,10 +489,10 @@ function dataToTaskArr(data){
     return taskArr;
 }
 
-const BarChartGrade = ({...props})=>{
-    const {myScore,avgGroupScore,stdGroupScore} = props;
+const BarChartGrade = ({ ...props }) => {
+    const { myScore, avgGroupScore, stdGroupScore } = props;
 
-    const chartOption = React.useMemo(()=>{
+    const chartOption = React.useMemo(() => {
         return {
             plugins: {
                 datalabels: {
@@ -369,7 +508,7 @@ const BarChartGrade = ({...props})=>{
             maintainAspectRatio: false,
             // devicePixelRatio: window.devicePixelRatio * 3,
             annotation: {
-                annotations:[
+                annotations: [
                     {
                         drawTime: "afterDatasetsDraw",
                         type: 'line',
@@ -379,10 +518,10 @@ const BarChartGrade = ({...props})=>{
                         borderColor: 'red',
                         borderWidth: 1,
                         label: {
-                          content: '내점수 : '+(myScore*1).toFixed(1)+'점',
-                          enabled: true,
-                          fontSize: 12,
-                          position: "top"
+                            content: '내점수 : ' + (myScore * 1).toFixed(1) + '점',
+                            enabled: true,
+                            fontSize: 12,
+                            position: "top"
                         },
                     },
                     {
@@ -390,71 +529,71 @@ const BarChartGrade = ({...props})=>{
                         type: 'line',
                         mode: 'vertical',
                         scaleID: "x1",
-    
+
                         value: avgGroupScore,
                         borderColor: 'green',
                         /*borderDash: [2,6], */
-    
+
                         borderWidth: 1,
                         label: {
-                          content: "그룹평균 : "+(avgGroupScore*1).toFixed(1)+'점',
-                          enabled: true,
-                          fontSize: 12,
-                          position: "middle"
+                            content: "그룹평균 : " + (avgGroupScore * 1).toFixed(1) + '점',
+                            enabled: true,
+                            fontSize: 12,
+                            position: "middle"
                         },
-                      },
-                      {
+                    },
+                    {
                         drawTime: "afterDatasetsDraw",
                         type: 'line',
                         mode: 'vertical',
                         scaleID: "x1",
-    
-                        value: avgGroupScore-stdGroupScore,
+
+                        value: avgGroupScore - stdGroupScore,
                         borderColor: 'green',
-                        borderDash: [2,6],
+                        borderDash: [2, 6],
                         borderWidth: 1,
                         label: {
-                          content: "Q1",
-                          enabled: false,
-                          fontSize: 8,
-                          position: "top"
+                            content: "Q1",
+                            enabled: false,
+                            fontSize: 8,
+                            position: "top"
                         },
-                      },
-                      {
+                    },
+                    {
                         drawTime: "afterDatasetsDraw",
                         type: 'line',
                         mode: 'vertical',
                         scaleID: "x1",
-                        value: avgGroupScore+stdGroupScore,
+                        value: avgGroupScore + stdGroupScore,
                         borderColor: 'green',
-                        borderDash: [2,6],
+                        borderDash: [2, 6],
                         borderWidth: 1,
                         label: {
-                          content: "Q3",
-                          enabled: false,
-                          fontSize: 8,
-                          position: "top"
+                            content: "Q3",
+                            enabled: false,
+                            fontSize: 8,
+                            position: "top"
                         },
-                      },
+                    },
                 ]
-            },  
+            },
             animation: {
                 duration: 0,
             },
             tooltips: {
                 callbacks: {
-    
+
                     title: function (tooltipItem, data) {
                         return '';
                     }
                 }
             },
-            legend:{
-              display:false,
-                labels:{
-                    fontSize:14,
+            legend: {
+                display: false,
+                labels: {
+                    fontSize: 14,
                 }
-    
+
             },
             scales: {
                 xAxes: [
@@ -462,9 +601,9 @@ const BarChartGrade = ({...props})=>{
                         id: "x1",
                         display: true,       // 실제시간 임시로 true//
                         type: 'linear',
-    
+
                         gridLines: {
-                            display:true,
+                            display: true,
                             color: "rgba(0, 0, 0, 0)",
                         },
                         ticks: {
@@ -475,7 +614,7 @@ const BarChartGrade = ({...props})=>{
                         scaleLabel: {
                             display: true,
                             labelString: '부족                                  우수',
-                            fontSize:15,
+                            fontSize: 15,
                         },
                     }
                 ],
@@ -484,39 +623,39 @@ const BarChartGrade = ({...props})=>{
                         id: "y1",
                         position: 'left',
                         gridLines: {
-                            display:true,
+                            display: true,
                             color: "rgba(0, 0, 0, 0)",
                         },
                         scaleLabel: { /////////////////x축아래 라벨
                             display: true,
                             labelString: '비율 (%)',
                             //fontStyle: 'bold',
-                            fontSize:15,
+                            fontSize: 15,
                         },
                     },
                 ]
             },
-    
+
         }
-    },[myScore,avgGroupScore,stdGroupScore])
-    const chartData = React.useMemo(()=>{
+    }, [myScore, avgGroupScore, stdGroupScore])
+    const chartData = React.useMemo(() => {
         let groupavg = avgGroupScore;
-        let groupstd = stdGroupScore?stdGroupScore:1;
+        let groupstd = stdGroupScore ? stdGroupScore : 1;
         // console.log("groupstd",groupstd);
         let xarr = [];
         for (let i = 0; i <= 100; i++) {
             xarr.push(i);
         }
         let yarr = getGaussian(groupstd, groupavg, xarr);
-    
-    //    console.log(xarr);
-    //    console.log(yarr);
-    
-        let newdata =[];
-        for(let i = 0 ; i <=100 ; i++){
+
+        //    console.log(xarr);
+        //    console.log(yarr);
+
+        let newdata = [];
+        for (let i = 0; i <= 100; i++) {
             newdata.push({
-                x:xarr[i],
-                y:yarr[i]
+                x: xarr[i],
+                y: yarr[i]
             });
         };
 
@@ -525,9 +664,9 @@ const BarChartGrade = ({...props})=>{
                 {
                     data: newdata,
                     //steppedLine: "before",
-                    steppedLine:false,
+                    steppedLine: false,
                     label: '',
-                   
+
                     borderColor: "rgba(0,0,255,0.4)",//"#0000ff",
                     backgroundColor: 'rgba(0,0,255,0.4)',
                     fill: false,
@@ -540,10 +679,10 @@ const BarChartGrade = ({...props})=>{
             ],
         }
         return chartdata;
-    },[avgGroupScore,stdGroupScore])
+    }, [avgGroupScore, stdGroupScore])
     return (<>
-         <Line
-            
+        <Line
+
             data={chartData} options={chartOption} ref={(reference) => {
                 //console.log("~~~~~~~~~~~~~");
 
@@ -556,60 +695,16 @@ const BarChartGrade = ({...props})=>{
     </>)
 }
 
-const DownLoadPDF = ({...props})=>{
-    const {dataArr,targetGroupData,everyGroupData,AgencyLogoBase64,handlePDFstart} = props;
-
-    return (<div className="DownLoadPDF" style={{display:'flex'}}>
-        <div style={{width:'490px',marginRight:'10px'}}>
-             <div style={{marginTop:'10px',borderBottom:'1px solid #1a408e',padding:'10px'}}>
-                <div>
-                    PDF의 기관 로고 이미지
-                </div>
-                <div style={{height:'200px',backgroundColor:'gray',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                    <img src={(AgencyLogoBase64?AgencyLogoBase64:imgbase64forPDF['기본로고'])}
-                        alt="" style={{ maxWidth: '150px',
-                            maxHeight: '150px',backgroundColor:'white'}}
-                    />
-                </div>
-                <div style={{cursor:'default',marginTop:'10px'}}>
-                    <ul>
-                        <li>
-                            로고 이미지를 등록 하시려면 <span className="mh" onClick={()=>{
-                                //   history.push('/setting/pay');
-                            }}>계정설정</span>에서 이미지를 설정하십시오. 
-                        </li>
-                        <li>
-                            로고 이미지를 변경 하신뒤에 로그아웃 후 재 로그인 해 주세요.
-                        </li>
-                        <li>
-                            가능한 가로 세로의 길이가 같은 이미지를 등록해 주세요.
-                        </li>
-                        <li>
-                            gif파일은 PDF변환 기관로고 이미지로 동작하지 않습니다.
-                        </li>
-                    </ul>
- 
-                </div>
-                <div style={{padding:'10px',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                    <button className="StartMakingPDF-btn" onClick={handlePDFstart}>보고서 다운받기 및 미리보기</button>
-                </div>
-            </div>
-            </div>
-            <div style={{ width: '900px', height: '750px', outline: '2px solid #1A408E' }}>
-            오른쪽
-            </div>
-    </div>)
-}
 
 const ScreeningViewer = ({ ...props }) => {
     const { dataArr } = props;
     const { onClose } = props;
-    const {groupData,userInform} = props;
+    const { groupData, userInform, AgencyLogoBase64, resultInform } = props;
 
     const [selDataIndex, set_selDataIndex] = React.useState(0);
 
     const selScreeningType = React.useMemo(() => {
-        if(selDataIndex===dataArr.length){
+        if (selDataIndex === dataArr.length) {
             return "보고서 다운로드"
         }
         else if (dataArr && dataArr[selDataIndex]) {
@@ -619,41 +714,383 @@ const ScreeningViewer = ({ ...props }) => {
             return null;
         }
     }, [dataArr, selDataIndex])
-    const targetGroupData = React.useMemo(()=>{
+    const targetGroupData = React.useMemo(() => {
         //groupData에서 알맞은 그룹을 찾아야함
-        const testeeMomentAge=Math.floor(userInform.testeeMomentAge);
-     
-        let target=null;
-        for(let i = 0 ; i <groupData.length; i++){
-            if(testeeMomentAge<7){
+        const testeeMomentAge = Math.floor(userInform.testeeMomentAge);
+
+        let target = null;
+        for (let i = 0; i < groupData.length; i++) {
+            if (testeeMomentAge < 7) {
                 if (groupData[i].s_age === 0 && groupData[i].e_age === 7) {
 
                     target = groupData[i];
                     break;
                 }
-            }else if (testeeMomentAge >= 20) {
+            } else if (testeeMomentAge >= 20) {
                 if (groupData[i].s_age === 20 && groupData[i].e_age === 1000) {
                     target = groupData[i];
                     break;
-                  }
-            }else {
+                }
+            } else {
                 if (groupData[i].s_age === testeeMomentAge && groupData[i].e_age === (testeeMomentAge + 1)) {
                     target = groupData[i];
                     break;
                 }
             }
         }
-        console.log("targetGroupData",target)
+        // console.log("targetGroupData",target)
         return target;
-    },[userInform,groupData]);
+    }, [userInform, groupData]);
 
-    const everyGroupData = React.useMemo(()=>{
+    const everyGroupData = React.useMemo(() => {
 
-        return groupData[groupData.length-1];
-    },[groupData])
-    const handlePDFstart = ()=>{
-        
+        return groupData[groupData.length - 1];
+    }, [groupData])
+
+    const [isPDFing, set_isPDFing] = React.useState(null);
+    const [docDefinition, set_docDefinition] = React.useState(null);
+    const [progressNow, set_progressNow] = React.useState(null);
+    const [PDFURL, set_PDFURL] = React.useState(null);
+
+    const progressMax = React.useMemo(() => {
+        if (!dataArr) return 0;
+        return dataArr.length;
+    }, [dataArr]);
+
+    const handlePDFstart = () => {
+
+        set_progressNow(0);
+        set_isPDFing(true);
+        set_docDefinition({
+            pageSize: 'A4',
+            info: {
+                title: '진단 요약 결과',
+                author: 'bnri',
+                subject: '진단 요약 결과',
+                keywords: '',
+            },
+            background: function (currentPage, pageCount) {
+                if (currentPage * 1 === 1) {
+                    return ([
+                        {
+                            margin: [20, 26],
+                            layout: 'headerunderline', // optional
+                            table: {
+                                // headers are automatically repeated if the table spans over multiple pages
+                                // you can declare how many rows should be treated as headers
+                                headerRows: 1,
+                                widths: ['*', '*'],
+                                body: [
+                                    [{
+                                        text: '',
+                                        margin: [0, 10, 0, 10],
+                                        border: [false, false, false, false]
+                                    }, {
+                                        text: ' ',
+                                        margin: [0, 10, 0, 10],
+                                        border: [false, false, false, false]
+                                    }
+                                    ],
+                                    [{
+                                        text: '',
+                                        border: [false, false, false, false],
+                                    }, {
+                                        text: '',
+                                        border: [false, false, false, false]
+                                    }],
+                                ]
+                            }
+                        },
+                        {
+
+                            image: 'readerseyeLogo',
+                            //fit: [200, 200],
+                            fit: [100, 180],
+                            opacity: 1, //흐림 배경이미지.
+                            absolutePosition: { x: 470, y: 28 },
+                            //absolutePosition: { x: 550, y: 800 },
+                        },
+                        {
+                            text: userInform && userInform.testeeName ? `${userInform.testeeName} (${userInform.testeeID}) ${userInform.testeeClass}` : `testeeName (testeeID) testeeClass`,
+                            bold: true,
+                            // color: '#7367f0',
+                            color: 'black',
+                            absolutePosition: { x: 46, y: 41 },
+                        },
+                        {
+                            text: resultInform&&resultInform.savetime?`${resultInform.savetime}`:"saveTime",
+                            bold: true,
+                            // color: '#7367f0',
+                            color: 'black',
+                            absolutePosition: { x: 46, y: 61 },
+                        }
+                    ]);
+                }
+                else {
+
+                    return ([
+                        {
+                            margin: [20, 26],
+                            layout: 'headerunderline', // optional
+                            table: {
+                                // headers are automatically repeated if the table spans over multiple pages
+                                // you can declare how many rows should be treated as headers
+                                headerRows: 1,
+                                widths: ['*', '*'],
+                                body: [
+                                    [{
+                                        text: '',
+                                        margin: [0, 10, 0, 10]
+                                    }, { text: ' ', margin: [0, 10, 0, 10] }],
+                                    ['', ''],
+                                ]
+                            }
+                        },
+                        {
+                            image: '학원로고',
+                            // image: 'agencyLogo',
+                            //fit: [200, 200],
+                            fit: [20, 20],
+                            opacity: 1, //흐림 배경이미지.
+                            absolutePosition: { x: 21, y: 37 },
+                            //absolutePosition: { x: 550, y: 800 },
+                        },
+                        {
+                            text: userInform.agencyName ? userInform.agencyName : "agencyName",
+                            bold: true,
+                            // color: '#7367f0',
+                            color: 'black',
+                            absolutePosition: { x: 46, y: 41 },
+                        },
+                        {
+
+                            image: 'readerseyeLogo',
+                            //fit: [200, 200],
+                            fit: [100, 180],
+                            opacity: 1, //흐림 배경이미지.
+                            absolutePosition: { x: 470, y: 28 },
+                            //absolutePosition: { x: 550, y: 800 },
+                        },
+                    ]);
+
+
+
+                }
+
+            },
+            footer: function (currentPage, pageCount) {
+                if (currentPage === 1) {
+                    return null;
+                }
+
+
+                return {
+                    table: {
+                        widths: [600, 100],
+                        body: [
+                            [
+                                {
+                                    text: (currentPage - 1) + ' / ' + (pageCount - 1),
+                                    alignment: 'center',
+                                    fontSize: 10
+                                }
+                            ]
+                        ]
+                    },
+                    layout: 'noBorders'
+                };
+            },
+
+            compress: true, //압축 저용량
+            content: [
+                {
+                    name: 'mainpage',
+                    margin: [30, 30, 30, 30],
+
+                    table: {
+                        widths: ['*', '*'],
+                        headerRows: 1,
+
+                        body: [
+                            [{
+                                text: ' '
+                            },
+                            {
+                                text: ' '
+                            }
+                            ],
+                            [
+
+                                {
+                                    margin: [10, 220, 10, 270],
+                                    text: "스크리닝 검사 리포트",
+                                    bold: true,
+                                    fontSize: 26,
+                                    alignment: 'center',
+                                    colSpan: 2
+                                },
+                            ],
+                            [
+                                {
+                                    margin: [10, 10, 10, 20],
+                                    text: moment().format('YYYY.MM.DD'),
+                                    alignment: 'center',
+                                    fontSize: 16,
+                                    colSpan: 2
+                                },
+
+                            ],
+                            [
+                                {
+                                    margin: [10, 20, 10, 10],
+                                    columns: [
+                                        { width: '*', text: '' },
+                                        {
+                                            width: 'auto',
+                                            image: '학원로고',
+                                            // image: 'agencyLogo',
+                                            //fit: [200, 200],
+                                            fit: [60, 60],
+                                        },
+                                        {
+                                            margin: [8, 20, 0, 0],
+                                            width: 'auto',
+                                            text: userInform.agencyName ? userInform.agencyName : "agencyName",
+                                            fontSize: 20,
+                                            bold: true,
+                                        },
+                                        { width: '*', text: '' },
+                                    ],
+                                    colSpan: 2
+
+                                }
+                            ]
+                        ],
+
+                    },
+                    layout: {
+                        hLineWidth: function (i, node) {
+                            if (i === 0 || i === node.table.body.length) {
+                                return 0;
+                            }
+                            return (i === node.table.headerRows) ? 0 : 0;
+                        },
+                        hLineHeight: function (i, node) {
+                            return 2;
+                        },
+                        vLineWidth: function (i) {
+                            return 0;
+                        },
+                        hLineColor: function (i) {
+                            return i === 1 ? 'black' : '#aaa';
+                        },
+                    },
+                    pageBreak: 'after'
+                }, //main page
+            ],
+
+            images: {
+                'readerseyeLogo': imgbase64forPDF['리더스아이로고가로'],
+                '학원로고': AgencyLogoBase64 ? AgencyLogoBase64 : imgbase64forPDF['기본로고'],
+                // defaultAgencyLogo: defaultagencylogo,
+                '최우수': imgbase64forPDF['최우수'],
+                '우수': imgbase64forPDF['우수'],
+                '양호': imgbase64forPDF['양호'],
+                '미흡': imgbase64forPDF['미흡'],
+                '주의': imgbase64forPDF['주의'],
+                '센텐스마스크': imgbase64forPDF['센텐스마스크'],
+                '지구력': imgbase64forPDF['지구력'],
+                '키워드파인딩': imgbase64forPDF['키워드파인딩'],
+                '많이읽기': imgbase64forPDF['많이읽기'],
+                '비주얼스팬': imgbase64forPDF['비주얼스팬'],
+                '어휘력': imgbase64forPDF['어휘력'],
+                '유창한': imgbase64forPDF['유창한'],
+                '어려운': imgbase64forPDF['어려운'],
+                '미숙한': imgbase64forPDF['미숙한'],
+                '읽기능력피라미드': imgbase64forPDF['읽기능력피라미드']
+            },
+            styles: {
+                header: {
+                    fontSize: 14,
+                    bold: true,
+                    alignment: 'left'
+                },
+                tableExample: {
+                    margin: [0, 20, 0, 10]
+                },
+                tableHeader: {
+                    bold: true,
+                    fontSize: 12,
+                    color: 'black'
+                },
+                tableParagraph: {
+                    bold: false,
+                    fontSize: 9,
+                    lineHeight: 1.6,
+                    color: 'black'
+                }
+            },
+            pageBreakBefore: function (currentNode, followingNodesOnPage, nodesOnNextPage, previousNodesOnPage) {
+                return currentNode.headlineLevel === 1
+            },
+            //headlineLevel: 1,
+            defaultStyle: {
+                font: '제주명조'
+            },
+        });
     }
+
+    React.useEffect(() => {
+        if (isPDFing) {            
+            if(progressNow === progressMax){
+                set_isPDFing('exit');                
+            }
+            else if(progressNow < progressMax){
+
+                console.log("1초 뒤에 progressNow:",(progressNow+1))
+                setTimeout(function(){
+                    set_progressNow(progressNow+1);
+                },1000);
+
+            }
+
+        }
+    }, [isPDFing, progressNow,progressMax]);
+
+    React.useEffect(()=>{
+        if(progressNow!==null){
+            set_selDataIndex(progressNow);
+        }
+    },[progressNow])
+
+    React.useEffect(()=>{
+        if(isPDFing){
+            console.log("selDataIndex",selDataIndex);
+        }
+    },[isPDFing,selDataIndex])
+
+    React.useEffect(() => {
+        if (isPDFing === 'exit') {
+            const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+
+            pdfDocGenerator.getBlob((blob) => {
+                // console.log(blob);
+                set_isPDFing(null);
+                set_progressNow(null);
+                set_PDFURL(URL.createObjectURL(blob));
+                console.log("보고서 변환종료!");
+                set_docDefinition(null);
+            });
+            // let downloadfilename ;
+            // //Agency_클래스_사용자이름(아이디)_날짜시간.pdf
+
+            // downloadfilename=`${userinform.agencyName}_${userinform.testeeClass?userinform.testeeClass:'클래스'}_[${userinform.testeeName}(${userinform.testeeID})]_${moment(textSetResultsData[0].savetime).format("YYYY년MM월DD일HH시mm분ss초")+'.pdf'}`;
+
+
+            // pdfDocGenerator.download(downloadfilename);
+        }
+    }, [isPDFing, docDefinition])
+
     return (<div className="ScreeningViewer">
         <div className="contents">
             <div className="leftbar no-drag">
@@ -670,41 +1107,42 @@ const ScreeningViewer = ({ ...props }) => {
                         {data.screeningType}
                     </div>)
                 })}
-                {dataArr&&selDataIndex!==null&&
-                    (()=>{
+                {dataArr && selDataIndex !== null &&
+                    (() => {
                         let cn = "oneLeftBarList";
 
-                        if(selDataIndex === dataArr.length){
+                        if (selDataIndex === dataArr.length) {
                             cn += " selected"
                         }
 
-                        return (<div className={cn} style={{marginTop:'10px'}}key={"oneLeftBar"+(dataArr.length)}
-                             onClick={()=>{
+                        return (<div className={cn} style={{ marginTop: '10px' }} key={"oneLeftBar" + (dataArr.length)}
+                            onClick={() => {
                                 set_selDataIndex(dataArr.length)
-                             }}>
-                                보고서 다운로드
-                            </div>)
+                            }}>
+                            보고서 다운로드
+                        </div>)
                     })()
                 }
-            
+
                 <div className="oneLeftBarList" style={{ marginTop: '5px' }} onClick={onClose} >
                     나가기
                 </div>
             </div>
             <div className="rightContents">
-                {selScreeningType === 'saccade' && targetGroupData&&
-                    <SaccadeView data={dataArr[selDataIndex]}  targetGroupData={targetGroupData} everyGroupData={everyGroupData}/>
+                {selScreeningType === 'saccade' && targetGroupData &&
+                    <SaccadeView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData} />
                 }
                 {selScreeningType === 'pursuit' &&
-                    <PursuitView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData}/>
+                    <PursuitView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData} />
                 }
                 {selScreeningType === 'antisaccade' &&
-                    <AntiSaccadeView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData}/>
+                    <AntiSaccadeView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData} />
                 }
-                {selScreeningType==="보고서 다운로드" &&
-                    <DownLoadPDF dataArr={dataArr} 
+                {selScreeningType === "보고서 다운로드" &&
+                    <DownLoadPDF dataArr={dataArr}
                         handlePDFstart={handlePDFstart}
-                          targetGroupData={targetGroupData} everyGroupData={everyGroupData}
+                        iframesrc={PDFURL}
+                        targetGroupData={targetGroupData} everyGroupData={everyGroupData}
                     />
                 }
             </div>
@@ -714,7 +1152,7 @@ const ScreeningViewer = ({ ...props }) => {
 
 
 const SaccadeView = ({ ...props }) => {
-    const { data ,targetGroupData , everyGroupData} = props;
+    const { data, targetGroupData, everyGroupData } = props;
 
     const radarChartOption = React.useMemo(() => {
         return {
@@ -1213,8 +1651,8 @@ const SaccadeView = ({ ...props }) => {
                             // },
                             // stepSize: 10,
                             callback: customCallbackXtick,
-                            min:0,
-                            max:1.5*1000
+                            min: 0,
+                            max: 1.5 * 1000
                         }
                     }
                 ],
@@ -1286,7 +1724,7 @@ const SaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.top[1].ydegreeChartArr,
-                    steppedLine:false,
+                    steppedLine: false,
                     label: "gazeV2",
                     borderColor: "rgba(0,0,255,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(0,0,255,0.7)',
@@ -1429,8 +1867,8 @@ const SaccadeView = ({ ...props }) => {
                             // },
                             // stepSize: 10,
                             callback: customCallbackXtick,
-                            min:0,
-                            max:1.5*1000
+                            min: 0,
+                            max: 1.5 * 1000
                         }
                     }
                 ],
@@ -1623,7 +2061,7 @@ const SaccadeView = ({ ...props }) => {
                             },
 
                             ///////여기서조정해야함
-                        
+
                         },
                         //x축 숨기려면 이렇게
                         // gridLines: {
@@ -1644,8 +2082,8 @@ const SaccadeView = ({ ...props }) => {
                             // },
                             // stepSize: 10,
                             callback: customCallbackXtick,
-                            min:0,
-                            max:1.5*1000
+                            min: 0,
+                            max: 1.5 * 1000
                         }
                     }
                 ],
@@ -1859,8 +2297,8 @@ const SaccadeView = ({ ...props }) => {
                             // },
                             // stepSize: 10,
                             callback: customCallbackXtick,
-                            min:0,
-                            max:1.5*1000
+                            min: 0,
+                            max: 1.5 * 1000
                         }
                     }
                 ],
@@ -1919,7 +2357,7 @@ const SaccadeView = ({ ...props }) => {
                 },
                 { //eyex
                     data: taskArr.left[0].xdegreeChartArr,
-                    steppedLine:false,
+                    steppedLine: false,
                     label: "gazeH1",
                     borderColor: "rgba(255,0,0,0.7)",//"#0000ff",
                     backgroundColor: 'rgba(255,0,0,0.7)',
@@ -2034,46 +2472,46 @@ const SaccadeView = ({ ...props }) => {
 
     const [showGazeViewer, set_showGazeViewer] = React.useState(false);
 
-    const myPercent = React.useMemo(()=>{
+    const myPercent = React.useMemo(() => {
         let x = data.analysis.saccade_score;
         let avg = targetGroupData.avg_saccade_score;
         let std = targetGroupData.std_saccade_score || 1;
-        let p =getGaussianMyPercent(avg,std,x);
+        let p = getGaussianMyPercent(avg, std, x);
         // console.log("p",p);
         return p;
-    },[data,targetGroupData]);
+    }, [data, targetGroupData]);
 
-    const myState = React.useMemo(()=>{
+    const myState = React.useMemo(() => {
         let mystate;
         if (myPercent <= 10) {
             mystate = '최우수'
-         
+
 
         }
         else if (myPercent > 10 && myPercent <= 25) {
             mystate = '우수'
-         
-        
+
+
         }
         else if (myPercent > 25 && myPercent <= 75) {
             mystate = "양호"
-      
-   
+
+
         }
         else if (myPercent > 75 && myPercent <= 90) {
             mystate = "미흡"
-            
-          
+
+
         }
         else {
             mystate = "주의"
-     
-          
+
+
         }
         return mystate;
-    },[myPercent])
+    }, [myPercent])
 
-    
+
     return (<div className="SaccadeView">
         <div className="row">
             <div className="titleBox">
@@ -2103,11 +2541,11 @@ const SaccadeView = ({ ...props }) => {
                 <div className="title">
                     도약안구운동 점수 분포
                 </div>
-                <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                  <BarChartGrade
-                    myScore={data.analysis.saccade_score}
-                    avgGroupScore={targetGroupData.avg_saccade_score}
-                    stdGroupScore={targetGroupData.std_saccade_score}
+                <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <BarChartGrade
+                        myScore={data.analysis.saccade_score}
+                        avgGroupScore={targetGroupData.avg_saccade_score}
+                        stdGroupScore={targetGroupData.std_saccade_score}
                     />
                 </div>
             </div>
@@ -2134,9 +2572,9 @@ const SaccadeView = ({ ...props }) => {
                                     fill: false,
                                 }, {
                                     data: [targetGroupData.avg_up_saccade_delay * 1000,
-                                        targetGroupData.avg_right_saccade_delay * 1000,
-                                        targetGroupData.avg_down_saccade_delay * 1000,
-                                        targetGroupData.avg_left_saccade_delay * 1000],
+                                    targetGroupData.avg_right_saccade_delay * 1000,
+                                    targetGroupData.avg_down_saccade_delay * 1000,
+                                    targetGroupData.avg_left_saccade_delay * 1000],
                                     label: 'group Avg Latency time (ms)',
                                     // backgroundColor:'red',
                                     borderColor: "rgba(0,0,0,0.2)",
@@ -2165,9 +2603,9 @@ const SaccadeView = ({ ...props }) => {
                                     fill: false,
                                 }, {
                                     data: [targetGroupData.avg_up_saccade_speed,
-                                        targetGroupData.avg_right_saccade_speed,
-                                        targetGroupData.avg_down_saccade_speed,
-                                        targetGroupData.avg_left_saccade_speed],
+                                    targetGroupData.avg_right_saccade_speed,
+                                    targetGroupData.avg_down_saccade_speed,
+                                    targetGroupData.avg_left_saccade_speed],
                                     label: 'group Avg Speed (degree/s)',
                                     // backgroundColor:'red',
                                     borderColor: "rgba(0,0,0,0.2)",
@@ -2195,9 +2633,9 @@ const SaccadeView = ({ ...props }) => {
                                     fill: false,
                                 }, {
                                     data: [targetGroupData.avg_up_fixation_stability,
-                                        targetGroupData.avg_right_fixation_stability,
-                                        targetGroupData.avg_down_fixation_stability,
-                                        targetGroupData.avg_left_fixation_stability],
+                                    targetGroupData.avg_right_fixation_stability,
+                                    targetGroupData.avg_down_fixation_stability,
+                                    targetGroupData.avg_left_fixation_stability],
                                     label: 'group Avg fixation_err(degree)',
                                     // backgroundColor:'red',
                                     borderColor: "rgba(0,0,0,0.2)",
@@ -2375,12 +2813,12 @@ const SaccadeView = ({ ...props }) => {
 
 
 const PursuitView = ({ ...props }) => {
-    const { data,targetGroupData, everyGroupData } = props;
+    const { data, targetGroupData, everyGroupData } = props;
     const [showGazeViewer, set_showGazeViewer] = React.useState(false);
 
 
 
- 
+
     const taskArr = React.useMemo(() => {
         // console.log(data);
         const MONITOR_PX_PER_CM = data.monitorInform.MONITOR_PX_PER_CM;
@@ -3175,44 +3613,44 @@ const PursuitView = ({ ...props }) => {
         };
     }, []);
 
-    const myPercent = React.useMemo(()=>{
+    const myPercent = React.useMemo(() => {
         let x = data.analysis.pursuit_score;
         let avg = targetGroupData.avg_pursuit_score;
         let std = targetGroupData.std_pursuit_score || 1;
-        let p =getGaussianMyPercent(avg,std,x);
+        let p = getGaussianMyPercent(avg, std, x);
         // console.log("p",p);
         return p;
-    },[data,targetGroupData]);
-    const myState = React.useMemo(()=>{
+    }, [data, targetGroupData]);
+    const myState = React.useMemo(() => {
         let mystate;
         if (myPercent <= 10) {
             mystate = '최우수'
-         
+
 
         }
         else if (myPercent > 10 && myPercent <= 25) {
             mystate = '우수'
-         
-        
+
+
         }
         else if (myPercent > 25 && myPercent <= 75) {
             mystate = "양호"
-      
-   
+
+
         }
         else if (myPercent > 75 && myPercent <= 90) {
             mystate = "미흡"
-            
-          
+
+
         }
         else {
             mystate = "주의"
-     
-          
+
+
         }
         return mystate;
-    },[myPercent])
-    
+    }, [myPercent])
+
     return (<div className="PursuitView">
         <div className="row">
             <div className="titleBox">
@@ -3244,9 +3682,9 @@ const PursuitView = ({ ...props }) => {
                 </div>
                 <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <BarChartGrade
-                    myScore={data.analysis.pursuit_score}
-                    avgGroupScore={targetGroupData.avg_pursuit_score}
-                    stdGroupScore={targetGroupData.std_pursuit_score}
+                        myScore={data.analysis.pursuit_score}
+                        avgGroupScore={targetGroupData.avg_pursuit_score}
+                        stdGroupScore={targetGroupData.std_pursuit_score}
                     />
                 </div>
             </div>
@@ -3391,7 +3829,7 @@ const PursuitView = ({ ...props }) => {
 }
 
 const AntiSaccadeView = ({ ...props }) => {
-    const { data ,targetGroupData, everyGroupData} = props;
+    const { data, targetGroupData, everyGroupData } = props;
 
     const [showGazeViewer, set_showGazeViewer] = React.useState(false);
     const transparentCanvasRef = React.useRef();
@@ -3404,7 +3842,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 {
                     type: 'bar',
                     label: "me",
-                    data: [(data.analysis.left_saccade_delay+data.analysis.right_saccade_delay) * 500, (data.analysis.left_antisaccade_delay+data.analysis.right_antisaccade_delay) * 500],
+                    data: [(data.analysis.left_saccade_delay + data.analysis.right_saccade_delay) * 500, (data.analysis.left_antisaccade_delay + data.analysis.right_antisaccade_delay) * 500],
                     // backgroundColor: themeColors,
                     backgroundColor: "red",
                     barPercentage: 0.8,
@@ -3414,15 +3852,15 @@ const AntiSaccadeView = ({ ...props }) => {
                 {
                     type: 'bar',
                     label: "group",
-                    data: [(targetGroupData.avg_left_saccade_delay+targetGroupData.avg_right_saccade_delay) * 500, 
-                        (targetGroupData.avg_left_antisaccade_delay+targetGroupData.avg_right_antisaccade_delay) * 500],
+                    data: [(targetGroupData.avg_left_saccade_delay + targetGroupData.avg_right_saccade_delay) * 500,
+                    (targetGroupData.avg_left_antisaccade_delay + targetGroupData.avg_right_antisaccade_delay) * 500],
                     // backgroundColor: themeColors,
                     backgroundColor: "gray",
                     barPercentage: 0.8,
                     categoryPercentage: 0.5,
                     borderColor: "transparent"
                 },
-             
+
             ]
         };
     }, [targetGroupData, data]);
@@ -3550,7 +3988,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 {
                     type: 'bar',
                     label: "me",
-                    data: [(data.analysis.avgErrFrequencyRatio*100),(data.analysis.avgErrTime/0.5*100)],
+                    data: [(data.analysis.avgErrFrequencyRatio * 100), (data.analysis.avgErrTime / 0.5 * 100)],
                     // backgroundColor: themeColors,
                     backgroundColor: "red",
                     barPercentage: 0.8,
@@ -3560,14 +3998,14 @@ const AntiSaccadeView = ({ ...props }) => {
                 {
                     type: 'bar',
                     label: "group",
-                    data: [targetGroupData.avg_avgErrFrequencyRatio*100, (targetGroupData.avg_avgErrTime/0.5*100)],
+                    data: [targetGroupData.avg_avgErrFrequencyRatio * 100, (targetGroupData.avg_avgErrTime / 0.5 * 100)],
                     // backgroundColor: themeColors,
                     backgroundColor: "gray",
                     barPercentage: 0.8,
                     categoryPercentage: 0.5,
                     borderColor: "transparent"
                 },
-             
+
             ]
         };
     }, [targetGroupData, data]);
@@ -3587,7 +4025,7 @@ const AntiSaccadeView = ({ ...props }) => {
                         // else{
                         //     return "myAvgErr\n"+value.toFixed(2);
                         // }
-                        return value.toFixed(1)+'%';
+                        return value.toFixed(1) + '%';
 
                     },
                     anchor: 'center',
@@ -3702,7 +4140,7 @@ const AntiSaccadeView = ({ ...props }) => {
         let annotation = [];
 
         let leftTaskArr = taskArr.left;
-        annotation=[{
+        annotation = [{
             drawTime: "afterDatasetsDraw", // (default)
             type: "box",
             mode: "horizontal",
@@ -3762,7 +4200,7 @@ const AntiSaccadeView = ({ ...props }) => {
             yMin: -10,
             yMax: 10
         }]
-     
+
 
         annotation.push({
             drawTime: "afterDatasetsDraw", // (default)
@@ -3866,8 +4304,8 @@ const AntiSaccadeView = ({ ...props }) => {
                             // },
                             // stepSize: 10,
                             callback: customCallbackXtick,
-                            min:0,
-                            max:1.5*1000
+                            min: 0,
+                            max: 1.5 * 1000
                         }
                     }
                 ],
@@ -3925,7 +4363,7 @@ const AntiSaccadeView = ({ ...props }) => {
                     borderWidth: 1.5,
                     pointRadius: 0.3, //데이터 포인터크기
                     pointHoverRadius: 2, //hover 데이터포인터크기
-        
+
                 },
                 { //eyex
                     data: taskArr.left[0].xdegreeChartArr,
@@ -3987,7 +4425,7 @@ const AntiSaccadeView = ({ ...props }) => {
         let annotation = [];
 
         let rightTaskArr = taskArr.right;
-        annotation=[{
+        annotation = [{
             drawTime: "afterDatasetsDraw", // (default)
             type: "box",
             mode: "horizontal",
@@ -4047,7 +4485,7 @@ const AntiSaccadeView = ({ ...props }) => {
             yMin: -10,
             yMax: 10
         }]
-     
+
 
         // for (let i = 0; i < rightTaskArr.length; i++) {
         //     // console.log("bottomTaskArr",bottomTaskArr);
@@ -4066,7 +4504,7 @@ const AntiSaccadeView = ({ ...props }) => {
         //         yMin: -10,
         //         yMax: 10
         //     });
-    
+
         // }
 
         annotation.push({
@@ -4153,8 +4591,8 @@ const AntiSaccadeView = ({ ...props }) => {
                             // },
                             // stepSize: 10,
                             callback: customCallbackXtick,
-                            min:0,
-                            max:1.5*1000
+                            min: 0,
+                            max: 1.5 * 1000
                         }
                     }
                 ],
@@ -4269,15 +4707,15 @@ const AntiSaccadeView = ({ ...props }) => {
     }, [taskArr]);
 
 
- 
-    const saccadeTaskArr = React.useMemo(()=>{
-        let taskArr=dataToTaskArr(data.saccadeData);
+
+    const saccadeTaskArr = React.useMemo(() => {
+        let taskArr = dataToTaskArr(data.saccadeData);
         // console.log("taskArr",taskArr);
         return taskArr;
-    },[data]);
+    }, [data]);
 
 
-    
+
     const saccadeLeftChartOption = React.useMemo(() => {
         let annotation = [];
 
@@ -4345,7 +4783,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 datalabels: {
                     formatter: (value, ctx) => {
                         return null;
-                       
+
                     },
                     anchor: 'center',
                     align: 'center',
@@ -4406,8 +4844,8 @@ const AntiSaccadeView = ({ ...props }) => {
                             // },
                             // stepSize: 10,
                             callback: customCallbackXtick,
-                            min:0,
-                            max:1.5*1000
+                            min: 0,
+                            max: 1.5 * 1000
                         }
                     }
                 ],
@@ -4561,7 +4999,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 datalabels: {
                     formatter: (value, ctx) => {
                         return null;
-                       
+
                     },
                     anchor: 'center',
                     align: 'center',
@@ -4622,8 +5060,8 @@ const AntiSaccadeView = ({ ...props }) => {
                             // },
                             // stepSize: 10,
                             callback: customCallbackXtick,
-                            min:0,
-                            max:1.5*1000
+                            min: 0,
+                            max: 1.5 * 1000
                         }
                     }
                 ],
@@ -4784,44 +5222,44 @@ const AntiSaccadeView = ({ ...props }) => {
     }, [taskArr, drawTransparentCanvas])
 
 
-    const myPercent = React.useMemo(()=>{
+    const myPercent = React.useMemo(() => {
         let x = data.analysis.antisaccade_score;
         let avg = targetGroupData.avg_antisaccade_score;
         let std = targetGroupData.std_antisaccade_score || 1;
-        let p =getGaussianMyPercent(avg,std,x);
+        let p = getGaussianMyPercent(avg, std, x);
         // console.log("p",p);
         return p;
-    },[data,targetGroupData]);
+    }, [data, targetGroupData]);
 
-    const myState = React.useMemo(()=>{
+    const myState = React.useMemo(() => {
         let mystate;
         if (myPercent <= 10) {
             mystate = '최우수'
-         
+
 
         }
         else if (myPercent > 10 && myPercent <= 25) {
             mystate = '우수'
-         
-        
+
+
         }
         else if (myPercent > 25 && myPercent <= 75) {
             mystate = "양호"
-      
-   
+
+
         }
         else if (myPercent > 75 && myPercent <= 90) {
             mystate = "미흡"
-            
-          
+
+
         }
         else {
             mystate = "주의"
-     
-          
+
+
         }
         return mystate;
-    },[myPercent])
+    }, [myPercent])
 
     return (<div className="AntiSaccadeView">
         <div className="row">
@@ -4854,9 +5292,9 @@ const AntiSaccadeView = ({ ...props }) => {
                 </div>
                 <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <BarChartGrade
-                    myScore={data.analysis.antisaccade_score}
-                    avgGroupScore={targetGroupData.avg_antisaccade_score}
-                    stdGroupScore={targetGroupData.std_antisaccade_score}
+                        myScore={data.analysis.antisaccade_score}
+                        avgGroupScore={targetGroupData.avg_antisaccade_score}
+                        stdGroupScore={targetGroupData.std_antisaccade_score}
                     />
                 </div>
             </div>
@@ -4932,7 +5370,7 @@ const AntiSaccadeView = ({ ...props }) => {
                                 <strong>{"Pro-saccade, Leftward"}</strong>
                             </div>
                             <div className="c_chart">
-                                 <ChartComponent
+                                <ChartComponent
                                     type="line"
                                     height={null}
                                     width={null}
@@ -4950,7 +5388,7 @@ const AntiSaccadeView = ({ ...props }) => {
                                 <strong>{"Pro-saccade, Rightward"}</strong>
                             </div>
                             <div className="c_chart">
-                            <ChartComponent
+                                <ChartComponent
                                     type="line"
                                     height={null}
                                     width={null}
@@ -5071,5 +5509,67 @@ const AntiSaccadeView = ({ ...props }) => {
     </div>)
 }
 
+const DownLoadPDF = ({ ...props }) => {
+    const { dataArr, targetGroupData, everyGroupData, AgencyLogoBase64, handlePDFstart, iframesrc
+    } = props;
+
+    return (<div className="DownLoadPDF" style={{ display: 'flex' }}>
+        <div style={{ width: '490px', marginRight: '10px' }}>
+            <div style={{ marginTop: '10px', borderBottom: '1px solid #1a408e', padding: '10px' }}>
+                <div>
+                    PDF의 기관 로고 이미지
+                </div>
+                <div style={{ height: '200px', backgroundColor: 'gray', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <img src={(AgencyLogoBase64 ? AgencyLogoBase64 : imgbase64forPDF['기본로고'])}
+                        alt="" style={{
+                            maxWidth: '150px',
+                            maxHeight: '150px', backgroundColor: 'white'
+                        }}
+                    />
+                </div>
+                <div style={{ cursor: 'default', marginTop: '10px' }}>
+                    <ul>
+                        <li>
+                            로고 이미지를 등록 하시려면 <span className="mh" onClick={() => {
+                                //   history.push('/setting/pay');
+                            }}>계정설정</span>에서 이미지를 설정하십시오.
+                        </li>
+                        <li>
+                            로고 이미지를 변경 하신뒤에 로그아웃 후 재 로그인 해 주세요.
+                        </li>
+                        <li>
+                            가능한 가로 세로의 길이가 같은 이미지를 등록해 주세요.
+                        </li>
+                        <li>
+                            gif파일은 PDF변환 기관로고 이미지로 동작하지 않습니다.
+                        </li>
+                    </ul>
+
+                </div>
+                <div style={{ padding: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <button className="StartMakingPDF-btn" onClick={handlePDFstart}>보고서 다운받기 및 미리보기</button>
+                </div>
+            </div>
+        </div>
+        <div style={{ width: '900px', height: '750px', outline: '2px solid #1A408E' }}>
+            {iframesrc ?
+                <Iframe url={iframesrc}
+                    frameBorder="0"
+                    cellspacing="0"
+                    //width="450px"
+                    //height="450px"
+                    id="pdfiframe"
+                    className={iframesrc ? "pdfiframe visible" : "pdfiframe"}
+                    display="block"
+                />
+                :
+                <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ddd', textAlign: 'center' }}>
+                    보고서 미리보기탭<br />
+                    미리보기 버튼을 누르시면 변환 후 여기에 표시 됩니다.
+                </div>
+            }
+        </div>
+    </div>)
+}
 
 export default ScreeningViewer;

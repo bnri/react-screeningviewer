@@ -12,7 +12,10 @@
   "module": "dist/ScreeningViewer.js",
   "main": "dist/ScreeningViewer.js",
   "dependencies": {
-    "react-gazeviewer": "^1.0.19"
+    "moment-timezone": "^0.5.34",
+    "pdfmake": "^0.1.71",
+    "react-gazeviewer": "^1.0.19",
+    "react-iframe": "^1.8.0"
   },
   "scripts": {
     "start": "react-scripts start",
