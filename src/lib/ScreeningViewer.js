@@ -757,8 +757,9 @@ const ScreeningViewer = ({ ...props }) => {
         return dataArr.length;
     }, [dataArr]);
 
-    const handlePDFstart = () => {
 
+
+    const handlePDFstart = () => {
         set_progressNow(0);
         set_isPDFing(true);
         set_docDefinition({
@@ -1040,22 +1041,30 @@ const ScreeningViewer = ({ ...props }) => {
         });
     }
 
+    const [isfinishThisPage,set_isfinishThisPage] = React.useState(null);
+
     React.useEffect(() => {
         if (isPDFing) {            
             if(progressNow === progressMax){
+                //마지막 페이지 돌아오는경우임.. 
                 set_isPDFing('exit');                
             }
             else if(progressNow < progressMax){
-
-                console.log("1초 뒤에 progressNow:",(progressNow+1))
-                setTimeout(function(){
+                //지금 pdf 에 만들어야 하는 것이..
+               
+                //dataArr[progressNow].screeningType 에 관한것
+                set_selDataIndex(progressNow);
+                set_isfinishThisPage(false);
+                if(isfinishThisPage===true){
+                    console.log("끝난progressNow",progressNow);
                     set_progressNow(progressNow+1);
-                },1000);
-
+                    set_isfinishThisPage(null);
+                    console.log("=============================================");
+                }
             }
-
         }
-    }, [isPDFing, progressNow,progressMax]);
+    }, [isPDFing, progressNow,progressMax,dataArr,isfinishThisPage]);
+
 
     React.useEffect(()=>{
         if(progressNow!==null){
@@ -1063,11 +1072,533 @@ const ScreeningViewer = ({ ...props }) => {
         }
     },[progressNow])
 
+
+
     React.useEffect(()=>{
-        if(isPDFing){
-            console.log("selDataIndex",selDataIndex);
+        if(isPDFing && progressMax !== selDataIndex){
+
+            //여기가 랜더가 끝남 docDefinition을 위한
+            if(isfinishThisPage===false){
+                let pageType = dataArr[selDataIndex].screeningType;
+                console.log("@작업을시작한 pageType : ",pageType);
+                // console.log("@selDataIndex",selDataIndex);
+                let pageTitle;
+                if(pageType==='saccade'){
+                    pageTitle=`도약안구운동 saccade 분석`
+                }
+                else if(pageType==='pursuit'){
+                    pageTitle=`추적안구운동 pursuit 분석`
+                }
+                else if(pageType==='antisaccade'){
+                    pageTitle=`반대로보기 anti saccade 분석`
+                }
+  
+
+                //유저정보 삽입
+                docDefinition.content.push({
+                    // pageBreak: 'after',
+                    name: '종합 요약',
+                    margin: [5, 20, 5, 5],
+
+                    table: {
+                        dontBreakRows: true,
+                        widths: ['8%', '30%', '8%','15%','8%','18%','13%'],
+                        margin: [0, 0, 0, 0],
+                        headerRows: 0,
+                        body: [
+                            [
+                                {
+                                    text: '',
+                                    border: [false, false, false, false]
+                                },
+                                {
+                                    text: '',
+                                    border: [false, false, false, false]
+                                },
+                                {
+                                    text: '',
+                                    border: [false, false, false, false]
+                                },
+                                {
+                                    text: '',
+                                    border: [false, false, false, false]
+                                },
+                                {
+                                    text: '',
+                                    border: [false, false, false, false]
+                                },
+                                {
+                                    text: '',
+                                    border: [false, false, false, false]
+                                },
+                                {
+                                    text:'',
+                                    border:[false,false,false,false]
+                                }
+                            ],
+                            [
+                                {
+                                    margin: [10, 10, 10, 10],
+                                    text: pageTitle, alignment: 'center',
+                                    bold: true,
+                                    colSpan: 7,
+                                    fontSize: 16,
+                                    border: [false, false, false, false]
+                                }
+                            ],
+
+                            [
+                                {
+                                    text:'소속',
+                                    colSpan:1,
+                                    fontSize:9,
+                                    alignment: 'right',
+                                    margin:[0,5,0,5],
+                                    border: [false, true, false, false],
+                                    bold:true
+                                },
+                                {
+                                    text:`아주긴 Agency이름 (agencyID임)`,
+                                    colSpan:1,
+                                    fontSize:9,
+                                    margin:[0,5,0,5],
+                                    border: [false, true, false, false]
+                                },
+                                {
+                                    text:'수행일',
+                                    colSpan:1,
+                                    fontSize:9,
+                                    alignment: 'right',
+                                    margin:[0,5,0,5],
+                                    border: [false, true, false, false],
+                                    bold:true
+                                },
+                                {
+                                    text:`2050-00-00`,
+                                    colSpan:1,
+                                    fontSize:9,
+                                    margin:[0,5,0,5],
+                                    border: [false, true, false, false]
+                                },
+                                {
+                                    text:'종합결과',
+                                    colSpan:1,
+                                    fontSize:9,
+                                    alignment: 'right',
+                                    margin:[0,5,0,5],
+                                    border: [false, true, false, false],
+                                    bold:true
+                                },
+                                {
+                                    text:`위험`,
+                                    colSpan:1,
+                                    fontSize:9,
+                                    margin:[0,5,0,5],
+                                    border: [false, true, false, false],                              
+
+                                },
+                                {
+                                    text:"사진",
+                                    rowSpan:3
+                                }
+
+
+                            ],
+                            [
+                                {
+                                    text:'피험자',
+                                    colSpan:1,
+                                    fontSize:9,
+                                    alignment: 'right',
+                                    margin:[0,5,0,5],
+                                    border: [false, false, false, false],
+                                    bold:true
+                                },
+                                {
+                                    text:`피험자이름(피험자아이디가길어)`,
+                                    colSpan:1,
+                                    fontSize:9,
+                                    margin:[0,5,0,5],
+                                    border: [false, false, false, false]
+                                },
+                                {
+                                    text:'수행시각',
+                                    colSpan:1,
+                                    fontSize:9,
+                                    alignment: 'right',
+                                    margin:[0,5,0,5],
+                                    border: [false, false, false, false],
+                                    bold:true
+                                },
+                                {
+                                    text:`23:59:59`,
+                                    colSpan:1,
+                                    fontSize:9,
+                                    margin:[0,5,0,5],
+                                    border: [false, false, false, false]
+                                },
+                                {
+                                    text:'내 점수',
+                                    colSpan:1,
+                                    fontSize:9,
+                                    alignment: 'right',
+                                    margin:[0,5,0,5],
+                                    border: [false, false, false, false],
+                                    bold:true
+                                },
+                                {
+                                    text:`60.43 점(45.1%)`,
+                                    colSpan:1,
+                                    fontSize:9,
+                                    margin:[0,5,0,5],
+                                    border: [false, false, false, false],                              
+
+                                }
+
+                            ], 
+                            [
+                                {
+                                    text:'성별',
+                                    colSpan:1,
+                                    fontSize:9,
+                                    alignment: 'right',
+                                    margin:[0,5,0,5],
+                                    border: [false, false, false, false],
+                                    bold:true
+                                },
+                                {
+                                    text:` 중성`,
+                                    colSpan:1,
+                                    fontSize:9,
+                                    margin:[0,5,0,5],
+                                    border: [false, false, false, false]
+                                },
+                                {
+                                    text:'당시연령',
+                                    colSpan:1,
+                                    fontSize:9,
+                                    alignment: 'right',
+                                    margin:[0,5,0,5],
+                                    border: [false, false, false, false],
+                                    bold:true
+                                },
+                                {
+                                    text:`35.4세`,
+                                    colSpan:1,
+                                    fontSize:9,
+                                    margin:[0,5,0,5],
+                                    border: [false, false, false, false]
+                                },
+                                {
+                                    text:'또래평균',
+                                    colSpan:1,
+                                    fontSize:9,
+                                    alignment: 'right',
+                                    margin:[0,5,0,5],
+                                    border: [false, false, false, false],
+                                    bold:true
+                                },
+                                {
+                                    text:`80 점`,
+                                    colSpan:1,
+                                    fontSize:9,
+                                    margin:[0,5,0,5],
+                                    border: [false, false, false, false],                              
+
+                                }
+
+                            ],                  
+                        ]
+
+                    },
+                    layout: 'showblackline',
+         
+
+                });
+
+                //아래 종류에 따라 삽입이 달라야함
+                if(pageType==='saccade'){
+                    docDefinition.content.push({
+                        name: '도약안구운동 1줄 파랑메뉴',
+                        margin: [5, 0, 5, 5],
+
+                        table: {
+                            dontBreakRows: true,
+                            widths: ['29%', '1%', '70%'],
+                            headerRows: 0,
+                            body: [
+                                [
+                                    {
+                                        text: '',
+                                        border: [false, false, false, false]
+                                    },
+                                    {
+                                        text: '',
+                                        border: [false, false, false, false]
+                                    },
+                                    {
+                                        text: '',
+                                        border: [false, false, false, false]
+                                    }
+                                ],
+                                [
+                                    {
+                                        text: '도약안구운동 점수 분포',
+                                        fontSize: 11,
+                                        bold: true,
+                                        border: [true, true, true, false],
+                                        alignment: 'center',
+                                        fillColor: '#1A408E',
+                                        color: 'white',
+                                        colSpan: 1,
+                                    },
+                                    {
+                                        text: '',
+                                        colSpan: 1,
+                                        border: [false, false, false, false]
+                                    },
+                                    {
+                                        text: '도약 안구운동 평균 위치 편차',
+                                        fontSize: 11,
+                                        bold: true,
+                                        border: [true, true, true, false],
+                                        alignment: 'center',
+                                        fillColor: '#1A408E',
+                                        color: 'white',
+                                        colSpan: 1,
+                                    }
+                                ],
+                                [
+                                    {
+                                        colSpan: 1,
+                                        alignment: 'center',
+                                        text:'사진',
+                                        margin: [0, 60, 0, 0],
+                                        border: [true, false, true, true]
+                                    },
+                                    {
+                                        text: '',
+                                        border: [false, false, false, false],
+
+                                        colSpan: 1,
+                                    },
+                                    {
+                                        // image: src,
+                                        margin: [0, 60, 0, 0],
+                                        fit: [330, 140],
+                                        colSpan: 1,
+                                        alignment: 'center',
+                                        text:'사진',
+
+                                        border: [true, false, true, true]
+                                    }
+                                ]
+                            ]
+
+                        },
+                        layout: 'showline'
+
+                    }, //3page-1
+                    );
+                    docDefinition.content.push({
+                        name: '도약안구운동 1줄 파랑메뉴',
+                        margin: [5, 0, 5, 5],
+
+                        table: {
+                            dontBreakRows: true,
+                            widths: ['29%', '1%', '70%'],
+                            headerRows: 0,
+                            body: [
+                                [
+                                    {
+                                        text: '',
+                                        border: [false, false, false, false]
+                                    },
+                                    {
+                                        text: '',
+                                        border: [false, false, false, false]
+                                    },
+                                    {
+                                        text: '',
+                                        border: [false, false, false, false]
+                                    }
+                                ],
+                                [
+                                    {
+                                        text: '도약 안구운동 시선',
+                                        fontSize: 11,
+                                        bold: true,
+                                        border: [true, true, true, false],
+                                        alignment: 'center',
+                                        fillColor: '#1A408E',
+                                        color: 'white',
+                                        colSpan: 1,
+                                    },
+                                    {
+                                        text: '',
+                                        colSpan: 1,
+                                        border: [false, false, false, false]
+                                    },
+                                    {
+                                        text: '도약 안구운동 시선',
+                                        fontSize: 11,
+                                        bold: true,
+                                        border: [true, true, true, false],
+                                        alignment: 'center',
+                                        fillColor: '#1A408E',
+                                        color: 'white',
+                                        colSpan: 1,
+                                    }
+                                ],
+                                [
+                                    {
+                                        margin: [0, 100, 0, 0],
+                                        colSpan: 1,
+                                        alignment: 'center',
+                                        text:'사진',
+                                        border: [true, false, true, true]
+                                    },
+                                    {
+                                        text: '',
+                                        border: [false, false, false, false],
+
+                                        colSpan: 1,
+                                    },
+                                    {
+                                        // image: src,
+                                        margin: [0, 100, 0, 0],
+                                        fit: [330, 140],
+                                        colSpan: 1,
+                                        alignment: 'center',
+                                        text:'사진',
+
+                                        border: [true, false, true, true]
+                                    }
+                                ]
+                            ]
+
+                        },
+                        layout: 'showline'
+
+                    }, //3page-1
+                    );
+                    //타이틀테이블
+                    docDefinition.content.push({
+                        name: '첫 타이틀테이블',
+                        margin: [5, 10, 5, 0],
+
+                        table: {
+                            widths: ['*', '*'],
+                            headerRows: 0,
+
+                            body: [
+                                [{
+                                    margin: [3, 0, 3, 0],
+                                    fontSize: 11,
+                                    text: "추적안구운동 (pursuit)은 무엇인가요?", alignment: 'left',
+                                    colSpan: 2,
+                                    bold: true,
+                                }
+                                ],
+                                [
+                                    {
+                                        fontSize: 10,
+                                        margin: [10, 10, 10, 10],
+                                        lineHeight: 1.6,
+                                        ul: [
+                                            "글을 읽는 동안 시선은 끊임없이 빠르게 이동(saccade, 도약이동)하며 글자에 고정(fixation, 응시)하는 것을 반복합니다. 글을 유창하게 읽기 위해서는 정확한 위치에 눈을 빠르고 정확한 위치로 옮기고, 안정적으로 시선을 유지하는 운동제어 능력이 필요합니다. 시력 저하, 피로, 집중력 부족, 안구진탕증 및 각종 신경계 이상 등의 이유로 도약안구운동에 문제가 생길 수 있으며, 이 능력이 저하되면 글을 유창하게 읽는데 방해가 될 수 있습니다. ",
+                                            // { text: 'Item 4', bold: true },
+                                        ],
+                                        colSpan: 2
+                                    },
+
+                                ],
+                            ],
+
+                        },
+                        layout: 'titletable'
+                    });
+                    //타이틀테입믈2번
+                    docDefinition.content.push({
+                        name: '두번째 타이틀테이블',
+                        margin: [5, 10, 5, 0],
+
+                        table: {
+                            widths: ['*', '*'],
+                            headerRows: 0,
+
+                            body: [
+                                [{
+                                    margin: [3, 0, 3, 0],
+                                    fontSize: 11,
+                                    text: "어느정도가 적당한가요?", alignment: 'left',
+                                    colSpan: 2,
+                                    bold: true,
+                                }
+                                ],
+                                [
+                                    {
+                                        fontSize: 10,
+                                        margin: [10, 10, 10, 10],
+                                        lineHeight: 1.6,
+                                        ul: [
+                                            "지연시간 (latency time) : 시각 자극물을 발견한 뒤, 목표를 향해 시선이 출발할 때까지 걸리는 시간입니다. 반응처리 및 운동능력이 우수할수록 짧으며, 대체로 150ms ~ 250ms정도입니다.",
+                                            "시선이동속도 (saccade speed) : 시선이 목표를 향해 이동할 때, 목표에 다다를 때까지의 속도입니다. 운동제어능력이 우수할수록 속도가 빠르며, 이동할 거리가 가까울수록 속도는 느려집니다. 대체로 50도/초~200도/초 정도입니다.​",
+                                            "응시안정성 (fixation stability) : 대상을 응시할 때, 시선이 얼마나 안정적으로 유지하는지를 측정한 척도입니다. 목표위치로부터의 2초간 시선위치 편차로 측정합니다. 집중력이 강하고 운동제어능력이 우수할수록 편차가 작으며, 대체로 0.5도 내외입니다."
+                                        ],
+                                        colSpan: 2
+                                    },
+
+                                ],
+                            ],
+
+                        },
+                        layout: 'titletable'
+                    });
+                    //타이틀테입믈3번
+                    docDefinition.content.push({
+                        name: '두번째 타이틀테이블',
+                        margin: [5, 10, 5, 0],
+                        pageBreak: 'after',
+                        table: {
+                            widths: ['*', '*'],
+                            headerRows: 0,
+
+                            body: [
+                                [{
+                                    margin: [3, 0, 3, 0],
+                                    fontSize: 11,
+                                    text: "어떻게 개선할 수 있나요?", alignment: 'left',
+                                    colSpan: 2,
+                                    bold: true,
+                                }
+                                ],
+                                [
+                                    {
+                                        fontSize: 10,
+                                        margin: [10, 10, 10, 10],
+                                        lineHeight: 1.6,
+                                        ul: [
+                                            "즉각적 피드백이 있는 추적안구운동 훈련을 합니다.",
+                                        ],
+                                        colSpan: 2
+                                    },
+
+                                ],
+                            ],
+
+                        },
+                        layout: 'titletable'
+                    });
+                }
+
+                setTimeout(function(){
+                    set_isfinishThisPage(true);
+                },50);
+            }
         }
-    },[isPDFing,selDataIndex])
+    },[isPDFing,selDataIndex,progressMax,docDefinition,isfinishThisPage,dataArr])
+
 
     React.useEffect(() => {
         if (isPDFing === 'exit') {
