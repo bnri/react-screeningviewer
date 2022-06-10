@@ -1304,14 +1304,17 @@ function App() {
   const userInform = React.useMemo(()=>{
     return {
       testeeMomentAge:20,
-      testeeName:"가나다",
-      testeeID:"가나다id",
-      testeeClass:"개나리반"
+      testeeName:"헐크",
+      testeeID:"hulk",
+      testeeClass:"개나리반",
+      testeeSex:"남자",
+      agencyID:"guripong",
+      agencyName:"쏘기컴터학원"
     }
   },[])
   const resultInform = React.useMemo(()=>{
     return {
-      savetime:"2022-00-00 00:00:00"
+      savetime:"2022-06-10 09:31:12"
     }
   },[])
   return (

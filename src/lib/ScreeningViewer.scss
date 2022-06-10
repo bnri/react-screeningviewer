@@ -105,6 +105,13 @@
                         }
                     }
                 }
+                #saccadeDirectionChart{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 5px;
+                }
                 .cbox{
                     box-sizing:border-box;
                     width:100%;
@@ -129,6 +136,7 @@
                         border:1px solid #444;
                         margin : 2px;
                     }
+                    
                     .cbox2r{
                         box-sizing: border-box;
                         width: 100%;
@@ -136,8 +144,8 @@
                         display:flex;
                         justify-content: center;
                         align-items: center;
-                        margin-top : 5px;
-                        margin-bottom:5px;
+                        // margin-top : 5px;
+                        // margin-bottom:5px;
                         .c_label{
                             height:30px;
                             display:flex;
