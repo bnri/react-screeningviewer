@@ -1132,8 +1132,11 @@ const ScreeningViewer = ({ ...props }) => {
 
                 //여기가 랜더가 끝남 docDefinition을 위한
                 if (isfinishThisPage === false) {
-                    const data = dataArr[selDataIndex];
+                    const isLast = selDataIndex+1 === dataArr.length?true:false;
 
+
+                    const data = dataArr[selDataIndex];
+                    
                     const pageType = data.screeningType;
                     const myState = myStateArr[selDataIndex];
                     const myPercent = myPercentArr[selDataIndex];
@@ -1767,7 +1770,7 @@ const ScreeningViewer = ({ ...props }) => {
                         });
                         //4개짜리 방향별 분석
                         docDefinition.content.push({
-                            pageBreak: 'after',
+                            pageBreak: isLast?null:'after',
                             name: '도약안구운동 1줄 파랑메뉴',
                             margin: [5, 20, 5, 5],
 
@@ -2124,7 +2127,7 @@ const ScreeningViewer = ({ ...props }) => {
                         });
                         //4개짜리 방향별 분석
                         docDefinition.content.push({
-                            pageBreak: 'after',
+                            pageBreak: isLast?null:'after',
                             name: '도약안구운동 1줄 파랑메뉴',
                             margin: [5, 20, 5, 5],
 
@@ -2519,7 +2522,7 @@ const ScreeningViewer = ({ ...props }) => {
                         });
                         //4개짜리 방향별 분석
                         docDefinition.content.push({
-                            // pageBreak: 'after',
+                            pageBreak: isLast?null:'after',
                             name: '도약안구운동 1줄 파랑메뉴',
                             margin: [5, 20, 5, 5],
 
