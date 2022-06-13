@@ -105,13 +105,16 @@
                         }
                     }
                 }
-                #saccadeDirectionChart{
+                #saccadeDirectionChart,
+                #pursuitDirectionChart,
+                #antisaccadeDirectionChart{
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                     align-items: center;
                     gap: 5px;
                 }
+               
                 .cbox{
                     box-sizing:border-box;
                     width:100%;

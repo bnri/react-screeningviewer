@@ -21,6 +21,8 @@ require("chartjs-plugin-datalabels");
 
 require("chartjs-plugin-annotation");
 
+var _html2canvas = _interopRequireDefault(require("html2canvas"));
+
 var _reactGazeviewer = _interopRequireDefault(require("react-gazeviewer"));
 
 var _reactIframe = _interopRequireDefault(require("react-iframe"));
@@ -34,6 +36,10 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -780,6 +786,50 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     return dataArr.length;
   }, [dataArr]);
 
+  var myPercentArr = _react.default.useMemo(function () {
+    var pArr = [];
+
+    for (var i = 0; i < dataArr.length; i++) {
+      var data = dataArr[i]; //
+
+      var pageType = data.screeningType;
+      var x = data.analysis["".concat(pageType, "_score")];
+      var avg = targetGroupData["avg_".concat(pageType, "_score")];
+      var std = targetGroupData["std_".concat(pageType, "_score")] || 1;
+      var p = getGaussianMyPercent(avg, std, x);
+      pArr.push(p);
+    } // console.log("p",p);
+
+
+    return pArr;
+  }, [dataArr, targetGroupData]);
+
+  var myStateArr = _react.default.useMemo(function () {
+    // if(!myPercentArr) return null;
+    var stateArr = [];
+
+    for (var i = 0; i < myPercentArr.length; i++) {
+      var myPercent = myPercentArr[i];
+      var mystate = void 0;
+
+      if (myPercent <= 10) {
+        mystate = '최우수';
+      } else if (myPercent > 10 && myPercent <= 25) {
+        mystate = '우수';
+      } else if (myPercent > 25 && myPercent <= 75) {
+        mystate = "양호";
+      } else if (myPercent > 75 && myPercent <= 90) {
+        mystate = "미흡";
+      } else {
+        mystate = "주의";
+      }
+
+      stateArr.push(mystate);
+    }
+
+    return stateArr;
+  }, [myPercentArr]);
+
   var handlePDFstart = function handlePDFstart() {
     set_progressNow(0);
     set_isPDFing(true);
@@ -1072,400 +1122,1127 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
   }, [progressNow]);
 
   _react.default.useEffect(function () {
-    if (isPDFing && progressMax !== selDataIndex) {
-      //여기가 랜더가 끝남 docDefinition을 위한
-      if (isfinishThisPage === false) {
-        var pageType = dataArr[selDataIndex].screeningType;
-        console.log("@작업을시작한 pageType : ", pageType); // console.log("@selDataIndex",selDataIndex);
-
-        var pageTitle;
-
-        if (pageType === 'saccade') {
-          pageTitle = "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 saccade \uBD84\uC11D";
-        } else if (pageType === 'pursuit') {
-          pageTitle = "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 pursuit \uBD84\uC11D";
-        } else if (pageType === 'antisaccade') {
-          pageTitle = "\uBC18\uB300\uB85C\uBCF4\uAE30 anti saccade \uBD84\uC11D";
-        } //유저정보 삽입
-
-
-        docDefinition.content.push({
-          // pageBreak: 'after',
-          name: '종합 요약',
-          margin: [5, 20, 5, 5],
-          table: {
-            dontBreakRows: true,
-            widths: ['8%', '30%', '8%', '15%', '8%', '18%', '13%'],
-            margin: [0, 0, 0, 0],
-            headerRows: 0,
-            body: [[{
-              text: '',
-              border: [false, false, false, false]
-            }, {
-              text: '',
-              border: [false, false, false, false]
-            }, {
-              text: '',
-              border: [false, false, false, false]
-            }, {
-              text: '',
-              border: [false, false, false, false]
-            }, {
-              text: '',
-              border: [false, false, false, false]
-            }, {
-              text: '',
-              border: [false, false, false, false]
-            }, {
-              text: '',
-              border: [false, false, false, false]
-            }], [{
-              margin: [10, 10, 10, 10],
-              text: pageTitle,
-              alignment: 'center',
-              bold: true,
-              colSpan: 7,
-              fontSize: 16,
-              border: [false, false, false, false]
-            }], [{
-              text: '소속',
-              colSpan: 1,
-              fontSize: 9,
-              alignment: 'right',
-              margin: [0, 5, 0, 5],
-              border: [false, true, false, false],
-              bold: true
-            }, {
-              text: "\uC544\uC8FC\uAE34 Agency\uC774\uB984 (agencyID\uC784)",
-              colSpan: 1,
-              fontSize: 9,
-              margin: [0, 5, 0, 5],
-              border: [false, true, false, false]
-            }, {
-              text: '수행일',
-              colSpan: 1,
-              fontSize: 9,
-              alignment: 'right',
-              margin: [0, 5, 0, 5],
-              border: [false, true, false, false],
-              bold: true
-            }, {
-              text: "2050-00-00",
-              colSpan: 1,
-              fontSize: 9,
-              margin: [0, 5, 0, 5],
-              border: [false, true, false, false]
-            }, {
-              text: '종합결과',
-              colSpan: 1,
-              fontSize: 9,
-              alignment: 'right',
-              margin: [0, 5, 0, 5],
-              border: [false, true, false, false],
-              bold: true
-            }, {
-              text: "\uC704\uD5D8",
-              colSpan: 1,
-              fontSize: 9,
-              margin: [0, 5, 0, 5],
-              border: [false, true, false, false]
-            }, {
-              text: "사진",
-              rowSpan: 3
-            }], [{
-              text: '피험자',
-              colSpan: 1,
-              fontSize: 9,
-              alignment: 'right',
-              margin: [0, 5, 0, 5],
-              border: [false, false, false, false],
-              bold: true
-            }, {
-              text: "\uD53C\uD5D8\uC790\uC774\uB984(\uD53C\uD5D8\uC790\uC544\uC774\uB514\uAC00\uAE38\uC5B4)",
-              colSpan: 1,
-              fontSize: 9,
-              margin: [0, 5, 0, 5],
-              border: [false, false, false, false]
-            }, {
-              text: '수행시각',
-              colSpan: 1,
-              fontSize: 9,
-              alignment: 'right',
-              margin: [0, 5, 0, 5],
-              border: [false, false, false, false],
-              bold: true
-            }, {
-              text: "23:59:59",
-              colSpan: 1,
-              fontSize: 9,
-              margin: [0, 5, 0, 5],
-              border: [false, false, false, false]
-            }, {
-              text: '내 점수',
-              colSpan: 1,
-              fontSize: 9,
-              alignment: 'right',
-              margin: [0, 5, 0, 5],
-              border: [false, false, false, false],
-              bold: true
-            }, {
-              text: "60.43 \uC810(45.1%)",
-              colSpan: 1,
-              fontSize: 9,
-              margin: [0, 5, 0, 5],
-              border: [false, false, false, false]
-            }], [{
-              text: '성별',
-              colSpan: 1,
-              fontSize: 9,
-              alignment: 'right',
-              margin: [0, 5, 0, 5],
-              border: [false, false, false, false],
-              bold: true
-            }, {
-              text: " \uC911\uC131",
-              colSpan: 1,
-              fontSize: 9,
-              margin: [0, 5, 0, 5],
-              border: [false, false, false, false]
-            }, {
-              text: '당시연령',
-              colSpan: 1,
-              fontSize: 9,
-              alignment: 'right',
-              margin: [0, 5, 0, 5],
-              border: [false, false, false, false],
-              bold: true
-            }, {
-              text: "35.4\uC138",
-              colSpan: 1,
-              fontSize: 9,
-              margin: [0, 5, 0, 5],
-              border: [false, false, false, false]
-            }, {
-              text: '또래평균',
-              colSpan: 1,
-              fontSize: 9,
-              alignment: 'right',
-              margin: [0, 5, 0, 5],
-              border: [false, false, false, false],
-              bold: true
-            }, {
-              text: "80 \uC810",
-              colSpan: 1,
-              fontSize: 9,
-              margin: [0, 5, 0, 5],
-              border: [false, false, false, false]
-            }]]
-          },
-          layout: 'showblackline'
-        }); //아래 종류에 따라 삽입이 달라야함
-
-        if (pageType === 'saccade') {
-          docDefinition.content.push({
-            name: '도약안구운동 1줄 파랑메뉴',
-            margin: [5, 0, 5, 5],
-            table: {
-              dontBreakRows: true,
-              widths: ['29%', '1%', '70%'],
-              headerRows: 0,
-              body: [[{
-                text: '',
-                border: [false, false, false, false]
-              }, {
-                text: '',
-                border: [false, false, false, false]
-              }, {
-                text: '',
-                border: [false, false, false, false]
-              }], [{
-                text: '도약안구운동 점수 분포',
-                fontSize: 11,
-                bold: true,
-                border: [true, true, true, false],
-                alignment: 'center',
-                fillColor: '#1A408E',
-                color: 'white',
-                colSpan: 1
-              }, {
-                text: '',
-                colSpan: 1,
-                border: [false, false, false, false]
-              }, {
-                text: '도약 안구운동 평균 위치 편차',
-                fontSize: 11,
-                bold: true,
-                border: [true, true, true, false],
-                alignment: 'center',
-                fillColor: '#1A408E',
-                color: 'white',
-                colSpan: 1
-              }], [{
-                colSpan: 1,
-                alignment: 'center',
-                text: '사진',
-                margin: [0, 60, 0, 0],
-                border: [true, false, true, true]
-              }, {
-                text: '',
-                border: [false, false, false, false],
-                colSpan: 1
-              }, {
-                // image: src,
-                margin: [0, 60, 0, 0],
-                fit: [330, 140],
-                colSpan: 1,
-                alignment: 'center',
-                text: '사진',
-                border: [true, false, true, true]
-              }]]
-            },
-            layout: 'showline'
-          } //3page-1
-          );
-          docDefinition.content.push({
-            name: '도약안구운동 1줄 파랑메뉴',
-            margin: [5, 0, 5, 5],
-            table: {
-              dontBreakRows: true,
-              widths: ['29%', '1%', '70%'],
-              headerRows: 0,
-              body: [[{
-                text: '',
-                border: [false, false, false, false]
-              }, {
-                text: '',
-                border: [false, false, false, false]
-              }, {
-                text: '',
-                border: [false, false, false, false]
-              }], [{
-                text: '도약 안구운동 시선',
-                fontSize: 11,
-                bold: true,
-                border: [true, true, true, false],
-                alignment: 'center',
-                fillColor: '#1A408E',
-                color: 'white',
-                colSpan: 1
-              }, {
-                text: '',
-                colSpan: 1,
-                border: [false, false, false, false]
-              }, {
-                text: '도약 안구운동 시선',
-                fontSize: 11,
-                bold: true,
-                border: [true, true, true, false],
-                alignment: 'center',
-                fillColor: '#1A408E',
-                color: 'white',
-                colSpan: 1
-              }], [{
-                margin: [0, 100, 0, 0],
-                colSpan: 1,
-                alignment: 'center',
-                text: '사진',
-                border: [true, false, true, true]
-              }, {
-                text: '',
-                border: [false, false, false, false],
-                colSpan: 1
-              }, {
-                // image: src,
-                margin: [0, 100, 0, 0],
-                fit: [330, 140],
-                colSpan: 1,
-                alignment: 'center',
-                text: '사진',
-                border: [true, false, true, true]
-              }]]
-            },
-            layout: 'showline'
-          } //3page-1
-          ); //타이틀테이블
-
-          docDefinition.content.push({
-            name: '첫 타이틀테이블',
-            margin: [5, 10, 5, 0],
-            table: {
-              widths: ['*', '*'],
-              headerRows: 0,
-              body: [[{
-                margin: [3, 0, 3, 0],
-                fontSize: 11,
-                text: "추적안구운동 (pursuit)은 무엇인가요?",
-                alignment: 'left',
-                colSpan: 2,
-                bold: true
-              }], [{
-                fontSize: 10,
-                margin: [10, 10, 10, 10],
-                lineHeight: 1.6,
-                ul: ["글을 읽는 동안 시선은 끊임없이 빠르게 이동(saccade, 도약이동)하며 글자에 고정(fixation, 응시)하는 것을 반복합니다. 글을 유창하게 읽기 위해서는 정확한 위치에 눈을 빠르고 정확한 위치로 옮기고, 안정적으로 시선을 유지하는 운동제어 능력이 필요합니다. 시력 저하, 피로, 집중력 부족, 안구진탕증 및 각종 신경계 이상 등의 이유로 도약안구운동에 문제가 생길 수 있으며, 이 능력이 저하되면 글을 유창하게 읽는데 방해가 될 수 있습니다. " // { text: 'Item 4', bold: true },
-                ],
-                colSpan: 2
-              }]]
-            },
-            layout: 'titletable'
-          }); //타이틀테입믈2번
-
-          docDefinition.content.push({
-            name: '두번째 타이틀테이블',
-            margin: [5, 10, 5, 0],
-            table: {
-              widths: ['*', '*'],
-              headerRows: 0,
-              body: [[{
-                margin: [3, 0, 3, 0],
-                fontSize: 11,
-                text: "어느정도가 적당한가요?",
-                alignment: 'left',
-                colSpan: 2,
-                bold: true
-              }], [{
-                fontSize: 10,
-                margin: [10, 10, 10, 10],
-                lineHeight: 1.6,
-                ul: ["지연시간 (latency time) : 시각 자극물을 발견한 뒤, 목표를 향해 시선이 출발할 때까지 걸리는 시간입니다. 반응처리 및 운동능력이 우수할수록 짧으며, 대체로 150ms ~ 250ms정도입니다.", "시선이동속도 (saccade speed) : 시선이 목표를 향해 이동할 때, 목표에 다다를 때까지의 속도입니다. 운동제어능력이 우수할수록 속도가 빠르며, 이동할 거리가 가까울수록 속도는 느려집니다. 대체로 50도/초~200도/초 정도입니다.​", "응시안정성 (fixation stability) : 대상을 응시할 때, 시선이 얼마나 안정적으로 유지하는지를 측정한 척도입니다. 목표위치로부터의 2초간 시선위치 편차로 측정합니다. 집중력이 강하고 운동제어능력이 우수할수록 편차가 작으며, 대체로 0.5도 내외입니다."],
-                colSpan: 2
-              }]]
-            },
-            layout: 'titletable'
-          }); //타이틀테입믈3번
-
-          docDefinition.content.push({
-            name: '두번째 타이틀테이블',
-            margin: [5, 10, 5, 0],
-            pageBreak: 'after',
-            table: {
-              widths: ['*', '*'],
-              headerRows: 0,
-              body: [[{
-                margin: [3, 0, 3, 0],
-                fontSize: 11,
-                text: "어떻게 개선할 수 있나요?",
-                alignment: 'left',
-                colSpan: 2,
-                bold: true
-              }], [{
-                fontSize: 10,
-                margin: [10, 10, 10, 10],
-                lineHeight: 1.6,
-                ul: ["즉각적 피드백이 있는 추적안구운동 훈련을 합니다."],
-                colSpan: 2
-              }]]
-            },
-            layout: 'titletable'
-          });
-        }
-
-        setTimeout(function () {
-          set_isfinishThisPage(true);
-        }, 50);
-      }
+    function doit() {
+      return _doit.apply(this, arguments);
     }
-  }, [isPDFing, selDataIndex, progressMax, docDefinition, isfinishThisPage, dataArr]);
+
+    function _doit() {
+      _doit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var data, pageType, myState, myPercent, myScore, targetScore, pageTitle, p, canvsArr, saccadeGradeChart_base64, saccadeRadarChart_base64, saccadeDirectionChart_base64, saccadeRealChart_base64, _p, _canvsArr, pursuitGradeChart_base64, pursuitErrChart_base64, pursuitDirectionChart_base64, pursuitRealChart_base64, _p2, _canvsArr2, antisaccadeGradeChart_base64, antisaccadeErrDirectionChart_base64, antisaccadeLatencyChart_base64, antisaccadeDirectionChart_base64, antisaccadeRealChart_base64;
+
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(isPDFing && progressMax !== selDataIndex)) {
+                  _context.next = 82;
+                  break;
+                }
+
+                if (!(isfinishThisPage === false)) {
+                  _context.next = 82;
+                  break;
+                }
+
+                data = dataArr[selDataIndex];
+                pageType = data.screeningType;
+                myState = myStateArr[selDataIndex];
+                myPercent = myPercentArr[selDataIndex];
+                myScore = data.analysis["".concat(pageType, "_score")].toFixed(2);
+                targetScore = targetGroupData["avg_".concat(pageType, "_score")].toFixed(2);
+                console.log("@작업을시작한 pageType : ", pageType);
+                console.log("data", data);
+                console.log("Inform", userInform, resultInform); // console.log("@selDataIndex",selDataIndex);
+
+                if (pageType === 'saccade') {
+                  pageTitle = "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 saccade \uBD84\uC11D";
+                } else if (pageType === 'pursuit') {
+                  pageTitle = "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 pursuit \uBD84\uC11D";
+                } else if (pageType === 'antisaccade') {
+                  pageTitle = "\uBC18\uB300\uB85C\uBCF4\uAE30 anti saccade \uBD84\uC11D";
+                } //유저정보 삽입
+
+
+                docDefinition.content.push({
+                  // pageBreak: 'after',
+                  name: '종합 요약',
+                  margin: [5, 20, 0, 5],
+                  columns: [{
+                    width: '80%',
+                    table: {
+                      dontBreakRows: true,
+                      widths: ['10%', '32%', '10%', '17%', '10%', '21%'],
+                      margin: [0, 0, 0, 0],
+                      headerRows: 0,
+                      body: [[{
+                        text: '',
+                        border: [false, false, false, false]
+                      }, {
+                        text: '',
+                        border: [false, false, false, false]
+                      }, {
+                        text: '',
+                        border: [false, false, false, false]
+                      }, {
+                        text: '',
+                        border: [false, false, false, false]
+                      }, {
+                        text: '',
+                        border: [false, false, false, false]
+                      }, {
+                        text: '',
+                        border: [false, false, false, false]
+                      }], //빈것
+                      [{
+                        margin: [10, 10, 0, 10],
+                        text: '\t\t\t\t\t\t' + pageTitle,
+                        alignment: 'center',
+                        bold: true,
+                        colSpan: 6,
+                        fontSize: 16,
+                        border: [false, false, false, false]
+                      }], //타이틀
+                      [{
+                        text: '소속',
+                        colSpan: 1,
+                        fontSize: 9,
+                        alignment: 'right',
+                        margin: [0, 5, 0, 5],
+                        border: [false, true, false, false],
+                        bold: true
+                      }, {
+                        text: "".concat(userInform.agencyName, "(").concat(userInform.agencyID, ")"),
+                        colSpan: 1,
+                        fontSize: 9,
+                        margin: [0, 5, 0, 5],
+                        border: [false, true, false, false]
+                      }, //agencyName agencyID
+                      {
+                        text: '수행일',
+                        colSpan: 1,
+                        fontSize: 9,
+                        alignment: 'right',
+                        margin: [0, 5, 0, 5],
+                        border: [false, true, false, false],
+                        bold: true
+                      }, {
+                        text: "".concat(resultInform.savetime.split(' ')[0]),
+                        colSpan: 1,
+                        fontSize: 9,
+                        margin: [0, 5, 0, 5],
+                        border: [false, true, false, false]
+                      }, //수행일
+                      {
+                        text: '종합결과',
+                        colSpan: 1,
+                        fontSize: 9,
+                        alignment: 'right',
+                        margin: [0, 5, 0, 5],
+                        border: [false, true, false, false],
+                        bold: true
+                      }, {
+                        text: "".concat(myState),
+                        colSpan: 1,
+                        fontSize: 9,
+                        margin: [0, 5, 0, 5],
+                        border: [false, true, false, false]
+                      } //종합결과
+                      ], //1줄
+                      [{
+                        text: '피험자',
+                        colSpan: 1,
+                        fontSize: 9,
+                        alignment: 'right',
+                        margin: [0, 5, 0, 5],
+                        border: [false, false, false, false],
+                        bold: true
+                      }, {
+                        text: "".concat(userInform.testeeName, "(").concat(userInform.testeeID, ")"),
+                        colSpan: 1,
+                        fontSize: 9,
+                        margin: [0, 5, 0, 5],
+                        border: [false, false, false, false]
+                      }, {
+                        text: '수행시각',
+                        colSpan: 1,
+                        fontSize: 9,
+                        alignment: 'right',
+                        margin: [0, 5, 0, 5],
+                        border: [false, false, false, false],
+                        bold: true
+                      }, {
+                        text: "".concat(resultInform.savetime.split(' ')[1]),
+                        colSpan: 1,
+                        fontSize: 9,
+                        margin: [0, 5, 0, 5],
+                        border: [false, false, false, false]
+                      }, {
+                        text: '내 점수',
+                        colSpan: 1,
+                        fontSize: 9,
+                        alignment: 'right',
+                        margin: [0, 5, 0, 5],
+                        border: [false, false, false, false],
+                        bold: true
+                      }, {
+                        text: "".concat(myScore, " \uC810(").concat(myPercent, "%)"),
+                        colSpan: 1,
+                        fontSize: 9,
+                        margin: [0, 5, 0, 5],
+                        border: [false, false, false, false]
+                      } //내점수
+                      ], //2줄
+                      [{
+                        text: '성별',
+                        colSpan: 1,
+                        fontSize: 9,
+                        alignment: 'right',
+                        margin: [0, 5, 0, 5],
+                        border: [false, false, false, false],
+                        bold: true
+                      }, {
+                        text: "".concat(userInform.testeeSex),
+                        colSpan: 1,
+                        fontSize: 9,
+                        margin: [0, 5, 0, 5],
+                        border: [false, false, false, false]
+                      }, //성별
+                      {
+                        text: '당시연령',
+                        colSpan: 1,
+                        fontSize: 9,
+                        alignment: 'right',
+                        margin: [0, 5, 0, 5],
+                        border: [false, false, false, false],
+                        bold: true
+                      }, {
+                        text: "".concat(userInform.testeeMomentAge, " \uC138"),
+                        colSpan: 1,
+                        fontSize: 9,
+                        margin: [0, 5, 0, 5],
+                        border: [false, false, false, false]
+                      }, {
+                        text: '또래평균',
+                        colSpan: 1,
+                        fontSize: 9,
+                        alignment: 'right',
+                        margin: [0, 5, 0, 5],
+                        border: [false, false, false, false],
+                        bold: true
+                      }, {
+                        text: "".concat(targetScore, " \uC810"),
+                        colSpan: 1,
+                        fontSize: 9,
+                        margin: [0, 5, 0, 5],
+                        border: [false, false, false, false]
+                      } //또래평균점수
+                      ] //3줄             
+                      ]
+                    },
+                    layout: 'showblackline'
+                  }, {
+                    width: '20%',
+                    table: {
+                      dontBreakRows: true,
+                      widths: ['*', '*'],
+                      margin: [0, 0, 50, 0],
+                      headerRows: 0,
+                      body: [[{
+                        text: '',
+                        border: [false, false, false, false],
+                        colSpan: 2
+                      }], [{
+                        margin: [0, 10, 20, 10],
+                        text: '\t',
+                        alignment: 'center',
+                        bold: true,
+                        // colSpan: 6,
+                        fontSize: 16,
+                        border: [false, false, false, false],
+                        colSpan: 2
+                      }], [{
+                        margin: [0, 0, 0, 0],
+                        // width:60,
+                        fit: [100, 70],
+                        image: "".concat(myState),
+                        alignment: 'center',
+                        colSpan: 2 // colSpan:2
+
+                      }]]
+                    },
+                    layout: {
+                      hLineColor: function hLineColor(i, node) {
+                        return i === 0 || i === node.table.body.length ? 'white' : 'white';
+                      },
+                      vLineColor: function vLineColor(i, node) {
+                        return i === 0 || i === node.table.widths.length ? 'white' : 'white';
+                      }
+                    } // layout: 'showblackline',
+
+                  }]
+                }); //아래 종류에 따라 삽입이 달라야함
+
+                if (!(pageType === 'saccade')) {
+                  _context.next = 35;
+                  break;
+                }
+
+                //html2canvas
+                p = [];
+                p.push((0, _html2canvas.default)(document.getElementById("saccadeGradeChart")));
+                p.push((0, _html2canvas.default)(document.getElementById("saccadeRadarChart")));
+                p.push((0, _html2canvas.default)(document.getElementById("saccadeDirectionChart")));
+                p.push((0, _html2canvas.default)(document.getElementById("saccadeRealChart"))); // p.push(html2canvas(document.getElementById("saccadeLatencyChart")));
+                // p.push(html2canvas(document.getElementById("saccadeSpeedChart")));
+                // p.push(html2canvas(document.getElementById("saccadeFEChart")));
+
+                _context.next = 21;
+                return Promise.all(p);
+
+              case 21:
+                canvsArr = _context.sent;
+                saccadeGradeChart_base64 = canvsArr[0].toDataURL();
+                saccadeRadarChart_base64 = canvsArr[1].toDataURL();
+                saccadeDirectionChart_base64 = canvsArr[2].toDataURL();
+                saccadeRealChart_base64 = canvsArr[3].toDataURL(); // console.log("saccadeDirectionChart_base64",saccadeDirectionChart_base64);
+                // const saccadeLatencyChart_base64=canvsArr[1].toDataURL();
+                // const saccadeSpeedChart_base64=canvsArr[2].toDataURL();
+                // const saccadeFEChart_base64=canvsArr[3].toDataURL();
+                //
+                //
+                //스샷 + 타이틀테이블
+
+                docDefinition.content.push({
+                  name: '도약안구운동 1줄 파랑메뉴',
+                  margin: [5, 5, 5, 5],
+                  table: {
+                    dontBreakRows: true,
+                    widths: ['33%', '1%', '65%'],
+                    headerRows: 0,
+                    body: [[{
+                      margin: [0, 3, 0, 0],
+                      text: '도약안구운동 점수 분포',
+                      fontSize: 11,
+                      bold: true,
+                      border: [true, true, true, false],
+                      alignment: 'center',
+                      fillColor: '#1A408E',
+                      color: 'white',
+                      colSpan: 1
+                    }, {
+                      text: '',
+                      colSpan: 1,
+                      border: [false, false, false, false]
+                    }, {
+                      text: '',
+                      colSpan: 1,
+                      // rowSpan:2,
+                      border: [false, false, false, true],
+                      table: {
+                        widths: ['*', '*'],
+                        headerRows: 0,
+                        body: [[{
+                          margin: [3, 0, 3, 0],
+                          fontSize: 11,
+                          text: "도약안구운동 (saccade)은 무엇인가요?",
+                          alignment: 'left',
+                          colSpan: 2,
+                          bold: true
+                        }]]
+                      },
+                      layout: 'titletable'
+                    }], [{
+                      image: saccadeGradeChart_base64,
+                      colSpan: 1,
+                      alignment: 'center',
+                      // text: '사진',
+                      fit: [165, 140],
+                      // width:'100%',
+                      margin: [0, 4, 0, 0],
+                      border: [true, false, true, true]
+                    }, {
+                      text: '',
+                      border: [false, false, false, false],
+                      colSpan: 1
+                    }, {
+                      fontSize: 10,
+                      margin: [10, 10, 10, 10],
+                      lineHeight: 1.6,
+                      ul: ["글을 읽는 동안 시선은 끊임없이 빠르게 이동(saccade, 도약이동)하며 글자에 고정(fixation, 응시)하는 것을 반복합니다. 글을 유창하게 읽기 위해서는 정확한 위치에 눈을 빠르고 정확한 위치로 옮기고, 안정적으로 시선을 유지하는 운동제어 능력이 필요합니다. 시력 저하, 피로, 집중력 부족, 안구진탕증 및 각종 신경계 이상 등의 이유로 도약안구운동에 문제가 생길 수 있으며, 이 능력이 저하되면 글을 유창하게 읽는데 방해가 될 수 있습니다. " // { text: 'Item 4', bold: true },
+                      ],
+                      colSpan: 1,
+                      border: [false, false, false, false]
+                    }]]
+                  },
+                  layout: 'showline'
+                }); //파랑테이블 radar 3개
+
+                docDefinition.content.push({
+                  name: '도약안구운동 1줄 파랑메뉴',
+                  margin: [5, 5, 5, 5],
+                  table: {
+                    dontBreakRows: true,
+                    widths: ['100%'],
+                    headerRows: 0,
+                    body: [[{
+                      margin: [0, 3, 0, 0],
+                      text: '도약안구운동 점수 분포',
+                      fontSize: 11,
+                      bold: true,
+                      border: [true, true, true, false],
+                      alignment: 'center',
+                      fillColor: '#1A408E',
+                      color: 'white',
+                      colSpan: 1
+                    }], [{
+                      image: saccadeRadarChart_base64,
+                      colSpan: 1,
+                      alignment: 'center',
+                      // text: '사진',
+                      fit: [635, 152],
+                      // width:'100%',
+                      margin: [0, 0, 0, 0],
+                      border: [true, false, true, true]
+                    }]]
+                  },
+                  layout: 'showline'
+                }); //타이틀테입믈2번
+
+                docDefinition.content.push({
+                  name: '두번째 타이틀테이블',
+                  margin: [5, 10, 5, 0],
+                  table: {
+                    widths: ['*', '*'],
+                    headerRows: 0,
+                    body: [[{
+                      margin: [3, 0, 3, 0],
+                      fontSize: 11,
+                      text: "어느정도가 적당한가요?",
+                      alignment: 'left',
+                      colSpan: 2,
+                      bold: true
+                    }], [{
+                      fontSize: 10,
+                      margin: [10, 10, 10, 10],
+                      lineHeight: 1.6,
+                      ul: ["지연시간 (latency time) : 시각 자극물을 발견한 뒤, 목표를 향해 시선이 출발할 때까지 걸리는 시간입니다. 반응처리 및 운동능력이 우수할수록 짧으며, 대체로 150ms ~ 250ms정도입니다.", "시선이동속도 (saccade speed) : 시선이 목표를 향해 이동할 때, 목표에 다다를 때까지의 속도입니다. 운동제어능력이 우수할수록 속도가 빠르며, 이동할 거리가 가까울수록 속도는 느려집니다. 대체로 50도/초~200도/초 정도입니다.", "응시안정성 (fixation stability) : 대상을 응시할 때, 시선이 얼마나 안정적으로 유지하는지를 측정한 척도입니다. 목표위치로부터의 2초간 시선위치 편차로 측정합니다. 집중력이 강하고 운동제어능력이 우수할수록 편차가 작으며, 대체로 0.5도 내외입니다."],
+                      colSpan: 2
+                    }]]
+                  },
+                  layout: 'titletable'
+                }); //타이틀테입믈3번
+
+                docDefinition.content.push({
+                  name: '두번째 타이틀테이블',
+                  margin: [5, 5, 5, 0],
+                  pageBreak: 'after',
+                  table: {
+                    widths: ['*', '*'],
+                    headerRows: 0,
+                    body: [[{
+                      margin: [3, 0, 3, 0],
+                      fontSize: 11,
+                      text: "어떻게 개선할 수 있나요?",
+                      alignment: 'left',
+                      colSpan: 2,
+                      bold: true
+                    }], [{
+                      fontSize: 10,
+                      margin: [10, 10, 10, 10],
+                      lineHeight: 1.6,
+                      ul: ["즉각적 피드백이 있는 추적안구운동 훈련을 합니다."],
+                      colSpan: 2
+                    }]]
+                  },
+                  layout: 'titletable'
+                }); /////2번째 page
+                ///////2번째ㅑ 테이블
+                //스샷테이블 큰사진 + 옆에 추가할 설명
+
+                docDefinition.content.push({
+                  name: '도약안구운동 1줄 파랑메뉴',
+                  margin: [5, 35, 5, 5],
+                  table: {
+                    dontBreakRows: true,
+                    widths: ['60%', '1%', '39%'],
+                    headerRows: 0,
+                    body: [[{
+                      text: '',
+                      border: [false, false, false, false]
+                    }, {
+                      text: '',
+                      border: [false, false, false, false]
+                    }, {
+                      text: '',
+                      border: [false, false, false, false]
+                    }], [{
+                      text: '도약 안구운동 시선궤적',
+                      fontSize: 11,
+                      bold: true,
+                      border: [true, true, true, false],
+                      alignment: 'center',
+                      fillColor: '#1A408E',
+                      color: 'white',
+                      colSpan: 1,
+                      margin: [0, 3, 0, 0]
+                    }, {
+                      text: '',
+                      colSpan: 1,
+                      border: [false, false, false, false]
+                    }, {
+                      text: '',
+                      colSpan: 1,
+                      // rowSpan:2,
+                      border: [false, false, false, true],
+                      table: {
+                        widths: ['*', '*'],
+                        headerRows: 0,
+                        body: [[{
+                          margin: [3, 0, 3, 0],
+                          fontSize: 11,
+                          text: "어떤질문을 쓰고",
+                          alignment: 'left',
+                          colSpan: 2,
+                          bold: true
+                        }]]
+                      },
+                      layout: 'titletable'
+                    }], [{
+                      margin: [0, 0, 0, 0],
+                      colSpan: 1,
+                      alignment: 'center',
+                      image: saccadeRealChart_base64,
+                      fit: [300, 273],
+                      border: [true, false, true, true]
+                    }, {
+                      text: '',
+                      border: [false, false, false, false],
+                      colSpan: 1
+                    }, {
+                      fontSize: 10,
+                      margin: [10, 10, 10, 10],
+                      lineHeight: 1.6,
+                      ul: ["여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요. " // { text: 'Item 4', bold: true },
+                      ],
+                      colSpan: 1,
+                      border: [false, false, false, false]
+                    }]]
+                  },
+                  layout: 'showline'
+                }); //4개짜리 방향별 분석
+
+                docDefinition.content.push({
+                  pageBreak: 'after',
+                  name: '도약안구운동 1줄 파랑메뉴',
+                  margin: [5, 20, 5, 5],
+                  table: {
+                    dontBreakRows: true,
+                    widths: ['100%'],
+                    headerRows: 0,
+                    body: [[{
+                      text: '',
+                      border: [false, false, false, false]
+                    }], [{
+                      text: '도약 안구운동 시선',
+                      fontSize: 11,
+                      bold: true,
+                      border: [true, true, true, false],
+                      alignment: 'center',
+                      fillColor: '#1A408E',
+                      color: 'white',
+                      colSpan: 1,
+                      margin: [0, 3, 0, 0]
+                    }], [{
+                      margin: [0, 0, 0, 0],
+                      colSpan: 1,
+                      alignment: 'center',
+                      image: saccadeDirectionChart_base64,
+                      fit: [600, 205],
+                      border: [true, false, true, true]
+                    }]]
+                  },
+                  layout: 'showline'
+                });
+                set_isfinishThisPage(true);
+                _context.next = 82;
+                break;
+
+              case 35:
+                if (!(pageType === 'pursuit')) {
+                  _context.next = 57;
+                  break;
+                }
+
+                //pursuitGradeChart
+                _p = [];
+
+                _p.push((0, _html2canvas.default)(document.getElementById("pursuitGradeChart")));
+
+                _p.push((0, _html2canvas.default)(document.getElementById("pursuitErrChart")));
+
+                _p.push((0, _html2canvas.default)(document.getElementById("pursuitDirectionChart")));
+
+                _p.push((0, _html2canvas.default)(document.getElementById("pursuitRealChart")));
+
+                _context.next = 43;
+                return Promise.all(_p);
+
+              case 43:
+                _canvsArr = _context.sent;
+                pursuitGradeChart_base64 = _canvsArr[0].toDataURL();
+                pursuitErrChart_base64 = _canvsArr[1].toDataURL();
+                pursuitDirectionChart_base64 = _canvsArr[2].toDataURL();
+                pursuitRealChart_base64 = _canvsArr[3].toDataURL(); //스샷2개
+
+                docDefinition.content.push({
+                  name: '추적안구운동점수와 설명',
+                  margin: [5, 5, 5, 5],
+                  table: {
+                    dontBreakRows: true,
+                    widths: ['40%', '1%', '59%'],
+                    headerRows: 0,
+                    body: [[{
+                      margin: [0, 3, 0, 0],
+                      text: '추적안구운동 점수 분포',
+                      fontSize: 11,
+                      bold: true,
+                      border: [true, true, true, false],
+                      alignment: 'center',
+                      fillColor: '#1A408E',
+                      color: 'white',
+                      colSpan: 1
+                    }, {
+                      text: '',
+                      colSpan: 1,
+                      border: [false, false, false, false]
+                    }, {
+                      margin: [0, 3, 0, 0],
+                      text: '추적안구운동 점수 분포',
+                      fontSize: 11,
+                      bold: true,
+                      border: [true, true, true, false],
+                      alignment: 'center',
+                      fillColor: '#1A408E',
+                      color: 'white',
+                      colSpan: 1
+                    }], [{
+                      image: pursuitGradeChart_base64,
+                      colSpan: 1,
+                      alignment: 'center',
+                      // text: '사진',
+                      fit: [183, 157],
+                      // width:'100%',
+                      margin: [0, 20, 0, 0],
+                      border: [true, false, true, true]
+                    }, {
+                      text: '',
+                      border: [false, false, false, false],
+                      colSpan: 1
+                    }, {
+                      image: pursuitErrChart_base64,
+                      colSpan: 1,
+                      alignment: 'center',
+                      // text: '사진',
+                      fit: [285, 260],
+                      // width:'100%',
+                      margin: [0, 0, 0, 0],
+                      border: [true, false, true, true]
+                    }]]
+                  },
+                  layout: 'showline'
+                }); //설명1
+
+                docDefinition.content.push({
+                  name: '두번째 타이틀테이블',
+                  margin: [5, 10, 5, 0],
+                  table: {
+                    widths: ['*', '*'],
+                    headerRows: 0,
+                    body: [[{
+                      margin: [3, 0, 3, 0],
+                      fontSize: 11,
+                      text: "추적안구운동 (pursuit)은 무엇인가요?",
+                      alignment: 'left',
+                      colSpan: 2,
+                      bold: true
+                    }], [{
+                      fontSize: 10,
+                      margin: [10, 10, 10, 10],
+                      lineHeight: 1.6,
+                      ul: ["추적안구운동(pursuit)은 천천히 움직이는 대상을 따라 부드럽고 연속적으로 시선을 움직이는 것입니다. 일반적으로 시선은 빠르게 점프하며 움직이며, 부드럽게 추적하는 추적안구운동은 어려운 기술이기 때문에, 영장류나 고양이 정도의 고등동물에게서 나타나는 능력입니다. 추적안구운동은 보통 노화에 의해 저하되지만, 시력 저하나 안진(안구 진탕)  및 각종 신경계 이상으로 인해 나타나기도 합니다. ", "추적안구운동은 글을 읽을 때 직접적으로 사용되지는 않지만, 안구운동을 정교하게 통제할 수 있는 능력이기 때문에, 이 능력이 부족하면 전반적인 안구운동이 저하되었을 가능성이 있습니다. "],
+                      colSpan: 2
+                    }]]
+                  },
+                  layout: 'titletable'
+                });
+                docDefinition.content.push({
+                  name: '설명2',
+                  margin: [5, 10, 5, 0],
+                  table: {
+                    widths: ['*', '*'],
+                    headerRows: 0,
+                    body: [[{
+                      margin: [3, 0, 3, 0],
+                      fontSize: 11,
+                      text: "어느 정도가 적당한가요?",
+                      alignment: 'left',
+                      colSpan: 2,
+                      bold: true
+                    }], [{
+                      fontSize: 10,
+                      margin: [10, 10, 10, 10],
+                      lineHeight: 1.6,
+                      ul: ["위치편차는 평균 **도, 도약안구운동 발생률은 5% 이하입니다. "],
+                      colSpan: 2
+                    }]]
+                  },
+                  layout: 'titletable'
+                });
+                docDefinition.content.push({
+                  pageBreak: 'after',
+                  name: '설명2',
+                  margin: [5, 10, 5, 0],
+                  table: {
+                    widths: ['*', '*'],
+                    headerRows: 0,
+                    body: [[{
+                      margin: [3, 0, 3, 0],
+                      fontSize: 11,
+                      text: "어떻게 개선할 수 있나요?",
+                      alignment: 'left',
+                      colSpan: 2,
+                      bold: true
+                    }], [{
+                      fontSize: 10,
+                      margin: [10, 10, 10, 10],
+                      lineHeight: 1.6,
+                      ul: ["즉각적 피드백이 있는 추적안구운동 훈련을 합니다. ", "집중력을 기릅니다. "],
+                      colSpan: 2
+                    }]]
+                  },
+                  layout: 'titletable'
+                }); //2페이지 시작
+
+                docDefinition.content.push({
+                  name: '도약안구운동 1줄 파랑메뉴',
+                  margin: [5, 35, 5, 5],
+                  table: {
+                    dontBreakRows: true,
+                    widths: ['60%', '1%', '39%'],
+                    headerRows: 0,
+                    body: [[{
+                      text: '',
+                      border: [false, false, false, false]
+                    }, {
+                      text: '',
+                      border: [false, false, false, false]
+                    }, {
+                      text: '',
+                      border: [false, false, false, false]
+                    }], [{
+                      text: '추적 안구운동 시선궤적',
+                      fontSize: 11,
+                      bold: true,
+                      border: [true, true, true, false],
+                      alignment: 'center',
+                      fillColor: '#1A408E',
+                      color: 'white',
+                      colSpan: 1,
+                      margin: [0, 3, 0, 0]
+                    }, {
+                      text: '',
+                      colSpan: 1,
+                      border: [false, false, false, false]
+                    }, {
+                      text: '',
+                      colSpan: 1,
+                      // rowSpan:2,
+                      border: [false, false, false, true],
+                      table: {
+                        widths: ['*', '*'],
+                        headerRows: 0,
+                        body: [[{
+                          margin: [3, 0, 3, 0],
+                          fontSize: 11,
+                          text: "어떤질문을 쓰고",
+                          alignment: 'left',
+                          colSpan: 2,
+                          bold: true
+                        }]]
+                      },
+                      layout: 'titletable'
+                    }], [{
+                      margin: [0, 0, 0, 0],
+                      colSpan: 1,
+                      alignment: 'center',
+                      image: pursuitRealChart_base64,
+                      fit: [300, 273],
+                      border: [true, false, true, true]
+                    }, {
+                      text: '',
+                      border: [false, false, false, false],
+                      colSpan: 1
+                    }, {
+                      fontSize: 10,
+                      margin: [10, 10, 10, 10],
+                      lineHeight: 1.6,
+                      ul: ["여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요. " // { text: 'Item 4', bold: true },
+                      ],
+                      colSpan: 1,
+                      border: [false, false, false, false]
+                    }]]
+                  },
+                  layout: 'showline'
+                }); //4개짜리 방향별 분석
+
+                docDefinition.content.push({
+                  pageBreak: 'after',
+                  name: '도약안구운동 1줄 파랑메뉴',
+                  margin: [5, 20, 5, 5],
+                  table: {
+                    dontBreakRows: true,
+                    widths: ['100%'],
+                    headerRows: 0,
+                    body: [[{
+                      text: '',
+                      border: [false, false, false, false]
+                    }], [{
+                      text: '추적 안구운동 수평수직 시선',
+                      fontSize: 11,
+                      bold: true,
+                      border: [true, true, true, false],
+                      alignment: 'center',
+                      fillColor: '#1A408E',
+                      color: 'white',
+                      colSpan: 1,
+                      margin: [0, 3, 0, 0]
+                    }], [{
+                      margin: [0, 0, 0, 0],
+                      colSpan: 1,
+                      alignment: 'center',
+                      image: pursuitDirectionChart_base64,
+                      fit: [600, 205],
+                      border: [true, false, true, true]
+                    }]]
+                  },
+                  layout: 'showline'
+                });
+                set_isfinishThisPage(true);
+                _context.next = 82;
+                break;
+
+              case 57:
+                if (!(pageType === "antisaccade")) {
+                  _context.next = 81;
+                  break;
+                }
+
+                //antisaccadeGradeChart
+                //#@!
+                _p2 = [];
+
+                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeGradeChart")));
+
+                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeErrDirectionChart")));
+
+                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeLatencyChart")));
+
+                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeDirectionChart")));
+
+                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeRealChart"))); //antisaccadeErrDirectionChart
+                //antisaccadeLatencyChart
+
+
+                _context.next = 66;
+                return Promise.all(_p2);
+
+              case 66:
+                _canvsArr2 = _context.sent;
+                antisaccadeGradeChart_base64 = _canvsArr2[0].toDataURL();
+                antisaccadeErrDirectionChart_base64 = _canvsArr2[1].toDataURL();
+                antisaccadeLatencyChart_base64 = _canvsArr2[2].toDataURL();
+                antisaccadeDirectionChart_base64 = _canvsArr2[3].toDataURL();
+                antisaccadeRealChart_base64 = _canvsArr2[4].toDataURL(); //스샷3개
+
+                docDefinition.content.push({
+                  name: '추적안구운동점수와 설명',
+                  margin: [5, 5, 5, 5],
+                  table: {
+                    dontBreakRows: true,
+                    widths: ['32%', '1%', '33%', '1%', '33%'],
+                    headerRows: 0,
+                    body: [[{
+                      margin: [0, 3, 0, 0],
+                      text: '반대로보기 점수 분포',
+                      fontSize: 11,
+                      bold: true,
+                      border: [true, true, true, false],
+                      alignment: 'center',
+                      fillColor: '#1A408E',
+                      color: 'white',
+                      colSpan: 1
+                    }, {
+                      text: '',
+                      colSpan: 1,
+                      border: [false, false, false, false]
+                    }, {
+                      margin: [0, 3, 0, 0],
+                      text: '이동방향 오류',
+                      fontSize: 11,
+                      bold: true,
+                      border: [true, true, true, false],
+                      alignment: 'center',
+                      fillColor: '#1A408E',
+                      color: 'white',
+                      colSpan: 1
+                    }, {
+                      text: '',
+                      colSpan: 1,
+                      border: [false, false, false, false]
+                    }, {
+                      margin: [0, 3, 0, 0],
+                      text: '평균 지체시간',
+                      fontSize: 11,
+                      bold: true,
+                      border: [true, true, true, false],
+                      alignment: 'center',
+                      fillColor: '#1A408E',
+                      color: 'white',
+                      colSpan: 1
+                    }], [{
+                      image: antisaccadeGradeChart_base64,
+                      colSpan: 1,
+                      alignment: 'center',
+                      // text: '사진',
+                      fit: [183, 117],
+                      // width:'100%',
+                      margin: [0, 20, 0, 0],
+                      border: [true, false, true, true]
+                    }, {
+                      text: '',
+                      border: [false, false, false, false],
+                      colSpan: 1
+                    }, {
+                      image: antisaccadeErrDirectionChart_base64,
+                      colSpan: 1,
+                      alignment: 'center',
+                      // text: '사진',
+                      fit: [285, 90],
+                      // width:'100%',
+                      margin: [0, 30, 0, 0],
+                      border: [true, false, true, true]
+                    }, {
+                      text: '',
+                      border: [false, false, false, false],
+                      colSpan: 1
+                    }, {
+                      image: antisaccadeLatencyChart_base64,
+                      colSpan: 1,
+                      alignment: 'center',
+                      // text: '사진',
+                      fit: [285, 90],
+                      // width:'100%',
+                      margin: [0, 30, 0, 0],
+                      border: [true, false, true, true]
+                    }]]
+                  },
+                  layout: 'showline'
+                }); //설명1,2,3
+
+                docDefinition.content.push({
+                  name: '두번째 타이틀테이블',
+                  margin: [5, 10, 5, 0],
+                  table: {
+                    widths: ['*', '*'],
+                    headerRows: 0,
+                    body: [[{
+                      margin: [3, 0, 3, 0],
+                      fontSize: 11,
+                      text: "반대로 보기 (anti - saccade)은 무엇인가요?",
+                      alignment: 'left',
+                      colSpan: 2,
+                      bold: true
+                    }], [{
+                      fontSize: 10,
+                      margin: [10, 10, 10, 10],
+                      lineHeight: 1.6,
+                      ul: ["반대로 보기는 지각된 사물을 자동적으로 바라보는 것을 통제하는 능력을 측정합니다. ", "따라보기(pro saccade)과제는 지각된 대상을 바라보는 과제이고, 반대로 보기(anti saccade)과제는 지각된 대상을 보지 않고 반대로 시선을 이동하는 과제입니다. 무언가 보이면 반사적으로 시선이 가려는 경향이 있기 때문에, 지각에 대한 행동을 통제하는 능력이나 집중력이 낮으면 반대보기 과제를 하기 어렵습니다. 집중력 저하, 난독증, ADHD 등의 증상과 관련이 있는 경우가 있습니다. "],
+                      colSpan: 2
+                    }]]
+                  },
+                  layout: 'titletable'
+                });
+                docDefinition.content.push({
+                  name: '두번째 타이틀테이블',
+                  margin: [5, 10, 5, 0],
+                  table: {
+                    widths: ['*', '*'],
+                    headerRows: 0,
+                    body: [[{
+                      margin: [3, 0, 3, 0],
+                      fontSize: 11,
+                      text: "어느 정도가 적당한가요?",
+                      alignment: 'left',
+                      colSpan: 2,
+                      bold: true
+                    }], [{
+                      fontSize: 10,
+                      margin: [10, 10, 10, 10],
+                      lineHeight: 1.6,
+                      ul: ["방향 정확성 : 따라보기는 대상이 있는 쪽으로, 반대보기는 대상의 반대쪽으로 시선이 움직였는지를 측정한 비율입니다. 반대보기의 정확도가 높은 것이 바람직하며, 대체로 85% 이상입니다. ", "지체시간(latency) : 대상을 보고 시선을 움직이기 전까지 소요되는 시간입니다. 보통 반대로보기시 따라보기보다 더 오래 걸리며,  300ms 이하인 것이 좋습니다. "],
+                      colSpan: 2
+                    }]]
+                  },
+                  layout: 'titletable'
+                });
+                docDefinition.content.push({
+                  pageBreak: 'after',
+                  name: '설명2',
+                  margin: [5, 10, 5, 0],
+                  table: {
+                    widths: ['*', '*'],
+                    headerRows: 0,
+                    body: [[{
+                      margin: [3, 0, 3, 0],
+                      fontSize: 11,
+                      text: "어떻게 개선할 수 있나요?",
+                      alignment: 'left',
+                      colSpan: 2,
+                      bold: true
+                    }], [{
+                      fontSize: 10,
+                      margin: [10, 10, 10, 10],
+                      lineHeight: 1.6,
+                      ul: ["즉각적 피드백이 있는 반대로 보기 훈련을 합니다. ", "집중력을 기릅니다. "],
+                      colSpan: 2
+                    }]]
+                  },
+                  layout: 'titletable'
+                }); //2페이지
+
+                docDefinition.content.push({
+                  name: '도약안구운동 1줄 파랑메뉴',
+                  margin: [5, 35, 5, 5],
+                  table: {
+                    dontBreakRows: true,
+                    widths: ['60%', '1%', '39%'],
+                    headerRows: 0,
+                    body: [[{
+                      text: '',
+                      border: [false, false, false, false]
+                    }, {
+                      text: '',
+                      border: [false, false, false, false]
+                    }, {
+                      text: '',
+                      border: [false, false, false, false]
+                    }], [{
+                      text: '반대로 보기 시선궤적',
+                      fontSize: 11,
+                      bold: true,
+                      border: [true, true, true, false],
+                      alignment: 'center',
+                      fillColor: '#1A408E',
+                      color: 'white',
+                      colSpan: 1,
+                      margin: [0, 3, 0, 0]
+                    }, {
+                      text: '',
+                      colSpan: 1,
+                      border: [false, false, false, false]
+                    }, {
+                      text: '',
+                      colSpan: 1,
+                      // rowSpan:2,
+                      border: [false, false, false, true],
+                      table: {
+                        widths: ['*', '*'],
+                        headerRows: 0,
+                        body: [[{
+                          margin: [3, 0, 3, 0],
+                          fontSize: 11,
+                          text: "어떤질문을 쓰고",
+                          alignment: 'left',
+                          colSpan: 2,
+                          bold: true
+                        }]]
+                      },
+                      layout: 'titletable'
+                    }], [{
+                      margin: [0, 0, 0, 0],
+                      colSpan: 1,
+                      alignment: 'center',
+                      image: antisaccadeRealChart_base64,
+                      fit: [300, 273],
+                      border: [true, false, true, true]
+                    }, {
+                      text: '',
+                      border: [false, false, false, false],
+                      colSpan: 1
+                    }, {
+                      fontSize: 10,
+                      margin: [10, 10, 10, 10],
+                      lineHeight: 1.6,
+                      ul: ["여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요. " // { text: 'Item 4', bold: true },
+                      ],
+                      colSpan: 1,
+                      border: [false, false, false, false]
+                    }]]
+                  },
+                  layout: 'showline'
+                }); //4개짜리 방향별 분석
+
+                docDefinition.content.push({
+                  // pageBreak: 'after',
+                  name: '도약안구운동 1줄 파랑메뉴',
+                  margin: [5, 20, 5, 5],
+                  table: {
+                    dontBreakRows: true,
+                    widths: ['100%'],
+                    headerRows: 0,
+                    body: [[{
+                      text: '',
+                      border: [false, false, false, false]
+                    }], [{
+                      text: '도약 안구운동 시선',
+                      fontSize: 11,
+                      bold: true,
+                      border: [true, true, true, false],
+                      alignment: 'center',
+                      fillColor: '#1A408E',
+                      color: 'white',
+                      colSpan: 1,
+                      margin: [0, 3, 0, 0]
+                    }], [{
+                      margin: [0, 0, 0, 0],
+                      colSpan: 1,
+                      alignment: 'center',
+                      image: antisaccadeDirectionChart_base64,
+                      fit: [600, 205],
+                      border: [true, false, true, true]
+                    }]]
+                  },
+                  layout: 'showline'
+                });
+                set_isfinishThisPage(true);
+                _context.next = 82;
+                break;
+
+              case 81:
+                set_isfinishThisPage(true);
+
+              case 82:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+      return _doit.apply(this, arguments);
+    }
+
+    doit();
+  }, [isPDFing, selDataIndex, progressMax, docDefinition, isfinishThisPage, dataArr, resultInform, userInform, myPercentArr, myStateArr, targetGroupData]);
 
   _react.default.useEffect(function () {
     if (isPDFing === 'exit') {
@@ -1574,6 +2351,9 @@ var SaccadeView = function SaccadeView(_ref3) {
       maintainAspectRatio: false,
       responsive: true,
       devicePixelRatio: window.devicePixelRatio * 3,
+      animation: {
+        duration: 0
+      },
       layout: {
         padding: 0
       },
@@ -1623,6 +2403,9 @@ var SaccadeView = function SaccadeView(_ref3) {
           align: 'center',
           color: '#000000'
         }
+      },
+      animation: {
+        duration: 0
       },
       maintainAspectRatio: false,
       responsive: true,
@@ -2940,6 +3723,7 @@ var SaccadeView = function SaccadeView(_ref3) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react.default.createElement("div", {
+    id: "saccadeGradeChart",
     className: "cbox",
     style: {
       display: 'flex',
@@ -2958,6 +3742,7 @@ var SaccadeView = function SaccadeView(_ref3) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react.default.createElement("div", {
+    id: "saccadeRadarChart",
     className: "cbox",
     style: {
       display: 'flex',
@@ -2965,6 +3750,7 @@ var SaccadeView = function SaccadeView(_ref3) {
       alignItems: 'center'
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
+    id: "saccadeLatencyChart",
     className: "cbox3 latencyChartWrap"
   }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
     type: "radar",
@@ -2988,6 +3774,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     },
     options: radarChartOption
   })), /*#__PURE__*/_react.default.createElement("div", {
+    id: "saccadeSpeedChart",
     className: "cbox3 speedChartWrap"
   }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
     type: "radar",
@@ -3011,6 +3798,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     },
     options: radarChartOption
   })), /*#__PURE__*/_react.default.createElement("div", {
+    id: "saccadeFEChart",
     className: "cbox3 fixationErrChartWrap"
   }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
     type: "radar",
@@ -3049,6 +3837,7 @@ var SaccadeView = function SaccadeView(_ref3) {
       return set_showGazeViewer(true);
     }
   }, "Viewer")), /*#__PURE__*/_react.default.createElement("div", {
+    id: "saccadeRealChart",
     className: "cbox"
   }, /*#__PURE__*/_react.default.createElement("div", {
     style: {
@@ -3142,6 +3931,7 @@ var SaccadeView = function SaccadeView(_ref3) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, "\uC2DC\uAC04\uC5D0 \uB530\uB978 \uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9"), /*#__PURE__*/_react.default.createElement("div", {
+    id: "saccadeDirectionChart",
     className: "cbox"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "cbox2r"
@@ -4105,6 +4895,7 @@ var PursuitView = function PursuitView(_ref4) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react.default.createElement("div", {
+    id: "pursuitGradeChart",
     className: "cbox",
     style: {
       display: 'flex',
@@ -4130,6 +4921,7 @@ var PursuitView = function PursuitView(_ref4) {
       alignItems: 'center'
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
+    id: "pursuitErrChart",
     className: "cbox2"
   }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
     type: "bar",
@@ -4155,6 +4947,7 @@ var PursuitView = function PursuitView(_ref4) {
       return set_showGazeViewer(true);
     }
   }, "Viewer")), /*#__PURE__*/_react.default.createElement("div", {
+    id: "pursuitRealChart",
     className: "cbox"
   }, /*#__PURE__*/_react.default.createElement("div", {
     style: {
@@ -4242,6 +5035,7 @@ var PursuitView = function PursuitView(_ref4) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, "\uC2DC\uAC04\uC5D0 \uB530\uB978 \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9"), /*#__PURE__*/_react.default.createElement("div", {
+    id: "pursuitDirectionChart",
     className: "cbox"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "cbox2r"
@@ -5734,6 +6528,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react.default.createElement("div", {
+    id: "antisaccadeGradeChart",
     className: "cbox",
     style: {
       display: 'flex',
@@ -5752,6 +6547,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, "\uC774\uB3D9\uBC29\uD5A5 \uC624\uB958(percent)"), /*#__PURE__*/_react.default.createElement("div", {
+    id: "antisaccadeErrDirectionChart",
     className: "cbox",
     style: {
       display: 'flex',
@@ -5772,6 +6568,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, "\uD3C9\uADE0 \uC9C0\uCCB4\uC2DC\uAC04(latency)"), /*#__PURE__*/_react.default.createElement("div", {
+    id: "antisaccadeLatencyChart",
     className: "cbox",
     style: {
       display: 'flex',
@@ -5800,7 +6597,8 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
       return set_showGazeViewer(true);
     }
   }, "Viewer")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "cbox"
+    className: "cbox",
+    id: "antisaccadeRealChart"
   }, /*#__PURE__*/_react.default.createElement("div", {
     style: {
       height: '30px',
@@ -5869,6 +6667,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, "\uC2DC\uAC04\uC5D0 \uB530\uB978 \uC2DC\uC120\uC774\uB3D9"), /*#__PURE__*/_react.default.createElement("div", {
+    id: "antisaccadeDirectionChart",
     className: "cbox"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "cbox2r"
@@ -5886,7 +6685,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     options: saccadeLeftChartOption
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "c_avg"
-  }, "\uC124\uBA851")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "myAvgLatency : ", /*#__PURE__*/_react.default.createElement("strong", null, (data.analysis.left_saccade_delay * 1000).toFixed(0), " ms"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "cbox2w"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "c_label"
@@ -5900,7 +6699,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     options: saccadeRightChartOption
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "c_avg"
-  }, "\uC124\uBA852"))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "myAvgLatency : ", /*#__PURE__*/_react.default.createElement("strong", null, (data.analysis.right_saccade_delay * 1000).toFixed(0), " ms")))), /*#__PURE__*/_react.default.createElement("div", {
     className: "cbox2r"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "cbox2w"
@@ -5916,7 +6715,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     options: antiSaccadeLeftChartOption
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "c_avg"
-  }, "\uC124\uBA853")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "myAvgLatency : ", /*#__PURE__*/_react.default.createElement("strong", null, (data.analysis.left_antisaccade_delay * 1000).toFixed(0), " ms"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "cbox2w"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "c_label"
@@ -5930,7 +6729,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     options: antiSaccadeRightChartOption
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "c_avg"
-  }, "\uC124\uBA854")))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "myAvgLatency : ", /*#__PURE__*/_react.default.createElement("strong", null, (data.analysis.right_antisaccade_delay * 1000).toFixed(0), " ms"))))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "row",
     style: {
       display: 'block'
@@ -5973,10 +6772,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
 var DownLoadPDF = function DownLoadPDF(_ref6) {
   var props = _extends({}, _ref6);
 
-  var dataArr = props.dataArr,
-      targetGroupData = props.targetGroupData,
-      everyGroupData = props.everyGroupData,
-      AgencyLogoBase64 = props.AgencyLogoBase64,
+  var AgencyLogoBase64 = props.AgencyLogoBase64,
       handlePDFstart = props.handlePDFstart,
       iframesrc = props.iframesrc;
   return /*#__PURE__*/_react.default.createElement("div", {
