@@ -1128,22 +1128,23 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
 
     function _doit() {
       _doit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var data, pageType, myState, myPercent, myScore, targetScore, pageTitle, p, canvsArr, saccadeGradeChart_base64, saccadeRadarChart_base64, saccadeDirectionChart_base64, saccadeRealChart_base64, _p, _canvsArr, pursuitGradeChart_base64, pursuitErrChart_base64, pursuitDirectionChart_base64, pursuitRealChart_base64, _p2, _canvsArr2, antisaccadeGradeChart_base64, antisaccadeErrDirectionChart_base64, antisaccadeLatencyChart_base64, antisaccadeDirectionChart_base64, antisaccadeRealChart_base64;
+        var isLast, data, pageType, myState, myPercent, myScore, targetScore, pageTitle, p, canvsArr, saccadeGradeChart_base64, saccadeRadarChart_base64, saccadeDirectionChart_base64, saccadeRealChart_base64, _p, _canvsArr, pursuitGradeChart_base64, pursuitErrChart_base64, pursuitDirectionChart_base64, pursuitRealChart_base64, _p2, _canvsArr2, antisaccadeGradeChart_base64, antisaccadeErrDirectionChart_base64, antisaccadeLatencyChart_base64, antisaccadeDirectionChart_base64, antisaccadeRealChart_base64;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 if (!(isPDFing && progressMax !== selDataIndex)) {
-                  _context.next = 82;
+                  _context.next = 83;
                   break;
                 }
 
                 if (!(isfinishThisPage === false)) {
-                  _context.next = 82;
+                  _context.next = 83;
                   break;
                 }
 
+                isLast = selDataIndex + 1 === dataArr.length ? true : false;
                 data = dataArr[selDataIndex];
                 pageType = data.screeningType;
                 myState = myStateArr[selDataIndex];
@@ -1383,7 +1384,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 }); //아래 종류에 따라 삽입이 달라야함
 
                 if (!(pageType === 'saccade')) {
-                  _context.next = 35;
+                  _context.next = 36;
                   break;
                 }
 
@@ -1396,10 +1397,10 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 // p.push(html2canvas(document.getElementById("saccadeSpeedChart")));
                 // p.push(html2canvas(document.getElementById("saccadeFEChart")));
 
-                _context.next = 21;
+                _context.next = 22;
                 return Promise.all(p);
 
-              case 21:
+              case 22:
                 canvsArr = _context.sent;
                 saccadeGradeChart_base64 = canvsArr[0].toDataURL();
                 saccadeRadarChart_base64 = canvsArr[1].toDataURL();
@@ -1632,7 +1633,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 }); //4개짜리 방향별 분석
 
                 docDefinition.content.push({
-                  pageBreak: 'after',
+                  pageBreak: isLast ? null : 'after',
                   name: '도약안구운동 1줄 파랑메뉴',
                   margin: [5, 20, 5, 5],
                   table: {
@@ -1664,12 +1665,12 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 82;
+                _context.next = 83;
                 break;
 
-              case 35:
+              case 36:
                 if (!(pageType === 'pursuit')) {
-                  _context.next = 57;
+                  _context.next = 58;
                   break;
                 }
 
@@ -1684,10 +1685,10 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
 
                 _p.push((0, _html2canvas.default)(document.getElementById("pursuitRealChart")));
 
-                _context.next = 43;
+                _context.next = 44;
                 return Promise.all(_p);
 
-              case 43:
+              case 44:
                 _canvsArr = _context.sent;
                 pursuitGradeChart_base64 = _canvsArr[0].toDataURL();
                 pursuitErrChart_base64 = _canvsArr[1].toDataURL();
@@ -1896,7 +1897,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 }); //4개짜리 방향별 분석
 
                 docDefinition.content.push({
-                  pageBreak: 'after',
+                  pageBreak: isLast ? null : 'after',
                   name: '도약안구운동 1줄 파랑메뉴',
                   margin: [5, 20, 5, 5],
                   table: {
@@ -1928,12 +1929,12 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 82;
+                _context.next = 83;
                 break;
 
-              case 57:
+              case 58:
                 if (!(pageType === "antisaccade")) {
-                  _context.next = 81;
+                  _context.next = 82;
                   break;
                 }
 
@@ -1953,10 +1954,10 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 //antisaccadeLatencyChart
 
 
-                _context.next = 66;
+                _context.next = 67;
                 return Promise.all(_p2);
 
-              case 66:
+              case 67:
                 _canvsArr2 = _context.sent;
                 antisaccadeGradeChart_base64 = _canvsArr2[0].toDataURL();
                 antisaccadeErrDirectionChart_base64 = _canvsArr2[1].toDataURL();
@@ -2193,7 +2194,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 }); //4개짜리 방향별 분석
 
                 docDefinition.content.push({
-                  // pageBreak: 'after',
+                  pageBreak: isLast ? null : 'after',
                   name: '도약안구운동 1줄 파랑메뉴',
                   margin: [5, 20, 5, 5],
                   table: {
@@ -2225,13 +2226,13 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 82;
+                _context.next = 83;
                 break;
 
-              case 81:
+              case 82:
                 set_isfinishThisPage(true);
 
-              case 82:
+              case 83:
               case "end":
                 return _context.stop();
             }
