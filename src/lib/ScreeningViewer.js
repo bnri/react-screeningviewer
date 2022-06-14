@@ -1132,11 +1132,11 @@ const ScreeningViewer = ({ ...props }) => {
 
                 //여기가 랜더가 끝남 docDefinition을 위한
                 if (isfinishThisPage === false) {
-                    const isLast = selDataIndex+1 === dataArr.length?true:false;
+                    const isLast = selDataIndex + 1 === dataArr.length ? true : false;
 
 
                     const data = dataArr[selDataIndex];
-                    
+
                     const pageType = data.screeningType;
                     const myState = myStateArr[selDataIndex];
                     const myPercent = myPercentArr[selDataIndex];
@@ -1144,6 +1144,7 @@ const ScreeningViewer = ({ ...props }) => {
                     const targetScore = targetGroupData[`avg_${pageType}_score`].toFixed(2);
                     console.log("@작업을시작한 pageType : ", pageType);
                     console.log("data", data);
+                    console.log("targetGroupData",targetGroupData);
                     console.log("Inform", userInform, resultInform);
                     // console.log("@selDataIndex",selDataIndex);
                     let pageTitle;
@@ -1341,7 +1342,7 @@ const ScreeningViewer = ({ ...props }) => {
                                                 bold: true
                                             },
                                             {
-                                                text: `${userInform.testeeMomentAge} 세`,
+                                                text: `${userInform.testeeMomentAge.toFixed(1)} 세`,
                                                 colSpan: 1,
                                                 fontSize: 9,
                                                 margin: [0, 5, 0, 5],
@@ -1672,24 +1673,11 @@ const ScreeningViewer = ({ ...props }) => {
                             margin: [5, 35, 5, 5],
 
                             table: {
+                                margin: [0, 0, 0, 0],
                                 dontBreakRows: true,
-                                widths: ['60%', '1%', '39%'],
+                                widths: ['45%', '1%', '54%'],
                                 headerRows: 0,
                                 body: [
-                                    [
-                                        {
-                                            text: '',
-                                            border: [false, false, false, false]
-                                        },
-                                        {
-                                            text: '',
-                                            border: [false, false, false, false]
-                                        },
-                                        {
-                                            text: '',
-                                            border: [false, false, false, false]
-                                        }
-                                    ],
                                     [
 
                                         {
@@ -1721,7 +1709,7 @@ const ScreeningViewer = ({ ...props }) => {
                                                     [{
                                                         margin: [3, 0, 3, 0],
                                                         fontSize: 11,
-                                                        text: "어떤질문을 쓰고", alignment: 'left',
+                                                        text: "방향별 시선 움직임", alignment: 'left',
                                                         colSpan: 2,
                                                         bold: true,
                                                     }
@@ -1736,12 +1724,13 @@ const ScreeningViewer = ({ ...props }) => {
                                     [
 
                                         {
-                                            margin: [0, 0, 0, 0],
+                                            margin: [0, 20, 0, 0],
                                             colSpan: 1,
                                             alignment: 'center',
                                             image: saccadeRealChart_base64,
-                                            fit: [300, 273],
-                                            border: [true, false, true, true]
+                                            fit: [300, 223],
+                                            border: [true, false, true, true],
+                                            rowSpan: 1,
                                         },
                                         {
                                             text: '',
@@ -1750,18 +1739,78 @@ const ScreeningViewer = ({ ...props }) => {
                                             colSpan: 1,
                                         },
                                         {
-                                            fontSize: 10,
-                                            margin: [10, 10, 10, 10],
-                                            lineHeight: 1.6,
-                                            ul: [
-                                                "여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요. ",
-                                                // { text: 'Item 4', bold: true },
-                                            ],
+                                            text: '',
                                             colSpan: 1,
+                                            // rowSpan:2,
                                             border: [false, false, false, false],
+                                            table: {
+                                                widths: ['*', '*'],
+                                                headerRows: 0,
+                                                margin: [0, 0, 0, 0],
+                                                body: [
+                                                    // [{
+                                                    //     margin: [3, 0, 3, 0],
+                                                    //     fontSize: 11,
+                                                    //     text: "방향별 시선 움직임", alignment: 'left',
+                                                    //     colSpan: 2,
+                                                    //     bold: true,
+                                                    // }
+                                                    [{
+
+                                                        fontSize: 10,
+                                                        margin: [10, 10, 10, 10],
+                                                        lineHeight: 1.6,
+                                                        ul: [
+                                                            "상하좌우 4방향에 대해 각 2회씩 수행한 도약안구운동/응시의 시선 궤적입니다. ",
+                                                            "응시 : 시작점과 목표점에서 최대한 같은 위치에 시선이 고정되어 있어야 합니다. ",
+                                                            "도약 : 시작점과 목표점 사이 외에는 시선이 분산되지 않고, 빠르게 (중간에 머뭇거리는 시선이 없이) 이동해야 합니다. "
+                                                        ],
+                                                        colSpan: 2,
+                                                        border: [false, false, false, false],
+                                                    }],
+                                                    [
+                                                        
+                                                        {
+                                                            margin: [0, 0, 0, 0],
+                                                            fontSize: 11,
+                                                            text: "하단 차트 보는법", alignment: 'left',
+                                                            colSpan: 2,
+                                                            bold: true,
+                                                            border: [false, false, false, false],
+                                                        }
+                                                    ], //
+                                                    [
+                                                        {
+                                                            border: [false, false, false, false],
+                                                            // text: '',
+
+                                                            fontSize: 10,
+                                                            margin: [10, 10, 10, 10],
+                                                            lineHeight: 1.6,
+                                                            ul: [
+                                                                "초록색 선 : 목표물(타겟) 자극의 위치 변화",
+                                                                "빨간색 선 : 첫번째 수행에서의 시선 위치 변화",
+                                                                "파란색 선 : 두번째 수행에서의 시선 위치 변화",
+                                                                "(색깔별) 첫번째 수직선 : 시선 도약의 시작 시각",
+                                                                "(색깔별 )두번째 수직선 : 시선 도약의 완료 시각",
+                                                                "회색 수직선 : 그룹평균 시선 도약 시작-완료 시각"
+                                                            ],
+                                                            // rowSpan: 1,
+                                                            colSpan: 2,
+                                                            // border: [false, false, false, false],
+                                                            // border: [true, true, true, true],
+                                                        },
+                                                    ]
+
+                                                ],
+
+                                            },
+                                            layout: 'titletable'
+
                                         },
 
-                                    ]
+                                    ],
+
                                 ]
 
                             },
@@ -1770,7 +1819,7 @@ const ScreeningViewer = ({ ...props }) => {
                         });
                         //4개짜리 방향별 분석
                         docDefinition.content.push({
-                            pageBreak: isLast?null:'after',
+                        
                             name: '도약안구운동 1줄 파랑메뉴',
                             margin: [5, 20, 5, 5],
 
@@ -1789,7 +1838,7 @@ const ScreeningViewer = ({ ...props }) => {
                                     [
 
                                         {
-                                            text: '도약 안구운동 시선',
+                                            text: '방향별 시간에 따른 시선의 수평위치',
                                             fontSize: 11,
                                             bold: true,
                                             border: [true, true, true, false],
@@ -1821,6 +1870,330 @@ const ScreeningViewer = ({ ...props }) => {
 
                         });
 
+                     
+                        //showline
+                        docDefinition.content.push({
+                            pageBreak: isLast ? null : 'after',
+                            name: '도약안구운동 1줄 파랑메뉴',
+                            margin: [5, 20, 5, 5],
+
+                            table: {
+                                dontBreakRows: true,
+                                widths: ['10%','10%','10%','10%','10%','10%','10%','10%','10%','10%'],
+                                headerRows: 0,
+           
+                                body: [
+                                    [
+                                        {
+                                            fontSize: 10,
+                                            text: '방향',
+                                            alignment: 'center',
+                                            bold:true,
+                                            // border: [false, false, false, false]
+                                        },
+                                        {
+                                            text: 'Latency 도약 지연시간 (ms)',
+                                            alignment: 'center',
+                                            bold:true,
+                                            // border: [false, false, false, false]
+                                            colSpan:3,
+                                            fontSize: 10,
+                                        },
+                                        {
+                                            text: '',
+                                            // border: [false, false, false, false]
+                                        },
+                                        {
+                                            text: '',
+                                            // border: [false, false, false, false]
+                                        },
+                                        {
+                                            text: '도약이동속도(deg/sec)',
+                                            alignment: 'center',
+                                            bold:true,
+                                            // border: [false, false, false, false]
+                                            colSpan:3,
+                                            fontSize: 10,
+                                        },
+                                        {
+                                            text: '',
+                                            // border: [false, false, false, false]
+                                        },
+                                        {
+                                            text: '',
+                                            // border: [false, false, false, false]
+                                        },
+                                        {
+                                            text: '응시 위치편차(deg)',
+                                            alignment: 'center',
+                                            bold:true,
+                                            // border: [false, false, false, false]
+                                            colSpan:3,
+                                            fontSize: 10,
+                                        },
+                                        {
+                                            text: '9',
+                                            // border: [false, false, false, false]
+                                        },
+                                        {
+                                            text: '10',
+                                            // border: [false, false, false, false]
+                                        },
+                                    ],
+                                    [
+                                        {
+                                            text: '상',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                            bold:true
+                                        },
+                                        {
+                                            text: (data.analysis.up_saccade_delay*1000).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                  
+                                        },
+                                        {
+                                            text: (targetGroupData.avg_up_saccade_delay*1000).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                
+                                        },
+                                        {
+                                            text: data.analysis.up_saccade_delay>=targetGroupData.avg_up_saccade_delay*1.3?'미흡':'정상',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                   
+                                        },
+                                        {
+                                            text: (data.analysis.up_saccade_speed).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                   
+                                        },
+                                        {
+                                            text: (targetGroupData.avg_up_saccade_speed).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                     
+                                        },
+                                        {
+                                            text: data.analysis.up_saccade_speed<=targetGroupData.avg_up_saccade_speed*0.7?'미흡':'정상',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                    
+                                        },
+                                        {
+                                            text: (data.analysis.up_fixation_stability).toFixed(4),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                     
+                                        },
+                                        {
+                                            text: (targetGroupData.avg_up_fixation_stability).toFixed(4),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                
+                                        },
+                                        {
+                                            text: data.analysis.up_fixation_stability>targetGroupData.avg_up_fixation_stability*2?'미흡':'정상',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                         
+                                        },
+                                    ],
+                                    [
+                                        {
+                                            text: '하',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                            bold:true
+                                        },
+                                        {
+                                            text: (data.analysis.down_saccade_delay*1000).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (targetGroupData.avg_down_saccade_delay*1000).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: data.analysis.down_saccade_delay>=targetGroupData.avg_down_saccade_delay*1.3?'미흡':'정상',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (data.analysis.down_saccade_speed).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (targetGroupData.avg_down_saccade_speed).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: data.analysis.down_saccade_speed<=targetGroupData.avg_down_saccade_speed*0.7?'미흡':'정상',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (data.analysis.down_fixation_stability).toFixed(4),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (targetGroupData.avg_down_fixation_stability).toFixed(4),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: data.analysis.down_fixation_stability>targetGroupData.avg_down_fixation_stability*2?'미흡':'정상',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                    ],
+                                    [
+                                        {
+                                            text: '좌',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                            bold:true
+                                        },
+                                        {
+                                            text: (data.analysis.left_saccade_delay*1000).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (targetGroupData.avg_left_saccade_delay*1000).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: data.analysis.left_saccade_delay>=targetGroupData.avg_left_saccade_delay*1.3?'미흡':'정상',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (data.analysis.left_saccade_speed).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (targetGroupData.avg_left_saccade_speed).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: data.analysis.left_saccade_speed<=targetGroupData.avg_left_saccade_speed*0.7?'미흡':'정상',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (data.analysis.left_fixation_stability).toFixed(4),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (targetGroupData.avg_left_fixation_stability).toFixed(4),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: data.analysis.left_fixation_stability>targetGroupData.avg_left_fixation_stability*2?'미흡':'정상',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                    ],
+                                    [
+                                        {
+                                            text: '우',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                            bold:true
+                                        },
+                                        {
+                                            text: (data.analysis.right_saccade_delay*1000).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (targetGroupData.avg_right_saccade_delay*1000).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: data.analysis.right_saccade_delay>=targetGroupData.avg_right_saccade_delay*1.3?'미흡':'정상',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (data.analysis.right_saccade_speed).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (targetGroupData.avg_right_saccade_speed).toFixed(0),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: data.analysis.right_saccade_speed<=targetGroupData.avg_right_saccade_speed*0.7?'미흡':'정상',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: (data.analysis.right_fixation_stability).toFixed(4),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text:(targetGroupData.avg_right_fixation_stability).toFixed(4),
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                        {
+                                            text: data.analysis.right_fixation_stability>targetGroupData.avg_right_fixation_stability*2?'미흡':'정상',
+                                            fontSize: 10,
+                                            alignment: 'center',
+                                           
+                                        },
+                                    ],
+                                ]
+
+                            },
+                            layout: 'showline'
+
+                        });
                         set_isfinishThisPage(true);
                     }
                     else if (pageType === 'pursuit') {
@@ -1975,7 +2348,7 @@ const ScreeningViewer = ({ ...props }) => {
                                             margin: [10, 10, 10, 10],
                                             lineHeight: 1.6,
                                             ul: [
-                                                "위치편차는 평균 **도, 도약안구운동 발생률은 5% 이하입니다. "
+                                                "추적안구운동 평균 에러 : 목표물을 따라 보는 동안, 정확한 위치로부터 벗어난 시선의 위치 에러입니다. 부드러운 추적안구운동에 실패하여 도약이 발생하거나, 집중하지 못하고 목표물을 정확히 따라가지 못하면 에러가 증가합니다.  평균 에러가 2% 이내이면 정상입니다. "
                                             ],
                                             colSpan: 2
                                         },
@@ -2078,7 +2451,7 @@ const ScreeningViewer = ({ ...props }) => {
                                                     [{
                                                         margin: [3, 0, 3, 0],
                                                         fontSize: 11,
-                                                        text: "어떤질문을 쓰고", alignment: 'left',
+                                                        text: "추적안구운동 시선 움직임", alignment: 'left',
                                                         colSpan: 2,
                                                         bold: true,
                                                     }
@@ -2091,7 +2464,6 @@ const ScreeningViewer = ({ ...props }) => {
                                         },
                                     ],
                                     [
-
                                         {
                                             margin: [0, 0, 0, 0],
                                             colSpan: 1,
@@ -2111,7 +2483,9 @@ const ScreeningViewer = ({ ...props }) => {
                                             margin: [10, 10, 10, 10],
                                             lineHeight: 1.6,
                                             ul: [
-                                                "여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요. ",
+                                                "시계방향/반시계방향으로 각 2회씩 수행한 추적안구운동의 시선 궤적입니다. ",
+                                                "응시 : 시작점과 목표점에서 최대한 같은 위치에 시선이 고정되어 있어야 합니다. ",
+                                                "도약 : 시작점과 목표점 사이 외에는 시선이 분산되지 않고, 빠르게 (중간에 머뭇거리는 시선이 없이) 이동해야 합니다. "
                                                 // { text: 'Item 4', bold: true },
                                             ],
                                             colSpan: 1,
@@ -2127,7 +2501,7 @@ const ScreeningViewer = ({ ...props }) => {
                         });
                         //4개짜리 방향별 분석
                         docDefinition.content.push({
-                            pageBreak: isLast?null:'after',
+                            pageBreak: isLast ? null : 'after',
                             name: '도약안구운동 1줄 파랑메뉴',
                             margin: [5, 20, 5, 5],
 
@@ -2184,7 +2558,7 @@ const ScreeningViewer = ({ ...props }) => {
                     else if (pageType === "antisaccade") {
 
                         //antisaccadeGradeChart
-                        //#@!
+             
                         let p = [];
                         p.push(html2canvas(document.getElementById("antisaccadeGradeChart")));
                         p.push(html2canvas(document.getElementById("antisaccadeErrDirectionChart")));
@@ -2522,7 +2896,7 @@ const ScreeningViewer = ({ ...props }) => {
                         });
                         //4개짜리 방향별 분석
                         docDefinition.content.push({
-                            pageBreak: isLast?null:'after',
+                            pageBreak: isLast ? null : 'after',
                             name: '도약안구운동 1줄 파랑메뉴',
                             margin: [5, 20, 5, 5],
 
@@ -2664,6 +3038,13 @@ const ScreeningViewer = ({ ...props }) => {
                 }
             </div>
         </div>
+        {
+            isPDFing &&
+
+            <div className="PDFprogress">
+
+            </div>
+        }
     </div>)
 }
 
@@ -6826,7 +7207,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 <div className="title">
                     이동방향 오류(percent)
                 </div>
-                <div id="antisaccadeErrDirectionChart"className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div id="antisaccadeErrDirectionChart" className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <ChartComponent
                         type="bar"
                         height={null}
@@ -6840,7 +7221,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 <div className="title">
                     평균 지체시간(latency)
                 </div>
-                <div id="antisaccadeLatencyChart"className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div id="antisaccadeLatencyChart" className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <ChartComponent
                         type="bar"
                         height={null}
@@ -6903,7 +7284,7 @@ const AntiSaccadeView = ({ ...props }) => {
                                 />
                             </div>
                             <div className="c_avg">
-                    
+
                                 myAvgLatency : <strong>{(data.analysis.left_saccade_delay * 1000).toFixed(0)} ms</strong>
                                 {/* , myAvgSpeed : <strong>{data.analysis.left_saccade_speed.toFixed(1)} degree/s</strong> */}
                             </div>
@@ -6923,8 +7304,8 @@ const AntiSaccadeView = ({ ...props }) => {
                                 />
                             </div>
                             <div className="c_avg">
-                            myAvgLatency : <strong>{(data.analysis.right_saccade_delay * 1000).toFixed(0)} ms</strong>
-                            {/* , myAvgSpeed : <strong>{data.analysis.right_saccade_speed.toFixed(1)} degree/s</strong> */}
+                                myAvgLatency : <strong>{(data.analysis.right_saccade_delay * 1000).toFixed(0)} ms</strong>
+                                {/* , myAvgSpeed : <strong>{data.analysis.right_saccade_speed.toFixed(1)} degree/s</strong> */}
                             </div>
                         </div>
                     </div>
@@ -6944,7 +7325,7 @@ const AntiSaccadeView = ({ ...props }) => {
 
                             </div>
                             <div className="c_avg">
-                            myAvgLatency : <strong>{(data.analysis.left_antisaccade_delay * 1000).toFixed(0)} ms</strong>
+                                myAvgLatency : <strong>{(data.analysis.left_antisaccade_delay * 1000).toFixed(0)} ms</strong>
 
                             </div>
                         </div>
@@ -6962,7 +7343,7 @@ const AntiSaccadeView = ({ ...props }) => {
                                 />
                             </div>
                             <div className="c_avg">
-                            myAvgLatency : <strong>{(data.analysis.right_antisaccade_delay * 1000).toFixed(0)} ms</strong>
+                                myAvgLatency : <strong>{(data.analysis.right_antisaccade_delay * 1000).toFixed(0)} ms</strong>
                             </div>
                         </div>
                     </div>
@@ -7038,9 +7419,9 @@ const AntiSaccadeView = ({ ...props }) => {
 }
 
 const DownLoadPDF = ({ ...props }) => {
-    const { 
+    const {
         // dataArr, targetGroupData, everyGroupData,
-         AgencyLogoBase64, handlePDFstart, iframesrc
+        AgencyLogoBase64, handlePDFstart, iframesrc
     } = props;
 
     return (<div className="DownLoadPDF" style={{ display: 'flex' }}>
@@ -7099,6 +7480,7 @@ const DownLoadPDF = ({ ...props }) => {
                 </div>
             }
         </div>
+
     </div>)
 }
 
