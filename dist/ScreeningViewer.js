@@ -1135,12 +1135,12 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
             switch (_context.prev = _context.next) {
               case 0:
                 if (!(isPDFing && progressMax !== selDataIndex)) {
-                  _context.next = 83;
+                  _context.next = 86;
                   break;
                 }
 
                 if (!(isfinishThisPage === false)) {
-                  _context.next = 83;
+                  _context.next = 86;
                   break;
                 }
 
@@ -1153,6 +1153,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 targetScore = targetGroupData["avg_".concat(pageType, "_score")].toFixed(2);
                 console.log("@작업을시작한 pageType : ", pageType);
                 console.log("data", data);
+                console.log("targetGroupData", targetGroupData);
                 console.log("Inform", userInform, resultInform); // console.log("@selDataIndex",selDataIndex);
 
                 if (pageType === 'saccade') {
@@ -1317,7 +1318,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                         border: [false, false, false, false],
                         bold: true
                       }, {
-                        text: "".concat(userInform.testeeMomentAge, " \uC138"),
+                        text: "".concat(userInform.testeeMomentAge.toFixed(1), " \uC138"),
                         colSpan: 1,
                         fontSize: 9,
                         margin: [0, 5, 0, 5],
@@ -1384,7 +1385,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 }); //아래 종류에 따라 삽입이 달라야함
 
                 if (!(pageType === 'saccade')) {
-                  _context.next = 36;
+                  _context.next = 38;
                   break;
                 }
 
@@ -1397,10 +1398,10 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 // p.push(html2canvas(document.getElementById("saccadeSpeedChart")));
                 // p.push(html2canvas(document.getElementById("saccadeFEChart")));
 
-                _context.next = 22;
+                _context.next = 23;
                 return Promise.all(p);
 
-              case 22:
+              case 23:
                 canvsArr = _context.sent;
                 saccadeGradeChart_base64 = canvsArr[0].toDataURL();
                 saccadeRadarChart_base64 = canvsArr[1].toDataURL();
@@ -1564,19 +1565,11 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   name: '도약안구운동 1줄 파랑메뉴',
                   margin: [5, 35, 5, 5],
                   table: {
+                    margin: [0, 0, 0, 0],
                     dontBreakRows: true,
-                    widths: ['60%', '1%', '39%'],
+                    widths: ['45%', '1%', '54%'],
                     headerRows: 0,
                     body: [[{
-                      text: '',
-                      border: [false, false, false, false]
-                    }, {
-                      text: '',
-                      border: [false, false, false, false]
-                    }, {
-                      text: '',
-                      border: [false, false, false, false]
-                    }], [{
                       text: '도약 안구운동 시선궤적',
                       fontSize: 11,
                       bold: true,
@@ -1601,7 +1594,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                         body: [[{
                           margin: [3, 0, 3, 0],
                           fontSize: 11,
-                          text: "어떤질문을 쓰고",
+                          text: "방향별 시선 움직임",
                           alignment: 'left',
                           colSpan: 2,
                           bold: true
@@ -1609,31 +1602,69 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       },
                       layout: 'titletable'
                     }], [{
-                      margin: [0, 0, 0, 0],
+                      margin: [0, 20, 0, 0],
                       colSpan: 1,
                       alignment: 'center',
                       image: saccadeRealChart_base64,
-                      fit: [300, 273],
-                      border: [true, false, true, true]
+                      fit: [300, 223],
+                      border: [true, false, true, true],
+                      rowSpan: 1
                     }, {
                       text: '',
                       border: [false, false, false, false],
                       colSpan: 1
                     }, {
-                      fontSize: 10,
-                      margin: [10, 10, 10, 10],
-                      lineHeight: 1.6,
-                      ul: ["여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요. " // { text: 'Item 4', bold: true },
-                      ],
+                      text: '',
                       colSpan: 1,
-                      border: [false, false, false, false]
+                      // rowSpan:2,
+                      border: [false, false, false, false],
+                      table: {
+                        widths: ['*', '*'],
+                        headerRows: 0,
+                        margin: [0, 0, 0, 0],
+                        body: [// [{
+                        //     margin: [3, 0, 3, 0],
+                        //     fontSize: 11,
+                        //     text: "방향별 시선 움직임", alignment: 'left',
+                        //     colSpan: 2,
+                        //     bold: true,
+                        // }
+                        [{
+                          fontSize: 10,
+                          margin: [10, 10, 10, 10],
+                          lineHeight: 1.6,
+                          ul: ["상하좌우 4방향에 대해 각 2회씩 수행한 도약안구운동/응시의 시선 궤적입니다. ", "응시 : 시작점과 목표점에서 최대한 같은 위치에 시선이 고정되어 있어야 합니다. ", "도약 : 시작점과 목표점 사이 외에는 시선이 분산되지 않고, 빠르게 (중간에 머뭇거리는 시선이 없이) 이동해야 합니다. "],
+                          colSpan: 2,
+                          border: [false, false, false, false]
+                        }], [{
+                          margin: [0, 0, 0, 0],
+                          fontSize: 11,
+                          text: "하단 차트 보는법",
+                          alignment: 'left',
+                          colSpan: 2,
+                          bold: true,
+                          border: [false, false, false, false]
+                        }], //
+                        [{
+                          border: [false, false, false, false],
+                          // text: '',
+                          fontSize: 10,
+                          margin: [10, 10, 10, 10],
+                          lineHeight: 1.6,
+                          ul: ["초록색 선 : 목표물(타겟) 자극의 위치 변화", "빨간색 선 : 첫번째 수행에서의 시선 위치 변화", "파란색 선 : 두번째 수행에서의 시선 위치 변화", "(색깔별) 첫번째 수직선 : 시선 도약의 시작 시각", "(색깔별 )두번째 수직선 : 시선 도약의 완료 시각", "회색 수직선 : 그룹평균 시선 도약 시작-완료 시각"],
+                          // rowSpan: 1,
+                          colSpan: 2 // border: [false, false, false, false],
+                          // border: [true, true, true, true],
+
+                        }]]
+                      },
+                      layout: 'titletable'
                     }]]
                   },
                   layout: 'showline'
                 }); //4개짜리 방향별 분석
 
                 docDefinition.content.push({
-                  pageBreak: isLast ? null : 'after',
                   name: '도약안구운동 1줄 파랑메뉴',
                   margin: [5, 20, 5, 5],
                   table: {
@@ -1644,7 +1675,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       text: '',
                       border: [false, false, false, false]
                     }], [{
-                      text: '도약 안구운동 시선',
+                      text: '방향별 시간에 따른 시선의 수평위치',
                       fontSize: 11,
                       bold: true,
                       border: [true, true, true, false],
@@ -1663,14 +1694,297 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }]]
                   },
                   layout: 'showline'
+                }); //showline
+
+                docDefinition.content.push({
+                  pageBreak: isLast ? null : 'after',
+                  name: '도약안구운동 1줄 파랑메뉴',
+                  margin: [5, 20, 5, 5],
+                  table: {
+                    dontBreakRows: true,
+                    widths: ['10%', '10%', '10%', '10%', '10%', '10%', '10%', '10%', '10%', '10%'],
+                    headerRows: 0,
+                    body: [[{
+                      fontSize: 10,
+                      text: '\n\n방향',
+                      alignment: 'center',
+                      bold: true,
+                      rowSpan: 2 // border: [false, false, false, false]
+
+                    }, {
+                      text: 'Latency 도약 지연시간 (ms)',
+                      alignment: 'center',
+                      bold: true,
+                      // border: [false, false, false, false]
+                      colSpan: 3,
+                      fontSize: 10,
+                      margin: 3
+                    }, {
+                      text: '' // border: [false, false, false, false]
+
+                    }, {
+                      text: '' // border: [false, false, false, false]
+
+                    }, {
+                      text: '도약이동속도(deg/sec)',
+                      alignment: 'center',
+                      bold: true,
+                      // border: [false, false, false, false]
+                      colSpan: 3,
+                      fontSize: 10,
+                      margin: 3
+                    }, {
+                      text: '' // border: [false, false, false, false]
+
+                    }, {
+                      text: '' // border: [false, false, false, false]
+
+                    }, {
+                      text: '응시 위치편차(deg)',
+                      alignment: 'center',
+                      bold: true,
+                      // border: [false, false, false, false]
+                      colSpan: 3,
+                      fontSize: 10,
+                      margin: 3
+                    }, {
+                      text: '9' // border: [false, false, false, false]
+
+                    }, {
+                      text: '10' // border: [false, false, false, false]
+
+                    }], [{
+                      text: '',
+                      fontSize: 10
+                    }, {
+                      text: '내 측정치',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      margin: [0, 10, 0, 0]
+                    }, {
+                      text: '그룹 평균',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      margin: [0, 10, 0, 0]
+                    }, {
+                      text: '평가',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      margin: [0, 10, 0, 0]
+                    }, {
+                      text: '내 측정치',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      margin: [0, 10, 0, 0]
+                    }, {
+                      text: '그룹 평균',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      margin: [0, 10, 0, 0]
+                    }, {
+                      text: '평가',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      margin: [0, 10, 0, 0]
+                    }, {
+                      text: '내 측정치',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      margin: [0, 10, 0, 0]
+                    }, {
+                      text: '그룹 평균',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      margin: [0, 10, 0, 0]
+                    }, {
+                      text: '평가',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      margin: [0, 10, 0, 0]
+                    }], [{
+                      text: '상',
+                      fontSize: 10,
+                      alignment: 'center',
+                      bold: true
+                    }, {
+                      text: (data.analysis.up_saccade_delay * 1000).toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: (targetGroupData.avg_up_saccade_delay * 1000).toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.up_saccade_delay >= targetGroupData.avg_up_saccade_delay * 1.3 ? '미흡' : '정상',
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.up_saccade_speed.toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: targetGroupData.avg_up_saccade_speed.toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.up_saccade_speed <= targetGroupData.avg_up_saccade_speed * 0.7 ? '미흡' : '정상',
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.up_fixation_stability.toFixed(4),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: targetGroupData.avg_up_fixation_stability.toFixed(4),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.up_fixation_stability > targetGroupData.avg_up_fixation_stability * 2 ? '미흡' : '정상',
+                      fontSize: 10,
+                      alignment: 'center'
+                    }], [{
+                      text: '하',
+                      fontSize: 10,
+                      alignment: 'center',
+                      bold: true
+                    }, {
+                      text: (data.analysis.down_saccade_delay * 1000).toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: (targetGroupData.avg_down_saccade_delay * 1000).toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.down_saccade_delay >= targetGroupData.avg_down_saccade_delay * 1.3 ? '미흡' : '정상',
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.down_saccade_speed.toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: targetGroupData.avg_down_saccade_speed.toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.down_saccade_speed <= targetGroupData.avg_down_saccade_speed * 0.7 ? '미흡' : '정상',
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.down_fixation_stability.toFixed(4),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: targetGroupData.avg_down_fixation_stability.toFixed(4),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.down_fixation_stability > targetGroupData.avg_down_fixation_stability * 2 ? '미흡' : '정상',
+                      fontSize: 10,
+                      alignment: 'center'
+                    }], [{
+                      text: '좌',
+                      fontSize: 10,
+                      alignment: 'center',
+                      bold: true
+                    }, {
+                      text: (data.analysis.left_saccade_delay * 1000).toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: (targetGroupData.avg_left_saccade_delay * 1000).toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.3 ? '미흡' : '정상',
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.left_saccade_speed.toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: targetGroupData.avg_left_saccade_speed.toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.left_saccade_speed <= targetGroupData.avg_left_saccade_speed * 0.7 ? '미흡' : '정상',
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.left_fixation_stability.toFixed(4),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: targetGroupData.avg_left_fixation_stability.toFixed(4),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.left_fixation_stability > targetGroupData.avg_left_fixation_stability * 2 ? '미흡' : '정상',
+                      fontSize: 10,
+                      alignment: 'center'
+                    }], [{
+                      text: '우',
+                      fontSize: 10,
+                      alignment: 'center',
+                      bold: true
+                    }, {
+                      text: (data.analysis.right_saccade_delay * 1000).toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: (targetGroupData.avg_right_saccade_delay * 1000).toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.3 ? '미흡' : '정상',
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.right_saccade_speed.toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: targetGroupData.avg_right_saccade_speed.toFixed(0),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.right_saccade_speed <= targetGroupData.avg_right_saccade_speed * 0.7 ? '미흡' : '정상',
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.right_fixation_stability.toFixed(4),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: targetGroupData.avg_right_fixation_stability.toFixed(4),
+                      fontSize: 10,
+                      alignment: 'center'
+                    }, {
+                      text: data.analysis.right_fixation_stability > targetGroupData.avg_right_fixation_stability * 2 ? '미흡' : '정상',
+                      fontSize: 10,
+                      alignment: 'center'
+                    }]]
+                  },
+                  layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 83;
+                _context.next = 86;
                 break;
 
-              case 36:
+              case 38:
                 if (!(pageType === 'pursuit')) {
-                  _context.next = 58;
+                  _context.next = 60;
                   break;
                 }
 
@@ -1685,10 +1999,10 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
 
                 _p.push((0, _html2canvas.default)(document.getElementById("pursuitRealChart")));
 
-                _context.next = 44;
+                _context.next = 46;
                 return Promise.all(_p);
 
-              case 44:
+              case 46:
                 _canvsArr = _context.sent;
                 pursuitGradeChart_base64 = _canvsArr[0].toDataURL();
                 pursuitErrChart_base64 = _canvsArr[1].toDataURL();
@@ -1793,7 +2107,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       fontSize: 10,
                       margin: [10, 10, 10, 10],
                       lineHeight: 1.6,
-                      ul: ["위치편차는 평균 **도, 도약안구운동 발생률은 5% 이하입니다. "],
+                      ul: ["추적안구운동 평균 에러 : 목표물을 따라 보는 동안, 정확한 위치로부터 벗어난 시선의 위치 에러입니다. 부드러운 추적안구운동에 실패하여 도약이 발생하거나, 집중하지 못하고 목표물을 정확히 따라가지 못하면 에러가 증가합니다.  평균 에러가 2% 이내이면 정상입니다. "],
                       colSpan: 2
                     }]]
                   },
@@ -1828,19 +2142,11 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   name: '도약안구운동 1줄 파랑메뉴',
                   margin: [5, 35, 5, 5],
                   table: {
+                    margin: [0, 0, 0, 0],
                     dontBreakRows: true,
-                    widths: ['60%', '1%', '39%'],
+                    widths: ['45%', '1%', '54%'],
                     headerRows: 0,
                     body: [[{
-                      text: '',
-                      border: [false, false, false, false]
-                    }, {
-                      text: '',
-                      border: [false, false, false, false]
-                    }, {
-                      text: '',
-                      border: [false, false, false, false]
-                    }], [{
                       text: '추적 안구운동 시선궤적',
                       fontSize: 11,
                       bold: true,
@@ -1865,7 +2171,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                         body: [[{
                           margin: [3, 0, 3, 0],
                           fontSize: 11,
-                          text: "어떤질문을 쓰고",
+                          text: "추적안구운동 시선 움직임",
                           alignment: 'left',
                           colSpan: 2,
                           bold: true
@@ -1873,24 +2179,63 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       },
                       layout: 'titletable'
                     }], [{
-                      margin: [0, 0, 0, 0],
+                      margin: [0, 20, 0, 0],
                       colSpan: 1,
                       alignment: 'center',
                       image: pursuitRealChart_base64,
-                      fit: [300, 273],
-                      border: [true, false, true, true]
+                      fit: [300, 223],
+                      border: [true, false, true, true],
+                      rowSpan: 1
                     }, {
                       text: '',
                       border: [false, false, false, false],
                       colSpan: 1
                     }, {
-                      fontSize: 10,
-                      margin: [10, 10, 10, 10],
-                      lineHeight: 1.6,
-                      ul: ["여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요. " // { text: 'Item 4', bold: true },
-                      ],
+                      text: '',
                       colSpan: 1,
-                      border: [false, false, false, false]
+                      // rowSpan:2,
+                      border: [false, false, false, false],
+                      table: {
+                        widths: ['*', '*'],
+                        headerRows: 0,
+                        margin: [0, 0, 0, 0],
+                        body: [// [{
+                        //     margin: [3, 0, 3, 0],
+                        //     fontSize: 11,
+                        //     text: "방향별 시선 움직임", alignment: 'left',
+                        //     colSpan: 2,
+                        //     bold: true,
+                        // }
+                        [{
+                          fontSize: 10,
+                          margin: [10, 10, 10, 10],
+                          lineHeight: 1.6,
+                          ul: ["시계방향/반시계방향으로 각 2회씩 수행한 추적안구운동의 시선 궤적입니다. ", "응시 : 시작점과 목표점에서 최대한 같은 위치에 시선이 고정되어 있어야 합니다. ", "도약 : 시작점과 목표점 사이 외에는 시선이 분산되지 않고, 빠르게 (중간에 머뭇거리는 시선이 없이) 이동해야 합니다. "],
+                          colSpan: 2,
+                          border: [false, false, false, false]
+                        }], [{
+                          margin: [0, 0, 0, 0],
+                          fontSize: 11,
+                          text: "하단 차트 보는법",
+                          alignment: 'left',
+                          colSpan: 2,
+                          bold: true,
+                          border: [false, false, false, false]
+                        }], //
+                        [{
+                          border: [false, false, false, false],
+                          // text: '',
+                          fontSize: 10,
+                          margin: [10, 10, 10, 10],
+                          lineHeight: 1.6,
+                          ul: ["분홍색 선 : 타겟 자극의 수평 위치 변화", "빨간색 선 : 2회 수행동안의 시선 수평 위치 변화", "하늘색 선 : 타겟 자극의 수직 위치 변화", "파랑색 선 : 2회 수행동안의 시선 수직 위치 변화", "녹색 수직선 : 눈깜박임 등 시선 미탐지 구간"],
+                          // rowSpan: 1,
+                          colSpan: 2 // border: [false, false, false, false],
+                          // border: [true, true, true, true],
+
+                        }]]
+                      },
+                      layout: 'titletable'
                     }]]
                   },
                   layout: 'showline'
@@ -1908,7 +2253,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       text: '',
                       border: [false, false, false, false]
                     }], [{
-                      text: '추적 안구운동 수평수직 시선',
+                      text: '회전방향별 시간에 따른 시선의 수평/수직위치',
                       fontSize: 11,
                       bold: true,
                       border: [true, true, true, false],
@@ -1929,17 +2274,16 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 83;
+                _context.next = 86;
                 break;
 
-              case 58:
+              case 60:
                 if (!(pageType === "antisaccade")) {
-                  _context.next = 82;
+                  _context.next = 85;
                   break;
                 }
 
                 //antisaccadeGradeChart
-                //#@!
                 _p2 = [];
 
                 _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeGradeChart")));
@@ -1954,10 +2298,10 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 //antisaccadeLatencyChart
 
 
-                _context.next = 67;
+                _context.next = 69;
                 return Promise.all(_p2);
 
-              case 67:
+              case 69:
                 _canvsArr2 = _context.sent;
                 antisaccadeGradeChart_base64 = _canvsArr2[0].toDataURL();
                 antisaccadeErrDirectionChart_base64 = _canvsArr2[1].toDataURL();
@@ -2090,7 +2434,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       fontSize: 10,
                       margin: [10, 10, 10, 10],
                       lineHeight: 1.6,
-                      ul: ["방향 정확성 : 따라보기는 대상이 있는 쪽으로, 반대보기는 대상의 반대쪽으로 시선이 움직였는지를 측정한 비율입니다. 반대보기의 정확도가 높은 것이 바람직하며, 대체로 85% 이상입니다. ", "지체시간(latency) : 대상을 보고 시선을 움직이기 전까지 소요되는 시간입니다. 보통 반대로보기시 따라보기보다 더 오래 걸리며,  300ms 이하인 것이 좋습니다. "],
+                      ul: ["이동방향 오류 : 반대로 보기를 할 때, 정확한 방향(반대 방향)이 아닌 목표물이 나타난 방향으로 시선이 움직인 비율(횟수 및 시간의 백분율)입니다. 오류율이 낮을 수록 좋으며, 오류횟수는 20% 이하, 평균 오류시간은 10% 이하인 것이 바람직합니다. ", "지체시간(latency) : 대상을 보고 시선을 움직이기 전까지 소요되는 시간입니다. 보통 반대로보기시 따라보기보다 더 오래 걸리며,  300ms 이하인 것이 좋습니다. "],
                       colSpan: 2
                     }]]
                   },
@@ -2125,19 +2469,11 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   name: '도약안구운동 1줄 파랑메뉴',
                   margin: [5, 35, 5, 5],
                   table: {
+                    margin: [0, 0, 0, 0],
                     dontBreakRows: true,
-                    widths: ['60%', '1%', '39%'],
+                    widths: ['45%', '1%', '54%'],
                     headerRows: 0,
                     body: [[{
-                      text: '',
-                      border: [false, false, false, false]
-                    }, {
-                      text: '',
-                      border: [false, false, false, false]
-                    }, {
-                      text: '',
-                      border: [false, false, false, false]
-                    }], [{
                       text: '반대로 보기 시선궤적',
                       fontSize: 11,
                       bold: true,
@@ -2162,7 +2498,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                         body: [[{
                           margin: [3, 0, 3, 0],
                           fontSize: 11,
-                          text: "어떤질문을 쓰고",
+                          text: "방향별 시선 움직임",
                           alignment: 'left',
                           colSpan: 2,
                           bold: true
@@ -2170,24 +2506,63 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       },
                       layout: 'titletable'
                     }], [{
-                      margin: [0, 0, 0, 0],
+                      margin: [0, 20, 0, 0],
                       colSpan: 1,
                       alignment: 'center',
                       image: antisaccadeRealChart_base64,
-                      fit: [300, 273],
-                      border: [true, false, true, true]
+                      fit: [300, 223],
+                      border: [true, false, true, true],
+                      rowSpan: 1
                     }, {
                       text: '',
                       border: [false, false, false, false],
                       colSpan: 1
                     }, {
-                      fontSize: 10,
-                      margin: [10, 10, 10, 10],
-                      lineHeight: 1.6,
-                      ul: ["여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요.여기에 엄청 설명이 많아요. " // { text: 'Item 4', bold: true },
-                      ],
+                      text: '',
                       colSpan: 1,
-                      border: [false, false, false, false]
+                      // rowSpan:2,
+                      border: [false, false, false, false],
+                      table: {
+                        widths: ['*', '*'],
+                        headerRows: 0,
+                        margin: [0, 0, 0, 0],
+                        body: [// [{
+                        //     margin: [3, 0, 3, 0],
+                        //     fontSize: 11,
+                        //     text: "방향별 시선 움직임", alignment: 'left',
+                        //     colSpan: 2,
+                        //     bold: true,
+                        // }
+                        [{
+                          fontSize: 10,
+                          margin: [10, 10, 10, 10],
+                          lineHeight: 1.6,
+                          ul: ["좌우 방향에 대해 반대로 보기(anti saccade)  2회 수행한 시선의 궤적입니다. ", "응시 : 방향(색상)별 궤적이 잘못된 방향으로 가지 않아야 합니다. (보라색은 좌측으로만, 파란색은 우측으로만 움직여야 함) "],
+                          colSpan: 2,
+                          border: [false, false, false, false]
+                        }], [{
+                          margin: [0, 0, 0, 0],
+                          fontSize: 11,
+                          text: "하단 차트 보는법",
+                          alignment: 'left',
+                          colSpan: 2,
+                          bold: true,
+                          border: [false, false, false, false]
+                        }], //
+                        [{
+                          border: [false, false, false, false],
+                          // text: '',
+                          fontSize: 10,
+                          margin: [10, 10, 10, 10],
+                          lineHeight: 1.6,
+                          ul: ["상단(pro saccade) : 자극물을 따라 보는 과제", "하단(anti saccade) : 자극물의 반대로 보는 과제", "초록색 선 : 목표물(타겟) 자극의 위치 변화", "색상별 선 : 1~4번째 수행한 수평 시선위치의 시작 시각", "회색 수직선 : 그룹평균 시선 도약 시작 시각"],
+                          // rowSpan: 1,
+                          colSpan: 2 // border: [false, false, false, false],
+                          // border: [true, true, true, true],
+
+                        }]]
+                      },
+                      layout: 'titletable'
                     }]]
                   },
                   layout: 'showline'
@@ -2224,15 +2599,180 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }]]
                   },
                   layout: 'showline'
+                }); //#@!
+                // (data.analysis.avgErrFrequencyRatio * 100), (data.analysis.avgErrTime / 0.5 * 100)
+                //차트
+                //showline
+
+                docDefinition.content.push({
+                  pageBreak: isLast ? null : 'after',
+                  name: '도약안구운동 1줄 파랑메뉴',
+                  margin: [5, 20, 5, 5],
+                  table: {
+                    dontBreakRows: true,
+                    widths: ['24%', '19%', '19%', '19%', '19%'],
+                    headerRows: 0,
+                    body: [[{
+                      fontSize: 10,
+                      text: '\n\n방향',
+                      alignment: 'center',
+                      bold: true,
+                      // lineHeight: 2,
+                      rowSpan: 2,
+                      colSpan: 2 // border: [false, false, false, false]
+
+                    }, {
+                      text: '',
+                      // alignment: 'center',
+                      // bold: true,
+                      // border: [false, false, false, false]
+                      fontSize: 10
+                    }, {
+                      text: 'Latency 도약 지연시간 (ms)',
+                      alignment: 'center',
+                      bold: true,
+                      // border: [false, false, false, false]
+                      colSpan: 3,
+                      fontSize: 10,
+                      margin: 3
+                    }, {
+                      text: '' // border: [false, false, false, false]
+
+                    }, {
+                      text: '' // border: [false, false, false, false]
+
+                    }], [{
+                      text: '',
+                      fontSize: 10
+                    }, {
+                      text: '',
+                      fontSize: 10
+                    }, {
+                      text: '내 측정치',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      margin: [0, 10, 0, 0]
+                    }, {
+                      text: '그룹 평균',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      margin: [0, 10, 0, 0]
+                    }, {
+                      text: '평가',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      margin: [0, 10, 0, 0]
+                    }], [{
+                      text: 'Pro saccade',
+                      fontSize: 10,
+                      // rowSpan:2,
+                      alignment: 'center',
+                      bold: true,
+                      border: [true, true, true, false]
+                    }, {
+                      text: '좌',
+                      fontSize: 10,
+                      alignment: 'center',
+                      bold: true
+                    }, {
+                      text: (data.analysis.left_saccade_delay * 1000).toFixed(0),
+                      alignment: 'center',
+                      fontSize: 10
+                    }, {
+                      text: (targetGroupData.avg_left_saccade_delay * 1000).toFixed(0),
+                      alignment: 'center',
+                      fontSize: 10
+                    }, {
+                      text: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.5 ? '미흡' : '양호',
+                      alignment: 'center',
+                      fontSize: 10
+                    }], [{
+                      text: '따라 보기',
+                      fontSize: 10,
+                      // rowSpan:2,
+                      alignment: 'center',
+                      bold: true,
+                      border: [true, false, true, true]
+                    }, {
+                      text: '우',
+                      fontSize: 10,
+                      alignment: 'center',
+                      bold: true
+                    }, {
+                      text: (data.analysis.right_saccade_delay * 1000).toFixed(0),
+                      alignment: 'center',
+                      fontSize: 10
+                    }, {
+                      text: (targetGroupData.avg_right_saccade_delay * 1000).toFixed(0),
+                      alignment: 'center',
+                      fontSize: 10
+                    }, {
+                      text: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.5 ? '미흡' : '양호',
+                      alignment: 'center',
+                      fontSize: 10
+                    }], [{
+                      text: 'Anti saccade',
+                      fontSize: 10,
+                      // rowSpan:2,
+                      alignment: 'center',
+                      bold: true,
+                      border: [true, true, true, false]
+                    }, {
+                      text: '좌',
+                      fontSize: 10,
+                      alignment: 'center',
+                      bold: true
+                    }, {
+                      text: (data.analysis.left_antisaccade_delay * 1000).toFixed(0),
+                      alignment: 'center',
+                      fontSize: 10
+                    }, {
+                      text: (targetGroupData.avg_left_antisaccade_delay * 1000).toFixed(0),
+                      alignment: 'center',
+                      fontSize: 10
+                    }, {
+                      text: data.analysis.left_antisaccade_delay >= targetGroupData.avg_left_antisaccade_delay * 1.5 ? '미흡' : '양호',
+                      alignment: 'center',
+                      fontSize: 10
+                    }], [{
+                      text: '반대로 보기',
+                      fontSize: 10,
+                      // rowSpan:2,
+                      alignment: 'center',
+                      bold: true,
+                      border: [true, false, true, true]
+                    }, {
+                      text: '우',
+                      fontSize: 10,
+                      alignment: 'center',
+                      bold: true
+                    }, {
+                      text: (data.analysis.right_antisaccade_delay * 1000).toFixed(0),
+                      alignment: 'center',
+                      fontSize: 10
+                    }, {
+                      text: (targetGroupData.avg_right_antisaccade_delay * 1000).toFixed(0),
+                      alignment: 'center',
+                      fontSize: 10
+                    }, {
+                      text: data.analysis.right_antisaccade_delay >= targetGroupData.avg_right_antisaccade_delay * 1.5 ? '미흡' : '양호',
+                      alignment: 'center',
+                      fontSize: 10
+                    }]]
+                  },
+                  layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 83;
+                _context.next = 86;
                 break;
 
-              case 82:
+              case 85:
                 set_isfinishThisPage(true);
 
-              case 83:
+              case 86:
               case "end":
                 return _context.stop();
             }
@@ -2263,7 +2803,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     }
   }, [isPDFing, docDefinition]);
 
-  return /*#__PURE__*/_react.default.createElement("div", {
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "ScreeningViewer"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "contents"
@@ -2327,7 +2867,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     iframesrc: PDFURL,
     targetGroupData: targetGroupData,
     everyGroupData: everyGroupData
-  }))));
+  })))), isPDFing && /*#__PURE__*/_react.default.createElement("div", {
+    className: "PDFprogress"
+  }, "\uBCF4\uACE0\uC11C \uBCC0\uD658\uC911\uC785\uB2C8\uB2E4. \uC7A0\uC2DC\uB9CC \uAE30\uB2E4\uB824\uC8FC\uC138\uC694."));
 };
 
 var SaccadeView = function SaccadeView(_ref3) {
