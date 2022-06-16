@@ -1301,8 +1301,9 @@ function App() {
     ];
   },[])
 
-  const userInform = React.useMemo(()=>{
-    return {
+  const userInformArr = React.useMemo(()=>{
+    if(!dataArr) return;
+    let ex={
       testeeMomentAge:20,
       testeeName:"헐크",
       testeeID:"hulk",
@@ -1311,23 +1312,39 @@ function App() {
       agencyID:"guripong",
       agencyName:"쏘기컴터학원"
     }
-  },[])
-  const resultInform = React.useMemo(()=>{
-    return {
+    let arr=[];
+    for(let i = 0 ; i <dataArr.length ;i++){
+      arr.push(ex);
+    }
+
+    return arr;
+  },[dataArr])
+
+
+  const resultInformArr = React.useMemo(()=>{
+    if(!dataArr) return;
+    
+    let ex={
       savetime:"2022-06-10 09:31:12"
     }
-  },[])
+    let arr=[];
+    for(let i = 0 ; i <dataArr.length ;i++){
+      arr.push(ex);
+    }
+    // console.log("resultInformArr",arr);
+    return arr
+  },[dataArr])
   return (
     <div className="App">
 
       샘플데이터는 74_saccade,80_pursuit,53_antisaccade 을 넣어봄
       <button onClick={() => set_showViewer(true)}>open</button>
-      {showViewer === true &&
+      {resultInformArr&&userInformArr&&showViewer === true &&
         <ScreeningViewer dataArr={dataArr}
           groupData={groupData}
           onClose={() => set_showViewer(false)}
-          userInform={userInform}
-          resultInform={resultInform}
+          userInformArr={userInformArr}
+          resultInformArr={resultInformArr}
         />
       }
 

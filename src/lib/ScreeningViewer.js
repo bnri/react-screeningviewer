@@ -700,7 +700,7 @@ const BarChartGrade = ({ ...props }) => {
 const ScreeningViewer = ({ ...props }) => {
     const { dataArr } = props;
     const { onClose } = props;
-    const { groupData, userInform, AgencyLogoBase64, resultInform } = props;
+    const { groupData, userInformArr, AgencyLogoBase64, resultInformArr } = props;
 
     const [selDataIndex, set_selDataIndex] = React.useState(0);
 
@@ -716,9 +716,17 @@ const ScreeningViewer = ({ ...props }) => {
         }
     }, [dataArr, selDataIndex])
     const targetGroupData = React.useMemo(() => {
+        if(!userInformArr || !groupData ) return;
         //groupData에서 알맞은 그룹을 찾아야함
-        const testeeMomentAge = Math.floor(userInform.testeeMomentAge);
+        // console.log("userInformArr",userInformArr);
 
+        // console.log("selDataIndex",selDataIndex);
+        
+        const userInform = userInformArr[selDataIndex] || userInformArr[0];
+        // console.log("userInform",userInform);
+
+        const testeeMomentAge = Math.floor(userInform.testeeMomentAge);
+        
         let target = null;
         for (let i = 0; i < groupData.length; i++) {
             if (testeeMomentAge < 7) {
@@ -741,7 +749,7 @@ const ScreeningViewer = ({ ...props }) => {
         }
         // console.log("targetGroupData",target)
         return target;
-    }, [userInform, groupData]);
+    }, [userInformArr, groupData,selDataIndex]);
 
     const everyGroupData = React.useMemo(() => {
 
@@ -815,6 +823,8 @@ const ScreeningViewer = ({ ...props }) => {
     const handlePDFstart = () => {
         set_progressNow(0);
         set_isPDFing(true);
+        const userInform = userInformArr[0];
+
         set_docDefinition({
             pageSize: 'A4',
             info: {
@@ -872,7 +882,7 @@ const ScreeningViewer = ({ ...props }) => {
                             absolutePosition: { x: 46, y: 41 },
                         },
                         {
-                            text: resultInform && resultInform.savetime ? `${resultInform.savetime}` : "saveTime",
+                            text: "",//원래 저장시간
                             bold: true,
                             // color: '#7367f0',
                             color: 'black',
@@ -1134,7 +1144,8 @@ const ScreeningViewer = ({ ...props }) => {
                 if (isfinishThisPage === false) {
                     const isLast = selDataIndex + 1 === dataArr.length ? true : false;
 
-
+                    const userInform = userInformArr[selDataIndex];
+                    const resultInform = resultInformArr[selDataIndex];
                     const data = dataArr[selDataIndex];
 
                     const pageType = data.screeningType;
@@ -1444,10 +1455,8 @@ const ScreeningViewer = ({ ...props }) => {
                         const saccadeRadarChart_base64 = canvsArr[1].toDataURL();
                         const saccadeDirectionChart_base64 = canvsArr[2].toDataURL();
                         const saccadeRealChart_base64 = canvsArr[3].toDataURL();
-                        // console.log("saccadeDirectionChart_base64",saccadeDirectionChart_base64);
-                        // const saccadeLatencyChart_base64=canvsArr[1].toDataURL();
-                        // const saccadeSpeedChart_base64=canvsArr[2].toDataURL();
-                        // const saccadeFEChart_base64=canvsArr[3].toDataURL();
+                        console.log("saccadeGradeChart_base64",saccadeGradeChart_base64);
+                        console.log("saccadeRadarChart_base64",saccadeRadarChart_base64);
                         //
 
                         //
@@ -3119,7 +3128,7 @@ const ScreeningViewer = ({ ...props }) => {
                         });
 
 
-                        //#@!
+                        
 
                         // (data.analysis.avgErrFrequencyRatio * 100), (data.analysis.avgErrTime / 0.5 * 100)
 
@@ -3353,7 +3362,7 @@ const ScreeningViewer = ({ ...props }) => {
         doit();
 
     }, [isPDFing, selDataIndex, progressMax, docDefinition, isfinishThisPage, dataArr
-        , resultInform, userInform, myPercentArr, myStateArr, targetGroupData])
+        , resultInformArr, userInformArr, myPercentArr, myStateArr, targetGroupData])
 
 
     React.useEffect(() => {
