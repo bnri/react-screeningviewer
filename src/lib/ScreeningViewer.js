@@ -1170,6 +1170,14 @@ const ScreeningViewer = ({ ...props }) => {
                     }
 
 
+                    function make_delay(delay){
+                        return new Promise(function(resolve){
+
+                            setTimeout(function(){
+                                resolve(true);
+                            },delay);
+                        });
+                    }
                     //유저정보 삽입
                     docDefinition.content.push({
                         // pageBreak: 'after',
@@ -1445,9 +1453,12 @@ const ScreeningViewer = ({ ...props }) => {
                         p.push(html2canvas(document.getElementById("saccadeRadarChart")));
                         p.push(html2canvas(document.getElementById("saccadeDirectionChart")));
                         p.push(html2canvas(document.getElementById("saccadeRealChart")));
+
+                        
                         // p.push(html2canvas(document.getElementById("saccadeLatencyChart")));
                         // p.push(html2canvas(document.getElementById("saccadeSpeedChart")));
                         // p.push(html2canvas(document.getElementById("saccadeFEChart")));
+                        let wait = await make_delay(500);                        
                         let canvsArr = await Promise.all(p);
 
 
@@ -3445,7 +3456,7 @@ const ScreeningViewer = ({ ...props }) => {
         </div>
 
     </div>
-        {
+        {/* {
             isPDFing &&
 
             <div className="PDFprogress">
@@ -3453,7 +3464,7 @@ const ScreeningViewer = ({ ...props }) => {
                 잠시만 기다려주세요.
 
             </div>
-        }
+        } */}
     </>)
 }
 
