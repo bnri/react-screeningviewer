@@ -1449,10 +1449,50 @@ const ScreeningViewer = ({ ...props }) => {
 
                         let wait1 = await make_delay(1000);  
                         let p = [];
-                        p.push(html2canvas(document.getElementById("saccadeGradeChart")));
-                        p.push(html2canvas(document.getElementById("saccadeRadarChart")));
-                        p.push(html2canvas(document.getElementById("saccadeDirectionChart")));
-                        p.push(html2canvas(document.getElementById("saccadeRealChart")));
+                        p.push(html2canvas(document.getElementById("saccadeGradeChart")),{
+                            logging: false,
+                            // x:el.clientWidth*scaleX/2,
+                            // y:el.clientHeight*scaleY/2,
+                            scrollX: 0,
+                            scrollY: 0,
+                            //x: window.scrollX,
+                            // y: window.scrollY,
+                            scale: 1,
+                            // scrollY:-window.scrollY
+                        });
+                        p.push(html2canvas(document.getElementById("saccadeRadarChart")),{
+                            logging: false,
+                            // x:el.clientWidth*scaleX/2,
+                            // y:el.clientHeight*scaleY/2,
+                            scrollX: 0,
+                            scrollY: 0,
+                            //x: window.scrollX,
+                            // y: window.scrollY,
+                            scale: 1,
+                            // scrollY:-window.scrollY
+                        });
+                        p.push(html2canvas(document.getElementById("saccadeDirectionChart")),{
+                            logging: false,
+                            // x:el.clientWidth*scaleX/2,
+                            // y:el.clientHeight*scaleY/2,
+                            scrollX: 0,
+                            scrollY: 0,
+                            //x: window.scrollX,
+                            // y: window.scrollY,
+                            scale: 1,
+                            // scrollY:-window.scrollY
+                        });
+                        p.push(html2canvas(document.getElementById("saccadeRealChart")),{
+                            logging: false,
+                            // x:el.clientWidth*scaleX/2,
+                            // y:el.clientHeight*scaleY/2,
+                            scrollX: 0,
+                            scrollY: 0,
+                            //x: window.scrollX,
+                            // y: window.scrollY,
+                            scale: 1,
+                            // scrollY:-window.scrollY
+                        });
 
                         
                         // p.push(html2canvas(document.getElementById("saccadeLatencyChart")));

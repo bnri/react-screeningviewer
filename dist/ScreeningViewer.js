@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -33,9 +33,9 @@ var _vfs_fonts_jejumj_gd_cn = _interopRequireDefault(require("./vfs_fonts_jejumj
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -61,17 +61,17 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var vfs = _vfs_fonts_jejumj_gd_cn.default.pdfMake.vfs; // console.log("vfs",vfs);
+var vfs = _vfs_fonts_jejumj_gd_cn["default"].pdfMake.vfs; // console.log("vfs",vfs);
 
-_pdfmake.default.vfs = vfs;
-_pdfmake.default.fonts = {
+_pdfmake["default"].vfs = vfs;
+_pdfmake["default"].fonts = {
   '제주명조': {
     normal: "jejumyungjo.ttf",
     bold: "jejugothic.ttf",
     italics: 'cjk.ttf'
   }
 };
-_pdfmake.default.tableLayouts = {
+_pdfmake["default"].tableLayouts = {
   showblackline: {
     hLineWidth: function hLineWidth(i, node) {
       if (i === 0 || i === node.table.body.length) {
@@ -515,7 +515,7 @@ var BarChartGrade = function BarChartGrade(_ref) {
       avgGroupScore = props.avgGroupScore,
       stdGroupScore = props.stdGroupScore;
 
-  var chartOption = _react.default.useMemo(function () {
+  var chartOption = _react["default"].useMemo(function () {
     return {
       plugins: {
         datalabels: {
@@ -649,7 +649,7 @@ var BarChartGrade = function BarChartGrade(_ref) {
     };
   }, [myScore, avgGroupScore, stdGroupScore]);
 
-  var chartData = _react.default.useMemo(function () {
+  var chartData = _react["default"].useMemo(function () {
     var groupavg = avgGroupScore;
     var groupstd = stdGroupScore ? stdGroupScore : 1; // console.log("groupstd",groupstd);
 
@@ -694,7 +694,7 @@ var BarChartGrade = function BarChartGrade(_ref) {
     return chartdata;
   }, [avgGroupScore, stdGroupScore]);
 
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_reactChartjs.Line, {
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_reactChartjs.Line, {
     data: chartData,
     options: chartOption,
     ref: function ref(reference) {//console.log("~~~~~~~~~~~~~");
@@ -714,12 +714,12 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
       AgencyLogoBase64 = props.AgencyLogoBase64,
       resultInformArr = props.resultInformArr;
 
-  var _React$useState = _react.default.useState(0),
+  var _React$useState = _react["default"].useState(0),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       selDataIndex = _React$useState2[0],
       set_selDataIndex = _React$useState2[1];
 
-  var selScreeningType = _react.default.useMemo(function () {
+  var selScreeningType = _react["default"].useMemo(function () {
     if (selDataIndex === dataArr.length) {
       return "보고서 다운로드";
     } else if (dataArr && dataArr[selDataIndex]) {
@@ -729,7 +729,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     }
   }, [dataArr, selDataIndex]);
 
-  var targetGroupData = _react.default.useMemo(function () {
+  var targetGroupData = _react["default"].useMemo(function () {
     if (!userInformArr || !groupData) return; //groupData에서 알맞은 그룹을 찾아야함
     // console.log("userInformArr",userInformArr);
     // console.log("selDataIndex",selDataIndex);
@@ -762,36 +762,36 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     return target;
   }, [userInformArr, groupData, selDataIndex]);
 
-  var everyGroupData = _react.default.useMemo(function () {
+  var everyGroupData = _react["default"].useMemo(function () {
     return groupData[groupData.length - 1];
   }, [groupData]);
 
-  var _React$useState3 = _react.default.useState(null),
+  var _React$useState3 = _react["default"].useState(null),
       _React$useState4 = _slicedToArray(_React$useState3, 2),
       isPDFing = _React$useState4[0],
       set_isPDFing = _React$useState4[1];
 
-  var _React$useState5 = _react.default.useState(null),
+  var _React$useState5 = _react["default"].useState(null),
       _React$useState6 = _slicedToArray(_React$useState5, 2),
       docDefinition = _React$useState6[0],
       set_docDefinition = _React$useState6[1];
 
-  var _React$useState7 = _react.default.useState(null),
+  var _React$useState7 = _react["default"].useState(null),
       _React$useState8 = _slicedToArray(_React$useState7, 2),
       progressNow = _React$useState8[0],
       set_progressNow = _React$useState8[1];
 
-  var _React$useState9 = _react.default.useState(null),
+  var _React$useState9 = _react["default"].useState(null),
       _React$useState10 = _slicedToArray(_React$useState9, 2),
       PDFURL = _React$useState10[0],
       set_PDFURL = _React$useState10[1];
 
-  var progressMax = _react.default.useMemo(function () {
+  var progressMax = _react["default"].useMemo(function () {
     if (!dataArr) return 0;
     return dataArr.length;
   }, [dataArr]);
 
-  var myPercentArr = _react.default.useMemo(function () {
+  var myPercentArr = _react["default"].useMemo(function () {
     var pArr = [];
 
     for (var i = 0; i < dataArr.length; i++) {
@@ -809,7 +809,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     return pArr;
   }, [dataArr, targetGroupData]);
 
-  var myStateArr = _react.default.useMemo(function () {
+  var myStateArr = _react["default"].useMemo(function () {
     // if(!myPercentArr) return null;
     var stateArr = [];
 
@@ -1096,12 +1096,12 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     });
   };
 
-  var _React$useState11 = _react.default.useState(null),
+  var _React$useState11 = _react["default"].useState(null),
       _React$useState12 = _slicedToArray(_React$useState11, 2),
       isfinishThisPage = _React$useState12[0],
       set_isfinishThisPage = _React$useState12[1];
 
-  _react.default.useEffect(function () {
+  _react["default"].useEffect(function () {
     if (isPDFing) {
       if (progressNow === progressMax) {
         //마지막 페이지 돌아오는경우임.. 
@@ -1122,13 +1122,13 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     }
   }, [isPDFing, progressNow, progressMax, dataArr, isfinishThisPage]);
 
-  _react.default.useEffect(function () {
+  _react["default"].useEffect(function () {
     if (progressNow !== null) {
       set_selDataIndex(progressNow);
     }
   }, [progressNow]);
 
-  _react.default.useEffect(function () {
+  _react["default"].useEffect(function () {
     function doit() {
       return _doit.apply(this, arguments);
     }
@@ -1412,10 +1412,50 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
               case 21:
                 wait1 = _context.sent;
                 p = [];
-                p.push((0, _html2canvas.default)(document.getElementById("saccadeGradeChart")));
-                p.push((0, _html2canvas.default)(document.getElementById("saccadeRadarChart")));
-                p.push((0, _html2canvas.default)(document.getElementById("saccadeDirectionChart")));
-                p.push((0, _html2canvas.default)(document.getElementById("saccadeRealChart"))); // p.push(html2canvas(document.getElementById("saccadeLatencyChart")));
+                p.push((0, _html2canvas["default"])(document.getElementById("saccadeGradeChart")), {
+                  logging: false,
+                  // x:el.clientWidth*scaleX/2,
+                  // y:el.clientHeight*scaleY/2,
+                  scrollX: 0,
+                  scrollY: 0,
+                  //x: window.scrollX,
+                  // y: window.scrollY,
+                  scale: 1 // scrollY:-window.scrollY
+
+                });
+                p.push((0, _html2canvas["default"])(document.getElementById("saccadeRadarChart")), {
+                  logging: false,
+                  // x:el.clientWidth*scaleX/2,
+                  // y:el.clientHeight*scaleY/2,
+                  scrollX: 0,
+                  scrollY: 0,
+                  //x: window.scrollX,
+                  // y: window.scrollY,
+                  scale: 1 // scrollY:-window.scrollY
+
+                });
+                p.push((0, _html2canvas["default"])(document.getElementById("saccadeDirectionChart")), {
+                  logging: false,
+                  // x:el.clientWidth*scaleX/2,
+                  // y:el.clientHeight*scaleY/2,
+                  scrollX: 0,
+                  scrollY: 0,
+                  //x: window.scrollX,
+                  // y: window.scrollY,
+                  scale: 1 // scrollY:-window.scrollY
+
+                });
+                p.push((0, _html2canvas["default"])(document.getElementById("saccadeRealChart")), {
+                  logging: false,
+                  // x:el.clientWidth*scaleX/2,
+                  // y:el.clientHeight*scaleY/2,
+                  scrollX: 0,
+                  scrollY: 0,
+                  //x: window.scrollX,
+                  // y: window.scrollY,
+                  scale: 1 // scrollY:-window.scrollY
+
+                }); // p.push(html2canvas(document.getElementById("saccadeLatencyChart")));
                 // p.push(html2canvas(document.getElementById("saccadeSpeedChart")));
                 // p.push(html2canvas(document.getElementById("saccadeFEChart")));
 
@@ -2015,13 +2055,13 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 //pursuitGradeChart
                 _p = [];
 
-                _p.push((0, _html2canvas.default)(document.getElementById("pursuitGradeChart")));
+                _p.push((0, _html2canvas["default"])(document.getElementById("pursuitGradeChart")));
 
-                _p.push((0, _html2canvas.default)(document.getElementById("pursuitErrChart")));
+                _p.push((0, _html2canvas["default"])(document.getElementById("pursuitErrChart")));
 
-                _p.push((0, _html2canvas.default)(document.getElementById("pursuitDirectionChart")));
+                _p.push((0, _html2canvas["default"])(document.getElementById("pursuitDirectionChart")));
 
-                _p.push((0, _html2canvas.default)(document.getElementById("pursuitRealChart")));
+                _p.push((0, _html2canvas["default"])(document.getElementById("pursuitRealChart")));
 
                 _context.next = 57;
                 return Promise.all(_p);
@@ -2310,15 +2350,15 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 //antisaccadeGradeChart
                 _p2 = [];
 
-                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeGradeChart")));
+                _p2.push((0, _html2canvas["default"])(document.getElementById("antisaccadeGradeChart")));
 
-                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeErrDirectionChart")));
+                _p2.push((0, _html2canvas["default"])(document.getElementById("antisaccadeErrDirectionChart")));
 
-                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeLatencyChart")));
+                _p2.push((0, _html2canvas["default"])(document.getElementById("antisaccadeLatencyChart")));
 
-                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeDirectionChart")));
+                _p2.push((0, _html2canvas["default"])(document.getElementById("antisaccadeDirectionChart")));
 
-                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeRealChart"))); //antisaccadeErrDirectionChart
+                _p2.push((0, _html2canvas["default"])(document.getElementById("antisaccadeRealChart"))); //antisaccadeErrDirectionChart
                 //antisaccadeLatencyChart
 
 
@@ -2808,9 +2848,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     doit();
   }, [isPDFing, selDataIndex, progressMax, docDefinition, isfinishThisPage, dataArr, resultInformArr, userInformArr, myPercentArr, myStateArr, targetGroupData]);
 
-  _react.default.useEffect(function () {
+  _react["default"].useEffect(function () {
     if (isPDFing === 'exit') {
-      var pdfDocGenerator = _pdfmake.default.createPdf(docDefinition);
+      var pdfDocGenerator = _pdfmake["default"].createPdf(docDefinition);
 
       pdfDocGenerator.getBlob(function (blob) {
         // console.log(blob);
@@ -2826,11 +2866,11 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     }
   }, [isPDFing, docDefinition]);
 
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
     className: "ScreeningViewer"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "contents"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "leftbar no-drag"
   }, dataArr && dataArr.map(function (data, index) {
     // console.log(data);
@@ -2840,7 +2880,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
       cn += " selected";
     }
 
-    return /*#__PURE__*/_react.default.createElement("div", {
+    return /*#__PURE__*/_react["default"].createElement("div", {
       className: cn,
       key: "onLeftBar" + index,
       onClick: function onClick() {
@@ -2854,7 +2894,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
       cn += " selected";
     }
 
-    return /*#__PURE__*/_react.default.createElement("div", {
+    return /*#__PURE__*/_react["default"].createElement("div", {
       className: cn,
       style: {
         marginTop: '10px'
@@ -2864,27 +2904,27 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
         set_selDataIndex(dataArr.length);
       }
     }, "\uBCF4\uACE0\uC11C \uB2E4\uC6B4\uB85C\uB4DC");
-  }(), /*#__PURE__*/_react.default.createElement("div", {
+  }(), /*#__PURE__*/_react["default"].createElement("div", {
     className: "oneLeftBarList",
     style: {
       marginTop: '5px'
     },
     onClick: onClose
-  }, "\uB098\uAC00\uAE30")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uB098\uAC00\uAE30")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "rightContents"
-  }, selScreeningType === 'saccade' && targetGroupData && /*#__PURE__*/_react.default.createElement(SaccadeView, {
+  }, selScreeningType === 'saccade' && targetGroupData && /*#__PURE__*/_react["default"].createElement(SaccadeView, {
     data: dataArr[selDataIndex],
     targetGroupData: targetGroupData,
     everyGroupData: everyGroupData
-  }), selScreeningType === 'pursuit' && /*#__PURE__*/_react.default.createElement(PursuitView, {
+  }), selScreeningType === 'pursuit' && /*#__PURE__*/_react["default"].createElement(PursuitView, {
     data: dataArr[selDataIndex],
     targetGroupData: targetGroupData,
     everyGroupData: everyGroupData
-  }), selScreeningType === 'antisaccade' && /*#__PURE__*/_react.default.createElement(AntiSaccadeView, {
+  }), selScreeningType === 'antisaccade' && /*#__PURE__*/_react["default"].createElement(AntiSaccadeView, {
     data: dataArr[selDataIndex],
     targetGroupData: targetGroupData,
     everyGroupData: everyGroupData
-  }), selScreeningType === "보고서 다운로드" && /*#__PURE__*/_react.default.createElement(DownLoadPDF, {
+  }), selScreeningType === "보고서 다운로드" && /*#__PURE__*/_react["default"].createElement(DownLoadPDF, {
     dataArr: dataArr,
     handlePDFstart: handlePDFstart,
     iframesrc: PDFURL,
@@ -2900,7 +2940,7 @@ var SaccadeView = function SaccadeView(_ref3) {
       targetGroupData = props.targetGroupData,
       everyGroupData = props.everyGroupData;
 
-  var radarChartOption = _react.default.useMemo(function () {
+  var radarChartOption = _react["default"].useMemo(function () {
     return {
       plugins: {
         datalabels: {
@@ -2956,7 +2996,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     };
   }, []);
 
-  var radarChartOption2 = _react.default.useMemo(function () {
+  var radarChartOption2 = _react["default"].useMemo(function () {
     return {
       plugins: {
         datalabels: {
@@ -3012,7 +3052,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     };
   }, []);
 
-  var taskArr = _react.default.useMemo(function () {
+  var taskArr = _react["default"].useMemo(function () {
     var MONITOR_PX_PER_CM = data.monitorInform.MONITOR_PX_PER_CM;
     var pixel_per_cm = data.monitorInform.MONITOR_PX_PER_CM; //1cm 당 pixel
 
@@ -3243,7 +3283,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     return taskArr;
   }, [data]);
 
-  var saccadeTopChartOption = _react.default.useMemo(function () {
+  var saccadeTopChartOption = _react["default"].useMemo(function () {
     var annotation = [];
     var topTaskArr = taskArr.top;
 
@@ -3417,7 +3457,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     };
   }, [taskArr, targetGroupData]);
 
-  var saccadeTopData = _react.default.useMemo(function () {
+  var saccadeTopData = _react["default"].useMemo(function () {
     return {
       datasets: [{
         //targety
@@ -3471,7 +3511,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     };
   }, [taskArr]);
 
-  var saccadeBottomChartOption = _react.default.useMemo(function () {
+  var saccadeBottomChartOption = _react["default"].useMemo(function () {
     var annotation = [];
     var bottomTaskArr = taskArr.bottom;
 
@@ -3629,7 +3669,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     };
   }, [taskArr, targetGroupData]);
 
-  var saccadeBottomData = _react.default.useMemo(function () {
+  var saccadeBottomData = _react["default"].useMemo(function () {
     return {
       datasets: [{
         //targety
@@ -3683,7 +3723,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     };
   }, [taskArr]);
 
-  var saccadeRightChartOption = _react.default.useMemo(function () {
+  var saccadeRightChartOption = _react["default"].useMemo(function () {
     var annotation = [];
     var rightTaskArr = taskArr.right;
 
@@ -3839,7 +3879,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     };
   }, [taskArr, targetGroupData]);
 
-  var saccadeRightData = _react.default.useMemo(function () {
+  var saccadeRightData = _react["default"].useMemo(function () {
     return {
       datasets: [{
         //targety
@@ -3893,7 +3933,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     };
   }, [taskArr]);
 
-  var saccadeLeftChartOption = _react.default.useMemo(function () {
+  var saccadeLeftChartOption = _react["default"].useMemo(function () {
     var annotation = [];
     var leftTaskArr = taskArr.left;
 
@@ -4051,7 +4091,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     };
   }, [taskArr, targetGroupData]);
 
-  var saccadeLeftData = _react.default.useMemo(function () {
+  var saccadeLeftData = _react["default"].useMemo(function () {
     return {
       datasets: [{
         //targety
@@ -4105,29 +4145,29 @@ var SaccadeView = function SaccadeView(_ref3) {
     };
   }, [taskArr]);
 
-  var transparentCanvasRef = _react.default.useRef();
+  var transparentCanvasRef = _react["default"].useRef();
 
-  var _React$useState13 = _react.default.useState(true),
+  var _React$useState13 = _react["default"].useState(true),
       _React$useState14 = _slicedToArray(_React$useState13, 2),
       showUpward = _React$useState14[0],
       set_showUpward = _React$useState14[1];
 
-  var _React$useState15 = _react.default.useState(true),
+  var _React$useState15 = _react["default"].useState(true),
       _React$useState16 = _slicedToArray(_React$useState15, 2),
       showDownward = _React$useState16[0],
       set_showDownward = _React$useState16[1];
 
-  var _React$useState17 = _react.default.useState(true),
+  var _React$useState17 = _react["default"].useState(true),
       _React$useState18 = _slicedToArray(_React$useState17, 2),
       showLeftward = _React$useState18[0],
       set_showLeftward = _React$useState18[1];
 
-  var _React$useState19 = _react.default.useState(true),
+  var _React$useState19 = _react["default"].useState(true),
       _React$useState20 = _slicedToArray(_React$useState19, 2),
       showRightward = _React$useState20[0],
       set_showRightward = _React$useState20[1];
 
-  var drawTransparentCanvas = _react.default.useCallback(function () {
+  var drawTransparentCanvas = _react["default"].useCallback(function () {
     if (!data || !taskArr || !transparentCanvasRef) return;
     var canvas = transparentCanvasRef.current;
     var rctx = canvas.getContext('2d');
@@ -4193,18 +4233,18 @@ var SaccadeView = function SaccadeView(_ref3) {
     }
   }, [data, taskArr, showUpward, showDownward, showLeftward, showRightward]);
 
-  _react.default.useEffect(function () {
+  _react["default"].useEffect(function () {
     if (taskArr) {
       drawTransparentCanvas();
     }
   }, [taskArr, drawTransparentCanvas]);
 
-  var _React$useState21 = _react.default.useState(false),
+  var _React$useState21 = _react["default"].useState(false),
       _React$useState22 = _slicedToArray(_React$useState21, 2),
       showGazeViewer = _React$useState22[0],
       set_showGazeViewer = _React$useState22[1];
 
-  var myPercent = _react.default.useMemo(function () {
+  var myPercent = _react["default"].useMemo(function () {
     var x = data.analysis.saccade_score;
     var avg = targetGroupData.avg_saccade_score;
     var std = targetGroupData.std_saccade_score || 1;
@@ -4213,7 +4253,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     return p;
   }, [data, targetGroupData]);
 
-  var myState = _react.default.useMemo(function () {
+  var myState = _react["default"].useMemo(function () {
     var mystate;
 
     if (myPercent <= 10) {
@@ -4231,35 +4271,35 @@ var SaccadeView = function SaccadeView(_ref3) {
     return mystate;
   }, [myPercent]);
 
-  return /*#__PURE__*/_react.default.createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: "SaccadeView"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "row"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 \uACB0\uACFC"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 \uACB0\uACFC"), /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: '60%',
       display: 'flex'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       width: '55%',
       display: 'flex',
       justifyContent: 'flex-end',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement("img", {
+  }, /*#__PURE__*/_react["default"].createElement("img", {
     src: _base.imgbase64forPDF[myState],
     alt: "",
     style: {
       height: '50%'
     }
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       width: '45%',
       display: 'flex',
@@ -4270,7 +4310,7 @@ var SaccadeView = function SaccadeView(_ref3) {
       paddingLeft: '7px',
       paddingTop: '12px'
     }
-  }, myState)), /*#__PURE__*/_react.default.createElement("div", {
+  }, myState)), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: '40%',
       display: 'flex',
@@ -4279,14 +4319,14 @@ var SaccadeView = function SaccadeView(_ref3) {
       paddingLeft: '15px',
       borderTop: '1px solid #1A408E'
     }
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB0B4 \uC810\uC218: ", data.analysis.saccade_score.toFixed(2), "\uC810 (\uC0C1\uC704 ", myPercent, "%)"), /*#__PURE__*/_react.default.createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: ", targetGroupData.avg_saccade_score.toFixed(2), "\uC810"), /*#__PURE__*/_react.default.createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: ", everyGroupData.avg_saccade_score.toFixed(2), "\uC810"))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("ul", null, /*#__PURE__*/_react["default"].createElement("li", null, "\uB0B4 \uC810\uC218: ", data.analysis.saccade_score.toFixed(2), "\uC810 (\uC0C1\uC704 ", myPercent, "%)"), /*#__PURE__*/_react["default"].createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: ", targetGroupData.avg_saccade_score.toFixed(2), "\uC810"), /*#__PURE__*/_react["default"].createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: ", everyGroupData.avg_saccade_score.toFixed(2), "\uC810"))))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox",
     style: {
       width: '330px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react["default"].createElement("div", {
     id: "saccadeGradeChart",
     className: "cbox",
     style: {
@@ -4294,18 +4334,18 @@ var SaccadeView = function SaccadeView(_ref3) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement(BarChartGrade, {
+  }, /*#__PURE__*/_react["default"].createElement(BarChartGrade, {
     myScore: data.analysis.saccade_score,
     avgGroupScore: targetGroupData.avg_saccade_score,
     stdGroupScore: targetGroupData.std_saccade_score
-  }))), /*#__PURE__*/_react.default.createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox",
     style: {
       width: '850px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react["default"].createElement("div", {
     id: "saccadeRadarChart",
     className: "cbox",
     style: {
@@ -4313,10 +4353,10 @@ var SaccadeView = function SaccadeView(_ref3) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     id: "saccadeLatencyChart",
     className: "cbox3 latencyChartWrap"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "radar",
     height: null,
     width: null,
@@ -4337,10 +4377,10 @@ var SaccadeView = function SaccadeView(_ref3) {
       }]
     },
     options: radarChartOption
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     id: "saccadeSpeedChart",
     className: "cbox3 speedChartWrap"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "radar",
     height: null,
     width: null,
@@ -4361,10 +4401,10 @@ var SaccadeView = function SaccadeView(_ref3) {
       }]
     },
     options: radarChartOption
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     id: "saccadeFEChart",
     className: "cbox3 fixationErrChartWrap"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "radar",
     height: null,
     width: null,
@@ -4385,25 +4425,25 @@ var SaccadeView = function SaccadeView(_ref3) {
       }]
     },
     options: radarChartOption2
-  }))))), /*#__PURE__*/_react.default.createElement("div", {
+  }))))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "row"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox",
     style: {
       width: '450px',
       height: '450px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uB3C4\uC57D \uC548\uAD6C\uC6B4\uB3D9 \uC2DC\uC120 ", /*#__PURE__*/_react.default.createElement("button", {
+  }, "\uB3C4\uC57D \uC548\uAD6C\uC6B4\uB3D9 \uC2DC\uC120 ", /*#__PURE__*/_react["default"].createElement("button", {
     className: "viewerbtn",
     onClick: function onClick() {
       return set_showGazeViewer(true);
     }
-  }, "Viewer")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Viewer")), /*#__PURE__*/_react["default"].createElement("div", {
     id: "saccadeRealChart",
     className: "cbox"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: '30px',
       display: 'flex',
@@ -4412,41 +4452,41 @@ var SaccadeView = function SaccadeView(_ref3) {
       paddingTop: '3px',
       boxSizing: 'border-box'
     }
-  }, "Amplitude : 7.63 Degree"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Amplitude : 7.63 Degree"), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: 'calc(100% - 60px)',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "_10degreeDiv",
     style: {
       width: '340px',
       height: '340px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "target center"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "target left"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "target right"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "target top"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "target bottom"
-  }), /*#__PURE__*/_react.default.createElement("canvas", {
+  }), /*#__PURE__*/_react["default"].createElement("canvas", {
     className: "transparentCanvas",
     ref: transparentCanvasRef,
     width: 1020,
     height: 1020
-  }))), /*#__PURE__*/_react.default.createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "customLabel",
     style: {
       height: '30px',
       display: 'flex'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "clickzone",
     style: {
       textDecoration: showUpward === true ? "" : "line-through"
@@ -4454,9 +4494,9 @@ var SaccadeView = function SaccadeView(_ref3) {
     onClick: function onClick() {
       return set_showUpward(!showUpward);
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "upward"
-  }), "Upward"), "\xA0\xA0", /*#__PURE__*/_react.default.createElement("div", {
+  }), "Upward"), "\xA0\xA0", /*#__PURE__*/_react["default"].createElement("div", {
     className: "clickzone",
     style: {
       textDecoration: showRightward === true ? "" : "line-through"
@@ -4464,9 +4504,9 @@ var SaccadeView = function SaccadeView(_ref3) {
     onClick: function onClick() {
       return set_showRightward(!showRightward);
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "rightward"
-  }), "Rightward"), "\xA0\xA0", /*#__PURE__*/_react.default.createElement("div", {
+  }), "Rightward"), "\xA0\xA0", /*#__PURE__*/_react["default"].createElement("div", {
     className: "clickzone",
     style: {
       textDecoration: showDownward === true ? "" : "line-through"
@@ -4474,9 +4514,9 @@ var SaccadeView = function SaccadeView(_ref3) {
     onClick: function onClick() {
       return set_showDownward(!showDownward);
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "downward"
-  }), "Downward"), "\xA0\xA0", /*#__PURE__*/_react.default.createElement("div", {
+  }), "Downward"), "\xA0\xA0", /*#__PURE__*/_react["default"].createElement("div", {
     className: "clickzone",
     style: {
       textDecoration: showLeftward === true ? "" : "line-through"
@@ -4484,100 +4524,100 @@ var SaccadeView = function SaccadeView(_ref3) {
     onClick: function onClick() {
       return set_showLeftward(!showLeftward);
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "leftward"
-  }), "Leftward"), "\xA0\xA0"))), /*#__PURE__*/_react.default.createElement("div", {
+  }), "Leftward"), "\xA0\xA0"))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox",
     style: {
       width: '1000px',
       height: '450px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uC2DC\uAC04\uC5D0 \uB530\uB978 \uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uC2DC\uAC04\uC5D0 \uB530\uB978 \uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9"), /*#__PURE__*/_react["default"].createElement("div", {
     id: "saccadeDirectionChart",
     className: "cbox"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2r"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2w"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_label"
-  }, /*#__PURE__*/_react.default.createElement("strong", null, "Upward 7.63 Degree")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("strong", null, "Upward 7.63 Degree")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_chart"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "line",
     height: null,
     width: null,
     data: saccadeTopData,
     options: saccadeTopChartOption
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_avg"
-  }, "myAvgLatency : ", /*#__PURE__*/_react.default.createElement("strong", null, (data.analysis.up_saccade_delay * 1000).toFixed(0), " ms"), ", myAvgSpeed : ", /*#__PURE__*/_react.default.createElement("strong", null, data.analysis.up_saccade_speed.toFixed(1), " degree/s"))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "myAvgLatency : ", /*#__PURE__*/_react["default"].createElement("strong", null, (data.analysis.up_saccade_delay * 1000).toFixed(0), " ms"), ", myAvgSpeed : ", /*#__PURE__*/_react["default"].createElement("strong", null, data.analysis.up_saccade_speed.toFixed(1), " degree/s"))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2w"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_label"
-  }, /*#__PURE__*/_react.default.createElement("strong", null, "Rightward 7.63 Degree")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("strong", null, "Rightward 7.63 Degree")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_chart"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "line",
     height: null,
     width: null,
     data: saccadeRightData,
     options: saccadeRightChartOption
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_avg"
-  }, "myAvgLatency : ", /*#__PURE__*/_react.default.createElement("strong", null, (data.analysis.right_saccade_delay * 1000).toFixed(0), " ms"), ", myAvgSpeed : ", /*#__PURE__*/_react.default.createElement("strong", null, data.analysis.right_saccade_speed.toFixed(1), " degree/s")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "myAvgLatency : ", /*#__PURE__*/_react["default"].createElement("strong", null, (data.analysis.right_saccade_delay * 1000).toFixed(0), " ms"), ", myAvgSpeed : ", /*#__PURE__*/_react["default"].createElement("strong", null, data.analysis.right_saccade_speed.toFixed(1), " degree/s")))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2r"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2w"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_label"
-  }, /*#__PURE__*/_react.default.createElement("strong", null, "Downward 7.63 Degree")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("strong", null, "Downward 7.63 Degree")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_chart"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "line",
     height: null,
     width: null,
     data: saccadeBottomData,
     options: saccadeBottomChartOption
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_avg"
-  }, "myAvgLatency : ", /*#__PURE__*/_react.default.createElement("strong", null, (data.analysis.down_saccade_delay * 1000).toFixed(0), " ms"), ", myAvgSpeed : ", /*#__PURE__*/_react.default.createElement("strong", null, data.analysis.down_saccade_speed.toFixed(1), " degree/s"))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "myAvgLatency : ", /*#__PURE__*/_react["default"].createElement("strong", null, (data.analysis.down_saccade_delay * 1000).toFixed(0), " ms"), ", myAvgSpeed : ", /*#__PURE__*/_react["default"].createElement("strong", null, data.analysis.down_saccade_speed.toFixed(1), " degree/s"))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2w"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_label"
-  }, /*#__PURE__*/_react.default.createElement("strong", null, "Leftward 7.63 Degree")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("strong", null, "Leftward 7.63 Degree")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_chart"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "line",
     height: null,
     width: null,
     data: saccadeLeftData,
     options: saccadeLeftChartOption
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_avg"
-  }, "myAvgLatency : ", /*#__PURE__*/_react.default.createElement("strong", null, (data.analysis.left_saccade_delay * 1000).toFixed(0), " ms"), ", myAvgSpeed : ", /*#__PURE__*/_react.default.createElement("strong", null, data.analysis.left_saccade_speed.toFixed(1), " degree/s"))))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "myAvgLatency : ", /*#__PURE__*/_react["default"].createElement("strong", null, (data.analysis.left_saccade_delay * 1000).toFixed(0), " ms"), ", myAvgSpeed : ", /*#__PURE__*/_react["default"].createElement("strong", null, data.analysis.left_saccade_speed.toFixed(1), " degree/s"))))))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "row"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleUnderline"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 \uCE21\uC815\uC740 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 \uCE21\uC815\uC740 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react["default"].createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uAE00\uC744 \uC77D\uB294 \uB3D9\uC548 \uC2DC\uC120\uC740 \uB04A\uC784\uC5C6\uC774 \uBE60\uB974\uAC8C \uC774\uB3D9(saccade, \uB3C4\uC57D\uC774\uB3D9)\uD558\uBA70 \uAE00\uC790\uC5D0 \uACE0\uC815(fixation, \uC751\uC2DC)\uD558\uB294 \uAC83\uC744 \uBC18\uBCF5\uD569\uB2C8\uB2E4. \uAE00\uC744 \uC720\uCC3D\uD558\uAC8C \uC77D\uAE30 \uC704\uD574\uC11C\uB294 \uC815\uD655\uD55C \uC704\uCE58\uC5D0 \uB208\uC744 \uBE60\uB974\uACE0 \uC815\uD655\uD55C \uC704\uCE58\uB85C \uC62E\uAE30\uACE0, \uC548\uC815\uC801\uC73C\uB85C \uC2DC\uC120\uC744 \uC720\uC9C0\uD558\uB294 \uC6B4\uB3D9\uC81C\uC5B4 \uB2A5\uB825\uC774 \uD544\uC694\uD569\uB2C8\uB2E4. \uC2DC\uB825 \uC800\uD558, \uD53C\uB85C, \uC9D1\uC911\uB825 \uBD80\uC871, \uC548\uAD6C\uC9C4\uD0D5\uC99D \uBC0F \uAC01\uC885 \uC2E0\uACBD\uACC4 \uC774\uC0C1 \uB4F1\uC758 \uC774\uC720\uB85C \uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9\uC5D0 \uBB38\uC81C\uAC00 \uC0DD\uAE38 \uC218 \uC788\uC73C\uBA70, \uC774 \uB2A5\uB825\uC774 \uC800\uD558\uB418\uBA74 \uAE00\uC744 \uC720\uCC3D\uD558\uAC8C \uC77D\uB294\uB370 \uBC29\uD574\uAC00 \uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("strong", null, "\uC9C0\uC5F0\uC2DC\uAC04 (latency time)"), " : \uC2DC\uAC01 \uC790\uADF9\uBB3C\uC744 \uBC1C\uACAC\uD55C \uB4A4, \uBAA9\uD45C\uB97C \uD5A5\uD574 \uC2DC\uC120\uC774 \uCD9C\uBC1C\uD560 \uB54C\uAE4C\uC9C0 \uAC78\uB9AC\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBC18\uC751\uCC98\uB9AC \uBC0F \uC6B4\uB3D9\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uC9E7\uC73C\uBA70, \uB300\uCCB4\uB85C 150ms ~ 250ms\uC815\uB3C4\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("strong", null, "\uC2DC\uC120\uC774\uB3D9\uC18D\uB3C4 (saccade speed)"), " : \uC2DC\uC120\uC774 \uBAA9\uD45C\uB97C \uD5A5\uD574 \uC774\uB3D9\uD560 \uB54C, \uBAA9\uD45C\uC5D0 \uB2E4\uB2E4\uB97C \uB54C\uAE4C\uC9C0\uC758 \uC18D\uB3C4\uC785\uB2C8\uB2E4. \uC6B4\uB3D9\uC81C\uC5B4\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uC18D\uB3C4\uAC00 \uBE60\uB974\uBA70, \uC774\uB3D9\uD560 \uAC70\uB9AC\uAC00 \uAC00\uAE4C\uC6B8\uC218\uB85D \uC18D\uB3C4\uB294 \uB290\uB824\uC9D1\uB2C8\uB2E4. \uB300\uCCB4\uB85C 50\uB3C4/\uCD08~200\uB3C4/\uCD08 \uC815\uB3C4\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("strong", null, "\uC751\uC2DC\uC548\uC815\uC131 (fixation stability)"), " : \uB300\uC0C1\uC744 \uC751\uC2DC\uD560 \uB54C, \uC2DC\uC120\uC774 \uC5BC\uB9C8\uB098 \uC548\uC815\uC801\uC73C\uB85C \uC720\uC9C0\uD558\uB294\uC9C0\uB97C \uCE21\uC815\uD55C \uCC99\uB3C4\uC785\uB2C8\uB2E4. \uBAA9\uD45C\uC704\uCE58\uB85C\uBD80\uD130\uC758 2\uCD08\uAC04 \uC2DC\uC120\uC704\uCE58 \uD3B8\uCC28\uB85C \uCE21\uC815\uD569\uB2C8\uB2E4. \uC9D1\uC911\uB825\uC774 \uAC15\uD558\uACE0 \uC6B4\uB3D9\uC81C\uC5B4\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uD3B8\uCC28\uAC00 \uC791\uC73C\uBA70, \uB300\uCCB4\uB85C 0.5\uB3C4 \uB0B4\uC678\uC785\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("ul", null, /*#__PURE__*/_react["default"].createElement("li", null, "\uAE00\uC744 \uC77D\uB294 \uB3D9\uC548 \uC2DC\uC120\uC740 \uB04A\uC784\uC5C6\uC774 \uBE60\uB974\uAC8C \uC774\uB3D9(saccade, \uB3C4\uC57D\uC774\uB3D9)\uD558\uBA70 \uAE00\uC790\uC5D0 \uACE0\uC815(fixation, \uC751\uC2DC)\uD558\uB294 \uAC83\uC744 \uBC18\uBCF5\uD569\uB2C8\uB2E4. \uAE00\uC744 \uC720\uCC3D\uD558\uAC8C \uC77D\uAE30 \uC704\uD574\uC11C\uB294 \uC815\uD655\uD55C \uC704\uCE58\uC5D0 \uB208\uC744 \uBE60\uB974\uACE0 \uC815\uD655\uD55C \uC704\uCE58\uB85C \uC62E\uAE30\uACE0, \uC548\uC815\uC801\uC73C\uB85C \uC2DC\uC120\uC744 \uC720\uC9C0\uD558\uB294 \uC6B4\uB3D9\uC81C\uC5B4 \uB2A5\uB825\uC774 \uD544\uC694\uD569\uB2C8\uB2E4. \uC2DC\uB825 \uC800\uD558, \uD53C\uB85C, \uC9D1\uC911\uB825 \uBD80\uC871, \uC548\uAD6C\uC9C4\uD0D5\uC99D \uBC0F \uAC01\uC885 \uC2E0\uACBD\uACC4 \uC774\uC0C1 \uB4F1\uC758 \uC774\uC720\uB85C \uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9\uC5D0 \uBB38\uC81C\uAC00 \uC0DD\uAE38 \uC218 \uC788\uC73C\uBA70, \uC774 \uB2A5\uB825\uC774 \uC800\uD558\uB418\uBA74 \uAE00\uC744 \uC720\uCC3D\uD558\uAC8C \uC77D\uB294\uB370 \uBC29\uD574\uAC00 \uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("strong", null, "\uC9C0\uC5F0\uC2DC\uAC04 (latency time)"), " : \uC2DC\uAC01 \uC790\uADF9\uBB3C\uC744 \uBC1C\uACAC\uD55C \uB4A4, \uBAA9\uD45C\uB97C \uD5A5\uD574 \uC2DC\uC120\uC774 \uCD9C\uBC1C\uD560 \uB54C\uAE4C\uC9C0 \uAC78\uB9AC\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBC18\uC751\uCC98\uB9AC \uBC0F \uC6B4\uB3D9\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uC9E7\uC73C\uBA70, \uB300\uCCB4\uB85C 150ms ~ 250ms\uC815\uB3C4\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("strong", null, "\uC2DC\uC120\uC774\uB3D9\uC18D\uB3C4 (saccade speed)"), " : \uC2DC\uC120\uC774 \uBAA9\uD45C\uB97C \uD5A5\uD574 \uC774\uB3D9\uD560 \uB54C, \uBAA9\uD45C\uC5D0 \uB2E4\uB2E4\uB97C \uB54C\uAE4C\uC9C0\uC758 \uC18D\uB3C4\uC785\uB2C8\uB2E4. \uC6B4\uB3D9\uC81C\uC5B4\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uC18D\uB3C4\uAC00 \uBE60\uB974\uBA70, \uC774\uB3D9\uD560 \uAC70\uB9AC\uAC00 \uAC00\uAE4C\uC6B8\uC218\uB85D \uC18D\uB3C4\uB294 \uB290\uB824\uC9D1\uB2C8\uB2E4. \uB300\uCCB4\uB85C 50\uB3C4/\uCD08~200\uB3C4/\uCD08 \uC815\uB3C4\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("strong", null, "\uC751\uC2DC\uC548\uC815\uC131 (fixation stability)"), " : \uB300\uC0C1\uC744 \uC751\uC2DC\uD560 \uB54C, \uC2DC\uC120\uC774 \uC5BC\uB9C8\uB098 \uC548\uC815\uC801\uC73C\uB85C \uC720\uC9C0\uD558\uB294\uC9C0\uB97C \uCE21\uC815\uD55C \uCC99\uB3C4\uC785\uB2C8\uB2E4. \uBAA9\uD45C\uC704\uCE58\uB85C\uBD80\uD130\uC758 2\uCD08\uAC04 \uC2DC\uC120\uC704\uCE58 \uD3B8\uCC28\uB85C \uCE21\uC815\uD569\uB2C8\uB2E4. \uC9D1\uC911\uB825\uC774 \uAC15\uD558\uACE0 \uC6B4\uB3D9\uC81C\uC5B4\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uD3B8\uCC28\uAC00 \uC791\uC73C\uBA70, \uB300\uCCB4\uB85C 0.5\uB3C4 \uB0B4\uC678\uC785\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react["default"].createElement("div", {
     className: "GazeViewerWrap"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "modal"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, " \uC2E4\uC81C \uC2DC\uC120 \uCE21\uC815\uB370\uC774\uD130 ", /*#__PURE__*/_react.default.createElement("button", {
+  }, " \uC2E4\uC81C \uC2DC\uC120 \uCE21\uC815\uB370\uC774\uD130 ", /*#__PURE__*/_react["default"].createElement("button", {
     onClick: function onClick() {
       return set_showGazeViewer(false);
     }
-  }, "\uB2EB\uAE30")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uB2EB\uAE30")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "view"
-  }, /*#__PURE__*/_react.default.createElement(_reactGazeviewer.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactGazeviewer["default"], {
     data: data
   })))));
 };
@@ -4589,12 +4629,12 @@ var PursuitView = function PursuitView(_ref4) {
       targetGroupData = props.targetGroupData,
       everyGroupData = props.everyGroupData;
 
-  var _React$useState23 = _react.default.useState(false),
+  var _React$useState23 = _react["default"].useState(false),
       _React$useState24 = _slicedToArray(_React$useState23, 2),
       showGazeViewer = _React$useState24[0],
       set_showGazeViewer = _React$useState24[1];
 
-  var taskArr = _react.default.useMemo(function () {
+  var taskArr = _react["default"].useMemo(function () {
     // console.log(data);
     var MONITOR_PX_PER_CM = data.monitorInform.MONITOR_PX_PER_CM;
     var pixel_per_cm = data.monitorInform.MONITOR_PX_PER_CM; //1cm 당 pixel
@@ -4777,19 +4817,19 @@ var PursuitView = function PursuitView(_ref4) {
     return taskArr;
   }, [data]);
 
-  var transparentCanvasRef = _react.default.useRef();
+  var transparentCanvasRef = _react["default"].useRef();
 
-  var _React$useState25 = _react.default.useState(true),
+  var _React$useState25 = _react["default"].useState(true),
       _React$useState26 = _slicedToArray(_React$useState25, 2),
       showClockwise = _React$useState26[0],
       set_showClockwise = _React$useState26[1];
 
-  var _React$useState27 = _react.default.useState(true),
+  var _React$useState27 = _react["default"].useState(true),
       _React$useState28 = _slicedToArray(_React$useState27, 2),
       showAntiClockwise = _React$useState28[0],
       set_showAntiClockwise = _React$useState28[1];
 
-  var drawTransparentCanvas = _react.default.useCallback(function () {
+  var drawTransparentCanvas = _react["default"].useCallback(function () {
     if (!data || !taskArr || !transparentCanvasRef) return;
     var canvas = transparentCanvasRef.current;
     var rctx = canvas.getContext('2d');
@@ -4842,13 +4882,13 @@ var PursuitView = function PursuitView(_ref4) {
     }
   }, [data, taskArr, showClockwise, showAntiClockwise]);
 
-  _react.default.useEffect(function () {
+  _react["default"].useEffect(function () {
     if (taskArr) {
       drawTransparentCanvas();
     }
   }, [taskArr, drawTransparentCanvas]);
 
-  var pursuitChartOption = _react.default.useMemo(function () {
+  var pursuitChartOption = _react["default"].useMemo(function () {
     var annotationArr = [{
       drawTime: "afterDatasetsDraw",
       // (default)
@@ -4983,7 +5023,7 @@ var PursuitView = function PursuitView(_ref4) {
     };
   }, []);
 
-  var clockWiseData = _react.default.useMemo(function () {
+  var clockWiseData = _react["default"].useMemo(function () {
     var task = taskArr['clockwise'][0];
     var startRelTime = task.startWaitTime - 0.5;
     var endRelTime = task.relativeEndTime - task.endWaitTime + 0.5;
@@ -5115,7 +5155,7 @@ var PursuitView = function PursuitView(_ref4) {
     };
   }, [taskArr]);
 
-  var antiClockWiseData = _react.default.useMemo(function () {
+  var antiClockWiseData = _react["default"].useMemo(function () {
     var task = taskArr['anticlockwise'][0];
     var startRelTime = task.startWaitTime - 0.5;
     var endRelTime = task.relativeEndTime - task.endWaitTime + 0.5;
@@ -5247,7 +5287,7 @@ var PursuitView = function PursuitView(_ref4) {
     };
   }, [taskArr]);
 
-  var barChartData = _react.default.useMemo(function () {
+  var barChartData = _react["default"].useMemo(function () {
     return {
       labels: ['clockWise', 'AntiClockWise'],
       datasets: [{
@@ -5272,7 +5312,7 @@ var PursuitView = function PursuitView(_ref4) {
     };
   }, [targetGroupData, data]);
 
-  var barChartOption = _react.default.useMemo(function () {
+  var barChartOption = _react["default"].useMemo(function () {
     return {
       plugins: {
         datalabels: {
@@ -5376,7 +5416,7 @@ var PursuitView = function PursuitView(_ref4) {
     };
   }, []);
 
-  var myPercent = _react.default.useMemo(function () {
+  var myPercent = _react["default"].useMemo(function () {
     var x = data.analysis.pursuit_score;
     var avg = targetGroupData.avg_pursuit_score;
     var std = targetGroupData.std_pursuit_score || 1;
@@ -5385,7 +5425,7 @@ var PursuitView = function PursuitView(_ref4) {
     return p;
   }, [data, targetGroupData]);
 
-  var myState = _react.default.useMemo(function () {
+  var myState = _react["default"].useMemo(function () {
     var mystate;
 
     if (myPercent <= 10) {
@@ -5403,35 +5443,35 @@ var PursuitView = function PursuitView(_ref4) {
     return mystate;
   }, [myPercent]);
 
-  return /*#__PURE__*/_react.default.createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: "PursuitView"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "row"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uACB0\uACFC"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uACB0\uACFC"), /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: '60%',
       display: 'flex'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       width: '55%',
       display: 'flex',
       justifyContent: 'flex-end',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement("img", {
+  }, /*#__PURE__*/_react["default"].createElement("img", {
     src: _base.imgbase64forPDF[myState],
     alt: "",
     style: {
       height: '50%'
     }
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       width: '45%',
       display: 'flex',
@@ -5442,7 +5482,7 @@ var PursuitView = function PursuitView(_ref4) {
       paddingLeft: '7px',
       paddingTop: '12px'
     }
-  }, myState)), /*#__PURE__*/_react.default.createElement("div", {
+  }, myState)), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: '40%',
       display: 'flex',
@@ -5451,14 +5491,14 @@ var PursuitView = function PursuitView(_ref4) {
       paddingLeft: '15px',
       borderTop: '1px solid #1A408E'
     }
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB0B4 \uD3C9\uADE0: ", data.analysis.pursuit_score.toFixed(2), "\uC810 (\uC0C1\uC704 ", myPercent, "%)"), /*#__PURE__*/_react.default.createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: ", targetGroupData.avg_pursuit_score.toFixed(2), "\uC810"), /*#__PURE__*/_react.default.createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: ", everyGroupData.avg_pursuit_score.toFixed(2), "\uC810"))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("ul", null, /*#__PURE__*/_react["default"].createElement("li", null, "\uB0B4 \uD3C9\uADE0: ", data.analysis.pursuit_score.toFixed(2), "\uC810 (\uC0C1\uC704 ", myPercent, "%)"), /*#__PURE__*/_react["default"].createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: ", targetGroupData.avg_pursuit_score.toFixed(2), "\uC810"), /*#__PURE__*/_react["default"].createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: ", everyGroupData.avg_pursuit_score.toFixed(2), "\uC810"))))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox",
     style: {
       width: '330px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react["default"].createElement("div", {
     id: "pursuitGradeChart",
     className: "cbox",
     style: {
@@ -5466,54 +5506,54 @@ var PursuitView = function PursuitView(_ref4) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement(BarChartGrade, {
+  }, /*#__PURE__*/_react["default"].createElement(BarChartGrade, {
     myScore: data.analysis.pursuit_score,
     avgGroupScore: targetGroupData.avg_pursuit_score,
     stdGroupScore: targetGroupData.std_pursuit_score
-  }))), /*#__PURE__*/_react.default.createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox",
     style: {
       width: '850px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox",
     style: {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     id: "pursuitErrChart",
     className: "cbox2"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "bar",
     height: null,
     width: null,
     data: barChartData,
     options: barChartOption
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2"
-  }, "\uC5B4\uB5A4\uCEE8\uD150\uCE20\uAC00 \uB4E4\uC5B4\uAC08\uC608\uC815")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uC5B4\uB5A4\uCEE8\uD150\uCE20\uAC00 \uB4E4\uC5B4\uAC08\uC608\uC815")))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "row"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox",
     style: {
       width: '450px',
       height: '450px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uCD94\uC801 \uC548\uAD6C\uC6B4\uB3D9 \uC2DC\uC120\uADA4\uC801 ", /*#__PURE__*/_react.default.createElement("button", {
+  }, "\uCD94\uC801 \uC548\uAD6C\uC6B4\uB3D9 \uC2DC\uC120\uADA4\uC801 ", /*#__PURE__*/_react["default"].createElement("button", {
     className: "viewerbtn",
     onClick: function onClick() {
       return set_showGazeViewer(true);
     }
-  }, "Viewer")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Viewer")), /*#__PURE__*/_react["default"].createElement("div", {
     id: "pursuitRealChart",
     className: "cbox"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: '30px',
       display: 'flex',
@@ -5522,55 +5562,55 @@ var PursuitView = function PursuitView(_ref4) {
       paddingTop: '3px',
       boxSizing: 'border-box'
     }
-  }, "Radius : 7.63 Degree  \xA0\xA0 Speed : 72 Degree/s"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Radius : 7.63 Degree  \xA0\xA0 Speed : 72 Degree/s"), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: 'calc(100% - 60px)',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "_10degreeDiv",
     style: {
       width: '340px',
       height: '340px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "target circle"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "target centerx"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: '50%',
       width: '100%',
       display: 'flex'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "lt"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "rt"
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: '50%',
       width: '100%',
       display: 'flex'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "lb"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "rb"
-  }))), /*#__PURE__*/_react.default.createElement("canvas", {
+  }))), /*#__PURE__*/_react["default"].createElement("canvas", {
     className: "transparentCanvas",
     ref: transparentCanvasRef,
     width: 1020,
     height: 1020
-  }))), /*#__PURE__*/_react.default.createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "customLabel",
     style: {
       height: '30px',
       display: 'flex'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "clickzone",
     style: {
       textDecoration: showClockwise === true ? "" : "line-through"
@@ -5578,9 +5618,9 @@ var PursuitView = function PursuitView(_ref4) {
     onClick: function onClick() {
       return set_showClockwise(!showClockwise);
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "upward"
-  }), "Clockwise"), "\xA0\xA0", /*#__PURE__*/_react.default.createElement("div", {
+  }), "Clockwise"), "\xA0\xA0", /*#__PURE__*/_react["default"].createElement("div", {
     className: "clickzone",
     style: {
       textDecoration: showAntiClockwise === true ? "" : "line-through"
@@ -5588,22 +5628,22 @@ var PursuitView = function PursuitView(_ref4) {
     onClick: function onClick() {
       return set_showAntiClockwise(!showAntiClockwise);
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "downward"
-  }), "AntiClockwise"), "\xA0\xA0"))), /*#__PURE__*/_react.default.createElement("div", {
+  }), "AntiClockwise"), "\xA0\xA0"))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox",
     style: {
       width: '1000px',
       height: '450px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uC2DC\uAC04\uC5D0 \uB530\uB978 \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uC2DC\uAC04\uC5D0 \uB530\uB978 \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9"), /*#__PURE__*/_react["default"].createElement("div", {
     id: "pursuitDirectionChart",
     className: "cbox"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2r"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       width: 'calc(100% - 8px)',
       height: '100%',
@@ -5611,19 +5651,19 @@ var PursuitView = function PursuitView(_ref4) {
       border: '1px solid black',
       boxSizing: 'border-box'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_label"
-  }, /*#__PURE__*/_react.default.createElement("strong", null, "Clockwise")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("strong", null, "Clockwise")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_chart"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "line",
     height: null,
     width: null,
     data: clockWiseData,
     options: pursuitChartOption
-  })))), /*#__PURE__*/_react.default.createElement("div", {
+  })))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2r"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       width: 'calc(100% - 8px)',
       height: '100%',
@@ -5631,37 +5671,37 @@ var PursuitView = function PursuitView(_ref4) {
       border: '1px solid black',
       boxSizing: 'border-box'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_label"
-  }, /*#__PURE__*/_react.default.createElement("strong", null, "AntiClockwise")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("strong", null, "AntiClockwise")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_chart"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "line",
     height: null,
     width: null,
     data: antiClockWiseData,
     options: pursuitChartOption
-  }))))))), /*#__PURE__*/_react.default.createElement("div", {
+  }))))))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "row"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleUnderline"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 (pursuit)\uC740 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 (pursuit)\uC740 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react["default"].createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9(pursuit)\uC740 \uCC9C\uCC9C\uD788 \uC6C0\uC9C1\uC774\uB294 \uB300\uC0C1\uC744 \uB530\uB77C \uBD80\uB4DC\uB7FD\uACE0 \uC5F0\uC18D\uC801\uC73C\uB85C \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uB294 \uAC83\uC785\uB2C8\uB2E4. \uC77C\uBC18\uC801\uC73C\uB85C \uC2DC\uC120\uC740 \uBE60\uB974\uAC8C \uB3C4\uC57D\uD558\uACE0 \uACE0\uC815\uD558\uB294 \uAC83\uC744 \uBC18\uBCF5\uD560 \uBFD0\uC774\uBA70,  \uBD80\uB4DC\uB7FD\uACE0 \uC5F0\uC18D\uC801\uC73C\uB85C \uC774\uB3D9\uD558\uB294 \uAC83\uC740 \uACE0\uB3C4\uC758 \uC548\uAD6C\uC6B4\uB3D9 \uD1B5\uC81C\uB2A5\uB825\uC774 \uD544\uC694\uD558\uAE30 \uB54C\uBB38\uC5D0, \uC601\uC7A5\uB958\uB098 \uACE0\uC591\uC774 \uC815\uB3C4\uC758 \uACE0\uB4F1\uB3D9\uBB3C\uC5D0\uAC8C\uC11C \uB098\uD0C0\uB098\uB294 \uB2A5\uB825\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9\uC740 \uC9D1\uC911\uB825\uC774 \uB0AE\uC544\uC9C0\uAC70\uB098 \uB178\uD654\uC5D0 \uC758\uD574 \uC800\uD558\uB418\uC9C0\uB9CC, \uC2DC\uB825 \uC800\uD558\uB098 \uC548\uC9C4(\uC548\uAD6C \uC9C4\uD0D5)  \uBC0F \uAC01\uC885 \uC2E0\uACBD\uACC4 \uC774\uC0C1\uC73C\uB85C \uC778\uD574 \uB098\uD0C0\uB098\uAE30\uB3C4 \uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC704\uCE58\uD3B8\uCC28 (position error)"), /*#__PURE__*/_react.default.createElement("li", null, "\uC5F0\uC18D\uC131??"))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("ul", null, /*#__PURE__*/_react["default"].createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9(pursuit)\uC740 \uCC9C\uCC9C\uD788 \uC6C0\uC9C1\uC774\uB294 \uB300\uC0C1\uC744 \uB530\uB77C \uBD80\uB4DC\uB7FD\uACE0 \uC5F0\uC18D\uC801\uC73C\uB85C \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uB294 \uAC83\uC785\uB2C8\uB2E4. \uC77C\uBC18\uC801\uC73C\uB85C \uC2DC\uC120\uC740 \uBE60\uB974\uAC8C \uB3C4\uC57D\uD558\uACE0 \uACE0\uC815\uD558\uB294 \uAC83\uC744 \uBC18\uBCF5\uD560 \uBFD0\uC774\uBA70,  \uBD80\uB4DC\uB7FD\uACE0 \uC5F0\uC18D\uC801\uC73C\uB85C \uC774\uB3D9\uD558\uB294 \uAC83\uC740 \uACE0\uB3C4\uC758 \uC548\uAD6C\uC6B4\uB3D9 \uD1B5\uC81C\uB2A5\uB825\uC774 \uD544\uC694\uD558\uAE30 \uB54C\uBB38\uC5D0, \uC601\uC7A5\uB958\uB098 \uACE0\uC591\uC774 \uC815\uB3C4\uC758 \uACE0\uB4F1\uB3D9\uBB3C\uC5D0\uAC8C\uC11C \uB098\uD0C0\uB098\uB294 \uB2A5\uB825\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react["default"].createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9\uC740 \uC9D1\uC911\uB825\uC774 \uB0AE\uC544\uC9C0\uAC70\uB098 \uB178\uD654\uC5D0 \uC758\uD574 \uC800\uD558\uB418\uC9C0\uB9CC, \uC2DC\uB825 \uC800\uD558\uB098 \uC548\uC9C4(\uC548\uAD6C \uC9C4\uD0D5)  \uBC0F \uAC01\uC885 \uC2E0\uACBD\uACC4 \uC774\uC0C1\uC73C\uB85C \uC778\uD574 \uB098\uD0C0\uB098\uAE30\uB3C4 \uD569\uB2C8\uB2E4."), /*#__PURE__*/_react["default"].createElement("li", null, "\uC704\uCE58\uD3B8\uCC28 (position error)"), /*#__PURE__*/_react["default"].createElement("li", null, "\uC5F0\uC18D\uC131??"))))), showGazeViewer && /*#__PURE__*/_react["default"].createElement("div", {
     className: "GazeViewerWrap"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "modal"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, " \uC2E4\uC81C \uC2DC\uC120 \uCE21\uC815\uB370\uC774\uD130 ", /*#__PURE__*/_react.default.createElement("button", {
+  }, " \uC2E4\uC81C \uC2DC\uC120 \uCE21\uC815\uB370\uC774\uD130 ", /*#__PURE__*/_react["default"].createElement("button", {
     onClick: function onClick() {
       return set_showGazeViewer(false);
     }
-  }, "\uB2EB\uAE30")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uB2EB\uAE30")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "view"
-  }, /*#__PURE__*/_react.default.createElement(_reactGazeviewer.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactGazeviewer["default"], {
     data: data
   })))));
 };
@@ -5673,14 +5713,14 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
       targetGroupData = props.targetGroupData,
       everyGroupData = props.everyGroupData;
 
-  var _React$useState29 = _react.default.useState(false),
+  var _React$useState29 = _react["default"].useState(false),
       _React$useState30 = _slicedToArray(_React$useState29, 2),
       showGazeViewer = _React$useState30[0],
       set_showGazeViewer = _React$useState30[1];
 
-  var transparentCanvasRef = _react.default.useRef();
+  var transparentCanvasRef = _react["default"].useRef();
 
-  var delayBarChartData = _react.default.useMemo(function () {
+  var delayBarChartData = _react["default"].useMemo(function () {
     return {
       labels: ['따라보기', '반대보기'],
       datasets: [{
@@ -5705,7 +5745,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     };
   }, [targetGroupData, data]);
 
-  var delayBarChartOption = _react.default.useMemo(function () {
+  var delayBarChartOption = _react["default"].useMemo(function () {
     return {
       plugins: {
         datalabels: {
@@ -5805,7 +5845,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     };
   }, []);
 
-  var errBarChartData = _react.default.useMemo(function () {
+  var errBarChartData = _react["default"].useMemo(function () {
     // console.log("groupData.avgErrFrequencyRatio",groupData.avgErrFrequencyRatio);
     // console.log("data.analysis.avgErrTime/0.5", (data.analysis.avgErrTime/0.5));
     return {
@@ -5832,7 +5872,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     };
   }, [targetGroupData, data]);
 
-  var errBarChartOption = _react.default.useMemo(function () {
+  var errBarChartOption = _react["default"].useMemo(function () {
     return {
       plugins: {
         datalabels: {
@@ -5932,14 +5972,14 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     };
   }, []);
 
-  var taskArr = _react.default.useMemo(function () {
+  var taskArr = _react["default"].useMemo(function () {
     // console.log("antiSaccadeData",data);
     var ta = dataToTaskArr(data); // console.log("ta",ta);
 
     return ta;
   }, [data]);
 
-  var antiSaccadeLeftChartOption = _react.default.useMemo(function () {
+  var antiSaccadeLeftChartOption = _react["default"].useMemo(function () {
     var annotation = [];
     var leftTaskArr = taskArr.left;
     annotation = [{
@@ -6136,7 +6176,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     };
   }, [taskArr, targetGroupData]);
 
-  var antiSaccadeLeftData = _react.default.useMemo(function () {
+  var antiSaccadeLeftData = _react["default"].useMemo(function () {
     return {
       datasets: [{
         //targety
@@ -6222,7 +6262,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     };
   }, [taskArr]);
 
-  var antiSaccadeRightChartOption = _react.default.useMemo(function () {
+  var antiSaccadeRightChartOption = _react["default"].useMemo(function () {
     var annotation = [];
     var rightTaskArr = taskArr.right;
     annotation = [{
@@ -6421,7 +6461,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     };
   }, [taskArr, targetGroupData]);
 
-  var antiSaccadeRightData = _react.default.useMemo(function () {
+  var antiSaccadeRightData = _react["default"].useMemo(function () {
     return {
       datasets: [{
         //targety
@@ -6507,13 +6547,13 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     };
   }, [taskArr]);
 
-  var saccadeTaskArr = _react.default.useMemo(function () {
+  var saccadeTaskArr = _react["default"].useMemo(function () {
     var taskArr = dataToTaskArr(data.saccadeData); // console.log("taskArr",taskArr);
 
     return taskArr;
   }, [data]);
 
-  var saccadeLeftChartOption = _react.default.useMemo(function () {
+  var saccadeLeftChartOption = _react["default"].useMemo(function () {
     var annotation = [];
     var leftTaskArr = saccadeTaskArr.left;
 
@@ -6670,7 +6710,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     };
   }, [saccadeTaskArr, targetGroupData]);
 
-  var saccadeLeftData = _react.default.useMemo(function () {
+  var saccadeLeftData = _react["default"].useMemo(function () {
     return {
       datasets: [{
         //targety
@@ -6724,7 +6764,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     };
   }, [saccadeTaskArr]);
 
-  var saccadeRightChartOption = _react.default.useMemo(function () {
+  var saccadeRightChartOption = _react["default"].useMemo(function () {
     var annotation = [];
     var rightTaskArr = saccadeTaskArr.right;
 
@@ -6881,7 +6921,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     };
   }, [saccadeTaskArr, targetGroupData]);
 
-  var saccadeRightData = _react.default.useMemo(function () {
+  var saccadeRightData = _react["default"].useMemo(function () {
     return {
       datasets: [{
         //targety
@@ -6935,17 +6975,17 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     };
   }, [saccadeTaskArr]);
 
-  var _React$useState31 = _react.default.useState(true),
+  var _React$useState31 = _react["default"].useState(true),
       _React$useState32 = _slicedToArray(_React$useState31, 2),
       showLeftward = _React$useState32[0],
       set_showLeftward = _React$useState32[1];
 
-  var _React$useState33 = _react.default.useState(true),
+  var _React$useState33 = _react["default"].useState(true),
       _React$useState34 = _slicedToArray(_React$useState33, 2),
       showRightward = _React$useState34[0],
       set_showRightward = _React$useState34[1];
 
-  var drawTransparentCanvas = _react.default.useCallback(function () {
+  var drawTransparentCanvas = _react["default"].useCallback(function () {
     if (!data || !taskArr || !transparentCanvasRef) return;
     var canvas = transparentCanvasRef.current;
     var rctx = canvas.getContext('2d');
@@ -7003,13 +7043,13 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     }
   }, [data, taskArr, showLeftward, showRightward]);
 
-  _react.default.useEffect(function () {
+  _react["default"].useEffect(function () {
     if (taskArr) {
       drawTransparentCanvas();
     }
   }, [taskArr, drawTransparentCanvas]);
 
-  var myPercent = _react.default.useMemo(function () {
+  var myPercent = _react["default"].useMemo(function () {
     var x = data.analysis.antisaccade_score;
     var avg = targetGroupData.avg_antisaccade_score;
     var std = targetGroupData.std_antisaccade_score || 1;
@@ -7018,7 +7058,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     return p;
   }, [data, targetGroupData]);
 
-  var myState = _react.default.useMemo(function () {
+  var myState = _react["default"].useMemo(function () {
     var mystate;
 
     if (myPercent <= 10) {
@@ -7036,35 +7076,35 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     return mystate;
   }, [myPercent]);
 
-  return /*#__PURE__*/_react.default.createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: "AntiSaccadeView"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "row"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uACB0\uACFC"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uACB0\uACFC"), /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: '60%',
       display: 'flex'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       width: '55%',
       display: 'flex',
       justifyContent: 'flex-end',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement("img", {
+  }, /*#__PURE__*/_react["default"].createElement("img", {
     src: _base.imgbase64forPDF[myState],
     alt: "",
     style: {
       height: '50%'
     }
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       width: '45%',
       display: 'flex',
@@ -7075,7 +7115,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
       paddingLeft: '7px',
       paddingTop: '12px'
     }
-  }, myState)), /*#__PURE__*/_react.default.createElement("div", {
+  }, myState)), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: '40%',
       display: 'flex',
@@ -7084,14 +7124,14 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
       paddingLeft: '15px',
       borderTop: '1px solid #1A408E'
     }
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB0B4 \uD3C9\uADE0: ", data.analysis.antisaccade_score.toFixed(2), "\uC810 (\uC0C1\uC704 ", myPercent, "%)"), /*#__PURE__*/_react.default.createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: ", targetGroupData.avg_antisaccade_score.toFixed(2), "\uC810"), /*#__PURE__*/_react.default.createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: ", everyGroupData.avg_antisaccade_score.toFixed(2), "\uC810"))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("ul", null, /*#__PURE__*/_react["default"].createElement("li", null, "\uB0B4 \uD3C9\uADE0: ", data.analysis.antisaccade_score.toFixed(2), "\uC810 (\uC0C1\uC704 ", myPercent, "%)"), /*#__PURE__*/_react["default"].createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: ", targetGroupData.avg_antisaccade_score.toFixed(2), "\uC810"), /*#__PURE__*/_react["default"].createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: ", everyGroupData.avg_antisaccade_score.toFixed(2), "\uC810"))))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox",
     style: {
       width: '330px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react["default"].createElement("div", {
     id: "antisaccadeGradeChart",
     className: "cbox",
     style: {
@@ -7099,18 +7139,18 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement(BarChartGrade, {
+  }, /*#__PURE__*/_react["default"].createElement(BarChartGrade, {
     myScore: data.analysis.antisaccade_score,
     avgGroupScore: targetGroupData.avg_antisaccade_score,
     stdGroupScore: targetGroupData.std_antisaccade_score
-  }))), /*#__PURE__*/_react.default.createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox",
     style: {
       width: '420px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uC774\uB3D9\uBC29\uD5A5 \uC624\uB958(percent)"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uC774\uB3D9\uBC29\uD5A5 \uC624\uB958(percent)"), /*#__PURE__*/_react["default"].createElement("div", {
     id: "antisaccadeErrDirectionChart",
     className: "cbox",
     style: {
@@ -7118,20 +7158,20 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "bar",
     height: null,
     width: null,
     data: errBarChartData,
     options: errBarChartOption
-  }))), /*#__PURE__*/_react.default.createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox",
     style: {
       width: '420px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uD3C9\uADE0 \uC9C0\uCCB4\uC2DC\uAC04(latency)"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uD3C9\uADE0 \uC9C0\uCCB4\uC2DC\uAC04(latency)"), /*#__PURE__*/_react["default"].createElement("div", {
     id: "antisaccadeLatencyChart",
     className: "cbox",
     style: {
@@ -7139,31 +7179,31 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "bar",
     height: null,
     width: null,
     data: delayBarChartData,
     options: delayBarChartOption
-  })))), /*#__PURE__*/_react.default.createElement("div", {
+  })))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "row"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox",
     style: {
       width: '450px',
       height: '450px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC2DC\uC120\uADA4\uC801 ", /*#__PURE__*/_react.default.createElement("button", {
+  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC2DC\uC120\uADA4\uC801 ", /*#__PURE__*/_react["default"].createElement("button", {
     className: "viewerbtn",
     onClick: function onClick() {
       return set_showGazeViewer(true);
     }
-  }, "Viewer")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Viewer")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox",
     id: "antisaccadeRealChart"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: '30px',
       display: 'flex',
@@ -7172,37 +7212,37 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
       paddingTop: '3px',
       boxSizing: 'border-box'
     }
-  }, "Radius : 7.63 Degree"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Radius : 7.63 Degree"), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: 'calc(100% - 60px)',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "_10degreeDiv",
     style: {
       width: '340px',
       height: '340px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "target center"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "target left"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "target right"
-  }), /*#__PURE__*/_react.default.createElement("canvas", {
+  }), /*#__PURE__*/_react["default"].createElement("canvas", {
     className: "transparentCanvas",
     ref: transparentCanvasRef,
     width: 1020,
     height: 1020
-  }))), /*#__PURE__*/_react.default.createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "customLabel",
     style: {
       height: '30px',
       display: 'flex'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "clickzone",
     style: {
       textDecoration: showRightward === true ? "" : "line-through"
@@ -7210,9 +7250,9 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     onClick: function onClick() {
       return set_showRightward(!showRightward);
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "rightward"
-  }), "Rightward(\uC88C\uCE21\uC73C\uB85C)"), "\xA0\xA0", /*#__PURE__*/_react.default.createElement("div", {
+  }), "Rightward(\uC88C\uCE21\uC73C\uB85C)"), "\xA0\xA0", /*#__PURE__*/_react["default"].createElement("div", {
     className: "clickzone",
     style: {
       textDecoration: showLeftward === true ? "" : "line-through"
@@ -7220,115 +7260,115 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     onClick: function onClick() {
       return set_showLeftward(!showLeftward);
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "leftward"
-  }), "Leftward(\uC6B0\uCE21\uC73C\uB85C)"), "\xA0\xA0"))), /*#__PURE__*/_react.default.createElement("div", {
+  }), "Leftward(\uC6B0\uCE21\uC73C\uB85C)"), "\xA0\xA0"))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleBox",
     style: {
       width: '1000px',
       height: '450px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uC2DC\uAC04\uC5D0 \uB530\uB978 \uC2DC\uC120\uC774\uB3D9"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uC2DC\uAC04\uC5D0 \uB530\uB978 \uC2DC\uC120\uC774\uB3D9"), /*#__PURE__*/_react["default"].createElement("div", {
     id: "antisaccadeDirectionChart",
     className: "cbox"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2r"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2w"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_label"
-  }, /*#__PURE__*/_react.default.createElement("strong", null, "Pro-saccade, Leftward")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("strong", null, "Pro-saccade, Leftward")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_chart"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "line",
     height: null,
     width: null,
     data: saccadeLeftData,
     options: saccadeLeftChartOption
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_avg"
-  }, "myAvgLatency : ", /*#__PURE__*/_react.default.createElement("strong", null, (data.analysis.left_saccade_delay * 1000).toFixed(0), " ms"))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "myAvgLatency : ", /*#__PURE__*/_react["default"].createElement("strong", null, (data.analysis.left_saccade_delay * 1000).toFixed(0), " ms"))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2w"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_label"
-  }, /*#__PURE__*/_react.default.createElement("strong", null, "Pro-saccade, Rightward")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("strong", null, "Pro-saccade, Rightward")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_chart"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "line",
     height: null,
     width: null,
     data: saccadeRightData,
     options: saccadeRightChartOption
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_avg"
-  }, "myAvgLatency : ", /*#__PURE__*/_react.default.createElement("strong", null, (data.analysis.right_saccade_delay * 1000).toFixed(0), " ms")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "myAvgLatency : ", /*#__PURE__*/_react["default"].createElement("strong", null, (data.analysis.right_saccade_delay * 1000).toFixed(0), " ms")))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2r"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2w"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_label"
-  }, /*#__PURE__*/_react.default.createElement("strong", null, "Anti-saccade, Leftward (오른쪽을 봐야함)")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("strong", null, "Anti-saccade, Leftward (오른쪽을 봐야함)")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_chart"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "line",
     height: null,
     width: null,
     data: antiSaccadeLeftData,
     options: antiSaccadeLeftChartOption
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_avg"
-  }, "myAvgLatency : ", /*#__PURE__*/_react.default.createElement("strong", null, (data.analysis.left_antisaccade_delay * 1000).toFixed(0), " ms"))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "myAvgLatency : ", /*#__PURE__*/_react["default"].createElement("strong", null, (data.analysis.left_antisaccade_delay * 1000).toFixed(0), " ms"))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "cbox2w"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_label"
-  }, /*#__PURE__*/_react.default.createElement("strong", null, "Anti-saccade, Rightward (왼쪽을 봐야함)")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("strong", null, "Anti-saccade, Rightward (왼쪽을 봐야함)")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_chart"
-  }, /*#__PURE__*/_react.default.createElement(_reactChartjs.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactChartjs["default"], {
     type: "line",
     height: null,
     width: null,
     data: antiSaccadeRightData,
     options: antiSaccadeRightChartOption
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: "c_avg"
-  }, "myAvgLatency : ", /*#__PURE__*/_react.default.createElement("strong", null, (data.analysis.right_antisaccade_delay * 1000).toFixed(0), " ms"))))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "myAvgLatency : ", /*#__PURE__*/_react["default"].createElement("strong", null, (data.analysis.right_antisaccade_delay * 1000).toFixed(0), " ms"))))))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "row",
     style: {
       display: 'block'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleUnderline"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uBC18\uB300\uB85C \uBCF4\uAE30(anti saccade)\uB294 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uBC18\uB300\uB85C \uBCF4\uAE30(anti saccade)\uB294 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react["default"].createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uBC18\uB300\uB85C \uBCF4\uAE30\uB294 \uC9C0\uAC01\uB41C \uC0AC\uBB3C\uC744 \uC790\uB3D9\uC801\uC73C\uB85C \uBC14\uB77C\uBCF4\uB294 \uAC83\uC744 \uD1B5\uC81C\uD558\uB294 \uB2A5\uB825\uC744 \uCE21\uC815\uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uB530\uB77C\uBCF4\uAE30(pro saccade)\uACFC\uC81C\uB294 \uC9C0\uAC01\uB41C \uB300\uC0C1\uC744 \uBC14\uB77C\uBCF4\uB294 \uACFC\uC81C\uC774\uACE0, \uBC18\uB300\uB85C \uBCF4\uAE30(anti saccade)\uACFC\uC81C\uB294 \uC9C0\uAC01\uB41C \uB300\uC0C1\uC744 \uBCF4\uC9C0 \uC54A\uACE0 \uBC18\uB300\uB85C \uC2DC\uC120\uC744 \uC774\uB3D9\uD558\uB294 \uACFC\uC81C\uC785\uB2C8\uB2E4. \uBB34\uC5B8\uAC00 \uBCF4\uC774\uBA74 \uBC18\uC0AC\uC801\uC73C\uB85C \uC2DC\uC120\uC774 \uAC00\uB824\uB294 \uACBD\uD5A5\uC774 \uC788\uAE30 \uB54C\uBB38\uC5D0, \uC9C0\uAC01\uC5D0 \uB300\uD55C \uD589\uB3D9\uC744 \uD1B5\uC81C\uD558\uB294 \uB2A5\uB825\uC774\uB098 \uC9D1\uC911\uB825\uC774 \uB0AE\uC73C\uBA74 \uBC18\uB300\uBCF4\uAE30 \uACFC\uC81C\uB97C \uD558\uAE30 \uC5B4\uB835\uC2B5\uB2C8\uB2E4. \uC9D1\uC911\uB825 \uC800\uD558, \uB09C\uB3C5\uC99D, ADHD \uB4F1\uC758 \uC99D\uC0C1\uACFC \uAD00\uB828\uC774 \uC788\uB294 \uACBD\uC6B0\uAC00 \uC788\uC2B5\uB2C8\uB2E4.")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("ul", null, /*#__PURE__*/_react["default"].createElement("li", null, "\uBC18\uB300\uB85C \uBCF4\uAE30\uB294 \uC9C0\uAC01\uB41C \uC0AC\uBB3C\uC744 \uC790\uB3D9\uC801\uC73C\uB85C \uBC14\uB77C\uBCF4\uB294 \uAC83\uC744 \uD1B5\uC81C\uD558\uB294 \uB2A5\uB825\uC744 \uCE21\uC815\uD569\uB2C8\uB2E4."), /*#__PURE__*/_react["default"].createElement("li", null, "\uB530\uB77C\uBCF4\uAE30(pro saccade)\uACFC\uC81C\uB294 \uC9C0\uAC01\uB41C \uB300\uC0C1\uC744 \uBC14\uB77C\uBCF4\uB294 \uACFC\uC81C\uC774\uACE0, \uBC18\uB300\uB85C \uBCF4\uAE30(anti saccade)\uACFC\uC81C\uB294 \uC9C0\uAC01\uB41C \uB300\uC0C1\uC744 \uBCF4\uC9C0 \uC54A\uACE0 \uBC18\uB300\uB85C \uC2DC\uC120\uC744 \uC774\uB3D9\uD558\uB294 \uACFC\uC81C\uC785\uB2C8\uB2E4. \uBB34\uC5B8\uAC00 \uBCF4\uC774\uBA74 \uBC18\uC0AC\uC801\uC73C\uB85C \uC2DC\uC120\uC774 \uAC00\uB824\uB294 \uACBD\uD5A5\uC774 \uC788\uAE30 \uB54C\uBB38\uC5D0, \uC9C0\uAC01\uC5D0 \uB300\uD55C \uD589\uB3D9\uC744 \uD1B5\uC81C\uD558\uB294 \uB2A5\uB825\uC774\uB098 \uC9D1\uC911\uB825\uC774 \uB0AE\uC73C\uBA74 \uBC18\uB300\uBCF4\uAE30 \uACFC\uC81C\uB97C \uD558\uAE30 \uC5B4\uB835\uC2B5\uB2C8\uB2E4. \uC9D1\uC911\uB825 \uC800\uD558, \uB09C\uB3C5\uC99D, ADHD \uB4F1\uC758 \uC99D\uC0C1\uACFC \uAD00\uB828\uC774 \uC788\uB294 \uACBD\uC6B0\uAC00 \uC788\uC2B5\uB2C8\uB2E4.")))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleUnderline"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC815\uD655\uB3C4\uB294 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC815\uD655\uB3C4\uB294 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react["default"].createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB530\uB77C\uBCF4\uAE30\uB294 \uB300\uC0C1\uC774 \uC788\uB294 \uCABD\uC73C\uB85C, \uBC18\uB300\uBCF4\uAE30\uB294 \uB300\uC0C1\uC758 \uBC18\uB300\uCABD\uC73C\uB85C \uC2DC\uC120\uC774 \uC6C0\uC9C1\uC600\uB294\uC9C0\uB97C \uCE21\uC815\uD55C \uBE44\uC728\uC785\uB2C8\uB2E4. \uBC18\uB300\uBCF4\uAE30\uC758 \uC815\uD655\uB3C4\uAC00 \uB192\uC740 \uAC83\uC774 \uBC14\uB78C\uC9C1\uD569\uB2C8\uB2E4.")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("ul", null, /*#__PURE__*/_react["default"].createElement("li", null, "\uB530\uB77C\uBCF4\uAE30\uB294 \uB300\uC0C1\uC774 \uC788\uB294 \uCABD\uC73C\uB85C, \uBC18\uB300\uBCF4\uAE30\uB294 \uB300\uC0C1\uC758 \uBC18\uB300\uCABD\uC73C\uB85C \uC2DC\uC120\uC774 \uC6C0\uC9C1\uC600\uB294\uC9C0\uB97C \uCE21\uC815\uD55C \uBE44\uC728\uC785\uB2C8\uB2E4. \uBC18\uB300\uBCF4\uAE30\uC758 \uC815\uD655\uB3C4\uAC00 \uB192\uC740 \uAC83\uC774 \uBC14\uB78C\uC9C1\uD569\uB2C8\uB2E4.")))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "titleUnderline"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC9C0\uCCB4\uC2DC\uAC04\uC740 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC9C0\uCCB4\uC2DC\uAC04\uC740 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react["default"].createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB300\uC0C1\uC744 \uBCF4\uACE0 \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uAE30 \uC804\uAE4C\uC9C0 \uC18C\uC694\uB418\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBC18\uB300\uBCF4\uAE30\uD560 \uB54C \uC9C0\uCCB4\uC2DC\uAC04\uC774 \uC9E7\uC740 \uAC83\uC774 \uBC14\uB78C\uC9C1\uD569\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("ul", null, /*#__PURE__*/_react["default"].createElement("li", null, "\uB300\uC0C1\uC744 \uBCF4\uACE0 \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uAE30 \uC804\uAE4C\uC9C0 \uC18C\uC694\uB418\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBC18\uB300\uBCF4\uAE30\uD560 \uB54C \uC9C0\uCCB4\uC2DC\uAC04\uC774 \uC9E7\uC740 \uAC83\uC774 \uBC14\uB78C\uC9C1\uD569\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react["default"].createElement("div", {
     className: "GazeViewerWrap"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "modal"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "title"
-  }, " \uC2E4\uC81C \uC2DC\uC120 \uCE21\uC815\uB370\uC774\uD130 ", /*#__PURE__*/_react.default.createElement("button", {
+  }, " \uC2E4\uC81C \uC2DC\uC120 \uCE21\uC815\uB370\uC774\uD130 ", /*#__PURE__*/_react["default"].createElement("button", {
     onClick: function onClick() {
       return set_showGazeViewer(false);
     }
-  }, "\uB2EB\uAE30")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uB2EB\uAE30")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "view"
-  }, /*#__PURE__*/_react.default.createElement(_reactGazeviewer.default, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactGazeviewer["default"], {
     data: data
   })))));
 };
@@ -7339,23 +7379,23 @@ var DownLoadPDF = function DownLoadPDF(_ref6) {
   var AgencyLogoBase64 = props.AgencyLogoBase64,
       handlePDFstart = props.handlePDFstart,
       iframesrc = props.iframesrc;
-  return /*#__PURE__*/_react.default.createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: "DownLoadPDF",
     style: {
       display: 'flex'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       width: '490px',
       marginRight: '10px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       marginTop: '10px',
       borderBottom: '1px solid #1a408e',
       padding: '10px'
     }
-  }, /*#__PURE__*/_react.default.createElement("div", null, "PDF\uC758 \uAE30\uAD00 \uB85C\uACE0 \uC774\uBBF8\uC9C0"), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", null, "PDF\uC758 \uAE30\uAD00 \uB85C\uACE0 \uC774\uBBF8\uC9C0"), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: '200px',
       backgroundColor: 'gray',
@@ -7363,7 +7403,7 @@ var DownLoadPDF = function DownLoadPDF(_ref6) {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement("img", {
+  }, /*#__PURE__*/_react["default"].createElement("img", {
     src: AgencyLogoBase64 ? AgencyLogoBase64 : _base.imgbase64forPDF['기본로고'],
     alt: "",
     style: {
@@ -7371,32 +7411,32 @@ var DownLoadPDF = function DownLoadPDF(_ref6) {
       maxHeight: '150px',
       backgroundColor: 'white'
     }
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       cursor: 'default',
       marginTop: '10px'
     }
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB85C\uACE0 \uC774\uBBF8\uC9C0\uB97C \uB4F1\uB85D \uD558\uC2DC\uB824\uBA74 ", /*#__PURE__*/_react.default.createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("ul", null, /*#__PURE__*/_react["default"].createElement("li", null, "\uB85C\uACE0 \uC774\uBBF8\uC9C0\uB97C \uB4F1\uB85D \uD558\uC2DC\uB824\uBA74 ", /*#__PURE__*/_react["default"].createElement("span", {
     className: "mh",
     onClick: function onClick() {//   history.push('/setting/pay');
     }
-  }, "\uACC4\uC815\uC124\uC815"), "\uC5D0\uC11C \uC774\uBBF8\uC9C0\uB97C \uC124\uC815\uD558\uC2ED\uC2DC\uC624."), /*#__PURE__*/_react.default.createElement("li", null, "\uB85C\uACE0 \uC774\uBBF8\uC9C0\uB97C \uBCC0\uACBD \uD558\uC2E0\uB4A4\uC5D0 \uB85C\uADF8\uC544\uC6C3 \uD6C4 \uC7AC \uB85C\uADF8\uC778 \uD574 \uC8FC\uC138\uC694."), /*#__PURE__*/_react.default.createElement("li", null, "\uAC00\uB2A5\uD55C \uAC00\uB85C \uC138\uB85C\uC758 \uAE38\uC774\uAC00 \uAC19\uC740 \uC774\uBBF8\uC9C0\uB97C \uB4F1\uB85D\uD574 \uC8FC\uC138\uC694."), /*#__PURE__*/_react.default.createElement("li", null, "gif\uD30C\uC77C\uC740 PDF\uBCC0\uD658 \uAE30\uAD00\uB85C\uACE0 \uC774\uBBF8\uC9C0\uB85C \uB3D9\uC791\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uACC4\uC815\uC124\uC815"), "\uC5D0\uC11C \uC774\uBBF8\uC9C0\uB97C \uC124\uC815\uD558\uC2ED\uC2DC\uC624."), /*#__PURE__*/_react["default"].createElement("li", null, "\uB85C\uACE0 \uC774\uBBF8\uC9C0\uB97C \uBCC0\uACBD \uD558\uC2E0\uB4A4\uC5D0 \uB85C\uADF8\uC544\uC6C3 \uD6C4 \uC7AC \uB85C\uADF8\uC778 \uD574 \uC8FC\uC138\uC694."), /*#__PURE__*/_react["default"].createElement("li", null, "\uAC00\uB2A5\uD55C \uAC00\uB85C \uC138\uB85C\uC758 \uAE38\uC774\uAC00 \uAC19\uC740 \uC774\uBBF8\uC9C0\uB97C \uB4F1\uB85D\uD574 \uC8FC\uC138\uC694."), /*#__PURE__*/_react["default"].createElement("li", null, "gif\uD30C\uC77C\uC740 PDF\uBCC0\uD658 \uAE30\uAD00\uB85C\uACE0 \uC774\uBBF8\uC9C0\uB85C \uB3D9\uC791\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."))), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       padding: '10px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/_react.default.createElement("button", {
+  }, /*#__PURE__*/_react["default"].createElement("button", {
     className: "StartMakingPDF-btn",
     onClick: handlePDFstart
-  }, "\uBCF4\uACE0\uC11C \uB2E4\uC6B4\uBC1B\uAE30 \uBC0F \uBBF8\uB9AC\uBCF4\uAE30")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uBCF4\uACE0\uC11C \uB2E4\uC6B4\uBC1B\uAE30 \uBC0F \uBBF8\uB9AC\uBCF4\uAE30")))), /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       width: '900px',
       height: '750px',
       outline: '2px solid #1A408E'
     }
-  }, iframesrc ? /*#__PURE__*/_react.default.createElement(_reactIframe.default, {
+  }, iframesrc ? /*#__PURE__*/_react["default"].createElement(_reactIframe["default"], {
     url: iframesrc,
     frameBorder: "0",
     cellspacing: "0" //width="450px"
@@ -7405,7 +7445,7 @@ var DownLoadPDF = function DownLoadPDF(_ref6) {
     id: "pdfiframe",
     className: iframesrc ? "pdfiframe visible" : "pdfiframe",
     display: "block"
-  }) : /*#__PURE__*/_react.default.createElement("div", {
+  }) : /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       width: '100%',
       height: '100%',
@@ -7415,8 +7455,8 @@ var DownLoadPDF = function DownLoadPDF(_ref6) {
       backgroundColor: '#ddd',
       textAlign: 'center'
     }
-  }, "\uBCF4\uACE0\uC11C \uBBF8\uB9AC\uBCF4\uAE30\uD0ED", /*#__PURE__*/_react.default.createElement("br", null), "\uBBF8\uB9AC\uBCF4\uAE30 \uBC84\uD2BC\uC744 \uB204\uB974\uC2DC\uBA74 \uBCC0\uD658 \uD6C4 \uC5EC\uAE30\uC5D0 \uD45C\uC2DC \uB429\uB2C8\uB2E4.")));
+  }, "\uBCF4\uACE0\uC11C \uBBF8\uB9AC\uBCF4\uAE30\uD0ED", /*#__PURE__*/_react["default"].createElement("br", null), "\uBBF8\uB9AC\uBCF4\uAE30 \uBC84\uD2BC\uC744 \uB204\uB974\uC2DC\uBA74 \uBCC0\uD658 \uD6C4 \uC5EC\uAE30\uC5D0 \uD45C\uC2DC \uB429\uB2C8\uB2E4.")));
 };
 
 var _default = ScreeningViewer;
-exports.default = _default;
+exports["default"] = _default;
