@@ -1447,7 +1447,7 @@ const ScreeningViewer = ({ ...props }) => {
                     if (pageType === 'saccade') {
                         //html2canvas
 
-
+                        let wait1 = await make_delay(1000);  
                         let p = [];
                         p.push(html2canvas(document.getElementById("saccadeGradeChart")));
                         p.push(html2canvas(document.getElementById("saccadeRadarChart")));
@@ -1458,7 +1458,7 @@ const ScreeningViewer = ({ ...props }) => {
                         // p.push(html2canvas(document.getElementById("saccadeLatencyChart")));
                         // p.push(html2canvas(document.getElementById("saccadeSpeedChart")));
                         // p.push(html2canvas(document.getElementById("saccadeFEChart")));
-                        let wait = await make_delay(500);                        
+                        let wait2 = await make_delay(1000);                        
                         let canvsArr = await Promise.all(p);
 
 

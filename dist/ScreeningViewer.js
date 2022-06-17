@@ -1135,19 +1135,19 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
 
     function _doit() {
       _doit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var make_delay, isLast, userInform, resultInform, data, pageType, myState, myPercent, myScore, targetScore, pageTitle, p, wait, canvsArr, saccadeGradeChart_base64, saccadeRadarChart_base64, saccadeDirectionChart_base64, saccadeRealChart_base64, _p, _canvsArr, pursuitGradeChart_base64, pursuitErrChart_base64, pursuitDirectionChart_base64, pursuitRealChart_base64, _p2, _canvsArr2, antisaccadeGradeChart_base64, antisaccadeErrDirectionChart_base64, antisaccadeLatencyChart_base64, antisaccadeDirectionChart_base64, antisaccadeRealChart_base64;
+        var make_delay, isLast, userInform, resultInform, data, pageType, myState, myPercent, myScore, targetScore, pageTitle, wait1, p, wait2, canvsArr, saccadeGradeChart_base64, saccadeRadarChart_base64, saccadeDirectionChart_base64, saccadeRealChart_base64, _p, _canvsArr, pursuitGradeChart_base64, pursuitErrChart_base64, pursuitDirectionChart_base64, pursuitRealChart_base64, _p2, _canvsArr2, antisaccadeGradeChart_base64, antisaccadeErrDirectionChart_base64, antisaccadeLatencyChart_base64, antisaccadeDirectionChart_base64, antisaccadeRealChart_base64;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 if (!(isPDFing && progressMax !== selDataIndex)) {
-                  _context.next = 94;
+                  _context.next = 97;
                   break;
                 }
 
                 if (!(isfinishThisPage === false)) {
-                  _context.next = 94;
+                  _context.next = 97;
                   break;
                 }
 
@@ -1402,11 +1402,15 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 }); //아래 종류에 따라 삽입이 달라야함
 
                 if (!(pageType === 'saccade')) {
-                  _context.next = 46;
+                  _context.next = 49;
                   break;
                 }
 
-                //html2canvas
+                _context.next = 21;
+                return make_delay(1000);
+
+              case 21:
+                wait1 = _context.sent;
                 p = [];
                 p.push((0, _html2canvas.default)(document.getElementById("saccadeGradeChart")));
                 p.push((0, _html2canvas.default)(document.getElementById("saccadeRadarChart")));
@@ -1415,15 +1419,15 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 // p.push(html2canvas(document.getElementById("saccadeSpeedChart")));
                 // p.push(html2canvas(document.getElementById("saccadeFEChart")));
 
-                _context.next = 26;
-                return make_delay(500);
-
-              case 26:
-                wait = _context.sent;
                 _context.next = 29;
-                return Promise.all(p);
+                return make_delay(1000);
 
               case 29:
+                wait2 = _context.sent;
+                _context.next = 32;
+                return Promise.all(p);
+
+              case 32:
                 canvsArr = _context.sent;
                 saccadeGradeChart_base64 = canvsArr[0].toDataURL();
                 saccadeRadarChart_base64 = canvsArr[1].toDataURL();
@@ -1999,12 +2003,12 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 94;
+                _context.next = 97;
                 break;
 
-              case 46:
+              case 49:
                 if (!(pageType === 'pursuit')) {
-                  _context.next = 68;
+                  _context.next = 71;
                   break;
                 }
 
@@ -2019,10 +2023,10 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
 
                 _p.push((0, _html2canvas.default)(document.getElementById("pursuitRealChart")));
 
-                _context.next = 54;
+                _context.next = 57;
                 return Promise.all(_p);
 
-              case 54:
+              case 57:
                 _canvsArr = _context.sent;
                 pursuitGradeChart_base64 = _canvsArr[0].toDataURL();
                 pursuitErrChart_base64 = _canvsArr[1].toDataURL();
@@ -2294,12 +2298,12 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 94;
+                _context.next = 97;
                 break;
 
-              case 68:
+              case 71:
                 if (!(pageType === "antisaccade")) {
-                  _context.next = 93;
+                  _context.next = 96;
                   break;
                 }
 
@@ -2318,10 +2322,10 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 //antisaccadeLatencyChart
 
 
-                _context.next = 77;
+                _context.next = 80;
                 return Promise.all(_p2);
 
-              case 77:
+              case 80:
                 _canvsArr2 = _context.sent;
                 antisaccadeGradeChart_base64 = _canvsArr2[0].toDataURL();
                 antisaccadeErrDirectionChart_base64 = _canvsArr2[1].toDataURL();
@@ -2785,13 +2789,13 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 94;
+                _context.next = 97;
                 break;
 
-              case 93:
+              case 96:
                 set_isfinishThisPage(true);
 
-              case 94:
+              case 97:
               case "end":
                 return _context.stop();
             }
