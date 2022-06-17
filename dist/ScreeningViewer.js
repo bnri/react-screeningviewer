@@ -1135,19 +1135,19 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
 
     function _doit() {
       _doit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var make_delay, isLast, userInform, resultInform, data, pageType, myState, myPercent, myScore, targetScore, pageTitle, wait1, p, wait2, canvsArr, saccadeGradeChart_base64, saccadeRadarChart_base64, saccadeDirectionChart_base64, saccadeRealChart_base64, _p, _canvsArr, pursuitGradeChart_base64, pursuitErrChart_base64, pursuitDirectionChart_base64, pursuitRealChart_base64, _p2, _canvsArr2, antisaccadeGradeChart_base64, antisaccadeErrDirectionChart_base64, antisaccadeLatencyChart_base64, antisaccadeDirectionChart_base64, antisaccadeRealChart_base64;
+        var make_delay, isLast, userInform, resultInform, data, pageType, myState, myPercent, myScore, targetScore, pageTitle, p, canvsArr, saccadeGradeChart_base64, saccadeRadarChart_base64, saccadeDirectionChart_base64, saccadeRealChart_base64, _p, _canvsArr, pursuitGradeChart_base64, pursuitErrChart_base64, pursuitDirectionChart_base64, pursuitRealChart_base64, _p2, _canvsArr2, antisaccadeGradeChart_base64, antisaccadeErrDirectionChart_base64, antisaccadeLatencyChart_base64, antisaccadeDirectionChart_base64, antisaccadeRealChart_base64;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 if (!(isPDFing && progressMax !== selDataIndex)) {
-                  _context.next = 97;
+                  _context.next = 89;
                   break;
                 }
 
                 if (!(isfinishThisPage === false)) {
-                  _context.next = 97;
+                  _context.next = 89;
                   break;
                 }
 
@@ -1402,15 +1402,12 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 }); //아래 종류에 따라 삽입이 달라야함
 
                 if (!(pageType === 'saccade')) {
-                  _context.next = 49;
+                  _context.next = 41;
                   break;
                 }
 
-                _context.next = 21;
-                return make_delay(1000);
-
-              case 21:
-                wait1 = _context.sent;
+                //html2canvas
+                // let wait1 = await make_delay(1000);  
                 p = [];
                 p.push((0, _html2canvas.default)(document.getElementById("saccadeGradeChart"), {
                   logging: false,
@@ -1458,23 +1455,17 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 })); // p.push(html2canvas(document.getElementById("saccadeLatencyChart")));
                 // p.push(html2canvas(document.getElementById("saccadeSpeedChart")));
                 // p.push(html2canvas(document.getElementById("saccadeFEChart")));
+                // let wait2 = await make_delay(1000);                        
 
-                _context.next = 29;
-                return make_delay(1000);
-
-              case 29:
-                wait2 = _context.sent;
-                _context.next = 32;
+                _context.next = 26;
                 return Promise.all(p);
 
-              case 32:
+              case 26:
                 canvsArr = _context.sent;
                 saccadeGradeChart_base64 = canvsArr[0].toDataURL();
                 saccadeRadarChart_base64 = canvsArr[1].toDataURL();
                 saccadeDirectionChart_base64 = canvsArr[2].toDataURL();
-                saccadeRealChart_base64 = canvsArr[3].toDataURL();
-                console.log("saccadeGradeChart_base64", saccadeGradeChart_base64);
-                console.log("saccadeRadarChart_base64", saccadeRadarChart_base64); //
+                saccadeRealChart_base64 = canvsArr[3].toDataURL(); //
                 //
                 //스샷 + 타이틀테이블
 
@@ -2043,30 +2034,70 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 97;
+                _context.next = 89;
                 break;
 
-              case 49:
+              case 41:
                 if (!(pageType === 'pursuit')) {
-                  _context.next = 71;
+                  _context.next = 63;
                   break;
                 }
 
                 //pursuitGradeChart
                 _p = [];
 
-                _p.push((0, _html2canvas.default)(document.getElementById("pursuitGradeChart")));
+                _p.push((0, _html2canvas.default)(document.getElementById("pursuitGradeChart"), {
+                  logging: false,
+                  // x:el.clientWidth*scaleX/2,
+                  // y:el.clientHeight*scaleY/2,
+                  scrollX: 0,
+                  scrollY: 0,
+                  //x: window.scrollX,
+                  // y: window.scrollY,
+                  scale: 1 // scrollY:-window.scrollY
 
-                _p.push((0, _html2canvas.default)(document.getElementById("pursuitErrChart")));
+                }));
 
-                _p.push((0, _html2canvas.default)(document.getElementById("pursuitDirectionChart")));
+                _p.push((0, _html2canvas.default)(document.getElementById("pursuitErrChart"), {
+                  logging: false,
+                  // x:el.clientWidth*scaleX/2,
+                  // y:el.clientHeight*scaleY/2,
+                  scrollX: 0,
+                  scrollY: 0,
+                  //x: window.scrollX,
+                  // y: window.scrollY,
+                  scale: 1 // scrollY:-window.scrollY
 
-                _p.push((0, _html2canvas.default)(document.getElementById("pursuitRealChart")));
+                }));
 
-                _context.next = 57;
+                _p.push((0, _html2canvas.default)(document.getElementById("pursuitDirectionChart"), {
+                  logging: false,
+                  // x:el.clientWidth*scaleX/2,
+                  // y:el.clientHeight*scaleY/2,
+                  scrollX: 0,
+                  scrollY: 0,
+                  //x: window.scrollX,
+                  // y: window.scrollY,
+                  scale: 1 // scrollY:-window.scrollY
+
+                }));
+
+                _p.push((0, _html2canvas.default)(document.getElementById("pursuitRealChart"), {
+                  logging: false,
+                  // x:el.clientWidth*scaleX/2,
+                  // y:el.clientHeight*scaleY/2,
+                  scrollX: 0,
+                  scrollY: 0,
+                  //x: window.scrollX,
+                  // y: window.scrollY,
+                  scale: 1 // scrollY:-window.scrollY
+
+                }));
+
+                _context.next = 49;
                 return Promise.all(_p);
 
-              case 57:
+              case 49:
                 _canvsArr = _context.sent;
                 pursuitGradeChart_base64 = _canvsArr[0].toDataURL();
                 pursuitErrChart_base64 = _canvsArr[1].toDataURL();
@@ -2338,34 +2369,84 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 97;
+                _context.next = 89;
                 break;
 
-              case 71:
+              case 63:
                 if (!(pageType === "antisaccade")) {
-                  _context.next = 96;
+                  _context.next = 88;
                   break;
                 }
 
                 //antisaccadeGradeChart
                 _p2 = [];
 
-                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeGradeChart")));
+                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeGradeChart"), {
+                  logging: false,
+                  // x:el.clientWidth*scaleX/2,
+                  // y:el.clientHeight*scaleY/2,
+                  scrollX: 0,
+                  scrollY: 0,
+                  //x: window.scrollX,
+                  // y: window.scrollY,
+                  scale: 1 // scrollY:-window.scrollY
 
-                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeErrDirectionChart")));
+                }));
 
-                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeLatencyChart")));
+                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeErrDirectionChart"), {
+                  logging: false,
+                  // x:el.clientWidth*scaleX/2,
+                  // y:el.clientHeight*scaleY/2,
+                  scrollX: 0,
+                  scrollY: 0,
+                  //x: window.scrollX,
+                  // y: window.scrollY,
+                  scale: 1 // scrollY:-window.scrollY
 
-                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeDirectionChart")));
+                }));
 
-                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeRealChart"))); //antisaccadeErrDirectionChart
+                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeLatencyChart"), {
+                  logging: false,
+                  // x:el.clientWidth*scaleX/2,
+                  // y:el.clientHeight*scaleY/2,
+                  scrollX: 0,
+                  scrollY: 0,
+                  //x: window.scrollX,
+                  // y: window.scrollY,
+                  scale: 1 // scrollY:-window.scrollY
+
+                }));
+
+                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeDirectionChart"), {
+                  logging: false,
+                  // x:el.clientWidth*scaleX/2,
+                  // y:el.clientHeight*scaleY/2,
+                  scrollX: 0,
+                  scrollY: 0,
+                  //x: window.scrollX,
+                  // y: window.scrollY,
+                  scale: 1 // scrollY:-window.scrollY
+
+                }));
+
+                _p2.push((0, _html2canvas.default)(document.getElementById("antisaccadeRealChart"), {
+                  logging: false,
+                  // x:el.clientWidth*scaleX/2,
+                  // y:el.clientHeight*scaleY/2,
+                  scrollX: 0,
+                  scrollY: 0,
+                  //x: window.scrollX,
+                  // y: window.scrollY,
+                  scale: 1 // scrollY:-window.scrollY
+
+                })); //antisaccadeErrDirectionChart
                 //antisaccadeLatencyChart
 
 
-                _context.next = 80;
+                _context.next = 72;
                 return Promise.all(_p2);
 
-              case 80:
+              case 72:
                 _canvsArr2 = _context.sent;
                 antisaccadeGradeChart_base64 = _canvsArr2[0].toDataURL();
                 antisaccadeErrDirectionChart_base64 = _canvsArr2[1].toDataURL();
@@ -2829,13 +2910,13 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 97;
+                _context.next = 89;
                 break;
 
-              case 96:
+              case 88:
                 set_isfinishThisPage(true);
 
-              case 97:
+              case 89:
               case "end":
                 return _context.stop();
             }

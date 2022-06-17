@@ -1447,7 +1447,7 @@ const ScreeningViewer = ({ ...props }) => {
                     if (pageType === 'saccade') {
                         //html2canvas
 
-                        let wait1 = await make_delay(1000);  
+                        // let wait1 = await make_delay(1000);  
                         let p = [];
                         p.push(html2canvas(document.getElementById("saccadeGradeChart"),{
                             logging: false,
@@ -1498,7 +1498,7 @@ const ScreeningViewer = ({ ...props }) => {
                         // p.push(html2canvas(document.getElementById("saccadeLatencyChart")));
                         // p.push(html2canvas(document.getElementById("saccadeSpeedChart")));
                         // p.push(html2canvas(document.getElementById("saccadeFEChart")));
-                        let wait2 = await make_delay(1000);                        
+                        // let wait2 = await make_delay(1000);                        
                         let canvsArr = await Promise.all(p);
 
 
@@ -1506,8 +1506,7 @@ const ScreeningViewer = ({ ...props }) => {
                         const saccadeRadarChart_base64 = canvsArr[1].toDataURL();
                         const saccadeDirectionChart_base64 = canvsArr[2].toDataURL();
                         const saccadeRealChart_base64 = canvsArr[3].toDataURL();
-                        console.log("saccadeGradeChart_base64",saccadeGradeChart_base64);
-                        console.log("saccadeRadarChart_base64",saccadeRadarChart_base64);
+
                         //
 
                         //
@@ -2334,10 +2333,50 @@ const ScreeningViewer = ({ ...props }) => {
 
                         //pursuitGradeChart
                         let p = [];
-                        p.push(html2canvas(document.getElementById("pursuitGradeChart")));
-                        p.push(html2canvas(document.getElementById("pursuitErrChart")));
-                        p.push(html2canvas(document.getElementById("pursuitDirectionChart")));
-                        p.push(html2canvas(document.getElementById("pursuitRealChart")));
+                        p.push(html2canvas(document.getElementById("pursuitGradeChart"),{
+                            logging: false,
+                            // x:el.clientWidth*scaleX/2,
+                            // y:el.clientHeight*scaleY/2,
+                            scrollX: 0,
+                            scrollY: 0,
+                            //x: window.scrollX,
+                            // y: window.scrollY,
+                            scale: 1,
+                            // scrollY:-window.scrollY
+                        }));
+                        p.push(html2canvas(document.getElementById("pursuitErrChart"),{
+                            logging: false,
+                            // x:el.clientWidth*scaleX/2,
+                            // y:el.clientHeight*scaleY/2,
+                            scrollX: 0,
+                            scrollY: 0,
+                            //x: window.scrollX,
+                            // y: window.scrollY,
+                            scale: 1,
+                            // scrollY:-window.scrollY
+                        }));
+                        p.push(html2canvas(document.getElementById("pursuitDirectionChart"),{
+                            logging: false,
+                            // x:el.clientWidth*scaleX/2,
+                            // y:el.clientHeight*scaleY/2,
+                            scrollX: 0,
+                            scrollY: 0,
+                            //x: window.scrollX,
+                            // y: window.scrollY,
+                            scale: 1,
+                            // scrollY:-window.scrollY
+                        }));
+                        p.push(html2canvas(document.getElementById("pursuitRealChart"),{
+                            logging: false,
+                            // x:el.clientWidth*scaleX/2,
+                            // y:el.clientHeight*scaleY/2,
+                            scrollX: 0,
+                            scrollY: 0,
+                            //x: window.scrollX,
+                            // y: window.scrollY,
+                            scale: 1,
+                            // scrollY:-window.scrollY
+                        }));
                         let canvsArr = await Promise.all(p);
                         const pursuitGradeChart_base64 = canvsArr[0].toDataURL();
                         const pursuitErrChart_base64 = canvsArr[1].toDataURL();
@@ -2742,11 +2781,61 @@ const ScreeningViewer = ({ ...props }) => {
                         //antisaccadeGradeChart
 
                         let p = [];
-                        p.push(html2canvas(document.getElementById("antisaccadeGradeChart")));
-                        p.push(html2canvas(document.getElementById("antisaccadeErrDirectionChart")));
-                        p.push(html2canvas(document.getElementById("antisaccadeLatencyChart")));
-                        p.push(html2canvas(document.getElementById("antisaccadeDirectionChart")));
-                        p.push(html2canvas(document.getElementById("antisaccadeRealChart")));
+                        p.push(html2canvas(document.getElementById("antisaccadeGradeChart"),{
+                            logging: false,
+                            // x:el.clientWidth*scaleX/2,
+                            // y:el.clientHeight*scaleY/2,
+                            scrollX: 0,
+                            scrollY: 0,
+                            //x: window.scrollX,
+                            // y: window.scrollY,
+                            scale: 1,
+                            // scrollY:-window.scrollY
+                        }));
+                        p.push(html2canvas(document.getElementById("antisaccadeErrDirectionChart"),{
+                            logging: false,
+                            // x:el.clientWidth*scaleX/2,
+                            // y:el.clientHeight*scaleY/2,
+                            scrollX: 0,
+                            scrollY: 0,
+                            //x: window.scrollX,
+                            // y: window.scrollY,
+                            scale: 1,
+                            // scrollY:-window.scrollY
+                        }));
+                        p.push(html2canvas(document.getElementById("antisaccadeLatencyChart"),{
+                            logging: false,
+                            // x:el.clientWidth*scaleX/2,
+                            // y:el.clientHeight*scaleY/2,
+                            scrollX: 0,
+                            scrollY: 0,
+                            //x: window.scrollX,
+                            // y: window.scrollY,
+                            scale: 1,
+                            // scrollY:-window.scrollY
+                        }));
+                        p.push(html2canvas(document.getElementById("antisaccadeDirectionChart"),{
+                            logging: false,
+                            // x:el.clientWidth*scaleX/2,
+                            // y:el.clientHeight*scaleY/2,
+                            scrollX: 0,
+                            scrollY: 0,
+                            //x: window.scrollX,
+                            // y: window.scrollY,
+                            scale: 1,
+                            // scrollY:-window.scrollY
+                        }));
+                        p.push(html2canvas(document.getElementById("antisaccadeRealChart"),{
+                            logging: false,
+                            // x:el.clientWidth*scaleX/2,
+                            // y:el.clientHeight*scaleY/2,
+                            scrollX: 0,
+                            scrollY: 0,
+                            //x: window.scrollX,
+                            // y: window.scrollY,
+                            scale: 1,
+                            // scrollY:-window.scrollY
+                        }));
                         //antisaccadeErrDirectionChart
                         //antisaccadeLatencyChart
                         let canvsArr = await Promise.all(p);
