@@ -3011,7 +3011,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     iframesrc: PDFURL,
     targetGroupData: targetGroupData,
     everyGroupData: everyGroupData
-  })))));
+  })))), isPDFing && /*#__PURE__*/_react.default.createElement("div", {
+    className: "PDFprogress"
+  }, "\uBCF4\uACE0\uC11C \uBCC0\uD658\uC911\uC785\uB2C8\uB2E4. \uC7A0\uC2DC\uB9CC \uAE30\uB2E4\uB824\uC8FC\uC138\uC694."));
 };
 
 var SaccadeView = function SaccadeView(_ref3) {

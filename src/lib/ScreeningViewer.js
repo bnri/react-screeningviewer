@@ -3585,7 +3585,7 @@ const ScreeningViewer = ({ ...props }) => {
         </div>
 
     </div>
-        {/* {
+        {
             isPDFing &&
 
             <div className="PDFprogress">
@@ -3593,7 +3593,7 @@ const ScreeningViewer = ({ ...props }) => {
                 잠시만 기다려주세요.
 
             </div>
-        } */}
+        }
     </>)
 }
 
