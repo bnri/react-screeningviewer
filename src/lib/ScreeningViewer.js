@@ -716,17 +716,17 @@ const ScreeningViewer = ({ ...props }) => {
         }
     }, [dataArr, selDataIndex])
     const targetGroupData = React.useMemo(() => {
-        if(!userInformArr || !groupData ) return;
+        if (!userInformArr || !groupData) return;
         //groupData에서 알맞은 그룹을 찾아야함
         // console.log("userInformArr",userInformArr);
 
         // console.log("selDataIndex",selDataIndex);
-        
+
         const userInform = userInformArr[selDataIndex] || userInformArr[0];
         // console.log("userInform",userInform);
 
         const testeeMomentAge = Math.floor(userInform.testeeMomentAge);
-        
+
         let target = null;
         for (let i = 0; i < groupData.length; i++) {
             if (testeeMomentAge < 7) {
@@ -749,7 +749,7 @@ const ScreeningViewer = ({ ...props }) => {
         }
         // console.log("targetGroupData",target)
         return target;
-    }, [userInformArr, groupData,selDataIndex]);
+    }, [userInformArr, groupData, selDataIndex]);
 
     const everyGroupData = React.useMemo(() => {
 
@@ -1170,14 +1170,14 @@ const ScreeningViewer = ({ ...props }) => {
                     }
 
 
-                    function make_delay(delay){
-                        return new Promise(function(resolve){
+                    // function make_delay(delay){
+                    //     return new Promise(function(resolve){
 
-                            setTimeout(function(){
-                                resolve(true);
-                            },delay);
-                        });
-                    }
+                    //         setTimeout(function(){
+                    //             resolve(true);
+                    //         },delay);
+                    //     });
+                    // }
                     //유저정보 삽입
                     docDefinition.content.push({
                         // pageBreak: 'after',
@@ -1449,7 +1449,7 @@ const ScreeningViewer = ({ ...props }) => {
 
                         // let wait1 = await make_delay(1000);  
                         let p = [];
-                        p.push(html2canvas(document.getElementById("saccadeGradeChart"),{
+                        p.push(html2canvas(document.getElementById("saccadeGradeChart"), {
                             logging: false,
                             // x:el.clientWidth*scaleX/2,
                             // y:el.clientHeight*scaleY/2,
@@ -1460,7 +1460,7 @@ const ScreeningViewer = ({ ...props }) => {
                             scale: 1,
                             // scrollY:-window.scrollY
                         }));
-                        p.push(html2canvas(document.getElementById("saccadeRadarChart"),{
+                        p.push(html2canvas(document.getElementById("saccadeRadarChart"), {
                             logging: false,
                             // x:el.clientWidth*scaleX/2,
                             // y:el.clientHeight*scaleY/2,
@@ -1471,7 +1471,7 @@ const ScreeningViewer = ({ ...props }) => {
                             scale: 1,
                             // scrollY:-window.scrollY
                         }));
-                        p.push(html2canvas(document.getElementById("saccadeDirectionChart"),{
+                        p.push(html2canvas(document.getElementById("saccadeDirectionChart"), {
                             logging: false,
                             // x:el.clientWidth*scaleX/2,
                             // y:el.clientHeight*scaleY/2,
@@ -1482,7 +1482,7 @@ const ScreeningViewer = ({ ...props }) => {
                             scale: 1,
                             // scrollY:-window.scrollY
                         }));
-                        p.push(html2canvas(document.getElementById("saccadeRealChart"),{
+                        p.push(html2canvas(document.getElementById("saccadeRealChart"), {
                             logging: false,
                             // x:el.clientWidth*scaleX/2,
                             // y:el.clientHeight*scaleY/2,
@@ -1494,7 +1494,7 @@ const ScreeningViewer = ({ ...props }) => {
                             // scrollY:-window.scrollY
                         }))
 
-                        
+
                         // p.push(html2canvas(document.getElementById("saccadeLatencyChart")));
                         // p.push(html2canvas(document.getElementById("saccadeSpeedChart")));
                         // p.push(html2canvas(document.getElementById("saccadeFEChart")));
@@ -2333,7 +2333,7 @@ const ScreeningViewer = ({ ...props }) => {
 
                         //pursuitGradeChart
                         let p = [];
-                        p.push(html2canvas(document.getElementById("pursuitGradeChart"),{
+                        p.push(html2canvas(document.getElementById("pursuitGradeChart"), {
                             logging: false,
                             // x:el.clientWidth*scaleX/2,
                             // y:el.clientHeight*scaleY/2,
@@ -2344,7 +2344,7 @@ const ScreeningViewer = ({ ...props }) => {
                             scale: 1,
                             // scrollY:-window.scrollY
                         }));
-                        p.push(html2canvas(document.getElementById("pursuitErrChart"),{
+                        p.push(html2canvas(document.getElementById("pursuitErrChart"), {
                             logging: false,
                             // x:el.clientWidth*scaleX/2,
                             // y:el.clientHeight*scaleY/2,
@@ -2355,7 +2355,7 @@ const ScreeningViewer = ({ ...props }) => {
                             scale: 1,
                             // scrollY:-window.scrollY
                         }));
-                        p.push(html2canvas(document.getElementById("pursuitDirectionChart"),{
+                        p.push(html2canvas(document.getElementById("pursuitDirectionChart"), {
                             logging: false,
                             // x:el.clientWidth*scaleX/2,
                             // y:el.clientHeight*scaleY/2,
@@ -2366,7 +2366,7 @@ const ScreeningViewer = ({ ...props }) => {
                             scale: 1,
                             // scrollY:-window.scrollY
                         }));
-                        p.push(html2canvas(document.getElementById("pursuitRealChart"),{
+                        p.push(html2canvas(document.getElementById("pursuitRealChart"), {
                             logging: false,
                             // x:el.clientWidth*scaleX/2,
                             // y:el.clientHeight*scaleY/2,
@@ -2781,7 +2781,7 @@ const ScreeningViewer = ({ ...props }) => {
                         //antisaccadeGradeChart
 
                         let p = [];
-                        p.push(html2canvas(document.getElementById("antisaccadeGradeChart"),{
+                        p.push(html2canvas(document.getElementById("antisaccadeGradeChart"), {
                             logging: false,
                             // x:el.clientWidth*scaleX/2,
                             // y:el.clientHeight*scaleY/2,
@@ -2792,7 +2792,7 @@ const ScreeningViewer = ({ ...props }) => {
                             scale: 1,
                             // scrollY:-window.scrollY
                         }));
-                        p.push(html2canvas(document.getElementById("antisaccadeErrDirectionChart"),{
+                        p.push(html2canvas(document.getElementById("antisaccadeErrDirectionChart"), {
                             logging: false,
                             // x:el.clientWidth*scaleX/2,
                             // y:el.clientHeight*scaleY/2,
@@ -2803,7 +2803,7 @@ const ScreeningViewer = ({ ...props }) => {
                             scale: 1,
                             // scrollY:-window.scrollY
                         }));
-                        p.push(html2canvas(document.getElementById("antisaccadeLatencyChart"),{
+                        p.push(html2canvas(document.getElementById("antisaccadeLatencyChart"), {
                             logging: false,
                             // x:el.clientWidth*scaleX/2,
                             // y:el.clientHeight*scaleY/2,
@@ -2814,7 +2814,7 @@ const ScreeningViewer = ({ ...props }) => {
                             scale: 1,
                             // scrollY:-window.scrollY
                         }));
-                        p.push(html2canvas(document.getElementById("antisaccadeDirectionChart"),{
+                        p.push(html2canvas(document.getElementById("antisaccadeDirectionChart"), {
                             logging: false,
                             // x:el.clientWidth*scaleX/2,
                             // y:el.clientHeight*scaleY/2,
@@ -2825,7 +2825,7 @@ const ScreeningViewer = ({ ...props }) => {
                             scale: 1,
                             // scrollY:-window.scrollY
                         }));
-                        p.push(html2canvas(document.getElementById("antisaccadeRealChart"),{
+                        p.push(html2canvas(document.getElementById("antisaccadeRealChart"), {
                             logging: false,
                             // x:el.clientWidth*scaleX/2,
                             // y:el.clientHeight*scaleY/2,
@@ -3218,7 +3218,7 @@ const ScreeningViewer = ({ ...props }) => {
                         docDefinition.content.push({
                             pageBreak: isLast ? null : 'after',
                             name: '도약안구운동 1줄 파랑메뉴',
-                            margin: [5, 20, 5, 5],
+                            margin: [5, 10, 5, 5],
 
                             table: {
                                 dontBreakRows: true,
@@ -3268,7 +3268,7 @@ const ScreeningViewer = ({ ...props }) => {
                         });
 
 
-                        
+
 
                         // (data.analysis.avgErrFrequencyRatio * 100), (data.analysis.avgErrTime / 0.5 * 100)
 
@@ -3277,7 +3277,7 @@ const ScreeningViewer = ({ ...props }) => {
                         docDefinition.content.push({
                             pageBreak: isLast ? null : 'after',
                             name: '도약안구운동 1줄 파랑메뉴',
-                            margin: [5, 20, 5, 5],
+                            margin: [5, 10, 5, 5],
 
                             table: {
                                 dontBreakRows: true,
@@ -3527,6 +3527,9 @@ const ScreeningViewer = ({ ...props }) => {
         }
     }, [isPDFing, docDefinition])
 
+
+
+
     return (<><div className="ScreeningViewer">
         <div className="contents">
             <div className="leftbar no-drag">
@@ -3585,12 +3588,19 @@ const ScreeningViewer = ({ ...props }) => {
         </div>
 
     </div>
+        {/* //#@! */}
         {
             isPDFing &&
 
             <div className="PDFprogress">
-                보고서 변환중입니다.
-                잠시만 기다려주세요.
+
+                <div>
+                    보고서 변환중입니다.
+                    잠시만 기다려주세요.
+
+                </div>
+                {(selDataIndex / progressMax * 100).toFixed(0)+'%'}
+
 
             </div>
         }
@@ -6156,8 +6166,12 @@ const PursuitView = ({ ...props }) => {
                             options={barChartOption}
                         />
                     </div>
-                    <div className="cbox2">
-                        어떤컨텐츠가 들어갈예정
+                    <div className="cbox2" style={{ padding: '15px' }}>
+                        {` 추적 안구 운동에서의 평균 오차는 시계 방향 반시계 방향으로 각 2회씩 수행 한 추적 안구 운동의 시선 궤적과 실제 안구의 움직임의 평균적인 오차입니다.`}
+                        <br /><br />
+                        {` 시선보정(calibration)은 부정확할 수 있기 때문에, 시선 궤적이 실제 목표물의 궤적과 차이가 나더라도 
+                        이를 보정하므로 평균 에러값이 보기보다 작을 수 있습니다.`}
+
                     </div>
                 </div>
             </div>
@@ -6250,17 +6264,15 @@ const PursuitView = ({ ...props }) => {
                 <div className="explain">
                     <ul>
                         <li>
-                            추적안구운동(pursuit)은 천천히 움직이는 대상을 따라 부드럽고 연속적으로 시선을 움직이는 것입니다. 일반적으로 시선은 빠르게 도약하고 고정하는 것을 반복할 뿐이며,  부드럽고 연속적으로 이동하는 것은 고도의 안구운동 통제능력이 필요하기 때문에, 영장류나 고양이 정도의 고등동물에게서 나타나는 능력입니다.
+                            추적안구운동(pursuit)은 시계방향/반시계방향으로 각 2회씩 수행한 추적안구운동의 시선 궤적입니다.
                         </li>
                         <li>
-                            추적안구운동은 집중력이 낮아지거나 노화에 의해 저하되지만, 시력 저하나 안진(안구 진탕)  및 각종 신경계 이상으로 인해 나타나기도 합니다.
+                            응시 : 시작점과 목표점에서 최대한 같은 위치에 시선이 고정되어 있어야 합니다.
                         </li>
                         <li>
-                            위치편차 (position error)
+                            도약 : 시작점과 목표점 사이 외에는 시선이 분산되지 않고, 빠르게 (중간에 머뭇거리는 시선이 없이) 이동해야 합니다.
                         </li>
-                        <li>
-                            연속성??
-                        </li>
+
                     </ul>
 
                 </div>
