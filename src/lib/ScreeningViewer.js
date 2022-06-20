@@ -701,7 +701,7 @@ const ScreeningViewer = ({ ...props }) => {
     const { dataArr } = props;
     const { onClose } = props;
     const { groupData, userInformArr, AgencyLogoBase64, resultInformArr } = props;
-    const {isPossiblePDF} = props;
+    const { isPossiblePDF } = props;
     const [selDataIndex, set_selDataIndex] = React.useState(0);
 
     const selScreeningType = React.useMemo(() => {
@@ -1675,7 +1675,7 @@ const ScreeningViewer = ({ ...props }) => {
                                             ul: [
                                                 "지연시간 (latency time) : 시각 자극물을 발견한 뒤, 목표를 향해 시선이 출발할 때까지 걸리는 시간입니다. 반응처리 및 운동능력이 우수할수록 짧으며, 대체로 150ms ~ 250ms정도입니다.",
                                                 "시선이동속도 (saccade speed) : 시선이 목표를 향해 이동할 때, 목표에 다다를 때까지의 속도입니다. 운동제어능력이 우수할수록 속도가 빠르며, 이동할 거리가 가까울수록 속도는 느려집니다. 대체로 50도/초~200도/초 정도입니다.",
-                                                "응시안정성 (fixation stability) : 대상을 응시할 때, 시선이 얼마나 안정적으로 유지하는지를 측정한 척도입니다. 목표위치로부터의 2초간 시선위치 편차로 측정합니다. 집중력이 강하고 운동제어능력이 우수할수록 편차가 작으며, 대체로 0.5도 내외입니다."
+                                                "응시안정성 (fixation stability) : 대상을 응시할 때, 시선이 얼마나 안정적으로 유지하는지를 측정한 척도입니다. 목표위치로부터의 2초간 시선위치 편차로 측정합니다. 집중력이 강하고 운동제어능력이 우수할수록 편차가 작으며, 대체로 0.2도 내외입니다."
                                             ],
                                             colSpan: 2
                                         },
@@ -3546,7 +3546,7 @@ const ScreeningViewer = ({ ...props }) => {
                         {data.screeningType}
                     </div>)
                 })}
-                {isPossiblePDF===true &&dataArr && selDataIndex !== null &&
+                {isPossiblePDF === true && dataArr && selDataIndex !== null &&
                     (() => {
                         let cn = "oneLeftBarList";
 
@@ -3577,7 +3577,7 @@ const ScreeningViewer = ({ ...props }) => {
                 {selScreeningType === 'antisaccade' &&
                     <AntiSaccadeView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData} />
                 }
-                {isPossiblePDF===true &&selScreeningType === "보고서 다운로드" &&
+                {isPossiblePDF === true && selScreeningType === "보고서 다운로드" &&
                     <DownLoadPDF dataArr={dataArr}
                         handlePDFstart={handlePDFstart}
                         iframesrc={PDFURL}
@@ -3600,7 +3600,7 @@ const ScreeningViewer = ({ ...props }) => {
                     잠시만 기다려주세요.
 
                 </div>
-                {(selDataIndex / progressMax * 100).toFixed(0)+'%'}
+                {(selDataIndex / progressMax * 100).toFixed(0) + '%'}
 
 
             </div>
@@ -5253,7 +5253,7 @@ const SaccadeView = ({ ...props }) => {
                             <strong>시선이동속도 (saccade speed)</strong> : 시선이 목표를 향해 이동할 때, 목표에 다다를 때까지의 속도입니다. 운동제어능력이 우수할수록 속도가 빠르며, 이동할 거리가 가까울수록 속도는 느려집니다. 대체로 50도/초~200도/초 정도입니다.
                         </li>
                         <li>
-                            <strong>응시안정성 (fixation stability)</strong> : 대상을 응시할 때, 시선이 얼마나 안정적으로 유지하는지를 측정한 척도입니다. 목표위치로부터의 2초간 시선위치 편차로 측정합니다. 집중력이 강하고 운동제어능력이 우수할수록 편차가 작으며, 대체로 0.5도 내외입니다.
+                            <strong>응시안정성 (fixation stability)</strong> : 대상을 응시할 때, 시선이 얼마나 안정적으로 유지하는지를 측정한 척도입니다. 목표위치로부터의 2초간 시선위치 편차로 측정합니다. 집중력이 강하고 운동제어능력이 우수할수록 편차가 작으며, 대체로 0.2도 내외입니다.
                         </li>
                     </ul>
 
@@ -6070,7 +6070,7 @@ const PursuitView = ({ ...props }) => {
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: "추적안구운동 평균 err"
+                text: "추적안구운동 평균 오차"
             },
             legend: {
                 display: true,
@@ -6134,7 +6134,7 @@ const PursuitView = ({ ...props }) => {
                     </div>
                     <div style={{ height: '40%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: '15px', borderTop: '1px solid #1A408E' }}>
                         <ul>
-                            <li>내 평균: {data.analysis.pursuit_score.toFixed(2)}점 (상위 {myPercent}%)</li>
+                            <li>내 점수: {data.analysis.pursuit_score.toFixed(2)}점 (상위 {myPercent}%)</li>
                             <li>또래 평균 점수: {targetGroupData.avg_pursuit_score.toFixed(2)}점</li>
                             <li>전체 평균 점수: {everyGroupData.avg_pursuit_score.toFixed(2)}점</li>
                         </ul>
@@ -6265,13 +6265,52 @@ const PursuitView = ({ ...props }) => {
                 <div className="explain">
                     <ul>
                         <li>
-                            추적안구운동(pursuit)은 시계방향/반시계방향으로 각 2회씩 수행한 추적안구운동의 시선 궤적입니다.
+                            추적안구운동(pursuit)은 천천히 움직이는 대상을 따라 부드럽고 연속적으로 시선을 움직이는 것입니다. 일반적으로 시선은 빠르게 점프하며 움직이며, 부드럽게 추적하는 추적안구운동은 어려운 기술이기 때문에, 영장류나 고양이 정도의 고등동물에게서 나타나는 능력입니다. 추적안구운동은 보통 노화에 의해 저하되지만, 시력 저하나 안진(안구 진탕)  및 각종 신경계 이상으로 인해 나타나기도 합니다.
+
                         </li>
                         <li>
-                            응시 : 시작점과 목표점에서 최대한 같은 위치에 시선이 고정되어 있어야 합니다.
+                            추적안구운동은 글을 읽을 때 직접적으로 사용되지는 않지만, 안구운동을 정교하게 통제할 수 있는 능력이기 때문에, 이 능력이 부족하면 전반적인 안구운동이 저하되었을 가능성이 있습니다.
                         </li>
+
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div className="row">
+
+            <div className="titleUnderline">
+                <div className="title">
+                    어느 정도가 적당한가요?
+                </div>
+                <div className="explain">
+                    <ul>
                         <li>
-                            도약 : 시작점과 목표점 사이 외에는 시선이 분산되지 않고, 빠르게 (중간에 머뭇거리는 시선이 없이) 이동해야 합니다.
+                            추적안구운동 평균 에러 : 목표물을 따라 보는 동안, 정확한 위치로부터 벗어난 시점의 위치 에러입니다. 부드러운 추적안구운동에 실패하여 도약이 발생하거나 , 집중하지 못하고 목표물을 정확히 따라가지 못하면 에러가 증가합니다. 평균 에러가 2% 이내이면 정상입니다.
+                        </li>
+
+
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <div className="row">
+
+            <div className="titleUnderline">
+                <div className="title">
+                    어떻게 개선할 수 있나요?
+                </div>
+                <div className="explain">
+                    <ul>
+                        <li>
+                            즉각적 피드백이 있는 추적안구운동 훈련을 합니다.
+                        </li>
+
+                        <li>
+                            집중력을 기릅니다.
                         </li>
 
                     </ul>
@@ -6566,7 +6605,7 @@ const AntiSaccadeView = ({ ...props }) => {
                         },
                         scaleLabel: {
                             display: true,
-                            labelString: "percent(%)",
+                            labelString: "오차율(%)",
                             fontSize: 14,
                             fontStyle: "bold",
                         },
@@ -7746,7 +7785,7 @@ const AntiSaccadeView = ({ ...props }) => {
                     </div>
                     <div style={{ height: '40%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: '15px', borderTop: '1px solid #1A408E' }}>
                         <ul>
-                            <li>내 평균: {data.analysis.antisaccade_score.toFixed(2)}점 (상위 {myPercent}%)</li>
+                            <li>내 점수: {data.analysis.antisaccade_score.toFixed(2)}점 (상위 {myPercent}%)</li>
                             <li>또래 평균 점수: {targetGroupData.avg_antisaccade_score.toFixed(2)}점</li>
                             <li>전체 평균 점수: {everyGroupData.avg_antisaccade_score.toFixed(2)}점</li>
                         </ul>
@@ -7767,7 +7806,7 @@ const AntiSaccadeView = ({ ...props }) => {
             </div>
             <div className="titleBox" style={{ width: '420px' }}>
                 <div className="title">
-                    이동방향 오류(percent)
+                    이동방향 오류
                 </div>
                 <div id="antisaccadeErrDirectionChart" className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <ChartComponent
@@ -7935,14 +7974,16 @@ const AntiSaccadeView = ({ ...props }) => {
             </div>
             <div className="titleUnderline">
                 <div className="title">
-                    반대로 보기 정확도는 무엇인가요?
+                    어느 정도가 적당한가요?
                 </div>
                 <div className="explain">
                     <ul>
                         <li>
-                            따라보기는 대상이 있는 쪽으로, 반대보기는 대상의 반대쪽으로 시선이 움직였는지를 측정한 비율입니다. 반대보기의 정확도가 높은 것이 바람직합니다.
+                            방향 정확성 : 따라보기는 대상이 있는 쪽으로, 반대보기는 대상의 반대쪽으로 시선이 움직였는지를 측정한 비율입니다. 반대보기의 정확도가 높은 것이 바람직하며, 대체로 85% 이상입니다.
                         </li>
-
+                        <li>
+                            지체시간(latency) : 대상을 보고 시선을 움직이기 전까지 소요되는 시간입니다. 보통 반대로보기시 따라보기보다 더 오래 걸리며,  300ms 이하인 것이 좋습니다.
+                        </li>
 
                     </ul>
 
@@ -7950,12 +7991,15 @@ const AntiSaccadeView = ({ ...props }) => {
             </div>
             <div className="titleUnderline">
                 <div className="title">
-                    반대로 보기 지체시간은 무엇인가요?
+                    어떻게 개선할 수 있나요?
                 </div>
                 <div className="explain">
                     <ul>
                         <li>
-                            대상을 보고 시선을 움직이기 전까지 소요되는 시간입니다. 반대보기할 때 지체시간이 짧은 것이 바람직합니다.
+                            즉각적 피드백이 있는 반대로 보기 훈련을 합니다.
+                        </li>
+                        <li>
+                            집중력을 기릅니다.
                         </li>
 
 
