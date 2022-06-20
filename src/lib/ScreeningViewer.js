@@ -5263,7 +5263,7 @@ const SaccadeView = ({ ...props }) => {
             showGazeViewer &&
             <div className="GazeViewerWrap">
                 <div className="modal">
-                    <div className="title"> 실제 시선 측정데이터 <button className="closebtn" onClick={() => set_showGazeViewer(false)}>X</button></div>
+                    <div className="title"> 실제 시선 측정데이터 <button className="closescr-btn" onClick={() => set_showGazeViewer(false)}>X</button></div>
                     <div className="view">
                         <GazeViewer data={data} />
                     </div>
@@ -6282,7 +6282,7 @@ const PursuitView = ({ ...props }) => {
             showGazeViewer &&
             <div className="GazeViewerWrap">
                 <div className="modal">
-                    <div className="title"> 실제 시선 측정데이터 <button onClick={() => set_showGazeViewer(false)}>닫기</button></div>
+                    <div className="title"> 실제 시선 측정데이터 <button className="closescr-btn" onClick={() => set_showGazeViewer(false)}>X</button></div>
                     <div className="view">
                         <GazeViewer data={data} />
                     </div>
@@ -7967,7 +7967,7 @@ const AntiSaccadeView = ({ ...props }) => {
             showGazeViewer &&
             <div className="GazeViewerWrap">
                 <div className="modal">
-                    <div className="title"> 실제 시선 측정데이터 <button onClick={() => set_showGazeViewer(false)}>닫기</button></div>
+                    <div className="title"> 실제 시선 측정데이터 <button className="closescr-btn" onClick={() => set_showGazeViewer(false)}>X</button></div>
                     <div className="view">
                         <GazeViewer data={data} />
                     </div>

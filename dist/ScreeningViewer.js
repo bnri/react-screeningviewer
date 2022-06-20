@@ -4695,7 +4695,7 @@ var SaccadeView = function SaccadeView(_ref3) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, " \uC2E4\uC81C \uC2DC\uC120 \uCE21\uC815\uB370\uC774\uD130 ", /*#__PURE__*/_react.default.createElement("button", {
-    className: "closebtn",
+    className: "closescr-btn",
     onClick: function onClick() {
       return set_showGazeViewer(false);
     }
@@ -5783,10 +5783,11 @@ var PursuitView = function PursuitView(_ref4) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, " \uC2E4\uC81C \uC2DC\uC120 \uCE21\uC815\uB370\uC774\uD130 ", /*#__PURE__*/_react.default.createElement("button", {
+    className: "closescr-btn",
     onClick: function onClick() {
       return set_showGazeViewer(false);
     }
-  }, "\uB2EB\uAE30")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "X")), /*#__PURE__*/_react.default.createElement("div", {
     className: "view"
   }, /*#__PURE__*/_react.default.createElement(_reactGazeviewer.default, {
     data: data
@@ -7450,10 +7451,11 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, " \uC2E4\uC81C \uC2DC\uC120 \uCE21\uC815\uB370\uC774\uD130 ", /*#__PURE__*/_react.default.createElement("button", {
+    className: "closescr-btn",
     onClick: function onClick() {
       return set_showGazeViewer(false);
     }
-  }, "\uB2EB\uAE30")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "X")), /*#__PURE__*/_react.default.createElement("div", {
     className: "view"
   }, /*#__PURE__*/_react.default.createElement(_reactGazeviewer.default, {
     data: data
