@@ -1346,6 +1346,8 @@ function App() {
           userInformArr={userInformArr}
           resultInformArr={resultInformArr}
           isPossiblePDF={true}
+
+          
         />
       }
 

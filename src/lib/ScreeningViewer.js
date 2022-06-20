@@ -3582,6 +3582,7 @@ const ScreeningViewer = ({ ...props }) => {
                         handlePDFstart={handlePDFstart}
                         iframesrc={PDFURL}
                         targetGroupData={targetGroupData} everyGroupData={everyGroupData}
+                        AgencyLogoBase64={AgencyLogoBase64}
                     />
                 }
             </div>
