@@ -1345,7 +1345,7 @@ function App() {
           onClose={() => set_showViewer(false)}
           userInformArr={userInformArr}
           resultInformArr={resultInformArr}
-          isPossiblePDF={false}
+          isPossiblePDF={true}
         />
       }
 
