@@ -713,6 +713,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
       userInformArr = props.userInformArr,
       AgencyLogoBase64 = props.AgencyLogoBase64,
       resultInformArr = props.resultInformArr;
+  var isPossiblePDF = props.isPossiblePDF;
 
   var _React$useState = _react.default.useState(0),
       _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -1135,30 +1136,21 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
 
     function _doit() {
       _doit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var make_delay, isLast, userInform, resultInform, data, pageType, myState, myPercent, myScore, targetScore, pageTitle, p, canvsArr, saccadeGradeChart_base64, saccadeRadarChart_base64, saccadeDirectionChart_base64, saccadeRealChart_base64, _p, _canvsArr, pursuitGradeChart_base64, pursuitErrChart_base64, pursuitDirectionChart_base64, pursuitRealChart_base64, _p2, _canvsArr2, antisaccadeGradeChart_base64, antisaccadeErrDirectionChart_base64, antisaccadeLatencyChart_base64, antisaccadeDirectionChart_base64, antisaccadeRealChart_base64;
+        var isLast, userInform, resultInform, data, pageType, myState, myPercent, myScore, targetScore, pageTitle, p, canvsArr, saccadeGradeChart_base64, saccadeRadarChart_base64, saccadeDirectionChart_base64, saccadeRealChart_base64, _p, _canvsArr, pursuitGradeChart_base64, pursuitErrChart_base64, pursuitDirectionChart_base64, pursuitRealChart_base64, _p2, _canvsArr2, antisaccadeGradeChart_base64, antisaccadeErrDirectionChart_base64, antisaccadeLatencyChart_base64, antisaccadeDirectionChart_base64, antisaccadeRealChart_base64;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 if (!(isPDFing && progressMax !== selDataIndex)) {
-                  _context.next = 89;
+                  _context.next = 88;
                   break;
                 }
 
                 if (!(isfinishThisPage === false)) {
-                  _context.next = 89;
+                  _context.next = 88;
                   break;
                 }
-
-                make_delay = function make_delay(delay) {
-                  return new Promise(function (resolve) {
-                    setTimeout(function () {
-                      resolve(true);
-                    }, delay);
-                  });
-                }; //유저정보 삽입
-
 
                 isLast = selDataIndex + 1 === dataArr.length ? true : false;
                 userInform = userInformArr[selDataIndex];
@@ -1180,7 +1172,15 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   pageTitle = "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 pursuit \uBD84\uC11D";
                 } else if (pageType === 'antisaccade') {
                   pageTitle = "\uBC18\uB300\uB85C\uBCF4\uAE30 anti saccade \uBD84\uC11D";
-                }
+                } // function make_delay(delay){
+                //     return new Promise(function(resolve){
+                //         setTimeout(function(){
+                //             resolve(true);
+                //         },delay);
+                //     });
+                // }
+                //유저정보 삽입
+
 
                 docDefinition.content.push({
                   // pageBreak: 'after',
@@ -1402,7 +1402,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 }); //아래 종류에 따라 삽입이 달라야함
 
                 if (!(pageType === 'saccade')) {
-                  _context.next = 41;
+                  _context.next = 40;
                   break;
                 }
 
@@ -1457,10 +1457,10 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 // p.push(html2canvas(document.getElementById("saccadeFEChart")));
                 // let wait2 = await make_delay(1000);                        
 
-                _context.next = 26;
+                _context.next = 25;
                 return Promise.all(p);
 
-              case 26:
+              case 25:
                 canvsArr = _context.sent;
                 saccadeGradeChart_base64 = canvsArr[0].toDataURL();
                 saccadeRadarChart_base64 = canvsArr[1].toDataURL();
@@ -2034,12 +2034,12 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 89;
+                _context.next = 88;
                 break;
 
-              case 41:
+              case 40:
                 if (!(pageType === 'pursuit')) {
-                  _context.next = 63;
+                  _context.next = 62;
                   break;
                 }
 
@@ -2094,10 +2094,10 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
 
                 }));
 
-                _context.next = 49;
+                _context.next = 48;
                 return Promise.all(_p);
 
-              case 49:
+              case 48:
                 _canvsArr = _context.sent;
                 pursuitGradeChart_base64 = _canvsArr[0].toDataURL();
                 pursuitErrChart_base64 = _canvsArr[1].toDataURL();
@@ -2369,12 +2369,12 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 89;
+                _context.next = 88;
                 break;
 
-              case 63:
+              case 62:
                 if (!(pageType === "antisaccade")) {
-                  _context.next = 88;
+                  _context.next = 87;
                   break;
                 }
 
@@ -2443,10 +2443,10 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 //antisaccadeLatencyChart
 
 
-                _context.next = 72;
+                _context.next = 71;
                 return Promise.all(_p2);
 
-              case 72:
+              case 71:
                 _canvsArr2 = _context.sent;
                 antisaccadeGradeChart_base64 = _canvsArr2[0].toDataURL();
                 antisaccadeErrDirectionChart_base64 = _canvsArr2[1].toDataURL();
@@ -2716,7 +2716,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 docDefinition.content.push({
                   pageBreak: isLast ? null : 'after',
                   name: '도약안구운동 1줄 파랑메뉴',
-                  margin: [5, 20, 5, 5],
+                  margin: [5, 10, 5, 5],
                   table: {
                     dontBreakRows: true,
                     widths: ['100%'],
@@ -2751,7 +2751,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 docDefinition.content.push({
                   pageBreak: isLast ? null : 'after',
                   name: '도약안구운동 1줄 파랑메뉴',
-                  margin: [5, 20, 5, 5],
+                  margin: [5, 10, 5, 5],
                   table: {
                     dontBreakRows: true,
                     widths: ['24%', '19%', '19%', '19%', '19%'],
@@ -2910,13 +2910,13 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 89;
+                _context.next = 88;
                 break;
 
-              case 88:
+              case 87:
                 set_isfinishThisPage(true);
 
-              case 89:
+              case 88:
               case "end":
                 return _context.stop();
             }
@@ -2968,7 +2968,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
         set_selDataIndex(index);
       }
     }, data.screeningType);
-  }), dataArr && selDataIndex !== null && function () {
+  }), isPossiblePDF === true && dataArr && selDataIndex !== null && function () {
     var cn = "oneLeftBarList";
 
     if (selDataIndex === dataArr.length) {
@@ -3005,7 +3005,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     data: dataArr[selDataIndex],
     targetGroupData: targetGroupData,
     everyGroupData: everyGroupData
-  }), selScreeningType === "보고서 다운로드" && /*#__PURE__*/_react.default.createElement(DownLoadPDF, {
+  }), isPossiblePDF === true && selScreeningType === "보고서 다운로드" && /*#__PURE__*/_react.default.createElement(DownLoadPDF, {
     dataArr: dataArr,
     handlePDFstart: handlePDFstart,
     iframesrc: PDFURL,
@@ -3013,7 +3013,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     everyGroupData: everyGroupData
   })))), isPDFing && /*#__PURE__*/_react.default.createElement("div", {
     className: "PDFprogress"
-  }, "\uBCF4\uACE0\uC11C \uBCC0\uD658\uC911\uC785\uB2C8\uB2E4. \uC7A0\uC2DC\uB9CC \uAE30\uB2E4\uB824\uC8FC\uC138\uC694."));
+  }, /*#__PURE__*/_react.default.createElement("div", null, "\uBCF4\uACE0\uC11C \uBCC0\uD658\uC911\uC785\uB2C8\uB2E4. \uC7A0\uC2DC\uB9CC \uAE30\uB2E4\uB824\uC8FC\uC138\uC694."), (selDataIndex / progressMax * 100).toFixed(0) + '%'));
 };
 
 var SaccadeView = function SaccadeView(_ref3) {
@@ -4695,10 +4695,11 @@ var SaccadeView = function SaccadeView(_ref3) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, " \uC2E4\uC81C \uC2DC\uC120 \uCE21\uC815\uB370\uC774\uD130 ", /*#__PURE__*/_react.default.createElement("button", {
+    className: "closebtn",
     onClick: function onClick() {
       return set_showGazeViewer(false);
     }
-  }, "\uB2EB\uAE30")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "X")), /*#__PURE__*/_react.default.createElement("div", {
     className: "view"
   }, /*#__PURE__*/_react.default.createElement(_reactGazeviewer.default, {
     data: data
@@ -5617,8 +5618,11 @@ var PursuitView = function PursuitView(_ref4) {
     data: barChartData,
     options: barChartOption
   })), /*#__PURE__*/_react.default.createElement("div", {
-    className: "cbox2"
-  }, "\uC5B4\uB5A4\uCEE8\uD150\uCE20\uAC00 \uB4E4\uC5B4\uAC08\uC608\uC815")))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "cbox2",
+    style: {
+      padding: '15px'
+    }
+  }, " \uCD94\uC801 \uC548\uAD6C \uC6B4\uB3D9\uC5D0\uC11C\uC758 \uD3C9\uADE0 \uC624\uCC28\uB294 \uC2DC\uACC4 \uBC29\uD5A5 \uBC18\uC2DC\uACC4 \uBC29\uD5A5\uC73C\uB85C \uAC01 2\uD68C\uC529 \uC218\uD589 \uD55C \uCD94\uC801 \uC548\uAD6C \uC6B4\uB3D9\uC758 \uC2DC\uC120 \uADA4\uC801\uACFC \uC2E4\uC81C \uC548\uAD6C\uC758 \uC6C0\uC9C1\uC784\uC758 \uD3C9\uADE0\uC801\uC778 \uC624\uCC28\uC785\uB2C8\uB2E4.", /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("br", null), " \uC2DC\uC120\uBCF4\uC815(calibration)\uC740 \uBD80\uC815\uD655\uD560 \uC218 \uC788\uAE30 \uB54C\uBB38\uC5D0, \uC2DC\uC120 \uADA4\uC801\uC774 \uC2E4\uC81C \uBAA9\uD45C\uBB3C\uC758 \uADA4\uC801\uACFC \uCC28\uC774\uAC00 \uB098\uB354\uB77C\uB3C4 \n                        \uC774\uB97C \uBCF4\uC815\uD558\uBBC0\uB85C \uD3C9\uADE0 \uC5D0\uB7EC\uAC12\uC774 \uBCF4\uAE30\uBCF4\uB2E4 \uC791\uC744 \uC218 \uC788\uC2B5\uB2C8\uB2E4.")))), /*#__PURE__*/_react.default.createElement("div", {
     className: "row"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
@@ -5772,7 +5776,7 @@ var PursuitView = function PursuitView(_ref4) {
     className: "title"
   }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 (pursuit)\uC740 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9(pursuit)\uC740 \uCC9C\uCC9C\uD788 \uC6C0\uC9C1\uC774\uB294 \uB300\uC0C1\uC744 \uB530\uB77C \uBD80\uB4DC\uB7FD\uACE0 \uC5F0\uC18D\uC801\uC73C\uB85C \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uB294 \uAC83\uC785\uB2C8\uB2E4. \uC77C\uBC18\uC801\uC73C\uB85C \uC2DC\uC120\uC740 \uBE60\uB974\uAC8C \uB3C4\uC57D\uD558\uACE0 \uACE0\uC815\uD558\uB294 \uAC83\uC744 \uBC18\uBCF5\uD560 \uBFD0\uC774\uBA70,  \uBD80\uB4DC\uB7FD\uACE0 \uC5F0\uC18D\uC801\uC73C\uB85C \uC774\uB3D9\uD558\uB294 \uAC83\uC740 \uACE0\uB3C4\uC758 \uC548\uAD6C\uC6B4\uB3D9 \uD1B5\uC81C\uB2A5\uB825\uC774 \uD544\uC694\uD558\uAE30 \uB54C\uBB38\uC5D0, \uC601\uC7A5\uB958\uB098 \uACE0\uC591\uC774 \uC815\uB3C4\uC758 \uACE0\uB4F1\uB3D9\uBB3C\uC5D0\uAC8C\uC11C \uB098\uD0C0\uB098\uB294 \uB2A5\uB825\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9\uC740 \uC9D1\uC911\uB825\uC774 \uB0AE\uC544\uC9C0\uAC70\uB098 \uB178\uD654\uC5D0 \uC758\uD574 \uC800\uD558\uB418\uC9C0\uB9CC, \uC2DC\uB825 \uC800\uD558\uB098 \uC548\uC9C4(\uC548\uAD6C \uC9C4\uD0D5)  \uBC0F \uAC01\uC885 \uC2E0\uACBD\uACC4 \uC774\uC0C1\uC73C\uB85C \uC778\uD574 \uB098\uD0C0\uB098\uAE30\uB3C4 \uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC704\uCE58\uD3B8\uCC28 (position error)"), /*#__PURE__*/_react.default.createElement("li", null, "\uC5F0\uC18D\uC131??"))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9(pursuit)\uC740 \uC2DC\uACC4\uBC29\uD5A5/\uBC18\uC2DC\uACC4\uBC29\uD5A5\uC73C\uB85C \uAC01 2\uD68C\uC529 \uC218\uD589\uD55C \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9\uC758 \uC2DC\uC120 \uADA4\uC801\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC751\uC2DC : \uC2DC\uC791\uC810\uACFC \uBAA9\uD45C\uC810\uC5D0\uC11C \uCD5C\uB300\uD55C \uAC19\uC740 \uC704\uCE58\uC5D0 \uC2DC\uC120\uC774 \uACE0\uC815\uB418\uC5B4 \uC788\uC5B4\uC57C \uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uB3C4\uC57D : \uC2DC\uC791\uC810\uACFC \uBAA9\uD45C\uC810 \uC0AC\uC774 \uC678\uC5D0\uB294 \uC2DC\uC120\uC774 \uBD84\uC0B0\uB418\uC9C0 \uC54A\uACE0, \uBE60\uB974\uAC8C (\uC911\uAC04\uC5D0 \uBA38\uBB47\uAC70\uB9AC\uB294 \uC2DC\uC120\uC774 \uC5C6\uC774) \uC774\uB3D9\uD574\uC57C \uD569\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
     className: "GazeViewerWrap"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "modal"

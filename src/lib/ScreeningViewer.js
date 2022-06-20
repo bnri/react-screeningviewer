@@ -701,7 +701,7 @@ const ScreeningViewer = ({ ...props }) => {
     const { dataArr } = props;
     const { onClose } = props;
     const { groupData, userInformArr, AgencyLogoBase64, resultInformArr } = props;
-
+    const {isPossiblePDF} = props;
     const [selDataIndex, set_selDataIndex] = React.useState(0);
 
     const selScreeningType = React.useMemo(() => {
@@ -3546,7 +3546,7 @@ const ScreeningViewer = ({ ...props }) => {
                         {data.screeningType}
                     </div>)
                 })}
-                {dataArr && selDataIndex !== null &&
+                {isPossiblePDF===true &&dataArr && selDataIndex !== null &&
                     (() => {
                         let cn = "oneLeftBarList";
 
@@ -3577,7 +3577,7 @@ const ScreeningViewer = ({ ...props }) => {
                 {selScreeningType === 'antisaccade' &&
                     <AntiSaccadeView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData} />
                 }
-                {selScreeningType === "보고서 다운로드" &&
+                {isPossiblePDF===true &&selScreeningType === "보고서 다운로드" &&
                     <DownLoadPDF dataArr={dataArr}
                         handlePDFstart={handlePDFstart}
                         iframesrc={PDFURL}
@@ -5263,7 +5263,7 @@ const SaccadeView = ({ ...props }) => {
             showGazeViewer &&
             <div className="GazeViewerWrap">
                 <div className="modal">
-                    <div className="title"> 실제 시선 측정데이터 <button onClick={() => set_showGazeViewer(false)}>닫기</button></div>
+                    <div className="title"> 실제 시선 측정데이터 <button className="closebtn" onClick={() => set_showGazeViewer(false)}>X</button></div>
                     <div className="view">
                         <GazeViewer data={data} />
                     </div>

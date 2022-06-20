@@ -402,6 +402,27 @@
             .title {
                 height: 30px;
                 border-bottom: 1px solid #7367f0;
+                display:flex;
+                padding-left:5px;
+                justify-content: flex-start;
+                align-items: center;
+                position: relative;
+                font-weight:700;
+                .closebtn{
+                    position:absolute;
+                    top:10;
+                    right:0;
+
+                    border:none;
+                    background: none;
+                    outline:none;
+                    font-size:24px;
+                    &:hover{
+                        font-weight:700;
+                        cursor:pointer;
+                    }
+
+                }
             }
 
             .view {
