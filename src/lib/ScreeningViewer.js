@@ -3598,10 +3598,11 @@ const ScreeningViewer = ({ ...props }) => {
                 <div>
                     보고서 변환중입니다.
                     잠시만 기다려주세요.
-
+                    <br/>
+                    {(selDataIndex / progressMax * 100).toFixed(0) + '%'}
                 </div>
-                <br/>
-                {(selDataIndex / progressMax * 100).toFixed(0) + '%'}
+     
+ 
 
 
 

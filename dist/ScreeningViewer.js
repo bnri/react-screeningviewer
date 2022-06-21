@@ -3014,7 +3014,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     AgencyLogoBase64: AgencyLogoBase64
   })))), isPDFing && /*#__PURE__*/_react.default.createElement("div", {
     className: "PDFprogress"
-  }, /*#__PURE__*/_react.default.createElement("div", null, "\uBCF4\uACE0\uC11C \uBCC0\uD658\uC911\uC785\uB2C8\uB2E4. \uC7A0\uC2DC\uB9CC \uAE30\uB2E4\uB824\uC8FC\uC138\uC694."), /*#__PURE__*/_react.default.createElement("br", null), (selDataIndex / progressMax * 100).toFixed(0) + '%'));
+  }, /*#__PURE__*/_react.default.createElement("div", null, "\uBCF4\uACE0\uC11C \uBCC0\uD658\uC911\uC785\uB2C8\uB2E4. \uC7A0\uC2DC\uB9CC \uAE30\uB2E4\uB824\uC8FC\uC138\uC694.", /*#__PURE__*/_react.default.createElement("br", null), (selDataIndex / progressMax * 100).toFixed(0) + '%')));
 };
 
 var SaccadeView = function SaccadeView(_ref3) {
