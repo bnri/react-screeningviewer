@@ -1582,7 +1582,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       fontSize: 10,
                       margin: [10, 10, 10, 10],
                       lineHeight: 1.6,
-                      ul: ["지연시간 (latency time) : 시각 자극물을 발견한 뒤, 목표를 향해 시선이 출발할 때까지 걸리는 시간입니다. 반응처리 및 운동능력이 우수할수록 짧으며, 대체로 150ms ~ 250ms정도입니다.", "시선이동속도 (saccade speed) : 시선이 목표를 향해 이동할 때, 목표에 다다를 때까지의 속도입니다. 운동제어능력이 우수할수록 속도가 빠르며, 이동할 거리가 가까울수록 속도는 느려집니다. 대체로 50도/초~200도/초 정도입니다.", "응시안정성 (fixation stability) : 대상을 응시할 때, 시선이 얼마나 안정적으로 유지하는지를 측정한 척도입니다. 목표위치로부터의 2초간 시선위치 편차로 측정합니다. 집중력이 강하고 운동제어능력이 우수할수록 편차가 작으며, 대체로 0.5도 내외입니다."],
+                      ul: ["지연시간 (latency time) : 시각 자극물을 발견한 뒤, 목표를 향해 시선이 출발할 때까지 걸리는 시간입니다. 반응처리 및 운동능력이 우수할수록 짧으며, 대체로 150ms ~ 250ms정도입니다.", "시선이동속도 (saccade speed) : 시선이 목표를 향해 이동할 때, 목표에 다다를 때까지의 속도입니다. 운동제어능력이 우수할수록 속도가 빠르며, 이동할 거리가 가까울수록 속도는 느려집니다. 대체로 50도/초~200도/초 정도입니다.", "응시안정성 (fixation stability) : 대상을 응시할 때, 시선이 얼마나 안정적으로 유지하는지를 측정한 척도입니다. 목표위치로부터의 2초간 시선위치 편차로 측정합니다. 집중력이 강하고 운동제어능력이 우수할수록 편차가 작으며, 대체로 0.2도 내외입니다."],
                       colSpan: 2
                     }]]
                   },
@@ -3014,7 +3014,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
     AgencyLogoBase64: AgencyLogoBase64
   })))), isPDFing && /*#__PURE__*/_react.default.createElement("div", {
     className: "PDFprogress"
-  }, /*#__PURE__*/_react.default.createElement("div", null, "\uBCF4\uACE0\uC11C \uBCC0\uD658\uC911\uC785\uB2C8\uB2E4. \uC7A0\uC2DC\uB9CC \uAE30\uB2E4\uB824\uC8FC\uC138\uC694."), (selDataIndex / progressMax * 100).toFixed(0) + '%'));
+  }, /*#__PURE__*/_react.default.createElement("div", null, "\uBCF4\uACE0\uC11C \uBCC0\uD658\uC911\uC785\uB2C8\uB2E4. \uC7A0\uC2DC\uB9CC \uAE30\uB2E4\uB824\uC8FC\uC138\uC694."), /*#__PURE__*/_react.default.createElement("br", null), (selDataIndex / progressMax * 100).toFixed(0) + '%'));
 };
 
 var SaccadeView = function SaccadeView(_ref3) {
@@ -4687,9 +4687,25 @@ var SaccadeView = function SaccadeView(_ref3) {
     className: "titleUnderline"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
-  }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 \uCE21\uC815\uC740 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 (saccade\uC740) \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uAE00\uC744 \uC77D\uB294 \uB3D9\uC548 \uC2DC\uC120\uC740 \uB04A\uC784\uC5C6\uC774 \uBE60\uB974\uAC8C \uC774\uB3D9(saccade, \uB3C4\uC57D\uC774\uB3D9)\uD558\uBA70 \uAE00\uC790\uC5D0 \uACE0\uC815(fixation, \uC751\uC2DC)\uD558\uB294 \uAC83\uC744 \uBC18\uBCF5\uD569\uB2C8\uB2E4. \uAE00\uC744 \uC720\uCC3D\uD558\uAC8C \uC77D\uAE30 \uC704\uD574\uC11C\uB294 \uC815\uD655\uD55C \uC704\uCE58\uC5D0 \uB208\uC744 \uBE60\uB974\uACE0 \uC815\uD655\uD55C \uC704\uCE58\uB85C \uC62E\uAE30\uACE0, \uC548\uC815\uC801\uC73C\uB85C \uC2DC\uC120\uC744 \uC720\uC9C0\uD558\uB294 \uC6B4\uB3D9\uC81C\uC5B4 \uB2A5\uB825\uC774 \uD544\uC694\uD569\uB2C8\uB2E4. \uC2DC\uB825 \uC800\uD558, \uD53C\uB85C, \uC9D1\uC911\uB825 \uBD80\uC871, \uC548\uAD6C\uC9C4\uD0D5\uC99D \uBC0F \uAC01\uC885 \uC2E0\uACBD\uACC4 \uC774\uC0C1 \uB4F1\uC758 \uC774\uC720\uB85C \uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9\uC5D0 \uBB38\uC81C\uAC00 \uC0DD\uAE38 \uC218 \uC788\uC73C\uBA70, \uC774 \uB2A5\uB825\uC774 \uC800\uD558\uB418\uBA74 \uAE00\uC744 \uC720\uCC3D\uD558\uAC8C \uC77D\uB294\uB370 \uBC29\uD574\uAC00 \uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("strong", null, "\uC9C0\uC5F0\uC2DC\uAC04 (latency time)"), " : \uC2DC\uAC01 \uC790\uADF9\uBB3C\uC744 \uBC1C\uACAC\uD55C \uB4A4, \uBAA9\uD45C\uB97C \uD5A5\uD574 \uC2DC\uC120\uC774 \uCD9C\uBC1C\uD560 \uB54C\uAE4C\uC9C0 \uAC78\uB9AC\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBC18\uC751\uCC98\uB9AC \uBC0F \uC6B4\uB3D9\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uC9E7\uC73C\uBA70, \uB300\uCCB4\uB85C 150ms ~ 250ms\uC815\uB3C4\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("strong", null, "\uC2DC\uC120\uC774\uB3D9\uC18D\uB3C4 (saccade speed)"), " : \uC2DC\uC120\uC774 \uBAA9\uD45C\uB97C \uD5A5\uD574 \uC774\uB3D9\uD560 \uB54C, \uBAA9\uD45C\uC5D0 \uB2E4\uB2E4\uB97C \uB54C\uAE4C\uC9C0\uC758 \uC18D\uB3C4\uC785\uB2C8\uB2E4. \uC6B4\uB3D9\uC81C\uC5B4\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uC18D\uB3C4\uAC00 \uBE60\uB974\uBA70, \uC774\uB3D9\uD560 \uAC70\uB9AC\uAC00 \uAC00\uAE4C\uC6B8\uC218\uB85D \uC18D\uB3C4\uB294 \uB290\uB824\uC9D1\uB2C8\uB2E4. \uB300\uCCB4\uB85C 50\uB3C4/\uCD08~200\uB3C4/\uCD08 \uC815\uB3C4\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("strong", null, "\uC751\uC2DC\uC548\uC815\uC131 (fixation stability)"), " : \uB300\uC0C1\uC744 \uC751\uC2DC\uD560 \uB54C, \uC2DC\uC120\uC774 \uC5BC\uB9C8\uB098 \uC548\uC815\uC801\uC73C\uB85C \uC720\uC9C0\uD558\uB294\uC9C0\uB97C \uCE21\uC815\uD55C \uCC99\uB3C4\uC785\uB2C8\uB2E4. \uBAA9\uD45C\uC704\uCE58\uB85C\uBD80\uD130\uC758 2\uCD08\uAC04 \uC2DC\uC120\uC704\uCE58 \uD3B8\uCC28\uB85C \uCE21\uC815\uD569\uB2C8\uB2E4. \uC9D1\uC911\uB825\uC774 \uAC15\uD558\uACE0 \uC6B4\uB3D9\uC81C\uC5B4\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uD3B8\uCC28\uAC00 \uC791\uC73C\uBA70, \uB300\uCCB4\uB85C 0.5\uB3C4 \uB0B4\uC678\uC785\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uAE00\uC744 \uC77D\uB294 \uB3D9\uC548 \uC2DC\uC120\uC740 \uB04A\uC784\uC5C6\uC774 \uBE60\uB974\uAC8C \uC774\uB3D9(saccade, \uB3C4\uC57D\uC774\uB3D9)\uD558\uBA70 \uAE00\uC790\uC5D0 \uACE0\uC815(fixation, \uC751\uC2DC)\uD558\uB294 \uAC83\uC744 \uBC18\uBCF5\uD569\uB2C8\uB2E4. \uAE00\uC744 \uC720\uCC3D\uD558\uAC8C \uC77D\uAE30 \uC704\uD574\uC11C\uB294 \uC815\uD655\uD55C \uC704\uCE58\uC5D0 \uB208\uC744 \uBE60\uB974\uACE0 \uC815\uD655\uD55C \uC704\uCE58\uB85C \uC62E\uAE30\uACE0, \uC548\uC815\uC801\uC73C\uB85C \uC2DC\uC120\uC744 \uC720\uC9C0\uD558\uB294 \uC6B4\uB3D9\uC81C\uC5B4 \uB2A5\uB825\uC774 \uD544\uC694\uD569\uB2C8\uB2E4. \uC2DC\uB825 \uC800\uD558, \uD53C\uB85C, \uC9D1\uC911\uB825 \uBD80\uC871, \uC548\uAD6C\uC9C4\uD0D5\uC99D \uBC0F \uAC01\uC885 \uC2E0\uACBD\uACC4 \uC774\uC0C1 \uB4F1\uC758 \uC774\uC720\uB85C \uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9\uC5D0 \uBB38\uC81C\uAC00 \uC0DD\uAE38 \uC218 \uC788\uC73C\uBA70, \uC774 \uB2A5\uB825\uC774 \uC800\uD558\uB418\uBA74 \uAE00\uC744 \uC720\uCC3D\uD558\uAC8C \uC77D\uB294\uB370 \uBC29\uD574\uAC00 \uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."))))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "titleUnderline"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "title"
+  }, "\uC5B4\uB290\uC815\uB3C4\uAC00 \uC801\uB2F9\uD55C\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "explain"
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uC9C0\uC5F0\uC2DC\uAC04 (latency time) : \uC2DC\uAC01 \uC790\uADF9\uBB3C\uC744 \uBC1C\uACAC\uD55C \uB4A4, \uBAA9\uD45C\uB97C \uD5A5\uD574 \uC2DC\uC120\uC774 \uCD9C\uBC1C\uD560 \uB54C\uAE4C\uC9C0 \uAC78\uB9AC\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBC18\uC751\uCC98\uB9AC \uBC0F \uC6B4\uB3D9\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uC9E7\uC73C\uBA70, \uB300\uCCB4\uB85C 150ms ~ 250ms\uC815\uB3C4\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC2DC\uC120\uC774\uB3D9\uC18D\uB3C4 (saccade speed) : \uC2DC\uC120\uC774 \uBAA9\uD45C\uB97C \uD5A5\uD574 \uC774\uB3D9\uD560 \uB54C, \uBAA9\uD45C\uC5D0 \uB2E4\uB2E4\uB97C \uB54C\uAE4C\uC9C0\uC758 \uC18D\uB3C4\uC785\uB2C8\uB2E4. \uC6B4\uB3D9\uC81C\uC5B4\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uC18D\uB3C4\uAC00 \uBE60\uB974\uBA70, \uC774\uB3D9\uD560 \uAC70\uB9AC\uAC00 \uAC00\uAE4C\uC6B8\uC218\uB85D \uC18D\uB3C4\uB294 \uB290\uB824\uC9D1\uB2C8\uB2E4. \uB300\uCCB4\uB85C 50\uB3C4/\uCD08~200\uB3C4/\uCD08 \uC815\uB3C4\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC751\uC2DC\uC548\uC815\uC131 (fixation stability) : \uB300\uC0C1\uC744 \uC751\uC2DC\uD560 \uB54C, \uC2DC\uC120\uC774 \uC5BC\uB9C8\uB098 \uC548\uC815\uC801\uC73C\uB85C \uC720\uC9C0\uD558\uB294\uC9C0\uB97C \uCE21\uC815\uD55C \uCC99\uB3C4\uC785\uB2C8\uB2E4. \uBAA9\uD45C\uC704\uCE58\uB85C\uBD80\uD130\uC758 2\uCD08\uAC04 \uC2DC\uC120\uC704\uCE58 \uD3B8\uCC28\uB85C \uCE21\uC815\uD569\uB2C8\uB2E4. \uC9D1\uC911\uB825\uC774 \uAC15\uD558\uACE0 \uC6B4\uB3D9\uC81C\uC5B4\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uD3B8\uCC28\uAC00 \uC791\uC73C\uBA70, \uB300\uCCB4\uB85C 0.2\uB3C4 \uB0B4\uC678\uC785\uB2C8\uB2E4."))))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "titleUnderline"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "title"
+  }, "\uC5B4\uB5BB\uAC8C \uAC1C\uC120\uD560 \uC218 \uC788\uB098\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "explain"
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uC989\uAC01\uC801 \uD53C\uB4DC\uBC31\uC774 \uC788\uB294 \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uD6C8\uB828\uC744 \uD569\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
     className: "GazeViewerWrap"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "modal"
@@ -5493,7 +5509,7 @@ var PursuitView = function PursuitView(_ref4) {
       maintainAspectRatio: false,
       title: {
         display: true,
-        text: "추적안구운동 평균 err"
+        text: "추적안구운동 평균 오차"
       },
       legend: {
         display: true
@@ -5576,7 +5592,7 @@ var PursuitView = function PursuitView(_ref4) {
       paddingLeft: '15px',
       borderTop: '1px solid #1A408E'
     }
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB0B4 \uD3C9\uADE0: ", data.analysis.pursuit_score.toFixed(2), "\uC810 (\uC0C1\uC704 ", myPercent, "%)"), /*#__PURE__*/_react.default.createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: ", targetGroupData.avg_pursuit_score.toFixed(2), "\uC810"), /*#__PURE__*/_react.default.createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: ", everyGroupData.avg_pursuit_score.toFixed(2), "\uC810"))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB0B4 \uC810\uC218: ", data.analysis.pursuit_score.toFixed(2), "\uC810 (\uC0C1\uC704 ", myPercent, "%)"), /*#__PURE__*/_react.default.createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: ", targetGroupData.avg_pursuit_score.toFixed(2), "\uC810"), /*#__PURE__*/_react.default.createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: ", everyGroupData.avg_pursuit_score.toFixed(2), "\uC810"))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
     style: {
       width: '330px'
@@ -5777,7 +5793,23 @@ var PursuitView = function PursuitView(_ref4) {
     className: "title"
   }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 (pursuit)\uC740 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9(pursuit)\uC740 \uC2DC\uACC4\uBC29\uD5A5/\uBC18\uC2DC\uACC4\uBC29\uD5A5\uC73C\uB85C \uAC01 2\uD68C\uC529 \uC218\uD589\uD55C \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9\uC758 \uC2DC\uC120 \uADA4\uC801\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC751\uC2DC : \uC2DC\uC791\uC810\uACFC \uBAA9\uD45C\uC810\uC5D0\uC11C \uCD5C\uB300\uD55C \uAC19\uC740 \uC704\uCE58\uC5D0 \uC2DC\uC120\uC774 \uACE0\uC815\uB418\uC5B4 \uC788\uC5B4\uC57C \uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uB3C4\uC57D : \uC2DC\uC791\uC810\uACFC \uBAA9\uD45C\uC810 \uC0AC\uC774 \uC678\uC5D0\uB294 \uC2DC\uC120\uC774 \uBD84\uC0B0\uB418\uC9C0 \uC54A\uACE0, \uBE60\uB974\uAC8C (\uC911\uAC04\uC5D0 \uBA38\uBB47\uAC70\uB9AC\uB294 \uC2DC\uC120\uC774 \uC5C6\uC774) \uC774\uB3D9\uD574\uC57C \uD569\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9(pursuit)\uC740 \uCC9C\uCC9C\uD788 \uC6C0\uC9C1\uC774\uB294 \uB300\uC0C1\uC744 \uB530\uB77C \uBD80\uB4DC\uB7FD\uACE0 \uC5F0\uC18D\uC801\uC73C\uB85C \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uB294 \uAC83\uC785\uB2C8\uB2E4. \uC77C\uBC18\uC801\uC73C\uB85C \uC2DC\uC120\uC740 \uBE60\uB974\uAC8C \uC810\uD504\uD558\uBA70 \uC6C0\uC9C1\uC774\uBA70, \uBD80\uB4DC\uB7FD\uAC8C \uCD94\uC801\uD558\uB294 \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9\uC740 \uC5B4\uB824\uC6B4 \uAE30\uC220\uC774\uAE30 \uB54C\uBB38\uC5D0, \uC601\uC7A5\uB958\uB098 \uACE0\uC591\uC774 \uC815\uB3C4\uC758 \uACE0\uB4F1\uB3D9\uBB3C\uC5D0\uAC8C\uC11C \uB098\uD0C0\uB098\uB294 \uB2A5\uB825\uC785\uB2C8\uB2E4. \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9\uC740 \uBCF4\uD1B5 \uB178\uD654\uC5D0 \uC758\uD574 \uC800\uD558\uB418\uC9C0\uB9CC, \uC2DC\uB825 \uC800\uD558\uB098 \uC548\uC9C4(\uC548\uAD6C \uC9C4\uD0D5)  \uBC0F \uAC01\uC885 \uC2E0\uACBD\uACC4 \uC774\uC0C1\uC73C\uB85C \uC778\uD574 \uB098\uD0C0\uB098\uAE30\uB3C4 \uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9\uC740 \uAE00\uC744 \uC77D\uC744 \uB54C \uC9C1\uC811\uC801\uC73C\uB85C \uC0AC\uC6A9\uB418\uC9C0\uB294 \uC54A\uC9C0\uB9CC, \uC548\uAD6C\uC6B4\uB3D9\uC744 \uC815\uAD50\uD558\uAC8C \uD1B5\uC81C\uD560 \uC218 \uC788\uB294 \uB2A5\uB825\uC774\uAE30 \uB54C\uBB38\uC5D0, \uC774 \uB2A5\uB825\uC774 \uBD80\uC871\uD558\uBA74 \uC804\uBC18\uC801\uC778 \uC548\uAD6C\uC6B4\uB3D9\uC774 \uC800\uD558\uB418\uC5C8\uC744 \uAC00\uB2A5\uC131\uC774 \uC788\uC2B5\uB2C8\uB2E4."))))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "titleUnderline"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "title"
+  }, "\uC5B4\uB290 \uC815\uB3C4\uAC00 \uC801\uB2F9\uD55C\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "explain"
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uD3C9\uADE0 \uC5D0\uB7EC : \uBAA9\uD45C\uBB3C\uC744 \uB530\uB77C \uBCF4\uB294 \uB3D9\uC548, \uC815\uD655\uD55C \uC704\uCE58\uB85C\uBD80\uD130 \uBC97\uC5B4\uB09C \uC2DC\uC810\uC758 \uC704\uCE58 \uC5D0\uB7EC\uC785\uB2C8\uB2E4. \uBD80\uB4DC\uB7EC\uC6B4 \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9\uC5D0 \uC2E4\uD328\uD558\uC5EC \uB3C4\uC57D\uC774 \uBC1C\uC0DD\uD558\uAC70\uB098 , \uC9D1\uC911\uD558\uC9C0 \uBABB\uD558\uACE0 \uBAA9\uD45C\uBB3C\uC744 \uC815\uD655\uD788 \uB530\uB77C\uAC00\uC9C0 \uBABB\uD558\uBA74 \uC5D0\uB7EC\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4. \uD3C9\uADE0 \uC5D0\uB7EC\uAC00 2% \uC774\uB0B4\uC774\uBA74 \uC815\uC0C1\uC785\uB2C8\uB2E4."))))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "titleUnderline"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "title"
+  }, "\uC5B4\uB5BB\uAC8C \uAC1C\uC120\uD560 \uC218 \uC788\uB098\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "explain"
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uC989\uAC01\uC801 \uD53C\uB4DC\uBC31\uC774 \uC788\uB294 \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uD6C8\uB828\uC744 \uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC9D1\uC911\uB825\uC744 \uAE30\uB985\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
     className: "GazeViewerWrap"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "modal"
@@ -6037,7 +6069,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
           },
           scaleLabel: {
             display: true,
-            labelString: "percent(%)",
+            labelString: "오차율(%)",
             fontSize: 14,
             fontStyle: "bold"
           },
@@ -7213,7 +7245,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
       paddingLeft: '15px',
       borderTop: '1px solid #1A408E'
     }
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB0B4 \uD3C9\uADE0: ", data.analysis.antisaccade_score.toFixed(2), "\uC810 (\uC0C1\uC704 ", myPercent, "%)"), /*#__PURE__*/_react.default.createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: ", targetGroupData.avg_antisaccade_score.toFixed(2), "\uC810"), /*#__PURE__*/_react.default.createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: ", everyGroupData.avg_antisaccade_score.toFixed(2), "\uC810"))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB0B4 \uC810\uC218: ", data.analysis.antisaccade_score.toFixed(2), "\uC810 (\uC0C1\uC704 ", myPercent, "%)"), /*#__PURE__*/_react.default.createElement("li", null, "\uB610\uB798 \uD3C9\uADE0 \uC810\uC218: ", targetGroupData.avg_antisaccade_score.toFixed(2), "\uC810"), /*#__PURE__*/_react.default.createElement("li", null, "\uC804\uCCB4 \uD3C9\uADE0 \uC810\uC218: ", everyGroupData.avg_antisaccade_score.toFixed(2), "\uC810"))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleBox",
     style: {
       width: '330px'
@@ -7239,7 +7271,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
-  }, "\uC774\uB3D9\uBC29\uD5A5 \uC624\uB958(percent)"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uC774\uB3D9\uBC29\uD5A5 \uC624\uB958"), /*#__PURE__*/_react.default.createElement("div", {
     id: "antisaccadeErrDirectionChart",
     className: "cbox",
     style: {
@@ -7437,15 +7469,15 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     className: "titleUnderline"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
-  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC815\uD655\uB3C4\uB294 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uC5B4\uB290 \uC815\uB3C4\uAC00 \uC801\uB2F9\uD55C\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB530\uB77C\uBCF4\uAE30\uB294 \uB300\uC0C1\uC774 \uC788\uB294 \uCABD\uC73C\uB85C, \uBC18\uB300\uBCF4\uAE30\uB294 \uB300\uC0C1\uC758 \uBC18\uB300\uCABD\uC73C\uB85C \uC2DC\uC120\uC774 \uC6C0\uC9C1\uC600\uB294\uC9C0\uB97C \uCE21\uC815\uD55C \uBE44\uC728\uC785\uB2C8\uB2E4. \uBC18\uB300\uBCF4\uAE30\uC758 \uC815\uD655\uB3C4\uAC00 \uB192\uC740 \uAC83\uC774 \uBC14\uB78C\uC9C1\uD569\uB2C8\uB2E4.")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uBC29\uD5A5 \uC815\uD655\uC131 : \uB530\uB77C\uBCF4\uAE30\uB294 \uB300\uC0C1\uC774 \uC788\uB294 \uCABD\uC73C\uB85C, \uBC18\uB300\uBCF4\uAE30\uB294 \uB300\uC0C1\uC758 \uBC18\uB300\uCABD\uC73C\uB85C \uC2DC\uC120\uC774 \uC6C0\uC9C1\uC600\uB294\uC9C0\uB97C \uCE21\uC815\uD55C \uBE44\uC728\uC785\uB2C8\uB2E4. \uBC18\uB300\uBCF4\uAE30\uC758 \uC815\uD655\uB3C4\uAC00 \uB192\uC740 \uAC83\uC774 \uBC14\uB78C\uC9C1\uD558\uBA70, \uB300\uCCB4\uB85C 85% \uC774\uC0C1\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC9C0\uCCB4\uC2DC\uAC04(latency) : \uB300\uC0C1\uC744 \uBCF4\uACE0 \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uAE30 \uC804\uAE4C\uC9C0 \uC18C\uC694\uB418\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBCF4\uD1B5 \uBC18\uB300\uB85C\uBCF4\uAE30\uC2DC \uB530\uB77C\uBCF4\uAE30\uBCF4\uB2E4 \uB354 \uC624\uB798 \uAC78\uB9AC\uBA70,  300ms \uC774\uD558\uC778 \uAC83\uC774 \uC88B\uC2B5\uB2C8\uB2E4.")))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleUnderline"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
-  }, "\uBC18\uB300\uB85C \uBCF4\uAE30 \uC9C0\uCCB4\uC2DC\uAC04\uC740 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uC5B4\uB5BB\uAC8C \uAC1C\uC120\uD560 \uC218 \uC788\uB098\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uB300\uC0C1\uC744 \uBCF4\uACE0 \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uAE30 \uC804\uAE4C\uC9C0 \uC18C\uC694\uB418\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBC18\uB300\uBCF4\uAE30\uD560 \uB54C \uC9C0\uCCB4\uC2DC\uAC04\uC774 \uC9E7\uC740 \uAC83\uC774 \uBC14\uB78C\uC9C1\uD569\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uC989\uAC01\uC801 \uD53C\uB4DC\uBC31\uC774 \uC788\uB294 \uBC18\uB300\uB85C \uBCF4\uAE30 \uD6C8\uB828\uC744 \uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC9D1\uC911\uB825\uC744 \uAE30\uB985\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
     className: "GazeViewerWrap"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "modal"
