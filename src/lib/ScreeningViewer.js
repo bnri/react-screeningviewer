@@ -1126,7 +1126,7 @@ const ScreeningViewer = ({ ...props }) => {
                 }
             }
         }
-    }, [isPDFing, progressNow, progressMax, dataArr, isfinishThisPage]);
+    }, [isPDFing, progressNow, progressMax, dataArr, isfinishThisPage,docDefinition]);
 
 
     React.useEffect(() => {
@@ -3517,6 +3517,19 @@ const ScreeningViewer = ({ ...props }) => {
                 console.log("보고서 변환종료!");
                 set_docDefinition(null);
             });
+
+            console.log("userInformArr",userInformArr);
+            const userinform = userInformArr[0];
+            const resultinform = resultInformArr[0];
+            let downloadfilename=`${userinform.agencyName}_[${userinform.testeeName}(${userinform.testeeID})]_${moment(resultinform.savetime).format("YYYY년MM월DD일HH시mm분ss초")}.pdf` ;
+            //Agency_클래스_사용자이름(아이디)_날짜시간.pdf
+                       
+            // downloadfilename=`${userinform.agencyName}_${userinform.testeeClass?userinform.testeeClass:'클래스'}_[${userinform.testeeName}(${userinform.testeeID})]_${moment(textSetResultsData[0].savetime).format("YYYY년MM월DD일HH시mm분ss초")+'.pdf'}`;
+                
+            //#@!#@!
+            
+            pdfDocGenerator.download(downloadfilename);
+            
             // let downloadfilename ;
             // //Agency_클래스_사용자이름(아이디)_날짜시간.pdf
 
@@ -3525,7 +3538,7 @@ const ScreeningViewer = ({ ...props }) => {
 
             // pdfDocGenerator.download(downloadfilename);
         }
-    }, [isPDFing, docDefinition])
+    }, [isPDFing, docDefinition,userInformArr,resultInformArr])
 
 
 
@@ -3589,7 +3602,6 @@ const ScreeningViewer = ({ ...props }) => {
         </div>
 
     </div>
-        {/* //#@! */}
         {
             isPDFing &&
 

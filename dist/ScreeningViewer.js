@@ -1121,7 +1121,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
         }
       }
     }
-  }, [isPDFing, progressNow, progressMax, dataArr, isfinishThisPage]);
+  }, [isPDFing, progressNow, progressMax, dataArr, isfinishThisPage, docDefinition]);
 
   _react.default.useEffect(function () {
     if (progressNow !== null) {
@@ -2940,12 +2940,20 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
         set_PDFURL(URL.createObjectURL(blob));
         console.log("보고서 변환종료!");
         set_docDefinition(null);
-      }); // let downloadfilename ;
+      });
+      console.log("userInformArr", userInformArr);
+      var userinform = userInformArr[0];
+      var resultinform = resultInformArr[0];
+      var downloadfilename = "".concat(userinform.agencyName, "_[").concat(userinform.testeeName, "(").concat(userinform.testeeID, ")]_").concat(moment(resultinform.savetime).format("YYYY년MM월DD일HH시mm분ss초"), ".pdf"); //Agency_클래스_사용자이름(아이디)_날짜시간.pdf
+      // downloadfilename=`${userinform.agencyName}_${userinform.testeeClass?userinform.testeeClass:'클래스'}_[${userinform.testeeName}(${userinform.testeeID})]_${moment(textSetResultsData[0].savetime).format("YYYY년MM월DD일HH시mm분ss초")+'.pdf'}`;
+      //#@!#@!
+
+      pdfDocGenerator.download(downloadfilename); // let downloadfilename ;
       // //Agency_클래스_사용자이름(아이디)_날짜시간.pdf
       // downloadfilename=`${userinform.agencyName}_${userinform.testeeClass?userinform.testeeClass:'클래스'}_[${userinform.testeeName}(${userinform.testeeID})]_${moment(textSetResultsData[0].savetime).format("YYYY년MM월DD일HH시mm분ss초")+'.pdf'}`;
       // pdfDocGenerator.download(downloadfilename);
     }
-  }, [isPDFing, docDefinition]);
+  }, [isPDFing, docDefinition, userInformArr, resultInformArr]);
 
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "ScreeningViewer"
