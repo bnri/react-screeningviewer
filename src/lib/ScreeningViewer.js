@@ -1587,7 +1587,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             margin: [10, 10, 10, 10],
                                             lineHeight: 1.6,
                                             ul: [
-                                                "글을 읽는 동안 시선은 끊임없이 빠르게 이동(saccade, 도약이동)하며 글자에 고정(fixation, 응시)하는 것을 반복합니다. 글을 유창하게 읽기 위해서는 정확한 위치에 눈을 빠르고 정확한 위치로 옮기고, 안정적으로 시선을 유지하는 운동제어 능력이 필요합니다. 시력 저하, 피로, 집중력 부족, 안구진탕증 및 각종 신경계 이상 등의 이유로 도약안구운동에 문제가 생길 수 있으며, 이 능력이 저하되면 글을 유창하게 읽는데 방해가 될 수 있습니다. ",
+                                                "글을 읽는 동안 시선은 끊임없이 빠르게 이동(saccade, 도약이동)하며 글자에 고정(fixation, 응시)하는 것을 반복합니다. 글을 유창하게 읽기 위해서는 정확한 위치에 눈을 빠르고 정확한 위치로 옮기고, 안정적으로 시선을 유지하는 운동제어 능력이 필요합니다. ",
+                                                "시력 저하, 피로, 집중력 부족, 안구진탕증 및 각종 신경계 이상 등의 이유로 도약안구운동에 문제가 생길 수 있으며, 이 능력이 저하되면 글을 유창하게 읽는데 방해가 될 수 있습니다."
                                                 // { text: 'Item 4', bold: true },
                                             ],
                                             colSpan: 1,
@@ -1616,15 +1617,45 @@ const ScreeningViewer = ({ ...props }) => {
 
                                     [
                                         {
-                                            margin: [0, 3, 0, 0],
-                                            text: '도약안구운동 점수 분포',
-                                            fontSize: 11,
-                                            bold: true,
-                                            border: [true, true, true, false],
-                                            alignment: 'center',
+                                           
+                                            margin: [0,0,0,0],
+                                            //컬럼으로 시도
                                             fillColor: '#1A408E',
-                                            color: 'white',
-                                            colSpan: 1,
+                                            columns: [
+                                                // { width: '*', text: '' },
+                                                {
+                                                    margin: [0,0,0,0],
+                                                    width:'33%',
+                                                    fontSize: 11,
+                                                                text: "이동지체시간", alignment: 'center',
+                                                                colSpan: 1,
+                                                                bold: true,
+                                                                background: '#1A408E',
+                                                                color: 'white',
+                                                                // border: [true, true, true, true],
+                                                },
+                                                {
+                                                    width:'33%',
+                                                    fontSize: 11,
+                                                    text: "도약이동속도", alignment: 'center',
+                                                    colSpan: 1,
+                                                    bold: true,
+                                                    background: '#1A408E',
+                                                    color: 'white',
+                                                    // border: [true, true, true, true],
+                                                },
+                                                {
+                                                    width:'33%',
+                                                    fontSize: 11,
+                                                    text: "응시고정오차", alignment: 'center',
+                                                    colSpan: 1,
+                                                    bold: true,
+                                                    background: '#1A408E',
+                                                    color: 'white',
+                                                    // border: [true, true, true, true],
+                                                },
+                                                // { width: '*', text: '' },
+                                            ],
                                         },
                                     ],
                                     [
@@ -1639,6 +1670,7 @@ const ScreeningViewer = ({ ...props }) => {
                                             border: [true, false, true, true]
 
                                         },
+                                  
 
                                     ]
                                 ]
@@ -1673,9 +1705,9 @@ const ScreeningViewer = ({ ...props }) => {
                                             margin: [10, 10, 10, 10],
                                             lineHeight: 1.6,
                                             ul: [
-                                                "지연시간 (latency time) : 시각 자극물을 발견한 뒤, 목표를 향해 시선이 출발할 때까지 걸리는 시간입니다. 반응처리 및 운동능력이 우수할수록 짧으며, 대체로 150ms ~ 250ms정도입니다.",
-                                                "시선이동속도 (saccade speed) : 시선이 목표를 향해 이동할 때, 목표에 다다를 때까지의 속도입니다. 운동제어능력이 우수할수록 속도가 빠르며, 이동할 거리가 가까울수록 속도는 느려집니다. 대체로 50도/초~200도/초 정도입니다.",
-                                                "응시안정성 (fixation stability) : 대상을 응시할 때, 시선이 얼마나 안정적으로 유지하는지를 측정한 척도입니다. 목표위치로부터의 2초간 시선위치 편차로 측정합니다. 집중력이 강하고 운동제어능력이 우수할수록 편차가 작으며, 대체로 0.2도 내외입니다."
+                                                "이동지체시간 (latency time) : 시각 자극물을 발견한 뒤, 목표를 향해 시선이 출발할 때까지 걸리는 시간입니다. 반응처리 및 운동능력이 우수할수록 짧으며, 대체로 150ms ~ 250ms정도입니다.",
+                                                "도약이동속도 (saccade speed) : 시선이 목표를 향해 이동할 때, 목표에 다다를 때까지의 속도입니다. 운동제어능력이 우수할수록 속도가 빠르며, 이동할 거리가 가까울수록 속도는 느려집니다. 대체로 50도/초~200도/초 정도입니다.",
+                                                "응시 고정오차 (fixation Error) : 대상을 응시할 때, 시선이 한 점에 안정적으로 유지되어야 합니다. 응시 고정오차는 응시하는 2초 동안 시선 위치의 편차를 측정합니다. 집중력이 강하고 안구 운동제어 능력이 우수할 수록 편차가 작고 응시 안정성이 높으며, 대체로 0.2도 이내이면 안정적입니다."
                                             ],
                                             colSpan: 2
                                         },
@@ -1710,7 +1742,7 @@ const ScreeningViewer = ({ ...props }) => {
                                             margin: [10, 10, 10, 10],
                                             lineHeight: 1.6,
                                             ul: [
-                                                "즉각적 피드백이 있는 추적안구운동 훈련을 합니다.",
+                                                "즉각적 피드백이 있는 도약안구운동 훈련(eye-training의 saccade tracking)을 합니다.",
                                             ],
                                             colSpan: 2
                                         },
@@ -1768,7 +1800,7 @@ const ScreeningViewer = ({ ...props }) => {
                                                     [{
                                                         margin: [3, 0, 3, 0],
                                                         fontSize: 11,
-                                                        text: "방향별 시선 움직임", alignment: 'left',
+                                                        text: "도약 안구운동 시선궤적", alignment: 'left',
                                                         colSpan: 2,
                                                         bold: true,
                                                     }
@@ -1807,13 +1839,6 @@ const ScreeningViewer = ({ ...props }) => {
                                                 headerRows: 0,
                                                 margin: [0, 0, 0, 0],
                                                 body: [
-                                                    // [{
-                                                    //     margin: [3, 0, 3, 0],
-                                                    //     fontSize: 11,
-                                                    //     text: "방향별 시선 움직임", alignment: 'left',
-                                                    //     colSpan: 2,
-                                                    //     bold: true,
-                                                    // }
                                                     [{
 
                                                         fontSize: 10,
@@ -1880,7 +1905,7 @@ const ScreeningViewer = ({ ...props }) => {
                         docDefinition.content.push({
 
                             name: '도약안구운동 1줄 파랑메뉴',
-                            margin: [5, 20, 5, 5],
+                            margin: [5, 10, 5, 5],
 
                             table: {
                                 dontBreakRows: true,
@@ -1934,7 +1959,7 @@ const ScreeningViewer = ({ ...props }) => {
                         docDefinition.content.push({
                             pageBreak: isLast ? null : 'after',
                             name: '도약안구운동 1줄 파랑메뉴',
-                            margin: [5, 20, 5, 5],
+                            margin: [5, 10, 5, 5],
 
                             table: {
                                 dontBreakRows: true,
@@ -1945,20 +1970,23 @@ const ScreeningViewer = ({ ...props }) => {
                                     [
                                         {
                                             fontSize: 10,
-                                            text: '\n\n방향',
+                                            text: '방향',
                                             alignment: 'center',
                                             bold: true,
-                                            rowSpan: 2
+                                            rowSpan: 2,
+                                            fillColor: '#e6e6e6',
+                                            color:'black'
                                             // border: [false, false, false, false]
                                         },
                                         {
-                                            text: 'Latency 도약 지연시간 (ms)',
+                                            text: 'Latency 이동 지체시간 (ms)',
                                             alignment: 'center',
                                             bold: true,
                                             // border: [false, false, false, false]
                                             colSpan: 3,
                                             fontSize: 10,
-                                            margin: 3
+                                            margin: 3,
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '',
@@ -1975,7 +2003,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             // border: [false, false, false, false]
                                             colSpan: 3,
                                             fontSize: 10,
-                                            margin: 3
+                                            margin: 3,
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '',
@@ -1992,7 +2021,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             // border: [false, false, false, false]
                                             colSpan: 3,
                                             fontSize: 10,
-                                            margin: 3
+                                            margin: 3,
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '9',
@@ -2014,63 +2044,72 @@ const ScreeningViewer = ({ ...props }) => {
                                             alignment: 'center',
                                             bold: true,
                                             fontSize: 10,
-                                            margin: [0, 10, 0, 0]
+                                            // margin: [0, 10, 0, 0],
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '그룹 평균',
                                             alignment: 'center',
                                             bold: true,
                                             fontSize: 10,
-                                            margin: [0, 10, 0, 0]
+                                            // margin: [0, 10, 0, 0],
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '평가',
                                             alignment: 'center',
                                             bold: true,
                                             fontSize: 10,
-                                            margin: [0, 10, 0, 0]
+                                            // margin: [0, 10, 0, 0],
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '내 측정치',
                                             alignment: 'center',
                                             bold: true,
                                             fontSize: 10,
-                                            margin: [0, 10, 0, 0]
+                                            // margin: [0, 10, 0, 0],
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '그룹 평균',
                                             alignment: 'center',
                                             bold: true,
                                             fontSize: 10,
-                                            margin: [0, 10, 0, 0]
+                                            // margin: [0, 10, 0, 0],
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '평가',
                                             alignment: 'center',
                                             bold: true,
                                             fontSize: 10,
-                                            margin: [0, 10, 0, 0]
+                                            // margin: [0, 10, 0, 0],
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '내 측정치',
                                             alignment: 'center',
                                             bold: true,
                                             fontSize: 10,
-                                            margin: [0, 10, 0, 0]
+                                            // margin: [0, 10, 0, 0],
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '그룹 평균',
                                             alignment: 'center',
                                             bold: true,
                                             fontSize: 10,
-                                            margin: [0, 10, 0, 0]
+                                            // margin: [0, 10, 0, 0],
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '평가',
                                             alignment: 'center',
                                             bold: true,
                                             fontSize: 10,
-                                            margin: [0, 10, 0, 0]
+                                            // margin: [0, 10, 0, 0],
+                                            fillColor: '#e6e6e6'
                                         },
                                     ],
                                     [
@@ -2096,7 +2135,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             text: data.analysis.up_saccade_delay >= targetGroupData.avg_up_saccade_delay * 1.3 ? '미흡' : '정상',
                                             fontSize: 10,
                                             alignment: 'center',
-
+                                            fillColor:  data.analysis.up_saccade_delay >= targetGroupData.avg_up_saccade_delay * 1.3 ? 'red':'white',
+                                            color: data.analysis.up_saccade_delay >= targetGroupData.avg_up_saccade_delay * 1.3 ? 'white' :'black',
                                         },
                                         {
                                             text: (data.analysis.up_saccade_speed).toFixed(0),
@@ -2114,7 +2154,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             text: data.analysis.up_saccade_speed <= targetGroupData.avg_up_saccade_speed * 0.7 ? '미흡' : '정상',
                                             fontSize: 10,
                                             alignment: 'center',
-
+                                            fillColor:  data.analysis.up_saccade_speed <= targetGroupData.avg_up_saccade_speed * 0.7? 'red':'white',
+                                            color: data.analysis.up_saccade_speed <= targetGroupData.avg_up_saccade_speed * 0.7 ? 'white' :'black',
                                         },
                                         {
                                             text: (data.analysis.up_fixation_stability).toFixed(4),
@@ -2132,7 +2173,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             text: data.analysis.up_fixation_stability > targetGroupData.avg_up_fixation_stability * 2 ? '미흡' : '정상',
                                             fontSize: 10,
                                             alignment: 'center',
-
+                                            fillColor:  data.analysis.up_fixation_stability > targetGroupData.avg_up_fixation_stability * 2 ? 'red':'white',
+                                            color: data.analysis.up_fixation_stability > targetGroupData.avg_up_fixation_stability * 2 ? 'white' :'black',
                                         },
                                     ],
                                     [
@@ -2158,7 +2200,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             text: data.analysis.down_saccade_delay >= targetGroupData.avg_down_saccade_delay * 1.3 ? '미흡' : '정상',
                                             fontSize: 10,
                                             alignment: 'center',
-
+                                            fillColor:  data.analysis.down_saccade_delay >= targetGroupData.avg_down_saccade_delay * 1.3? 'red':'white',
+                                            color: data.analysis.down_saccade_delay >= targetGroupData.avg_down_saccade_delay * 1.3 ? 'white' :'black',
                                         },
                                         {
                                             text: (data.analysis.down_saccade_speed).toFixed(0),
@@ -2176,7 +2219,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             text: data.analysis.down_saccade_speed <= targetGroupData.avg_down_saccade_speed * 0.7 ? '미흡' : '정상',
                                             fontSize: 10,
                                             alignment: 'center',
-
+                                            fillColor: data.analysis.down_saccade_speed <= targetGroupData.avg_down_saccade_speed * 0.7 ? 'red':'white',
+                                            color: data.analysis.down_saccade_speed <= targetGroupData.avg_down_saccade_speed * 0.7  ? 'white' :'black',
                                         },
                                         {
                                             text: (data.analysis.down_fixation_stability).toFixed(4),
@@ -2194,7 +2238,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             text: data.analysis.down_fixation_stability > targetGroupData.avg_down_fixation_stability * 2 ? '미흡' : '정상',
                                             fontSize: 10,
                                             alignment: 'center',
-
+                                            fillColor: data.analysis.down_fixation_stability > targetGroupData.avg_down_fixation_stability * 2 ? 'red':'white',
+                                            color: data.analysis.down_fixation_stability > targetGroupData.avg_down_fixation_stability * 2  ? 'white' :'black',
                                         },
                                     ],
                                     [
@@ -2220,7 +2265,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             text: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.3 ? '미흡' : '정상',
                                             fontSize: 10,
                                             alignment: 'center',
-
+                                            fillColor: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.3? 'red':'white',
+                                            color:data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.3 ? 'white' :'black',
                                         },
                                         {
                                             text: (data.analysis.left_saccade_speed).toFixed(0),
@@ -2238,7 +2284,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             text: data.analysis.left_saccade_speed <= targetGroupData.avg_left_saccade_speed * 0.7 ? '미흡' : '정상',
                                             fontSize: 10,
                                             alignment: 'center',
-
+                                            fillColor: data.analysis.left_saccade_speed <= targetGroupData.avg_left_saccade_speed * 0.7 ? 'red':'white',
+                                            color:data.analysis.left_saccade_speed <= targetGroupData.avg_left_saccade_speed * 0.7  ? 'white' :'black',
                                         },
                                         {
                                             text: (data.analysis.left_fixation_stability).toFixed(4),
@@ -2256,7 +2303,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             text: data.analysis.left_fixation_stability > targetGroupData.avg_left_fixation_stability * 2 ? '미흡' : '정상',
                                             fontSize: 10,
                                             alignment: 'center',
-
+                                            fillColor: data.analysis.left_fixation_stability > targetGroupData.avg_left_fixation_stability * 2 ? 'red':'white',
+                                            color:data.analysis.left_fixation_stability > targetGroupData.avg_left_fixation_stability * 2 ? 'white' :'black',
                                         },
                                     ],
                                     [
@@ -2282,7 +2330,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             text: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.3 ? '미흡' : '정상',
                                             fontSize: 10,
                                             alignment: 'center',
-
+                                            fillColor: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.3 ? 'red':'white',
+                                            color:data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.3 ? 'white' :'black',
                                         },
                                         {
                                             text: (data.analysis.right_saccade_speed).toFixed(0),
@@ -2300,7 +2349,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             text: data.analysis.right_saccade_speed <= targetGroupData.avg_right_saccade_speed * 0.7 ? '미흡' : '정상',
                                             fontSize: 10,
                                             alignment: 'center',
-
+                                            fillColor: data.analysis.right_saccade_speed <= targetGroupData.avg_right_saccade_speed * 0.7 ? 'red':'white',
+                                            color:data.analysis.right_saccade_speed <= targetGroupData.avg_right_saccade_speed * 0.7 ? 'white' :'black',
                                         },
                                         {
                                             text: (data.analysis.right_fixation_stability).toFixed(4),
@@ -2318,7 +2368,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             text: data.analysis.right_fixation_stability > targetGroupData.avg_right_fixation_stability * 2 ? '미흡' : '정상',
                                             fontSize: 10,
                                             alignment: 'center',
-
+                                            fillColor: data.analysis.right_fixation_stability > targetGroupData.avg_right_fixation_stability * 2  ? 'red':'white',
+                                            color:data.analysis.right_fixation_stability > targetGroupData.avg_right_fixation_stability * 2  ? 'white' :'black',
                                         },
                                     ],
                                 ]
@@ -2413,7 +2464,7 @@ const ScreeningViewer = ({ ...props }) => {
                                         },
                                         {
                                             margin: [0, 3, 0, 0],
-                                            text: '추적안구운동 점수 분포',
+                                            text: '추적안구운동 평균 오차',
                                             fontSize: 11,
                                             bold: true,
                                             border: [true, true, true, false],
@@ -2521,7 +2572,7 @@ const ScreeningViewer = ({ ...props }) => {
                                             margin: [10, 10, 10, 10],
                                             lineHeight: 1.6,
                                             ul: [
-                                                "추적안구운동 평균 에러 : 목표물을 따라 보는 동안, 정확한 위치로부터 벗어난 시선의 위치 에러입니다. 부드러운 추적안구운동에 실패하여 도약이 발생하거나, 집중하지 못하고 목표물을 정확히 따라가지 못하면 에러가 증가합니다.  평균 에러가 2% 이내이면 정상입니다. "
+                                                "추적안구운동 평균 오차 : 목표물을 따라 보는 동안, 정확한 위치로부터 벗어난 시선의 위치 에러입니다. 부드러운 추적안구운동에 실패하여 도약이 발생하거나, 집중하지 못하고 목표물을 정확히 따라가지 못하면 에러가 증가합니다.  평균 오차가 2도 이내이면 정상입니다. "
                                             ],
                                             colSpan: 2
                                         },
@@ -2556,7 +2607,7 @@ const ScreeningViewer = ({ ...props }) => {
                                             margin: [10, 10, 10, 10],
                                             lineHeight: 1.6,
                                             ul: [
-                                                "즉각적 피드백이 있는 추적안구운동 훈련을 합니다. ",
+                                                "즉각적 피드백이 있는 추적안구운동 훈련(eye-training의 Pursuit Tracking)을 합니다. ",
                                                 "집중력을 기릅니다. "
                                             ],
                                             colSpan: 2
@@ -2613,7 +2664,7 @@ const ScreeningViewer = ({ ...props }) => {
                                                     [{
                                                         margin: [3, 0, 3, 0],
                                                         fontSize: 11,
-                                                        text: "추적안구운동 시선 움직임", alignment: 'left',
+                                                        text: "추적 안구운동 시선궤적", alignment: 'left',
                                                         colSpan: 2,
                                                         bold: true,
                                                     }
@@ -2652,22 +2703,15 @@ const ScreeningViewer = ({ ...props }) => {
                                                 headerRows: 0,
                                                 margin: [0, 0, 0, 0],
                                                 body: [
-                                                    // [{
-                                                    //     margin: [3, 0, 3, 0],
-                                                    //     fontSize: 11,
-                                                    //     text: "방향별 시선 움직임", alignment: 'left',
-                                                    //     colSpan: 2,
-                                                    //     bold: true,
-                                                    // }
                                                     [{
 
                                                         fontSize: 10,
                                                         margin: [10, 10, 10, 10],
                                                         lineHeight: 1.6,
                                                         ul: [
-                                                            "시계방향/반시계방향으로 각 2회씩 수행한 추적안구운동의 시선 궤적입니다. ",
-                                                            "응시 : 시작점과 목표점에서 최대한 같은 위치에 시선이 고정되어 있어야 합니다. ",
-                                                            "도약 : 시작점과 목표점 사이 외에는 시선이 분산되지 않고, 빠르게 (중간에 머뭇거리는 시선이 없이) 이동해야 합니다. "
+                                                            "빨간색 점 : 시계방향으로 추적운동하는 시선의 위치 ",
+                                                            "초록색 점 : 반시계 방향으로 추적운동하는 시선의 위치",
+                                                            "검은색 원 : 추적 목표 궤적"
                                                         ],
                                                         colSpan: 2,
                                                         border: [false, false, false, false],
@@ -2774,6 +2818,149 @@ const ScreeningViewer = ({ ...props }) => {
                         });
 
 
+                        docDefinition.content.push({
+                            pageBreak: isLast ? null : 'after',
+                            name: '도약안구운동 1줄 파랑메뉴',
+                            margin: [5, 5, 5, 5],
+
+                            table: {
+                                dontBreakRows: true,
+                                widths: ['43%',  '19%', '19%', '19%'],
+                                headerRows: 0,
+
+                                body: [
+                                    [
+                                        {
+                                            fontSize: 10,
+                                            text: '방향',
+                                            alignment: 'center',
+                                            bold: true,
+                                            // lineHeight: 2,
+
+                                            rowSpan: 2,
+                                            fillColor: '#e6e6e6',
+                                            color:'black',
+                                            // margin:15
+                                            // border: [false, false, false, false]
+                                        },
+                                        {
+                                            text: '추적안구운동 평균 오차',
+                                            alignment: 'center',
+                                            bold: true,
+                                            // border: [false, false, false, false]
+                                            colSpan: 3,
+                                            fontSize: 10,
+                                            margin: 3,
+                                            fillColor: '#e6e6e6'
+                                        },
+                                        {
+                                            text: '',
+                                            // border: [false, false, false, false]
+                                        },
+                                        {
+                                            text: '',
+                                            // border: [false, false, false, false]
+                                        },
+
+
+                                    ],
+                                    [
+                                        {
+                                            text: '',
+                                            fontSize: 10,
+                                        },
+                                
+                                        {
+                                            text: '내 측정치',
+                                            alignment: 'center',
+                                            bold: true,
+                                            fontSize: 10,
+                                            // margin: [0, 3, 0, 0],
+                                            fillColor: '#e6e6e6'
+                                        },
+                                        {
+                                            text: '그룹 평균',
+                                            alignment: 'center',
+                                            bold: true,
+                                            fontSize: 10,
+                                            // margin: [0, 3, 0, 0],
+                                            fillColor: '#e6e6e6'
+                                        },
+                                        {
+                                            text: '평가',
+                                            alignment: 'center',
+                                            bold: true,
+                                            fontSize: 10,
+                                            // margin: [0, 3, 0, 0],
+                                            fillColor: '#e6e6e6'
+                                        },
+
+                                    ],
+                                    [
+                                        {
+                                            text: 'Clockwise',
+                                            fontSize: 10,
+                                            // rowSpan:2,
+                                            alignment: 'center',
+                                            bold: true,
+                                            border: [true, true, true, true]
+                                        },
+                                        {
+                                            text: (data.analysis.clockwise_err).toFixed(2), 
+                                            alignment: 'center',
+                                            fontSize: 10,
+                                        },
+                                        {
+                                            text: (targetGroupData.avg_clockwise_err).toFixed(2),
+                                            alignment: 'center',
+                                            fontSize: 10,
+                                        },
+                                        {
+                                            // text:'좋은거야?',
+                                            text: data.analysis.clockwise_err >= 2? '미흡' : '정상',
+                                            alignment: 'center',
+                                            fontSize: 10,
+                                            fillColor:   data.analysis.clockwise_err >= 2  ? 'red':'white',
+                                            color:  data.analysis.clockwise_err >= 2  ? 'white' :'black',
+                                        },
+
+                                    ],
+                                    [
+                                        {
+                                            text: 'AntiClockwise',
+                                            fontSize: 10,
+                                            // rowSpan:2,
+                                            alignment: 'center',
+                                            bold: true,
+                                            border: [true, true, true, true]
+                                        },
+                                        {
+                                            text: (data.analysis.anticlockwise_err).toFixed(2), 
+                                            alignment: 'center',
+                                            fontSize: 10,
+                                        },
+                                        {
+                                            text: (targetGroupData.avg_anticlockwise_err).toFixed(2),
+                                            alignment: 'center',
+                                            fontSize: 10,
+                                        },
+                                        {
+                                           
+                                            text: data.analysis.anticlockwise_err >= 2? '미흡' : '정상',
+                                            alignment: 'center',
+                                            fontSize: 10,
+                                            fillColor:   data.analysis.anticlockwise_err >= 2  ? 'red':'white',
+                                            color:  data.analysis.anticlockwise_err >= 2  ? 'white' :'black',
+                                        },
+
+                                    ],
+
+                                ]
+
+                            },
+                            layout: 'showline'
+
+                        });
                         set_isfinishThisPage(true);
                     }
                     else if (pageType === "antisaccade") {
@@ -2852,7 +3039,7 @@ const ScreeningViewer = ({ ...props }) => {
 
                             table: {
                                 dontBreakRows: true,
-                                widths: ['32%', '1%', '33%', '1%', '33%'],
+                                widths: ['33%', '0.5%', '33%', '0.5%', '33%'],
                                 headerRows: 0,
                                 body: [
 
@@ -2924,9 +3111,11 @@ const ScreeningViewer = ({ ...props }) => {
                                             colSpan: 1,
                                             alignment: 'center',
                                             // text: '사진',
-                                            fit: [285, 90],
+                                            // fit: [285, 90],
+                                            // fit: [295, 98],
+                                            fit: [295, 115],
                                             // width:'100%',
-                                            margin: [0, 30, 0, 0],
+                                            margin: [0, 15, 0, 0],
                                             border: [true, false, true, true]
                                         },
                                         {
@@ -2941,9 +3130,9 @@ const ScreeningViewer = ({ ...props }) => {
                                             colSpan: 1,
                                             alignment: 'center',
                                             // text: '사진',
-                                            fit: [285, 90],
+                                            fit: [295, 115],
                                             // width:'100%',
-                                            margin: [0, 30, 0, 0],
+                                            margin: [0, 15, 0, 0],
                                             border: [true, false, true, true]
                                         },
 
@@ -2980,7 +3169,8 @@ const ScreeningViewer = ({ ...props }) => {
                                             lineHeight: 1.6,
                                             ul: [
                                                 "반대로 보기는 지각된 사물을 자동적으로 바라보는 것을 통제하는 능력을 측정합니다. ",
-                                                "따라보기(pro saccade)과제는 지각된 대상을 바라보는 과제이고, 반대로 보기(anti saccade)과제는 지각된 대상을 보지 않고 반대로 시선을 이동하는 과제입니다. 무언가 보이면 반사적으로 시선이 가려는 경향이 있기 때문에, 지각에 대한 행동을 통제하는 능력이나 집중력이 낮으면 반대보기 과제를 하기 어렵습니다. 집중력 저하, 난독증, ADHD 등의 증상과 관련이 있는 경우가 있습니다. ",
+                                                "따라보기(pro saccade)과제는 지각된 대상을 바라보는 과제이고, 반대로 보기(anti saccade)과제는 지각된 대상을 보지 않고 반대로 시선을 이동하는 과제입니다. 무언가 보이면 반사적으로 시선이 가려는 경향이 있기 때문에, 지각에 대한 행동을 통제하는 능력이나 집중력이 낮으면 반대보기 과제를 하기 어렵습니다. ",
+                                                "집중력 저하, 난독증, ADHD 등의 증상과 관련이 있는 경우가 있습니다."
                                             ],
                                             colSpan: 2
                                         },
@@ -3015,7 +3205,7 @@ const ScreeningViewer = ({ ...props }) => {
                                             lineHeight: 1.6,
                                             ul: [
                                                 "이동방향 오류 : 반대로 보기를 할 때, 정확한 방향(반대 방향)이 아닌 목표물이 나타난 방향으로 시선이 움직인 비율(횟수 및 시간의 백분율)입니다. 오류율이 낮을 수록 좋으며, 오류횟수는 20% 이하, 평균 오류시간은 10% 이하인 것이 바람직합니다. ",
-                                                "지체시간(latency) : 대상을 보고 시선을 움직이기 전까지 소요되는 시간입니다. 보통 반대로보기시 따라보기보다 더 오래 걸리며,  300ms 이하인 것이 좋습니다. ",
+                                                "평균 지체시간(latency) : 대상을 보고 시선을 움직이기 전까지 소요되는 시간입니다. 보통 반대로 보기시 따라보기보다 더 오래 걸리며,  300ms 이하인 것이 좋습니다. ",
                                             ],
                                             colSpan: 2
                                         },
@@ -3050,7 +3240,7 @@ const ScreeningViewer = ({ ...props }) => {
                                             margin: [10, 10, 10, 10],
                                             lineHeight: 1.6,
                                             ul: [
-                                                "즉각적 피드백이 있는 반대로 보기 훈련을 합니다. ",
+                                                "즉각적 피드백이 있는 반대로 보기 훈련(eye-training의 anti-saccade tracking)을 합니다. ",
                                                 "집중력을 기릅니다. "
                                             ],
                                             colSpan: 2
@@ -3107,7 +3297,7 @@ const ScreeningViewer = ({ ...props }) => {
                                                     [{
                                                         margin: [3, 0, 3, 0],
                                                         fontSize: 11,
-                                                        text: "방향별 시선 움직임", alignment: 'left',
+                                                        text: "반대로 보기 시선궤적", alignment: 'left',
                                                         colSpan: 2,
                                                         bold: true,
                                                     }
@@ -3146,13 +3336,6 @@ const ScreeningViewer = ({ ...props }) => {
                                                 headerRows: 0,
                                                 margin: [0, 0, 0, 0],
                                                 body: [
-                                                    // [{
-                                                    //     margin: [3, 0, 3, 0],
-                                                    //     fontSize: 11,
-                                                    //     text: "방향별 시선 움직임", alignment: 'left',
-                                                    //     colSpan: 2,
-                                                    //     bold: true,
-                                                    // }
                                                     [{
 
                                                         fontSize: 10,
@@ -3216,9 +3399,9 @@ const ScreeningViewer = ({ ...props }) => {
                         });
                         //4개짜리 방향별 분석
                         docDefinition.content.push({
-                            pageBreak: isLast ? null : 'after',
+                            // pageBreak: isLast ? null : 'after',
                             name: '도약안구운동 1줄 파랑메뉴',
-                            margin: [5, 10, 5, 5],
+                            margin: [5, 0, 5, 5],
 
                             table: {
                                 dontBreakRows: true,
@@ -3235,7 +3418,7 @@ const ScreeningViewer = ({ ...props }) => {
                                     [
 
                                         {
-                                            text: '도약 안구운동 시선',
+                                            text: '과제별(상,하), 방향별(좌우) 시간에 따른 시선의 수평위치',
                                             fontSize: 11,
                                             bold: true,
                                             border: [true, true, true, false],
@@ -3277,7 +3460,7 @@ const ScreeningViewer = ({ ...props }) => {
                         docDefinition.content.push({
                             pageBreak: isLast ? null : 'after',
                             name: '도약안구운동 1줄 파랑메뉴',
-                            margin: [5, 10, 5, 5],
+                            margin: [5, 5, 5, 5],
 
                             table: {
                                 dontBreakRows: true,
@@ -3288,13 +3471,16 @@ const ScreeningViewer = ({ ...props }) => {
                                     [
                                         {
                                             fontSize: 10,
-                                            text: '\n\n방향',
+                                            text: '방향',
                                             alignment: 'center',
                                             bold: true,
                                             // lineHeight: 2,
 
                                             rowSpan: 2,
                                             colSpan: 2,
+                                            fillColor: '#e6e6e6',
+                                            color:'black',
+                                            // margin:15
                                             // border: [false, false, false, false]
                                         },
                                         {
@@ -3305,13 +3491,14 @@ const ScreeningViewer = ({ ...props }) => {
                                             fontSize: 10,
                                         },
                                         {
-                                            text: 'Latency 도약 지연시간 (ms)',
+                                            text: 'Latency 이동 지체시간 (ms)',
                                             alignment: 'center',
                                             bold: true,
                                             // border: [false, false, false, false]
                                             colSpan: 3,
                                             fontSize: 10,
-                                            margin: 3
+                                            margin: 3,
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '',
@@ -3338,21 +3525,24 @@ const ScreeningViewer = ({ ...props }) => {
                                             alignment: 'center',
                                             bold: true,
                                             fontSize: 10,
-                                            margin: [0, 10, 0, 0]
+                                            // margin: [0, 3, 0, 0],
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '그룹 평균',
                                             alignment: 'center',
                                             bold: true,
                                             fontSize: 10,
-                                            margin: [0, 10, 0, 0]
+                                            // margin: [0, 3, 0, 0],
+                                            fillColor: '#e6e6e6'
                                         },
                                         {
                                             text: '평가',
                                             alignment: 'center',
                                             bold: true,
                                             fontSize: 10,
-                                            margin: [0, 10, 0, 0]
+                                            // margin: [0, 3, 0, 0],
+                                            fillColor: '#e6e6e6'
                                         },
 
                                     ],
@@ -3382,9 +3572,11 @@ const ScreeningViewer = ({ ...props }) => {
                                             fontSize: 10,
                                         },
                                         {
-                                            text: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.5 ? '미흡' : '양호',
+                                            text: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.5 ? '미흡' : '정상',
                                             alignment: 'center',
                                             fontSize: 10,
+                                            fillColor:  data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.5  ? 'red':'white',
+                                            color: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.5   ? 'white' :'black',
                                         },
 
                                     ],
@@ -3414,9 +3606,11 @@ const ScreeningViewer = ({ ...props }) => {
                                             fontSize: 10,
                                         },
                                         {
-                                            text: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.5 ? '미흡' : '양호',
+                                            text: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.5 ? '미흡' : '정상',
                                             alignment: 'center',
                                             fontSize: 10,
+                                            fillColor:  data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.5 ? 'red':'white',
+                                            color: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.5 ? 'white' :'black',
                                         },
 
                                     ],
@@ -3446,9 +3640,11 @@ const ScreeningViewer = ({ ...props }) => {
                                             fontSize: 10,
                                         },
                                         {
-                                            text: data.analysis.left_antisaccade_delay >= targetGroupData.avg_left_antisaccade_delay * 1.5 ? '미흡' : '양호',
+                                            text: data.analysis.left_antisaccade_delay >= targetGroupData.avg_left_antisaccade_delay * 1.5 ? '미흡' : '정상',
                                             alignment: 'center',
                                             fontSize: 10,
+                                            fillColor:  data.analysis.left_antisaccade_delay >= targetGroupData.avg_left_antisaccade_delay * 1.5? 'red':'white',
+                                            color: data.analysis.left_antisaccade_delay >= targetGroupData.avg_left_antisaccade_delay * 1.5? 'white' :'black',
                                         },
 
                                     ],
@@ -3478,9 +3674,11 @@ const ScreeningViewer = ({ ...props }) => {
                                             fontSize: 10,
                                         },
                                         {
-                                            text: data.analysis.right_antisaccade_delay >= targetGroupData.avg_right_antisaccade_delay * 1.5 ? '미흡' : '양호',
+                                            text: data.analysis.right_antisaccade_delay >= targetGroupData.avg_right_antisaccade_delay * 1.5 ? '미흡' : '정상',
                                             alignment: 'center',
                                             fontSize: 10,
+                                            fillColor:  data.analysis.right_antisaccade_delay >= targetGroupData.avg_right_antisaccade_delay * 1.5? 'red':'white',
+                                            color: data.analysis.right_antisaccade_delay >= targetGroupData.avg_right_antisaccade_delay * 1.5? 'white' :'black',
                                         },
 
                                     ]
@@ -3526,7 +3724,6 @@ const ScreeningViewer = ({ ...props }) => {
                        
             // downloadfilename=`${userinform.agencyName}_${userinform.testeeClass?userinform.testeeClass:'클래스'}_[${userinform.testeeName}(${userinform.testeeID})]_${moment(textSetResultsData[0].savetime).format("YYYY년MM월DD일HH시mm분ss초")+'.pdf'}`;
                 
-            //#@!#@!
             
             pdfDocGenerator.download(downloadfilename);
             
@@ -5030,8 +5227,10 @@ const SaccadeView = ({ ...props }) => {
                 </div>
             </div>
             <div className="titleBox" style={{ width: '850px' }}>
-                <div className="title">
-                    도약안구운동 점수 분포
+                <div className="title" style={{display:'flex',background:'none'}}>
+                    <div className="divided3">이동지체시간</div>
+                    <div className="divided3">도약이동속도</div>
+                    <div className="divided3">응시고정오차</div>
                 </div>
                 <div id="saccadeRadarChart" className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <div id="saccadeLatencyChart" className="cbox3 latencyChartWrap">
@@ -5258,8 +5457,12 @@ const SaccadeView = ({ ...props }) => {
                 <div className="explain">
                     <ul>
                         <li>
-                          글을 읽는 동안 시선은 끊임없이 빠르게 이동(saccade, 도약이동)하며 글자에 고정(fixation, 응시)하는 것을 반복합니다. 글을 유창하게 읽기 위해서는 정확한 위치에 눈을 빠르고 정확한 위치로 옮기고, 안정적으로 시선을 유지하는 운동제어 능력이 필요합니다. 시력 저하, 피로, 집중력 부족, 안구진탕증 및 각종 신경계 이상 등의 이유로 도약안구운동에 문제가 생길 수 있으며, 이 능력이 저하되면 글을 유창하게 읽는데 방해가 될 수 있습니다.
+                          글을 읽는 동안 시선은 끊임없이 빠르게 이동(saccade, 도약이동)하며 글자에 고정(fixation, 응시)하는 것을 반복합니다. 글을 유창하게 읽기 위해서는 정확한 위치에 눈을 빠르고 정확한 위치로 옮기고, 안정적으로 시선을 유지하는 운동제어 능력이 필요합니다.
+
                         </li>                    
+                        <li>
+                        시력 저하, 피로, 집중력 부족, 안구진탕증 및 각종 신경계 이상 등의 이유로 도약안구운동에 문제가 생길 수 있으며, 이 능력이 저하되면 글을 유창하게 읽는데 방해가 될 수 있습니다.
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -5274,13 +5477,13 @@ const SaccadeView = ({ ...props }) => {
                 <div className="explain">
                     <ul>
                         <li>
-                             지연시간 (latency time) : 시각 자극물을 발견한 뒤, 목표를 향해 시선이 출발할 때까지 걸리는 시간입니다. 반응처리 및 운동능력이 우수할수록 짧으며, 대체로 150ms ~ 250ms정도입니다.
+                             이동지체시간 (latency time) : 시각 자극물을 발견한 뒤, 목표를 향해 시선이 출발할 때까지 걸리는 시간입니다. 반응처리 및 운동능력이 우수할수록 짧으며, 대체로 150ms ~ 250ms정도입니다.
                         </li>    
                         <li>
-                           시선이동속도 (saccade speed) : 시선이 목표를 향해 이동할 때, 목표에 다다를 때까지의 속도입니다. 운동제어능력이 우수할수록 속도가 빠르며, 이동할 거리가 가까울수록 속도는 느려집니다. 대체로 50도/초~200도/초 정도입니다.
+                           도약이동속도 (saccade speed) : 시선이 목표를 향해 이동할 때, 목표에 다다를 때까지의 속도입니다. 운동제어능력이 우수할수록 속도가 빠르며, 이동할 거리가 가까울수록 속도는 느려집니다. 대체로 50도/초~200도/초 정도입니다.
                         </li>  
                         <li>
-                            응시안정성 (fixation stability) : 대상을 응시할 때, 시선이 얼마나 안정적으로 유지하는지를 측정한 척도입니다. 목표위치로부터의 2초간 시선위치 편차로 측정합니다. 집중력이 강하고 운동제어능력이 우수할수록 편차가 작으며, 대체로 0.2도 내외입니다.
+                            응시 고정오차 (fixation Error) : 대상을 응시할 때, 시선이 한 점에 안정적으로 유지되어야 합니다. 응시 고정오차는 응시하는 2초 동안 시선 위치의 편차를 측정합니다. 집중력이 강하고 안구 운동제어 능력이 우수할 수록 편차가 작고 응시 안정성이 높으며, 대체로 0.2도 이내이면 안정적입니다.
                         </li>
                     </ul>
                 </div>
@@ -5294,7 +5497,7 @@ const SaccadeView = ({ ...props }) => {
                 <div className="explain">
                     <ul>
                         <li>
-                            즉각적 피드백이 있는 추적안구운동 훈련을 합니다.
+                            즉각적 피드백이 있는 도약안구운동 훈련(eye-training의 saccade tracking)을 합니다.
                         </li>
                     </ul>
                 </div>
@@ -5980,7 +6183,8 @@ const PursuitView = ({ ...props }) => {
                     label: "my err",
                     data: [data.analysis.clockwise_err, data.analysis.anticlockwise_err],
                     // backgroundColor: themeColors,
-                    backgroundColor: "#2763DB",
+                    // backgroundColor: "#2763DB", //#@! 파랑으로 바꿔바
+                    backgroundColor:'red',
                     barPercentage: 0.8,
                     categoryPercentage: 0.5,
                     borderColor: "transparent"
@@ -6195,7 +6399,7 @@ const PursuitView = ({ ...props }) => {
             </div>
             <div className="titleBox" style={{ width: '850px' }}>
                 <div className="title">
-                    추적안구운동 점수 분포
+                    추적안구운동 평균 오차
                 </div>
                 <div className="cbox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <div id="pursuitErrChart" className="cbox2">
@@ -6256,7 +6460,7 @@ const PursuitView = ({ ...props }) => {
             </div>
             <div className="titleBox" style={{ width: '1000px', height: '450px' }}>
                 <div className="title">
-                    시간에 따른 추적안구운동
+                    회전방향별 시간에 따른 시선의 수평/수직위치
                 </div>
                 <div id="pursuitDirectionChart" className="cbox">
                     <div className="cbox2r">
@@ -6328,7 +6532,7 @@ const PursuitView = ({ ...props }) => {
                 <div className="explain">
                     <ul>
                         <li>
-                            추적안구운동 평균 에러 : 목표물을 따라 보는 동안, 정확한 위치로부터 벗어난 시점의 위치 에러입니다. 부드러운 추적안구운동에 실패하여 도약이 발생하거나 , 집중하지 못하고 목표물을 정확히 따라가지 못하면 에러가 증가합니다. 평균 에러가 2% 이내이면 정상입니다.
+                            추적안구운동 평균 오차 : 목표물을 따라 보는 동안, 정확한 위치로부터 벗어난 시점의 위치 에러입니다. 부드러운 추적안구운동에 실패하여 도약이 발생하거나 , 집중하지 못하고 목표물을 정확히 따라가지 못하면 에러가 증가합니다. 평균 오차가 2도 이내이면 정상입니다.
                         </li>
 
 
@@ -6346,7 +6550,7 @@ const PursuitView = ({ ...props }) => {
                 <div className="explain">
                     <ul>
                         <li>
-                            즉각적 피드백이 있는 추적안구운동 훈련을 합니다.
+                            즉각적 피드백이 있는 추적안구운동 훈련(eye-training의 Pursuit Tracking)을 합니다.
                         </li>
 
                         <li>
@@ -6391,8 +6595,8 @@ const AntiSaccadeView = ({ ...props }) => {
                     data: [(data.analysis.left_saccade_delay + data.analysis.right_saccade_delay) * 500, (data.analysis.left_antisaccade_delay + data.analysis.right_antisaccade_delay) * 500],
                     // backgroundColor: themeColors,
                     backgroundColor: "red",
-                    barPercentage: 0.8,
-                    categoryPercentage: 0.5,
+                    barPercentage: 0.9,
+                    categoryPercentage: 0.6,
                     borderColor: "transparent"
                 },
                 {
@@ -6402,8 +6606,8 @@ const AntiSaccadeView = ({ ...props }) => {
                     (targetGroupData.avg_left_antisaccade_delay + targetGroupData.avg_right_antisaccade_delay) * 500],
                     // backgroundColor: themeColors,
                     backgroundColor: "gray",
-                    barPercentage: 0.8,
-                    categoryPercentage: 0.5,
+                    barPercentage: 0.9,
+                    categoryPercentage: 0.6,
                     borderColor: "transparent"
                 },
 
@@ -6537,8 +6741,8 @@ const AntiSaccadeView = ({ ...props }) => {
                     data: [(data.analysis.avgErrFrequencyRatio * 100), (data.analysis.avgErrTime / 0.5 * 100)],
                     // backgroundColor: themeColors,
                     backgroundColor: "red",
-                    barPercentage: 0.8,
-                    categoryPercentage: 0.5,
+                    barPercentage: 0.9,
+                    categoryPercentage: 0.6,
                     borderColor: "transparent"
                 },
                 {
@@ -6547,8 +6751,8 @@ const AntiSaccadeView = ({ ...props }) => {
                     data: [targetGroupData.avg_avgErrFrequencyRatio * 100, (targetGroupData.avg_avgErrTime / 0.5 * 100)],
                     // backgroundColor: themeColors,
                     backgroundColor: "gray",
-                    barPercentage: 0.8,
-                    categoryPercentage: 0.5,
+                    barPercentage: 0.9,
+                    categoryPercentage: 0.6,
                     borderColor: "transparent"
                 },
 
@@ -6629,10 +6833,10 @@ const AntiSaccadeView = ({ ...props }) => {
                             fontStyle: "bold",
                         },
                         ticks: {
-                            stepSize: 0.2,
+                            stepSize: 20,
                             max: 2,
                             min: 0,
-                            fontSize: 14,
+                            fontSize: 16,
                             fontStyle: "bold",
                         }
                     }
@@ -7907,7 +8111,7 @@ const AntiSaccadeView = ({ ...props }) => {
             </div>
             <div className="titleBox" style={{ width: '1000px', height: '450px' }}>
                 <div className="title">
-                    시간에 따른 시선이동
+                과제별(상,하), 방향별(좌우) 시간에 따른 시선의 수평위치
                 </div>
                 <div id="antisaccadeDirectionChart" className="cbox">
                     <div className="cbox2r">
@@ -8005,8 +8209,12 @@ const AntiSaccadeView = ({ ...props }) => {
                             반대로 보기는 지각된 사물을 자동적으로 바라보는 것을 통제하는 능력을 측정합니다.
                         </li>
                         <li>
-                            따라보기(pro saccade)과제는 지각된 대상을 바라보는 과제이고, 반대로 보기(anti saccade)과제는 지각된 대상을 보지 않고 반대로 시선을 이동하는 과제입니다. 무언가 보이면 반사적으로 시선이 가려는 경향이 있기 때문에, 지각에 대한 행동을 통제하는 능력이나 집중력이 낮으면 반대보기 과제를 하기 어렵습니다. 집중력 저하, 난독증, ADHD 등의 증상과 관련이 있는 경우가 있습니다.
+                            따라보기(pro saccade)과제는 지각된 대상을 바라보는 과제이고, 반대로 보기(anti saccade)과제는 지각된 대상을 보지 않고 반대로 시선을 이동하는 과제입니다. 무언가 보이면 반사적으로 시선이 가려는 경향이 있기 때문에, 지각에 대한 행동을 통제하는 능력이나 집중력이 낮으면 반대보기 과제를 하기 어렵습니다.
                         </li>
+                        <li>
+                            집중력 저하, 난독증, ADHD 등의 증상과 관련이 있는 경우가 있습니다.
+                        </li>
+
 
                     </ul>
 
@@ -8019,10 +8227,10 @@ const AntiSaccadeView = ({ ...props }) => {
                 <div className="explain">
                     <ul>
                         <li>
-                            방향 정확성 : 따라보기는 대상이 있는 쪽으로, 반대보기는 대상의 반대쪽으로 시선이 움직였는지를 측정한 비율입니다. 반대보기의 정확도가 높은 것이 바람직하며, 대체로 85% 이상입니다.
+                        이동방향 오류 : 반대로 보기를 할 때, 정확한 방향(반대 방향)이 아닌 목표물이 나타난 방향으로 시선이 움직인 비율(횟수 및 시간의 백분율)입니다. 오류율이 낮을 수록 좋으며, 오류횟수는 20% 이하, 평균 오류시간은 10% 이하인 것이 바람직합니다. 
                         </li>
                         <li>
-                            지체시간(latency) : 대상을 보고 시선을 움직이기 전까지 소요되는 시간입니다. 보통 반대로보기시 따라보기보다 더 오래 걸리며,  300ms 이하인 것이 좋습니다.
+                            평균 지체시간(latency) : 대상을 보고 시선을 움직이기 전까지 소요되는 시간입니다. 보통 반대로 보기시 따라보기보다 더 오래 걸리며,  300ms 이하인 것이 좋습니다.
                         </li>
 
                     </ul>
@@ -8036,7 +8244,7 @@ const AntiSaccadeView = ({ ...props }) => {
                 <div className="explain">
                     <ul>
                         <li>
-                            즉각적 피드백이 있는 반대로 보기 훈련을 합니다.
+                            즉각적 피드백이 있는 반대로 보기 훈련(eye-training의 anti-saccade tracking)을 합니다.
                         </li>
                         <li>
                             집중력을 기릅니다.

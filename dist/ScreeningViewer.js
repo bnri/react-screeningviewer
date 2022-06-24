@@ -1143,12 +1143,12 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
             switch (_context.prev = _context.next) {
               case 0:
                 if (!(isPDFing && progressMax !== selDataIndex)) {
-                  _context.next = 88;
+                  _context.next = 89;
                   break;
                 }
 
                 if (!(isfinishThisPage === false)) {
-                  _context.next = 88;
+                  _context.next = 89;
                   break;
                 }
 
@@ -1525,7 +1525,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       fontSize: 10,
                       margin: [10, 10, 10, 10],
                       lineHeight: 1.6,
-                      ul: ["글을 읽는 동안 시선은 끊임없이 빠르게 이동(saccade, 도약이동)하며 글자에 고정(fixation, 응시)하는 것을 반복합니다. 글을 유창하게 읽기 위해서는 정확한 위치에 눈을 빠르고 정확한 위치로 옮기고, 안정적으로 시선을 유지하는 운동제어 능력이 필요합니다. 시력 저하, 피로, 집중력 부족, 안구진탕증 및 각종 신경계 이상 등의 이유로 도약안구운동에 문제가 생길 수 있으며, 이 능력이 저하되면 글을 유창하게 읽는데 방해가 될 수 있습니다. " // { text: 'Item 4', bold: true },
+                      ul: ["글을 읽는 동안 시선은 끊임없이 빠르게 이동(saccade, 도약이동)하며 글자에 고정(fixation, 응시)하는 것을 반복합니다. 글을 유창하게 읽기 위해서는 정확한 위치에 눈을 빠르고 정확한 위치로 옮기고, 안정적으로 시선을 유지하는 운동제어 능력이 필요합니다. ", "시력 저하, 피로, 집중력 부족, 안구진탕증 및 각종 신경계 이상 등의 이유로 도약안구운동에 문제가 생길 수 있으며, 이 능력이 저하되면 글을 유창하게 읽는데 방해가 될 수 있습니다." // { text: 'Item 4', bold: true },
                       ],
                       colSpan: 1,
                       border: [false, false, false, false]
@@ -1542,15 +1542,43 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     widths: ['100%'],
                     headerRows: 0,
                     body: [[{
-                      margin: [0, 3, 0, 0],
-                      text: '도약안구운동 점수 분포',
-                      fontSize: 11,
-                      bold: true,
-                      border: [true, true, true, false],
-                      alignment: 'center',
+                      margin: [0, 0, 0, 0],
+                      //컬럼으로 시도
                       fillColor: '#1A408E',
-                      color: 'white',
-                      colSpan: 1
+                      columns: [// { width: '*', text: '' },
+                      {
+                        margin: [0, 0, 0, 0],
+                        width: '33%',
+                        fontSize: 11,
+                        text: "이동지체시간",
+                        alignment: 'center',
+                        colSpan: 1,
+                        bold: true,
+                        background: '#1A408E',
+                        color: 'white' // border: [true, true, true, true],
+
+                      }, {
+                        width: '33%',
+                        fontSize: 11,
+                        text: "도약이동속도",
+                        alignment: 'center',
+                        colSpan: 1,
+                        bold: true,
+                        background: '#1A408E',
+                        color: 'white' // border: [true, true, true, true],
+
+                      }, {
+                        width: '33%',
+                        fontSize: 11,
+                        text: "응시고정오차",
+                        alignment: 'center',
+                        colSpan: 1,
+                        bold: true,
+                        background: '#1A408E',
+                        color: 'white' // border: [true, true, true, true],
+
+                      } // { width: '*', text: '' },
+                      ]
                     }], [{
                       image: saccadeRadarChart_base64,
                       colSpan: 1,
@@ -1582,7 +1610,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       fontSize: 10,
                       margin: [10, 10, 10, 10],
                       lineHeight: 1.6,
-                      ul: ["지연시간 (latency time) : 시각 자극물을 발견한 뒤, 목표를 향해 시선이 출발할 때까지 걸리는 시간입니다. 반응처리 및 운동능력이 우수할수록 짧으며, 대체로 150ms ~ 250ms정도입니다.", "시선이동속도 (saccade speed) : 시선이 목표를 향해 이동할 때, 목표에 다다를 때까지의 속도입니다. 운동제어능력이 우수할수록 속도가 빠르며, 이동할 거리가 가까울수록 속도는 느려집니다. 대체로 50도/초~200도/초 정도입니다.", "응시안정성 (fixation stability) : 대상을 응시할 때, 시선이 얼마나 안정적으로 유지하는지를 측정한 척도입니다. 목표위치로부터의 2초간 시선위치 편차로 측정합니다. 집중력이 강하고 운동제어능력이 우수할수록 편차가 작으며, 대체로 0.2도 내외입니다."],
+                      ul: ["이동지체시간 (latency time) : 시각 자극물을 발견한 뒤, 목표를 향해 시선이 출발할 때까지 걸리는 시간입니다. 반응처리 및 운동능력이 우수할수록 짧으며, 대체로 150ms ~ 250ms정도입니다.", "도약이동속도 (saccade speed) : 시선이 목표를 향해 이동할 때, 목표에 다다를 때까지의 속도입니다. 운동제어능력이 우수할수록 속도가 빠르며, 이동할 거리가 가까울수록 속도는 느려집니다. 대체로 50도/초~200도/초 정도입니다.", "응시 고정오차 (fixation Error) : 대상을 응시할 때, 시선이 한 점에 안정적으로 유지되어야 합니다. 응시 고정오차는 응시하는 2초 동안 시선 위치의 편차를 측정합니다. 집중력이 강하고 안구 운동제어 능력이 우수할 수록 편차가 작고 응시 안정성이 높으며, 대체로 0.2도 이내이면 안정적입니다."],
                       colSpan: 2
                     }]]
                   },
@@ -1607,7 +1635,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       fontSize: 10,
                       margin: [10, 10, 10, 10],
                       lineHeight: 1.6,
-                      ul: ["즉각적 피드백이 있는 추적안구운동 훈련을 합니다."],
+                      ul: ["즉각적 피드백이 있는 도약안구운동 훈련(eye-training의 saccade tracking)을 합니다."],
                       colSpan: 2
                     }]]
                   },
@@ -1649,7 +1677,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                         body: [[{
                           margin: [3, 0, 3, 0],
                           fontSize: 11,
-                          text: "방향별 시선 움직임",
+                          text: "도약 안구운동 시선궤적",
                           alignment: 'left',
                           colSpan: 2,
                           bold: true
@@ -1677,14 +1705,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                         widths: ['*', '*'],
                         headerRows: 0,
                         margin: [0, 0, 0, 0],
-                        body: [// [{
-                        //     margin: [3, 0, 3, 0],
-                        //     fontSize: 11,
-                        //     text: "방향별 시선 움직임", alignment: 'left',
-                        //     colSpan: 2,
-                        //     bold: true,
-                        // }
-                        [{
+                        body: [[{
                           fontSize: 10,
                           margin: [10, 10, 10, 10],
                           lineHeight: 1.6,
@@ -1721,7 +1742,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
 
                 docDefinition.content.push({
                   name: '도약안구운동 1줄 파랑메뉴',
-                  margin: [5, 20, 5, 5],
+                  margin: [5, 10, 5, 5],
                   table: {
                     dontBreakRows: true,
                     widths: ['100%'],
@@ -1754,26 +1775,29 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 docDefinition.content.push({
                   pageBreak: isLast ? null : 'after',
                   name: '도약안구운동 1줄 파랑메뉴',
-                  margin: [5, 20, 5, 5],
+                  margin: [5, 10, 5, 5],
                   table: {
                     dontBreakRows: true,
                     widths: ['10%', '10%', '10%', '10%', '10%', '10%', '10%', '10%', '10%', '10%'],
                     headerRows: 0,
                     body: [[{
                       fontSize: 10,
-                      text: '\n\n방향',
+                      text: '방향',
                       alignment: 'center',
                       bold: true,
-                      rowSpan: 2 // border: [false, false, false, false]
+                      rowSpan: 2,
+                      fillColor: '#e6e6e6',
+                      color: 'black' // border: [false, false, false, false]
 
                     }, {
-                      text: 'Latency 도약 지연시간 (ms)',
+                      text: 'Latency 이동 지체시간 (ms)',
                       alignment: 'center',
                       bold: true,
                       // border: [false, false, false, false]
                       colSpan: 3,
                       fontSize: 10,
-                      margin: 3
+                      margin: 3,
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '' // border: [false, false, false, false]
 
@@ -1787,7 +1811,8 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       // border: [false, false, false, false]
                       colSpan: 3,
                       fontSize: 10,
-                      margin: 3
+                      margin: 3,
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '' // border: [false, false, false, false]
 
@@ -1801,7 +1826,8 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       // border: [false, false, false, false]
                       colSpan: 3,
                       fontSize: 10,
-                      margin: 3
+                      margin: 3,
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '9' // border: [false, false, false, false]
 
@@ -1816,55 +1842,64 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       alignment: 'center',
                       bold: true,
                       fontSize: 10,
-                      margin: [0, 10, 0, 0]
+                      // margin: [0, 10, 0, 0],
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '그룹 평균',
                       alignment: 'center',
                       bold: true,
                       fontSize: 10,
-                      margin: [0, 10, 0, 0]
+                      // margin: [0, 10, 0, 0],
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '평가',
                       alignment: 'center',
                       bold: true,
                       fontSize: 10,
-                      margin: [0, 10, 0, 0]
+                      // margin: [0, 10, 0, 0],
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '내 측정치',
                       alignment: 'center',
                       bold: true,
                       fontSize: 10,
-                      margin: [0, 10, 0, 0]
+                      // margin: [0, 10, 0, 0],
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '그룹 평균',
                       alignment: 'center',
                       bold: true,
                       fontSize: 10,
-                      margin: [0, 10, 0, 0]
+                      // margin: [0, 10, 0, 0],
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '평가',
                       alignment: 'center',
                       bold: true,
                       fontSize: 10,
-                      margin: [0, 10, 0, 0]
+                      // margin: [0, 10, 0, 0],
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '내 측정치',
                       alignment: 'center',
                       bold: true,
                       fontSize: 10,
-                      margin: [0, 10, 0, 0]
+                      // margin: [0, 10, 0, 0],
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '그룹 평균',
                       alignment: 'center',
                       bold: true,
                       fontSize: 10,
-                      margin: [0, 10, 0, 0]
+                      // margin: [0, 10, 0, 0],
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '평가',
                       alignment: 'center',
                       bold: true,
                       fontSize: 10,
-                      margin: [0, 10, 0, 0]
+                      // margin: [0, 10, 0, 0],
+                      fillColor: '#e6e6e6'
                     }], [{
                       text: '상',
                       fontSize: 10,
@@ -1881,7 +1916,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }, {
                       text: data.analysis.up_saccade_delay >= targetGroupData.avg_up_saccade_delay * 1.3 ? '미흡' : '정상',
                       fontSize: 10,
-                      alignment: 'center'
+                      alignment: 'center',
+                      fillColor: data.analysis.up_saccade_delay >= targetGroupData.avg_up_saccade_delay * 1.3 ? 'red' : 'white',
+                      color: data.analysis.up_saccade_delay >= targetGroupData.avg_up_saccade_delay * 1.3 ? 'white' : 'black'
                     }, {
                       text: data.analysis.up_saccade_speed.toFixed(0),
                       fontSize: 10,
@@ -1893,7 +1930,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }, {
                       text: data.analysis.up_saccade_speed <= targetGroupData.avg_up_saccade_speed * 0.7 ? '미흡' : '정상',
                       fontSize: 10,
-                      alignment: 'center'
+                      alignment: 'center',
+                      fillColor: data.analysis.up_saccade_speed <= targetGroupData.avg_up_saccade_speed * 0.7 ? 'red' : 'white',
+                      color: data.analysis.up_saccade_speed <= targetGroupData.avg_up_saccade_speed * 0.7 ? 'white' : 'black'
                     }, {
                       text: data.analysis.up_fixation_stability.toFixed(4),
                       fontSize: 10,
@@ -1905,7 +1944,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }, {
                       text: data.analysis.up_fixation_stability > targetGroupData.avg_up_fixation_stability * 2 ? '미흡' : '정상',
                       fontSize: 10,
-                      alignment: 'center'
+                      alignment: 'center',
+                      fillColor: data.analysis.up_fixation_stability > targetGroupData.avg_up_fixation_stability * 2 ? 'red' : 'white',
+                      color: data.analysis.up_fixation_stability > targetGroupData.avg_up_fixation_stability * 2 ? 'white' : 'black'
                     }], [{
                       text: '하',
                       fontSize: 10,
@@ -1922,7 +1963,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }, {
                       text: data.analysis.down_saccade_delay >= targetGroupData.avg_down_saccade_delay * 1.3 ? '미흡' : '정상',
                       fontSize: 10,
-                      alignment: 'center'
+                      alignment: 'center',
+                      fillColor: data.analysis.down_saccade_delay >= targetGroupData.avg_down_saccade_delay * 1.3 ? 'red' : 'white',
+                      color: data.analysis.down_saccade_delay >= targetGroupData.avg_down_saccade_delay * 1.3 ? 'white' : 'black'
                     }, {
                       text: data.analysis.down_saccade_speed.toFixed(0),
                       fontSize: 10,
@@ -1934,7 +1977,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }, {
                       text: data.analysis.down_saccade_speed <= targetGroupData.avg_down_saccade_speed * 0.7 ? '미흡' : '정상',
                       fontSize: 10,
-                      alignment: 'center'
+                      alignment: 'center',
+                      fillColor: data.analysis.down_saccade_speed <= targetGroupData.avg_down_saccade_speed * 0.7 ? 'red' : 'white',
+                      color: data.analysis.down_saccade_speed <= targetGroupData.avg_down_saccade_speed * 0.7 ? 'white' : 'black'
                     }, {
                       text: data.analysis.down_fixation_stability.toFixed(4),
                       fontSize: 10,
@@ -1946,7 +1991,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }, {
                       text: data.analysis.down_fixation_stability > targetGroupData.avg_down_fixation_stability * 2 ? '미흡' : '정상',
                       fontSize: 10,
-                      alignment: 'center'
+                      alignment: 'center',
+                      fillColor: data.analysis.down_fixation_stability > targetGroupData.avg_down_fixation_stability * 2 ? 'red' : 'white',
+                      color: data.analysis.down_fixation_stability > targetGroupData.avg_down_fixation_stability * 2 ? 'white' : 'black'
                     }], [{
                       text: '좌',
                       fontSize: 10,
@@ -1963,7 +2010,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }, {
                       text: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.3 ? '미흡' : '정상',
                       fontSize: 10,
-                      alignment: 'center'
+                      alignment: 'center',
+                      fillColor: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.3 ? 'red' : 'white',
+                      color: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.3 ? 'white' : 'black'
                     }, {
                       text: data.analysis.left_saccade_speed.toFixed(0),
                       fontSize: 10,
@@ -1975,7 +2024,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }, {
                       text: data.analysis.left_saccade_speed <= targetGroupData.avg_left_saccade_speed * 0.7 ? '미흡' : '정상',
                       fontSize: 10,
-                      alignment: 'center'
+                      alignment: 'center',
+                      fillColor: data.analysis.left_saccade_speed <= targetGroupData.avg_left_saccade_speed * 0.7 ? 'red' : 'white',
+                      color: data.analysis.left_saccade_speed <= targetGroupData.avg_left_saccade_speed * 0.7 ? 'white' : 'black'
                     }, {
                       text: data.analysis.left_fixation_stability.toFixed(4),
                       fontSize: 10,
@@ -1987,7 +2038,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }, {
                       text: data.analysis.left_fixation_stability > targetGroupData.avg_left_fixation_stability * 2 ? '미흡' : '정상',
                       fontSize: 10,
-                      alignment: 'center'
+                      alignment: 'center',
+                      fillColor: data.analysis.left_fixation_stability > targetGroupData.avg_left_fixation_stability * 2 ? 'red' : 'white',
+                      color: data.analysis.left_fixation_stability > targetGroupData.avg_left_fixation_stability * 2 ? 'white' : 'black'
                     }], [{
                       text: '우',
                       fontSize: 10,
@@ -2004,7 +2057,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }, {
                       text: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.3 ? '미흡' : '정상',
                       fontSize: 10,
-                      alignment: 'center'
+                      alignment: 'center',
+                      fillColor: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.3 ? 'red' : 'white',
+                      color: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.3 ? 'white' : 'black'
                     }, {
                       text: data.analysis.right_saccade_speed.toFixed(0),
                       fontSize: 10,
@@ -2016,7 +2071,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }, {
                       text: data.analysis.right_saccade_speed <= targetGroupData.avg_right_saccade_speed * 0.7 ? '미흡' : '정상',
                       fontSize: 10,
-                      alignment: 'center'
+                      alignment: 'center',
+                      fillColor: data.analysis.right_saccade_speed <= targetGroupData.avg_right_saccade_speed * 0.7 ? 'red' : 'white',
+                      color: data.analysis.right_saccade_speed <= targetGroupData.avg_right_saccade_speed * 0.7 ? 'white' : 'black'
                     }, {
                       text: data.analysis.right_fixation_stability.toFixed(4),
                       fontSize: 10,
@@ -2028,18 +2085,20 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                     }, {
                       text: data.analysis.right_fixation_stability > targetGroupData.avg_right_fixation_stability * 2 ? '미흡' : '정상',
                       fontSize: 10,
-                      alignment: 'center'
+                      alignment: 'center',
+                      fillColor: data.analysis.right_fixation_stability > targetGroupData.avg_right_fixation_stability * 2 ? 'red' : 'white',
+                      color: data.analysis.right_fixation_stability > targetGroupData.avg_right_fixation_stability * 2 ? 'white' : 'black'
                     }]]
                   },
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 88;
+                _context.next = 89;
                 break;
 
               case 40:
                 if (!(pageType === 'pursuit')) {
-                  _context.next = 62;
+                  _context.next = 63;
                   break;
                 }
 
@@ -2127,7 +2186,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       border: [false, false, false, false]
                     }, {
                       margin: [0, 3, 0, 0],
-                      text: '추적안구운동 점수 분포',
+                      text: '추적안구운동 평균 오차',
                       fontSize: 11,
                       bold: true,
                       border: [true, true, true, false],
@@ -2202,7 +2261,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       fontSize: 10,
                       margin: [10, 10, 10, 10],
                       lineHeight: 1.6,
-                      ul: ["추적안구운동 평균 에러 : 목표물을 따라 보는 동안, 정확한 위치로부터 벗어난 시선의 위치 에러입니다. 부드러운 추적안구운동에 실패하여 도약이 발생하거나, 집중하지 못하고 목표물을 정확히 따라가지 못하면 에러가 증가합니다.  평균 에러가 2% 이내이면 정상입니다. "],
+                      ul: ["추적안구운동 평균 오차 : 목표물을 따라 보는 동안, 정확한 위치로부터 벗어난 시선의 위치 에러입니다. 부드러운 추적안구운동에 실패하여 도약이 발생하거나, 집중하지 못하고 목표물을 정확히 따라가지 못하면 에러가 증가합니다.  평균 오차가 2도 이내이면 정상입니다. "],
                       colSpan: 2
                     }]]
                   },
@@ -2226,7 +2285,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       fontSize: 10,
                       margin: [10, 10, 10, 10],
                       lineHeight: 1.6,
-                      ul: ["즉각적 피드백이 있는 추적안구운동 훈련을 합니다. ", "집중력을 기릅니다. "],
+                      ul: ["즉각적 피드백이 있는 추적안구운동 훈련(eye-training의 Pursuit Tracking)을 합니다. ", "집중력을 기릅니다. "],
                       colSpan: 2
                     }]]
                   },
@@ -2266,7 +2325,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                         body: [[{
                           margin: [3, 0, 3, 0],
                           fontSize: 11,
-                          text: "추적안구운동 시선 움직임",
+                          text: "추적 안구운동 시선궤적",
                           alignment: 'left',
                           colSpan: 2,
                           bold: true
@@ -2294,18 +2353,11 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                         widths: ['*', '*'],
                         headerRows: 0,
                         margin: [0, 0, 0, 0],
-                        body: [// [{
-                        //     margin: [3, 0, 3, 0],
-                        //     fontSize: 11,
-                        //     text: "방향별 시선 움직임", alignment: 'left',
-                        //     colSpan: 2,
-                        //     bold: true,
-                        // }
-                        [{
+                        body: [[{
                           fontSize: 10,
                           margin: [10, 10, 10, 10],
                           lineHeight: 1.6,
-                          ul: ["시계방향/반시계방향으로 각 2회씩 수행한 추적안구운동의 시선 궤적입니다. ", "응시 : 시작점과 목표점에서 최대한 같은 위치에 시선이 고정되어 있어야 합니다. ", "도약 : 시작점과 목표점 사이 외에는 시선이 분산되지 않고, 빠르게 (중간에 머뭇거리는 시선이 없이) 이동해야 합니다. "],
+                          ul: ["빨간색 점 : 시계방향으로 추적운동하는 시선의 위치 ", "초록색 점 : 반시계 방향으로 추적운동하는 시선의 위치", "검은색 원 : 추적 목표 궤적"],
                           colSpan: 2,
                           border: [false, false, false, false]
                         }], [{
@@ -2368,13 +2420,118 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   },
                   layout: 'showline'
                 });
+                docDefinition.content.push({
+                  pageBreak: isLast ? null : 'after',
+                  name: '도약안구운동 1줄 파랑메뉴',
+                  margin: [5, 5, 5, 5],
+                  table: {
+                    dontBreakRows: true,
+                    widths: ['43%', '19%', '19%', '19%'],
+                    headerRows: 0,
+                    body: [[{
+                      fontSize: 10,
+                      text: '방향',
+                      alignment: 'center',
+                      bold: true,
+                      // lineHeight: 2,
+                      rowSpan: 2,
+                      fillColor: '#e6e6e6',
+                      color: 'black' // margin:15
+                      // border: [false, false, false, false]
+
+                    }, {
+                      text: '추적안구운동 평균 오차',
+                      alignment: 'center',
+                      bold: true,
+                      // border: [false, false, false, false]
+                      colSpan: 3,
+                      fontSize: 10,
+                      margin: 3,
+                      fillColor: '#e6e6e6'
+                    }, {
+                      text: '' // border: [false, false, false, false]
+
+                    }, {
+                      text: '' // border: [false, false, false, false]
+
+                    }], [{
+                      text: '',
+                      fontSize: 10
+                    }, {
+                      text: '내 측정치',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      // margin: [0, 3, 0, 0],
+                      fillColor: '#e6e6e6'
+                    }, {
+                      text: '그룹 평균',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      // margin: [0, 3, 0, 0],
+                      fillColor: '#e6e6e6'
+                    }, {
+                      text: '평가',
+                      alignment: 'center',
+                      bold: true,
+                      fontSize: 10,
+                      // margin: [0, 3, 0, 0],
+                      fillColor: '#e6e6e6'
+                    }], [{
+                      text: 'Clockwise',
+                      fontSize: 10,
+                      // rowSpan:2,
+                      alignment: 'center',
+                      bold: true,
+                      border: [true, true, true, true]
+                    }, {
+                      text: data.analysis.clockwise_err.toFixed(2),
+                      alignment: 'center',
+                      fontSize: 10
+                    }, {
+                      text: targetGroupData.avg_clockwise_err.toFixed(2),
+                      alignment: 'center',
+                      fontSize: 10
+                    }, {
+                      // text:'좋은거야?',
+                      text: data.analysis.clockwise_err >= 2 ? '미흡' : '정상',
+                      alignment: 'center',
+                      fontSize: 10,
+                      fillColor: data.analysis.clockwise_err >= 2 ? 'red' : 'white',
+                      color: data.analysis.clockwise_err >= 2 ? 'white' : 'black'
+                    }], [{
+                      text: 'AntiClockwise',
+                      fontSize: 10,
+                      // rowSpan:2,
+                      alignment: 'center',
+                      bold: true,
+                      border: [true, true, true, true]
+                    }, {
+                      text: data.analysis.anticlockwise_err.toFixed(2),
+                      alignment: 'center',
+                      fontSize: 10
+                    }, {
+                      text: targetGroupData.avg_anticlockwise_err.toFixed(2),
+                      alignment: 'center',
+                      fontSize: 10
+                    }, {
+                      text: data.analysis.anticlockwise_err >= 2 ? '미흡' : '정상',
+                      alignment: 'center',
+                      fontSize: 10,
+                      fillColor: data.analysis.anticlockwise_err >= 2 ? 'red' : 'white',
+                      color: data.analysis.anticlockwise_err >= 2 ? 'white' : 'black'
+                    }]]
+                  },
+                  layout: 'showline'
+                });
                 set_isfinishThisPage(true);
-                _context.next = 88;
+                _context.next = 89;
                 break;
 
-              case 62:
+              case 63:
                 if (!(pageType === "antisaccade")) {
-                  _context.next = 87;
+                  _context.next = 88;
                   break;
                 }
 
@@ -2443,10 +2600,10 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 //antisaccadeLatencyChart
 
 
-                _context.next = 71;
+                _context.next = 72;
                 return Promise.all(_p2);
 
-              case 71:
+              case 72:
                 _canvsArr2 = _context.sent;
                 antisaccadeGradeChart_base64 = _canvsArr2[0].toDataURL();
                 antisaccadeErrDirectionChart_base64 = _canvsArr2[1].toDataURL();
@@ -2459,7 +2616,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                   margin: [5, 5, 5, 5],
                   table: {
                     dontBreakRows: true,
-                    widths: ['32%', '1%', '33%', '1%', '33%'],
+                    widths: ['33%', '0.5%', '33%', '0.5%', '33%'],
                     headerRows: 0,
                     body: [[{
                       margin: [0, 3, 0, 0],
@@ -2517,9 +2674,11 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       colSpan: 1,
                       alignment: 'center',
                       // text: '사진',
-                      fit: [285, 90],
+                      // fit: [285, 90],
+                      // fit: [295, 98],
+                      fit: [295, 115],
                       // width:'100%',
-                      margin: [0, 30, 0, 0],
+                      margin: [0, 15, 0, 0],
                       border: [true, false, true, true]
                     }, {
                       text: '',
@@ -2530,9 +2689,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       colSpan: 1,
                       alignment: 'center',
                       // text: '사진',
-                      fit: [285, 90],
+                      fit: [295, 115],
                       // width:'100%',
-                      margin: [0, 30, 0, 0],
+                      margin: [0, 15, 0, 0],
                       border: [true, false, true, true]
                     }]]
                   },
@@ -2556,7 +2715,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       fontSize: 10,
                       margin: [10, 10, 10, 10],
                       lineHeight: 1.6,
-                      ul: ["반대로 보기는 지각된 사물을 자동적으로 바라보는 것을 통제하는 능력을 측정합니다. ", "따라보기(pro saccade)과제는 지각된 대상을 바라보는 과제이고, 반대로 보기(anti saccade)과제는 지각된 대상을 보지 않고 반대로 시선을 이동하는 과제입니다. 무언가 보이면 반사적으로 시선이 가려는 경향이 있기 때문에, 지각에 대한 행동을 통제하는 능력이나 집중력이 낮으면 반대보기 과제를 하기 어렵습니다. 집중력 저하, 난독증, ADHD 등의 증상과 관련이 있는 경우가 있습니다. "],
+                      ul: ["반대로 보기는 지각된 사물을 자동적으로 바라보는 것을 통제하는 능력을 측정합니다. ", "따라보기(pro saccade)과제는 지각된 대상을 바라보는 과제이고, 반대로 보기(anti saccade)과제는 지각된 대상을 보지 않고 반대로 시선을 이동하는 과제입니다. 무언가 보이면 반사적으로 시선이 가려는 경향이 있기 때문에, 지각에 대한 행동을 통제하는 능력이나 집중력이 낮으면 반대보기 과제를 하기 어렵습니다. ", "집중력 저하, 난독증, ADHD 등의 증상과 관련이 있는 경우가 있습니다."],
                       colSpan: 2
                     }]]
                   },
@@ -2579,7 +2738,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       fontSize: 10,
                       margin: [10, 10, 10, 10],
                       lineHeight: 1.6,
-                      ul: ["이동방향 오류 : 반대로 보기를 할 때, 정확한 방향(반대 방향)이 아닌 목표물이 나타난 방향으로 시선이 움직인 비율(횟수 및 시간의 백분율)입니다. 오류율이 낮을 수록 좋으며, 오류횟수는 20% 이하, 평균 오류시간은 10% 이하인 것이 바람직합니다. ", "지체시간(latency) : 대상을 보고 시선을 움직이기 전까지 소요되는 시간입니다. 보통 반대로보기시 따라보기보다 더 오래 걸리며,  300ms 이하인 것이 좋습니다. "],
+                      ul: ["이동방향 오류 : 반대로 보기를 할 때, 정확한 방향(반대 방향)이 아닌 목표물이 나타난 방향으로 시선이 움직인 비율(횟수 및 시간의 백분율)입니다. 오류율이 낮을 수록 좋으며, 오류횟수는 20% 이하, 평균 오류시간은 10% 이하인 것이 바람직합니다. ", "평균 지체시간(latency) : 대상을 보고 시선을 움직이기 전까지 소요되는 시간입니다. 보통 반대로 보기시 따라보기보다 더 오래 걸리며,  300ms 이하인 것이 좋습니다. "],
                       colSpan: 2
                     }]]
                   },
@@ -2603,7 +2762,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       fontSize: 10,
                       margin: [10, 10, 10, 10],
                       lineHeight: 1.6,
-                      ul: ["즉각적 피드백이 있는 반대로 보기 훈련을 합니다. ", "집중력을 기릅니다. "],
+                      ul: ["즉각적 피드백이 있는 반대로 보기 훈련(eye-training의 anti-saccade tracking)을 합니다. ", "집중력을 기릅니다. "],
                       colSpan: 2
                     }]]
                   },
@@ -2643,7 +2802,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                         body: [[{
                           margin: [3, 0, 3, 0],
                           fontSize: 11,
-                          text: "방향별 시선 움직임",
+                          text: "반대로 보기 시선궤적",
                           alignment: 'left',
                           colSpan: 2,
                           bold: true
@@ -2671,14 +2830,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                         widths: ['*', '*'],
                         headerRows: 0,
                         margin: [0, 0, 0, 0],
-                        body: [// [{
-                        //     margin: [3, 0, 3, 0],
-                        //     fontSize: 11,
-                        //     text: "방향별 시선 움직임", alignment: 'left',
-                        //     colSpan: 2,
-                        //     bold: true,
-                        // }
-                        [{
+                        body: [[{
                           fontSize: 10,
                           margin: [10, 10, 10, 10],
                           lineHeight: 1.6,
@@ -2714,9 +2866,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 }); //4개짜리 방향별 분석
 
                 docDefinition.content.push({
-                  pageBreak: isLast ? null : 'after',
+                  // pageBreak: isLast ? null : 'after',
                   name: '도약안구운동 1줄 파랑메뉴',
-                  margin: [5, 10, 5, 5],
+                  margin: [5, 0, 5, 5],
                   table: {
                     dontBreakRows: true,
                     widths: ['100%'],
@@ -2725,7 +2877,7 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       text: '',
                       border: [false, false, false, false]
                     }], [{
-                      text: '도약 안구운동 시선',
+                      text: '과제별(상,하), 방향별(좌우) 시간에 따른 시선의 수평위치',
                       fontSize: 11,
                       bold: true,
                       border: [true, true, true, false],
@@ -2751,19 +2903,22 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                 docDefinition.content.push({
                   pageBreak: isLast ? null : 'after',
                   name: '도약안구운동 1줄 파랑메뉴',
-                  margin: [5, 10, 5, 5],
+                  margin: [5, 5, 5, 5],
                   table: {
                     dontBreakRows: true,
                     widths: ['24%', '19%', '19%', '19%', '19%'],
                     headerRows: 0,
                     body: [[{
                       fontSize: 10,
-                      text: '\n\n방향',
+                      text: '방향',
                       alignment: 'center',
                       bold: true,
                       // lineHeight: 2,
                       rowSpan: 2,
-                      colSpan: 2 // border: [false, false, false, false]
+                      colSpan: 2,
+                      fillColor: '#e6e6e6',
+                      color: 'black' // margin:15
+                      // border: [false, false, false, false]
 
                     }, {
                       text: '',
@@ -2772,13 +2927,14 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       // border: [false, false, false, false]
                       fontSize: 10
                     }, {
-                      text: 'Latency 도약 지연시간 (ms)',
+                      text: 'Latency 이동 지체시간 (ms)',
                       alignment: 'center',
                       bold: true,
                       // border: [false, false, false, false]
                       colSpan: 3,
                       fontSize: 10,
-                      margin: 3
+                      margin: 3,
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '' // border: [false, false, false, false]
 
@@ -2796,19 +2952,22 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       alignment: 'center',
                       bold: true,
                       fontSize: 10,
-                      margin: [0, 10, 0, 0]
+                      // margin: [0, 3, 0, 0],
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '그룹 평균',
                       alignment: 'center',
                       bold: true,
                       fontSize: 10,
-                      margin: [0, 10, 0, 0]
+                      // margin: [0, 3, 0, 0],
+                      fillColor: '#e6e6e6'
                     }, {
                       text: '평가',
                       alignment: 'center',
                       bold: true,
                       fontSize: 10,
-                      margin: [0, 10, 0, 0]
+                      // margin: [0, 3, 0, 0],
+                      fillColor: '#e6e6e6'
                     }], [{
                       text: 'Pro saccade',
                       fontSize: 10,
@@ -2830,9 +2989,11 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       alignment: 'center',
                       fontSize: 10
                     }, {
-                      text: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.5 ? '미흡' : '양호',
+                      text: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.5 ? '미흡' : '정상',
                       alignment: 'center',
-                      fontSize: 10
+                      fontSize: 10,
+                      fillColor: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.5 ? 'red' : 'white',
+                      color: data.analysis.left_saccade_delay >= targetGroupData.avg_left_saccade_delay * 1.5 ? 'white' : 'black'
                     }], [{
                       text: '따라 보기',
                       fontSize: 10,
@@ -2854,9 +3015,11 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       alignment: 'center',
                       fontSize: 10
                     }, {
-                      text: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.5 ? '미흡' : '양호',
+                      text: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.5 ? '미흡' : '정상',
                       alignment: 'center',
-                      fontSize: 10
+                      fontSize: 10,
+                      fillColor: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.5 ? 'red' : 'white',
+                      color: data.analysis.right_saccade_delay >= targetGroupData.avg_right_saccade_delay * 1.5 ? 'white' : 'black'
                     }], [{
                       text: 'Anti saccade',
                       fontSize: 10,
@@ -2878,9 +3041,11 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       alignment: 'center',
                       fontSize: 10
                     }, {
-                      text: data.analysis.left_antisaccade_delay >= targetGroupData.avg_left_antisaccade_delay * 1.5 ? '미흡' : '양호',
+                      text: data.analysis.left_antisaccade_delay >= targetGroupData.avg_left_antisaccade_delay * 1.5 ? '미흡' : '정상',
                       alignment: 'center',
-                      fontSize: 10
+                      fontSize: 10,
+                      fillColor: data.analysis.left_antisaccade_delay >= targetGroupData.avg_left_antisaccade_delay * 1.5 ? 'red' : 'white',
+                      color: data.analysis.left_antisaccade_delay >= targetGroupData.avg_left_antisaccade_delay * 1.5 ? 'white' : 'black'
                     }], [{
                       text: '반대로 보기',
                       fontSize: 10,
@@ -2902,21 +3067,23 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
                       alignment: 'center',
                       fontSize: 10
                     }, {
-                      text: data.analysis.right_antisaccade_delay >= targetGroupData.avg_right_antisaccade_delay * 1.5 ? '미흡' : '양호',
+                      text: data.analysis.right_antisaccade_delay >= targetGroupData.avg_right_antisaccade_delay * 1.5 ? '미흡' : '정상',
                       alignment: 'center',
-                      fontSize: 10
+                      fontSize: 10,
+                      fillColor: data.analysis.right_antisaccade_delay >= targetGroupData.avg_right_antisaccade_delay * 1.5 ? 'red' : 'white',
+                      color: data.analysis.right_antisaccade_delay >= targetGroupData.avg_right_antisaccade_delay * 1.5 ? 'white' : 'black'
                     }]]
                   },
                   layout: 'showline'
                 });
                 set_isfinishThisPage(true);
-                _context.next = 88;
+                _context.next = 89;
                 break;
 
-              case 87:
+              case 88:
                 set_isfinishThisPage(true);
 
-              case 88:
+              case 89:
               case "end":
                 return _context.stop();
             }
@@ -2946,7 +3113,6 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
       var resultinform = resultInformArr[0];
       var downloadfilename = "".concat(userinform.agencyName, "_[").concat(userinform.testeeName, "(").concat(userinform.testeeID, ")]_").concat(moment(resultinform.savetime).format("YYYY년MM월DD일HH시mm분ss초"), ".pdf"); //Agency_클래스_사용자이름(아이디)_날짜시간.pdf
       // downloadfilename=`${userinform.agencyName}_${userinform.testeeClass?userinform.testeeClass:'클래스'}_[${userinform.testeeName}(${userinform.testeeID})]_${moment(textSetResultsData[0].savetime).format("YYYY년MM월DD일HH시mm분ss초")+'.pdf'}`;
-      //#@!#@!
 
       pdfDocGenerator.download(downloadfilename); // let downloadfilename ;
       // //Agency_클래스_사용자이름(아이디)_날짜시간.pdf
@@ -4436,8 +4602,18 @@ var SaccadeView = function SaccadeView(_ref3) {
       width: '850px'
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "title"
-  }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "title",
+    style: {
+      display: 'flex',
+      background: 'none'
+    }
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "divided3"
+  }, "\uC774\uB3D9\uC9C0\uCCB4\uC2DC\uAC04"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "divided3"
+  }, "\uB3C4\uC57D\uC774\uB3D9\uC18D\uB3C4"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "divided3"
+  }, "\uC751\uC2DC\uACE0\uC815\uC624\uCC28")), /*#__PURE__*/_react.default.createElement("div", {
     id: "saccadeRadarChart",
     className: "cbox",
     style: {
@@ -4697,7 +4873,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     className: "title"
   }, "\uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 (saccade\uC740) \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uAE00\uC744 \uC77D\uB294 \uB3D9\uC548 \uC2DC\uC120\uC740 \uB04A\uC784\uC5C6\uC774 \uBE60\uB974\uAC8C \uC774\uB3D9(saccade, \uB3C4\uC57D\uC774\uB3D9)\uD558\uBA70 \uAE00\uC790\uC5D0 \uACE0\uC815(fixation, \uC751\uC2DC)\uD558\uB294 \uAC83\uC744 \uBC18\uBCF5\uD569\uB2C8\uB2E4. \uAE00\uC744 \uC720\uCC3D\uD558\uAC8C \uC77D\uAE30 \uC704\uD574\uC11C\uB294 \uC815\uD655\uD55C \uC704\uCE58\uC5D0 \uB208\uC744 \uBE60\uB974\uACE0 \uC815\uD655\uD55C \uC704\uCE58\uB85C \uC62E\uAE30\uACE0, \uC548\uC815\uC801\uC73C\uB85C \uC2DC\uC120\uC744 \uC720\uC9C0\uD558\uB294 \uC6B4\uB3D9\uC81C\uC5B4 \uB2A5\uB825\uC774 \uD544\uC694\uD569\uB2C8\uB2E4. \uC2DC\uB825 \uC800\uD558, \uD53C\uB85C, \uC9D1\uC911\uB825 \uBD80\uC871, \uC548\uAD6C\uC9C4\uD0D5\uC99D \uBC0F \uAC01\uC885 \uC2E0\uACBD\uACC4 \uC774\uC0C1 \uB4F1\uC758 \uC774\uC720\uB85C \uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9\uC5D0 \uBB38\uC81C\uAC00 \uC0DD\uAE38 \uC218 \uC788\uC73C\uBA70, \uC774 \uB2A5\uB825\uC774 \uC800\uD558\uB418\uBA74 \uAE00\uC744 \uC720\uCC3D\uD558\uAC8C \uC77D\uB294\uB370 \uBC29\uD574\uAC00 \uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uAE00\uC744 \uC77D\uB294 \uB3D9\uC548 \uC2DC\uC120\uC740 \uB04A\uC784\uC5C6\uC774 \uBE60\uB974\uAC8C \uC774\uB3D9(saccade, \uB3C4\uC57D\uC774\uB3D9)\uD558\uBA70 \uAE00\uC790\uC5D0 \uACE0\uC815(fixation, \uC751\uC2DC)\uD558\uB294 \uAC83\uC744 \uBC18\uBCF5\uD569\uB2C8\uB2E4. \uAE00\uC744 \uC720\uCC3D\uD558\uAC8C \uC77D\uAE30 \uC704\uD574\uC11C\uB294 \uC815\uD655\uD55C \uC704\uCE58\uC5D0 \uB208\uC744 \uBE60\uB974\uACE0 \uC815\uD655\uD55C \uC704\uCE58\uB85C \uC62E\uAE30\uACE0, \uC548\uC815\uC801\uC73C\uB85C \uC2DC\uC120\uC744 \uC720\uC9C0\uD558\uB294 \uC6B4\uB3D9\uC81C\uC5B4 \uB2A5\uB825\uC774 \uD544\uC694\uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC2DC\uB825 \uC800\uD558, \uD53C\uB85C, \uC9D1\uC911\uB825 \uBD80\uC871, \uC548\uAD6C\uC9C4\uD0D5\uC99D \uBC0F \uAC01\uC885 \uC2E0\uACBD\uACC4 \uC774\uC0C1 \uB4F1\uC758 \uC774\uC720\uB85C \uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9\uC5D0 \uBB38\uC81C\uAC00 \uC0DD\uAE38 \uC218 \uC788\uC73C\uBA70, \uC774 \uB2A5\uB825\uC774 \uC800\uD558\uB418\uBA74 \uAE00\uC744 \uC720\uCC3D\uD558\uAC8C \uC77D\uB294\uB370 \uBC29\uD574\uAC00 \uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "row"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "titleUnderline"
@@ -4705,7 +4881,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     className: "title"
   }, "\uC5B4\uB290\uC815\uB3C4\uAC00 \uC801\uB2F9\uD55C\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uC9C0\uC5F0\uC2DC\uAC04 (latency time) : \uC2DC\uAC01 \uC790\uADF9\uBB3C\uC744 \uBC1C\uACAC\uD55C \uB4A4, \uBAA9\uD45C\uB97C \uD5A5\uD574 \uC2DC\uC120\uC774 \uCD9C\uBC1C\uD560 \uB54C\uAE4C\uC9C0 \uAC78\uB9AC\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBC18\uC751\uCC98\uB9AC \uBC0F \uC6B4\uB3D9\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uC9E7\uC73C\uBA70, \uB300\uCCB4\uB85C 150ms ~ 250ms\uC815\uB3C4\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC2DC\uC120\uC774\uB3D9\uC18D\uB3C4 (saccade speed) : \uC2DC\uC120\uC774 \uBAA9\uD45C\uB97C \uD5A5\uD574 \uC774\uB3D9\uD560 \uB54C, \uBAA9\uD45C\uC5D0 \uB2E4\uB2E4\uB97C \uB54C\uAE4C\uC9C0\uC758 \uC18D\uB3C4\uC785\uB2C8\uB2E4. \uC6B4\uB3D9\uC81C\uC5B4\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uC18D\uB3C4\uAC00 \uBE60\uB974\uBA70, \uC774\uB3D9\uD560 \uAC70\uB9AC\uAC00 \uAC00\uAE4C\uC6B8\uC218\uB85D \uC18D\uB3C4\uB294 \uB290\uB824\uC9D1\uB2C8\uB2E4. \uB300\uCCB4\uB85C 50\uB3C4/\uCD08~200\uB3C4/\uCD08 \uC815\uB3C4\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC751\uC2DC\uC548\uC815\uC131 (fixation stability) : \uB300\uC0C1\uC744 \uC751\uC2DC\uD560 \uB54C, \uC2DC\uC120\uC774 \uC5BC\uB9C8\uB098 \uC548\uC815\uC801\uC73C\uB85C \uC720\uC9C0\uD558\uB294\uC9C0\uB97C \uCE21\uC815\uD55C \uCC99\uB3C4\uC785\uB2C8\uB2E4. \uBAA9\uD45C\uC704\uCE58\uB85C\uBD80\uD130\uC758 2\uCD08\uAC04 \uC2DC\uC120\uC704\uCE58 \uD3B8\uCC28\uB85C \uCE21\uC815\uD569\uB2C8\uB2E4. \uC9D1\uC911\uB825\uC774 \uAC15\uD558\uACE0 \uC6B4\uB3D9\uC81C\uC5B4\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uD3B8\uCC28\uAC00 \uC791\uC73C\uBA70, \uB300\uCCB4\uB85C 0.2\uB3C4 \uB0B4\uC678\uC785\uB2C8\uB2E4."))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uC774\uB3D9\uC9C0\uCCB4\uC2DC\uAC04 (latency time) : \uC2DC\uAC01 \uC790\uADF9\uBB3C\uC744 \uBC1C\uACAC\uD55C \uB4A4, \uBAA9\uD45C\uB97C \uD5A5\uD574 \uC2DC\uC120\uC774 \uCD9C\uBC1C\uD560 \uB54C\uAE4C\uC9C0 \uAC78\uB9AC\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBC18\uC751\uCC98\uB9AC \uBC0F \uC6B4\uB3D9\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uC9E7\uC73C\uBA70, \uB300\uCCB4\uB85C 150ms ~ 250ms\uC815\uB3C4\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uB3C4\uC57D\uC774\uB3D9\uC18D\uB3C4 (saccade speed) : \uC2DC\uC120\uC774 \uBAA9\uD45C\uB97C \uD5A5\uD574 \uC774\uB3D9\uD560 \uB54C, \uBAA9\uD45C\uC5D0 \uB2E4\uB2E4\uB97C \uB54C\uAE4C\uC9C0\uC758 \uC18D\uB3C4\uC785\uB2C8\uB2E4. \uC6B4\uB3D9\uC81C\uC5B4\uB2A5\uB825\uC774 \uC6B0\uC218\uD560\uC218\uB85D \uC18D\uB3C4\uAC00 \uBE60\uB974\uBA70, \uC774\uB3D9\uD560 \uAC70\uB9AC\uAC00 \uAC00\uAE4C\uC6B8\uC218\uB85D \uC18D\uB3C4\uB294 \uB290\uB824\uC9D1\uB2C8\uB2E4. \uB300\uCCB4\uB85C 50\uB3C4/\uCD08~200\uB3C4/\uCD08 \uC815\uB3C4\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC751\uC2DC \uACE0\uC815\uC624\uCC28 (fixation Error) : \uB300\uC0C1\uC744 \uC751\uC2DC\uD560 \uB54C, \uC2DC\uC120\uC774 \uD55C \uC810\uC5D0 \uC548\uC815\uC801\uC73C\uB85C \uC720\uC9C0\uB418\uC5B4\uC57C \uD569\uB2C8\uB2E4. \uC751\uC2DC \uACE0\uC815\uC624\uCC28\uB294 \uC751\uC2DC\uD558\uB294 2\uCD08 \uB3D9\uC548 \uC2DC\uC120 \uC704\uCE58\uC758 \uD3B8\uCC28\uB97C \uCE21\uC815\uD569\uB2C8\uB2E4. \uC9D1\uC911\uB825\uC774 \uAC15\uD558\uACE0 \uC548\uAD6C \uC6B4\uB3D9\uC81C\uC5B4 \uB2A5\uB825\uC774 \uC6B0\uC218\uD560 \uC218\uB85D \uD3B8\uCC28\uAC00 \uC791\uACE0 \uC751\uC2DC \uC548\uC815\uC131\uC774 \uB192\uC73C\uBA70, \uB300\uCCB4\uB85C 0.2\uB3C4 \uC774\uB0B4\uC774\uBA74 \uC548\uC815\uC801\uC785\uB2C8\uB2E4."))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "row"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "titleUnderline"
@@ -4713,7 +4889,7 @@ var SaccadeView = function SaccadeView(_ref3) {
     className: "title"
   }, "\uC5B4\uB5BB\uAC8C \uAC1C\uC120\uD560 \uC218 \uC788\uB098\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uC989\uAC01\uC801 \uD53C\uB4DC\uBC31\uC774 \uC788\uB294 \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uD6C8\uB828\uC744 \uD569\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uC989\uAC01\uC801 \uD53C\uB4DC\uBC31\uC774 \uC788\uB294 \uB3C4\uC57D\uC548\uAD6C\uC6B4\uB3D9 \uD6C8\uB828(eye-training\uC758 saccade tracking)\uC744 \uD569\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
     className: "GazeViewerWrap"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "modal"
@@ -5404,7 +5580,8 @@ var PursuitView = function PursuitView(_ref4) {
         label: "my err",
         data: [data.analysis.clockwise_err, data.analysis.anticlockwise_err],
         // backgroundColor: themeColors,
-        backgroundColor: "#2763DB",
+        // backgroundColor: "#2763DB", //#@! 파랑으로 바꿔바
+        backgroundColor: 'red',
         barPercentage: 0.8,
         categoryPercentage: 0.5,
         borderColor: "transparent"
@@ -5626,7 +5803,7 @@ var PursuitView = function PursuitView(_ref4) {
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
-  }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uC810\uC218 \uBD84\uD3EC"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uD3C9\uADE0 \uC624\uCC28"), /*#__PURE__*/_react.default.createElement("div", {
     className: "cbox",
     style: {
       display: 'flex',
@@ -5750,7 +5927,7 @@ var PursuitView = function PursuitView(_ref4) {
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
-  }, "\uC2DC\uAC04\uC5D0 \uB530\uB978 \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uD68C\uC804\uBC29\uD5A5\uBCC4 \uC2DC\uAC04\uC5D0 \uB530\uB978 \uC2DC\uC120\uC758 \uC218\uD3C9/\uC218\uC9C1\uC704\uCE58"), /*#__PURE__*/_react.default.createElement("div", {
     id: "pursuitDirectionChart",
     className: "cbox"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -5809,7 +5986,7 @@ var PursuitView = function PursuitView(_ref4) {
     className: "title"
   }, "\uC5B4\uB290 \uC815\uB3C4\uAC00 \uC801\uB2F9\uD55C\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uD3C9\uADE0 \uC5D0\uB7EC : \uBAA9\uD45C\uBB3C\uC744 \uB530\uB77C \uBCF4\uB294 \uB3D9\uC548, \uC815\uD655\uD55C \uC704\uCE58\uB85C\uBD80\uD130 \uBC97\uC5B4\uB09C \uC2DC\uC810\uC758 \uC704\uCE58 \uC5D0\uB7EC\uC785\uB2C8\uB2E4. \uBD80\uB4DC\uB7EC\uC6B4 \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9\uC5D0 \uC2E4\uD328\uD558\uC5EC \uB3C4\uC57D\uC774 \uBC1C\uC0DD\uD558\uAC70\uB098 , \uC9D1\uC911\uD558\uC9C0 \uBABB\uD558\uACE0 \uBAA9\uD45C\uBB3C\uC744 \uC815\uD655\uD788 \uB530\uB77C\uAC00\uC9C0 \uBABB\uD558\uBA74 \uC5D0\uB7EC\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4. \uD3C9\uADE0 \uC5D0\uB7EC\uAC00 2% \uC774\uB0B4\uC774\uBA74 \uC815\uC0C1\uC785\uB2C8\uB2E4."))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uD3C9\uADE0 \uC624\uCC28 : \uBAA9\uD45C\uBB3C\uC744 \uB530\uB77C \uBCF4\uB294 \uB3D9\uC548, \uC815\uD655\uD55C \uC704\uCE58\uB85C\uBD80\uD130 \uBC97\uC5B4\uB09C \uC2DC\uC810\uC758 \uC704\uCE58 \uC5D0\uB7EC\uC785\uB2C8\uB2E4. \uBD80\uB4DC\uB7EC\uC6B4 \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9\uC5D0 \uC2E4\uD328\uD558\uC5EC \uB3C4\uC57D\uC774 \uBC1C\uC0DD\uD558\uAC70\uB098 , \uC9D1\uC911\uD558\uC9C0 \uBABB\uD558\uACE0 \uBAA9\uD45C\uBB3C\uC744 \uC815\uD655\uD788 \uB530\uB77C\uAC00\uC9C0 \uBABB\uD558\uBA74 \uC5D0\uB7EC\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4. \uD3C9\uADE0 \uC624\uCC28\uAC00 2\uB3C4 \uC774\uB0B4\uC774\uBA74 \uC815\uC0C1\uC785\uB2C8\uB2E4."))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "row"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "titleUnderline"
@@ -5817,7 +5994,7 @@ var PursuitView = function PursuitView(_ref4) {
     className: "title"
   }, "\uC5B4\uB5BB\uAC8C \uAC1C\uC120\uD560 \uC218 \uC788\uB098\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uC989\uAC01\uC801 \uD53C\uB4DC\uBC31\uC774 \uC788\uB294 \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uD6C8\uB828\uC744 \uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC9D1\uC911\uB825\uC744 \uAE30\uB985\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uC989\uAC01\uC801 \uD53C\uB4DC\uBC31\uC774 \uC788\uB294 \uCD94\uC801\uC548\uAD6C\uC6B4\uB3D9 \uD6C8\uB828(eye-training\uC758 Pursuit Tracking)\uC744 \uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC9D1\uC911\uB825\uC744 \uAE30\uB985\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
     className: "GazeViewerWrap"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "modal"
@@ -5858,8 +6035,8 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
         data: [(data.analysis.left_saccade_delay + data.analysis.right_saccade_delay) * 500, (data.analysis.left_antisaccade_delay + data.analysis.right_antisaccade_delay) * 500],
         // backgroundColor: themeColors,
         backgroundColor: "red",
-        barPercentage: 0.8,
-        categoryPercentage: 0.5,
+        barPercentage: 0.9,
+        categoryPercentage: 0.6,
         borderColor: "transparent"
       }, {
         type: 'bar',
@@ -5867,8 +6044,8 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
         data: [(targetGroupData.avg_left_saccade_delay + targetGroupData.avg_right_saccade_delay) * 500, (targetGroupData.avg_left_antisaccade_delay + targetGroupData.avg_right_antisaccade_delay) * 500],
         // backgroundColor: themeColors,
         backgroundColor: "gray",
-        barPercentage: 0.8,
-        categoryPercentage: 0.5,
+        barPercentage: 0.9,
+        categoryPercentage: 0.6,
         borderColor: "transparent"
       }]
     };
@@ -5985,8 +6162,8 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
         data: [data.analysis.avgErrFrequencyRatio * 100, data.analysis.avgErrTime / 0.5 * 100],
         // backgroundColor: themeColors,
         backgroundColor: "red",
-        barPercentage: 0.8,
-        categoryPercentage: 0.5,
+        barPercentage: 0.9,
+        categoryPercentage: 0.6,
         borderColor: "transparent"
       }, {
         type: 'bar',
@@ -5994,8 +6171,8 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
         data: [targetGroupData.avg_avgErrFrequencyRatio * 100, targetGroupData.avg_avgErrTime / 0.5 * 100],
         // backgroundColor: themeColors,
         backgroundColor: "gray",
-        barPercentage: 0.8,
-        categoryPercentage: 0.5,
+        barPercentage: 0.9,
+        categoryPercentage: 0.6,
         borderColor: "transparent"
       }]
     };
@@ -6063,10 +6240,10 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
             fontStyle: "bold"
           },
           ticks: {
-            stepSize: 0.2,
+            stepSize: 20,
             max: 2,
             min: 0,
-            fontSize: 14,
+            fontSize: 16,
             fontStyle: "bold"
           }
         }],
@@ -7399,7 +7576,7 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
-  }, "\uC2DC\uAC04\uC5D0 \uB530\uB978 \uC2DC\uC120\uC774\uB3D9"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "\uACFC\uC81C\uBCC4(\uC0C1,\uD558), \uBC29\uD5A5\uBCC4(\uC88C\uC6B0) \uC2DC\uAC04\uC5D0 \uB530\uB978 \uC2DC\uC120\uC758 \uC218\uD3C9\uC704\uCE58"), /*#__PURE__*/_react.default.createElement("div", {
     id: "antisaccadeDirectionChart",
     className: "cbox"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -7473,19 +7650,19 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
     className: "title"
   }, "\uBC18\uB300\uB85C \uBCF4\uAE30(anti saccade)\uB294 \uBB34\uC5C7\uC778\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uBC18\uB300\uB85C \uBCF4\uAE30\uB294 \uC9C0\uAC01\uB41C \uC0AC\uBB3C\uC744 \uC790\uB3D9\uC801\uC73C\uB85C \uBC14\uB77C\uBCF4\uB294 \uAC83\uC744 \uD1B5\uC81C\uD558\uB294 \uB2A5\uB825\uC744 \uCE21\uC815\uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uB530\uB77C\uBCF4\uAE30(pro saccade)\uACFC\uC81C\uB294 \uC9C0\uAC01\uB41C \uB300\uC0C1\uC744 \uBC14\uB77C\uBCF4\uB294 \uACFC\uC81C\uC774\uACE0, \uBC18\uB300\uB85C \uBCF4\uAE30(anti saccade)\uACFC\uC81C\uB294 \uC9C0\uAC01\uB41C \uB300\uC0C1\uC744 \uBCF4\uC9C0 \uC54A\uACE0 \uBC18\uB300\uB85C \uC2DC\uC120\uC744 \uC774\uB3D9\uD558\uB294 \uACFC\uC81C\uC785\uB2C8\uB2E4. \uBB34\uC5B8\uAC00 \uBCF4\uC774\uBA74 \uBC18\uC0AC\uC801\uC73C\uB85C \uC2DC\uC120\uC774 \uAC00\uB824\uB294 \uACBD\uD5A5\uC774 \uC788\uAE30 \uB54C\uBB38\uC5D0, \uC9C0\uAC01\uC5D0 \uB300\uD55C \uD589\uB3D9\uC744 \uD1B5\uC81C\uD558\uB294 \uB2A5\uB825\uC774\uB098 \uC9D1\uC911\uB825\uC774 \uB0AE\uC73C\uBA74 \uBC18\uB300\uBCF4\uAE30 \uACFC\uC81C\uB97C \uD558\uAE30 \uC5B4\uB835\uC2B5\uB2C8\uB2E4. \uC9D1\uC911\uB825 \uC800\uD558, \uB09C\uB3C5\uC99D, ADHD \uB4F1\uC758 \uC99D\uC0C1\uACFC \uAD00\uB828\uC774 \uC788\uB294 \uACBD\uC6B0\uAC00 \uC788\uC2B5\uB2C8\uB2E4.")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uBC18\uB300\uB85C \uBCF4\uAE30\uB294 \uC9C0\uAC01\uB41C \uC0AC\uBB3C\uC744 \uC790\uB3D9\uC801\uC73C\uB85C \uBC14\uB77C\uBCF4\uB294 \uAC83\uC744 \uD1B5\uC81C\uD558\uB294 \uB2A5\uB825\uC744 \uCE21\uC815\uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uB530\uB77C\uBCF4\uAE30(pro saccade)\uACFC\uC81C\uB294 \uC9C0\uAC01\uB41C \uB300\uC0C1\uC744 \uBC14\uB77C\uBCF4\uB294 \uACFC\uC81C\uC774\uACE0, \uBC18\uB300\uB85C \uBCF4\uAE30(anti saccade)\uACFC\uC81C\uB294 \uC9C0\uAC01\uB41C \uB300\uC0C1\uC744 \uBCF4\uC9C0 \uC54A\uACE0 \uBC18\uB300\uB85C \uC2DC\uC120\uC744 \uC774\uB3D9\uD558\uB294 \uACFC\uC81C\uC785\uB2C8\uB2E4. \uBB34\uC5B8\uAC00 \uBCF4\uC774\uBA74 \uBC18\uC0AC\uC801\uC73C\uB85C \uC2DC\uC120\uC774 \uAC00\uB824\uB294 \uACBD\uD5A5\uC774 \uC788\uAE30 \uB54C\uBB38\uC5D0, \uC9C0\uAC01\uC5D0 \uB300\uD55C \uD589\uB3D9\uC744 \uD1B5\uC81C\uD558\uB294 \uB2A5\uB825\uC774\uB098 \uC9D1\uC911\uB825\uC774 \uB0AE\uC73C\uBA74 \uBC18\uB300\uBCF4\uAE30 \uACFC\uC81C\uB97C \uD558\uAE30 \uC5B4\uB835\uC2B5\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC9D1\uC911\uB825 \uC800\uD558, \uB09C\uB3C5\uC99D, ADHD \uB4F1\uC758 \uC99D\uC0C1\uACFC \uAD00\uB828\uC774 \uC788\uB294 \uACBD\uC6B0\uAC00 \uC788\uC2B5\uB2C8\uB2E4.")))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleUnderline"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, "\uC5B4\uB290 \uC815\uB3C4\uAC00 \uC801\uB2F9\uD55C\uAC00\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uBC29\uD5A5 \uC815\uD655\uC131 : \uB530\uB77C\uBCF4\uAE30\uB294 \uB300\uC0C1\uC774 \uC788\uB294 \uCABD\uC73C\uB85C, \uBC18\uB300\uBCF4\uAE30\uB294 \uB300\uC0C1\uC758 \uBC18\uB300\uCABD\uC73C\uB85C \uC2DC\uC120\uC774 \uC6C0\uC9C1\uC600\uB294\uC9C0\uB97C \uCE21\uC815\uD55C \uBE44\uC728\uC785\uB2C8\uB2E4. \uBC18\uB300\uBCF4\uAE30\uC758 \uC815\uD655\uB3C4\uAC00 \uB192\uC740 \uAC83\uC774 \uBC14\uB78C\uC9C1\uD558\uBA70, \uB300\uCCB4\uB85C 85% \uC774\uC0C1\uC785\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC9C0\uCCB4\uC2DC\uAC04(latency) : \uB300\uC0C1\uC744 \uBCF4\uACE0 \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uAE30 \uC804\uAE4C\uC9C0 \uC18C\uC694\uB418\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBCF4\uD1B5 \uBC18\uB300\uB85C\uBCF4\uAE30\uC2DC \uB530\uB77C\uBCF4\uAE30\uBCF4\uB2E4 \uB354 \uC624\uB798 \uAC78\uB9AC\uBA70,  300ms \uC774\uD558\uC778 \uAC83\uC774 \uC88B\uC2B5\uB2C8\uB2E4.")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uC774\uB3D9\uBC29\uD5A5 \uC624\uB958 : \uBC18\uB300\uB85C \uBCF4\uAE30\uB97C \uD560 \uB54C, \uC815\uD655\uD55C \uBC29\uD5A5(\uBC18\uB300 \uBC29\uD5A5)\uC774 \uC544\uB2CC \uBAA9\uD45C\uBB3C\uC774 \uB098\uD0C0\uB09C \uBC29\uD5A5\uC73C\uB85C \uC2DC\uC120\uC774 \uC6C0\uC9C1\uC778 \uBE44\uC728(\uD69F\uC218 \uBC0F \uC2DC\uAC04\uC758 \uBC31\uBD84\uC728)\uC785\uB2C8\uB2E4. \uC624\uB958\uC728\uC774 \uB0AE\uC744 \uC218\uB85D \uC88B\uC73C\uBA70, \uC624\uB958\uD69F\uC218\uB294 20% \uC774\uD558, \uD3C9\uADE0 \uC624\uB958\uC2DC\uAC04\uC740 10% \uC774\uD558\uC778 \uAC83\uC774 \uBC14\uB78C\uC9C1\uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uD3C9\uADE0 \uC9C0\uCCB4\uC2DC\uAC04(latency) : \uB300\uC0C1\uC744 \uBCF4\uACE0 \uC2DC\uC120\uC744 \uC6C0\uC9C1\uC774\uAE30 \uC804\uAE4C\uC9C0 \uC18C\uC694\uB418\uB294 \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uBCF4\uD1B5 \uBC18\uB300\uB85C \uBCF4\uAE30\uC2DC \uB530\uB77C\uBCF4\uAE30\uBCF4\uB2E4 \uB354 \uC624\uB798 \uAC78\uB9AC\uBA70,  300ms \uC774\uD558\uC778 \uAC83\uC774 \uC88B\uC2B5\uB2C8\uB2E4.")))), /*#__PURE__*/_react.default.createElement("div", {
     className: "titleUnderline"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "title"
   }, "\uC5B4\uB5BB\uAC8C \uAC1C\uC120\uD560 \uC218 \uC788\uB098\uC694?"), /*#__PURE__*/_react.default.createElement("div", {
     className: "explain"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uC989\uAC01\uC801 \uD53C\uB4DC\uBC31\uC774 \uC788\uB294 \uBC18\uB300\uB85C \uBCF4\uAE30 \uD6C8\uB828\uC744 \uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC9D1\uC911\uB825\uC744 \uAE30\uB985\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, "\uC989\uAC01\uC801 \uD53C\uB4DC\uBC31\uC774 \uC788\uB294 \uBC18\uB300\uB85C \uBCF4\uAE30 \uD6C8\uB828(eye-training\uC758 anti-saccade tracking)\uC744 \uD569\uB2C8\uB2E4."), /*#__PURE__*/_react.default.createElement("li", null, "\uC9D1\uC911\uB825\uC744 \uAE30\uB985\uB2C8\uB2E4."))))), showGazeViewer && /*#__PURE__*/_react.default.createElement("div", {
     className: "GazeViewerWrap"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "modal"

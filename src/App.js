@@ -10,7 +10,7 @@ import _53 from './lib/datasample/53_antisaccade.json';
 function App() {
 
   const dataArr = React.useMemo(() => {
-    let da = [_74, _80, _53];
+    let da = [_53,_74, _80];
     for (let i = 0; i < da.length; i++) {
       let newraw = da[i];
       if (newraw) {
