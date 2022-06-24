@@ -2626,7 +2626,7 @@ const ScreeningViewer = ({ ...props }) => {
                         docDefinition.content.push({
                             name: '도약안구운동 1줄 파랑메뉴',
                             margin: [5, 35, 5, 5],
-
+                        
                             table: {
                                 margin: [0, 0, 0, 0],
                                 dontBreakRows: true,
@@ -2766,7 +2766,7 @@ const ScreeningViewer = ({ ...props }) => {
                         });
                         //4개짜리 방향별 분석
                         docDefinition.content.push({
-                            pageBreak: isLast ? null : 'after',
+                            // pageBreak: isLast ? null : 'after',
                             name: '도약안구운동 1줄 파랑메뉴',
                             margin: [5, 20, 5, 5],
 
