@@ -6,11 +6,11 @@ import ScreeningViewer from './lib/ScreeningViewer';
 import _74 from './lib/datasample/74_saccade.json';
 import _80 from './lib/datasample/80_pursuit.json';
 import _53 from './lib/datasample/53_antisaccade.json';
-
+import _112 from './lib/datasample/112_antisaccade.json';
 function App() {
 
   const dataArr = React.useMemo(() => {
-    let da = [_53,_74, _80];
+    let da = [_53,_74, _80,_112];
     for (let i = 0; i < da.length; i++) {
       let newraw = da[i];
       if (newraw) {

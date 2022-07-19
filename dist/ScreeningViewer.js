@@ -844,22 +844,24 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
             right_fixation_stability = _data$analysis2.right_fixation_stability,
             up_fixation_stability = _data$analysis2.up_fixation_stability;
 
-        if (down_saccade_delay >= 0.15 && down_saccade_delay <= 0.37 && left_saccade_delay >= 0.15 && left_saccade_delay <= 0.37 && right_saccade_delay >= 0.15 && right_saccade_delay <= 0.37 && up_saccade_delay >= 0.15 && up_saccade_delay <= 0.37 && down_fixation_stability <= 0.1 && up_fixation_stability <= 0.1 && left_fixation_stability <= 0.1 && right_fixation_stability <= 0.1) {
+        if (down_saccade_delay >= 0.15 && down_saccade_delay <= 0.37 && left_saccade_delay >= 0.15 && left_saccade_delay <= 0.37 && right_saccade_delay >= 0.15 && right_saccade_delay <= 0.37 && up_saccade_delay >= 0.15 && up_saccade_delay <= 0.37 && down_fixation_stability <= 0.3 && up_fixation_stability <= 0.3 && left_fixation_stability <= 0.3 && right_fixation_stability <= 0.3) {
           tempstate = "양호";
-        } else if (down_saccade_delay >= 0.37 && down_saccade_delay <= 0.46 && left_saccade_delay >= 0.37 && left_saccade_delay <= 0.46 && right_saccade_delay >= 0.37 && right_saccade_delay <= 0.46 && up_saccade_delay >= 0.37 && up_saccade_delay <= 0.46 && down_fixation_stability <= 0.1 && up_fixation_stability <= 0.1 && left_fixation_stability <= 0.1 && right_fixation_stability <= 0.1) {
+        } else if (down_saccade_delay >= 0.37 && down_saccade_delay <= 0.46 && left_saccade_delay >= 0.37 && left_saccade_delay <= 0.46 && right_saccade_delay >= 0.37 && right_saccade_delay <= 0.46 && up_saccade_delay >= 0.37 && up_saccade_delay <= 0.46 && down_fixation_stability <= 0.3 && up_fixation_stability <= 0.3 && left_fixation_stability <= 0.3 && right_fixation_stability <= 0.3) {
           tempstate = "미흡";
         } else {
           tempstate = "주의";
         }
       } else if (type === 'antisaccade') {
-        var avgErrTime = data.avgErrTime,
-            left_antisaccade_delay = data.left_antisaccade_delay,
-            right_antisaccade_delay = data.right_antisaccade_delay;
-        var avgErrTimePercent = avgErrTime / 0.5 * 100;
+        console.log("data");
+        var _data$analysis3 = data.analysis,
+            avgErrTime = _data$analysis3.avgErrTime,
+            left_antisaccade_delay = _data$analysis3.left_antisaccade_delay,
+            right_antisaccade_delay = _data$analysis3.right_antisaccade_delay;
+        var avgErrTimePercent = avgErrTime / 0.5 * 100; // console.log("avgErrTimePercent",avgErrTime,avgErrTimePercent,left_antisaccade_delay,right_antisaccade_delay)
 
-        if (avgErrTimePercent <= 20 && right_antisaccade_delay <= 300 && left_antisaccade_delay <= 300) {
+        if (avgErrTimePercent <= 20 && right_antisaccade_delay <= 0.3 && left_antisaccade_delay <= 0.3) {
           tempstate = "양호";
-        } else if (avgErrTimePercent <= 50 && right_antisaccade_delay <= 500 && left_antisaccade_delay <= 500) {
+        } else if (avgErrTimePercent <= 50 && right_antisaccade_delay <= 0.5 && left_antisaccade_delay <= 0.5) {
           tempstate = "미흡";
         } else {
           tempstate = "주의";

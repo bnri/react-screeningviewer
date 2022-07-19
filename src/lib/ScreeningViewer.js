@@ -821,10 +821,10 @@ const ScreeningViewer = ({ ...props }) => {
                     left_saccade_delay>=0.15 && left_saccade_delay<=0.37 &&
                     right_saccade_delay>=0.15 && right_saccade_delay<=0.37 &&
                     up_saccade_delay>=0.15 && up_saccade_delay<=0.37 &&
-                    down_fixation_stability<=0.1 &&
-                    up_fixation_stability<=0.1 &&
-                    left_fixation_stability<=0.1 &&
-                    right_fixation_stability<=0.1
+                    down_fixation_stability<=0.3 &&
+                    up_fixation_stability<=0.3 &&
+                    left_fixation_stability<=0.3 &&
+                    right_fixation_stability<=0.3
                     ){
                     tempstate="양호";    
                 }
@@ -832,10 +832,10 @@ const ScreeningViewer = ({ ...props }) => {
                     left_saccade_delay>=0.37 && left_saccade_delay<=0.46 &&
                     right_saccade_delay>=0.37 && right_saccade_delay<=0.46 &&
                     up_saccade_delay>=0.37 && up_saccade_delay<=0.46 &&
-                    down_fixation_stability<=0.1 &&
-                    up_fixation_stability<=0.1 &&
-                    left_fixation_stability<=0.1 &&
-                    right_fixation_stability<=0.1
+                    down_fixation_stability<=0.3 &&
+                    up_fixation_stability<=0.3 &&
+                    left_fixation_stability<=0.3 &&
+                    right_fixation_stability<=0.3
                     ){
                     tempstate="미흡";
                 }
@@ -844,18 +844,19 @@ const ScreeningViewer = ({ ...props }) => {
                 }
             }
             else if(type==='antisaccade'){
- 
-                const {avgErrTime ,left_antisaccade_delay,right_antisaccade_delay } = data;
+                console.log("data");
+                const {avgErrTime ,left_antisaccade_delay,right_antisaccade_delay } = data.analysis;
                 const avgErrTimePercent = avgErrTime/0.5 *100;
+                // console.log("avgErrTimePercent",avgErrTime,avgErrTimePercent,left_antisaccade_delay,right_antisaccade_delay)
                 if(avgErrTimePercent<=20 &&
-                    right_antisaccade_delay<=300 &&
-                    left_antisaccade_delay<=300
+                    right_antisaccade_delay<=0.3 &&
+                    left_antisaccade_delay<=0.3
                     ){
                     tempstate="양호";    
                 }
                 else if(avgErrTimePercent<=50 &&
-                    right_antisaccade_delay<=500 &&
-                    left_antisaccade_delay<=500){
+                    right_antisaccade_delay<=0.5 &&
+                    left_antisaccade_delay<=0.5){
                         tempstate="미흡";    
                 }
                 else{
