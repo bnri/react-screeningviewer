@@ -859,9 +859,9 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
             right_antisaccade_delay = _data$analysis3.right_antisaccade_delay;
         var avgErrTimePercent = avgErrTime / 0.5 * 100; // console.log("avgErrTimePercent",avgErrTime,avgErrTimePercent,left_antisaccade_delay,right_antisaccade_delay)
 
-        if (avgErrTimePercent <= 20 && right_antisaccade_delay <= 0.3 && left_antisaccade_delay <= 0.3) {
+        if (avgErrTimePercent <= 20 && right_antisaccade_delay <= 0.45 && right_antisaccade_delay >= 0.15 && left_antisaccade_delay <= 0.45 && left_antisaccade_delay >= 0.15) {
           tempstate = "양호";
-        } else if (avgErrTimePercent <= 50 && right_antisaccade_delay <= 0.5 && left_antisaccade_delay <= 0.5) {
+        } else if (avgErrTimePercent <= 50 && right_antisaccade_delay <= 0.55 && right_antisaccade_delay >= 0.45 && left_antisaccade_delay <= 0.55 && left_antisaccade_delay >= 0.45) {
           tempstate = "미흡";
         } else {
           tempstate = "주의";
