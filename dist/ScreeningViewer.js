@@ -812,29 +812,91 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
 
   var myStateArr = _react.default.useMemo(function () {
     // if(!myPercentArr) return null;
-    var stateArr = [];
+    //#@!#@!
+    // console.log("dataArr",dataArr);
+    var tempStateArr = [];
 
-    for (var i = 0; i < myPercentArr.length; i++) {
-      var myPercent = myPercentArr[i];
-      var mystate = void 0;
+    for (var i = 0; i < dataArr.length; i++) {
+      var data = dataArr[i];
+      var type = data.screeningType;
+      var tempstate = "양호"; // console.log("type",type);
 
-      if (myPercent <= 10) {
-        mystate = '최우수';
-      } else if (myPercent > 10 && myPercent <= 25) {
-        mystate = '우수';
-      } else if (myPercent > 25 && myPercent <= 75) {
-        mystate = "양호";
-      } else if (myPercent > 75 && myPercent <= 90) {
-        mystate = "미흡";
-      } else {
-        mystate = "주의";
+      if (type === 'pursuit') {
+        var _data$analysis = data.analysis,
+            clockwise_err = _data$analysis.clockwise_err,
+            anticlockwise_err = _data$analysis.anticlockwise_err; // console.log(clockwise_err,anticlockwise_err);
+
+        if (clockwise_err <= 1.5 && anticlockwise_err <= 1.5) {
+          tempstate = "양호";
+        } else if (clockwise_err <= 2 && anticlockwise_err <= 2) {
+          tempstate = "미흡";
+        } else {
+          tempstate = "주의";
+        }
+      } else if (type === 'saccade') {
+        var _data$analysis2 = data.analysis,
+            down_saccade_delay = _data$analysis2.down_saccade_delay,
+            left_saccade_delay = _data$analysis2.left_saccade_delay,
+            right_saccade_delay = _data$analysis2.right_saccade_delay,
+            up_saccade_delay = _data$analysis2.up_saccade_delay,
+            down_fixation_stability = _data$analysis2.down_fixation_stability,
+            left_fixation_stability = _data$analysis2.left_fixation_stability,
+            right_fixation_stability = _data$analysis2.right_fixation_stability,
+            up_fixation_stability = _data$analysis2.up_fixation_stability;
+
+        if (down_saccade_delay >= 0.15 && down_saccade_delay <= 0.37 && left_saccade_delay >= 0.15 && left_saccade_delay <= 0.37 && right_saccade_delay >= 0.15 && right_saccade_delay <= 0.37 && up_saccade_delay >= 0.15 && up_saccade_delay <= 0.37 && down_fixation_stability <= 0.1 && up_fixation_stability <= 0.1 && left_fixation_stability <= 0.1 && right_fixation_stability <= 0.1) {
+          tempstate = "양호";
+        } else if (down_saccade_delay >= 0.37 && down_saccade_delay <= 0.46 && left_saccade_delay >= 0.37 && left_saccade_delay <= 0.46 && right_saccade_delay >= 0.37 && right_saccade_delay <= 0.46 && up_saccade_delay >= 0.37 && up_saccade_delay <= 0.46 && down_fixation_stability <= 0.1 && up_fixation_stability <= 0.1 && left_fixation_stability <= 0.1 && right_fixation_stability <= 0.1) {
+          tempstate = "미흡";
+        } else {
+          tempstate = "주의";
+        }
+      } else if (type === 'antisaccade') {
+        var avgErrTime = data.avgErrTime,
+            left_antisaccade_delay = data.left_antisaccade_delay,
+            right_antisaccade_delay = data.right_antisaccade_delay;
+        var avgErrTimePercent = avgErrTime / 0.5 * 100;
+
+        if (avgErrTimePercent <= 20 && right_antisaccade_delay <= 300 && left_antisaccade_delay <= 300) {
+          tempstate = "양호";
+        } else if (avgErrTimePercent <= 50 && right_antisaccade_delay <= 500 && left_antisaccade_delay <= 500) {
+          tempstate = "미흡";
+        } else {
+          tempstate = "주의";
+        }
       }
 
-      stateArr.push(mystate);
-    }
+      tempStateArr.push(tempstate);
+    } // console.log("tempStateArr",tempStateArr);
 
+
+    return tempStateArr;
+    /*
+    let stateArr = [];
+    for (let i = 0; i < myPercentArr.length; i++) {
+        let myPercent = myPercentArr[i];
+        let mystate;
+        
+          if (myPercent <= 10) {
+            mystate = '최우수'
+            }
+        else if (myPercent > 10 && myPercent <= 25) {
+            mystate = '우수'
+            }
+        else if (myPercent > 25 && myPercent <= 75) {
+            mystate = "양호"
+            }
+        else if (myPercent > 75 && myPercent <= 90) {
+            mystate = "미흡"
+            }
+        else {
+            mystate = "주의"
+            }
+        stateArr.push(mystate);
+    }        
     return stateArr;
-  }, [myPercentArr]);
+    */
+  }, [dataArr]);
 
   var handlePDFstart = function handlePDFstart() {
     set_progressNow(0);
@@ -3170,15 +3232,18 @@ var ScreeningViewer = function ScreeningViewer(_ref2) {
   }, selScreeningType === 'saccade' && targetGroupData && /*#__PURE__*/_react.default.createElement(SaccadeView, {
     data: dataArr[selDataIndex],
     targetGroupData: targetGroupData,
-    everyGroupData: everyGroupData
+    everyGroupData: everyGroupData,
+    myState: myStateArr[selDataIndex]
   }), selScreeningType === 'pursuit' && /*#__PURE__*/_react.default.createElement(PursuitView, {
     data: dataArr[selDataIndex],
     targetGroupData: targetGroupData,
-    everyGroupData: everyGroupData
+    everyGroupData: everyGroupData,
+    myState: myStateArr[selDataIndex]
   }), selScreeningType === 'antisaccade' && /*#__PURE__*/_react.default.createElement(AntiSaccadeView, {
     data: dataArr[selDataIndex],
     targetGroupData: targetGroupData,
-    everyGroupData: everyGroupData
+    everyGroupData: everyGroupData,
+    myState: myStateArr[selDataIndex]
   }), isPossiblePDF === true && selScreeningType === "보고서 다운로드" && /*#__PURE__*/_react.default.createElement(DownLoadPDF, {
     dataArr: dataArr,
     handlePDFstart: handlePDFstart,
@@ -3196,7 +3261,8 @@ var SaccadeView = function SaccadeView(_ref3) {
 
   var data = props.data,
       targetGroupData = props.targetGroupData,
-      everyGroupData = props.everyGroupData;
+      everyGroupData = props.everyGroupData,
+      myState = props.myState;
 
   var radarChartOption = _react.default.useMemo(function () {
     return {
@@ -4511,24 +4577,6 @@ var SaccadeView = function SaccadeView(_ref3) {
     return p;
   }, [data, targetGroupData]);
 
-  var myState = _react.default.useMemo(function () {
-    var mystate;
-
-    if (myPercent <= 10) {
-      mystate = '최우수';
-    } else if (myPercent > 10 && myPercent <= 25) {
-      mystate = '우수';
-    } else if (myPercent > 25 && myPercent <= 75) {
-      mystate = "양호";
-    } else if (myPercent > 75 && myPercent <= 90) {
-      mystate = "미흡";
-    } else {
-      mystate = "주의";
-    }
-
-    return mystate;
-  }, [myPercent]);
-
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "SaccadeView"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -4912,7 +4960,8 @@ var PursuitView = function PursuitView(_ref4) {
 
   var data = props.data,
       targetGroupData = props.targetGroupData,
-      everyGroupData = props.everyGroupData;
+      everyGroupData = props.everyGroupData,
+      myState = props.myState;
 
   var _React$useState23 = _react.default.useState(false),
       _React$useState24 = _slicedToArray(_React$useState23, 2),
@@ -5580,7 +5629,7 @@ var PursuitView = function PursuitView(_ref4) {
         label: "my err",
         data: [data.analysis.clockwise_err, data.analysis.anticlockwise_err],
         // backgroundColor: themeColors,
-        // backgroundColor: "#2763DB", //#@! 파랑으로 바꿔바
+        // backgroundColor: "#2763DB", // 파랑으로 바꿔바
         backgroundColor: 'red',
         barPercentage: 0.8,
         categoryPercentage: 0.5,
@@ -5710,24 +5759,6 @@ var PursuitView = function PursuitView(_ref4) {
 
     return p;
   }, [data, targetGroupData]);
-
-  var myState = _react.default.useMemo(function () {
-    var mystate;
-
-    if (myPercent <= 10) {
-      mystate = '최우수';
-    } else if (myPercent > 10 && myPercent <= 25) {
-      mystate = '우수';
-    } else if (myPercent > 25 && myPercent <= 75) {
-      mystate = "양호";
-    } else if (myPercent > 75 && myPercent <= 90) {
-      mystate = "미흡";
-    } else {
-      mystate = "주의";
-    }
-
-    return mystate;
-  }, [myPercent]);
 
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "PursuitView"
@@ -6017,7 +6048,8 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
 
   var data = props.data,
       targetGroupData = props.targetGroupData,
-      everyGroupData = props.everyGroupData;
+      everyGroupData = props.everyGroupData,
+      myState = props.myState;
 
   var _React$useState29 = _react.default.useState(false),
       _React$useState30 = _slicedToArray(_React$useState29, 2),
@@ -7363,24 +7395,6 @@ var AntiSaccadeView = function AntiSaccadeView(_ref5) {
 
     return p;
   }, [data, targetGroupData]);
-
-  var myState = _react.default.useMemo(function () {
-    var mystate;
-
-    if (myPercent <= 10) {
-      mystate = '최우수';
-    } else if (myPercent > 10 && myPercent <= 25) {
-      mystate = '우수';
-    } else if (myPercent > 25 && myPercent <= 75) {
-      mystate = "양호";
-    } else if (myPercent > 75 && myPercent <= 90) {
-      mystate = "미흡";
-    } else {
-      mystate = "주의";
-    }
-
-    return mystate;
-  }, [myPercent]);
 
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "AntiSaccadeView"

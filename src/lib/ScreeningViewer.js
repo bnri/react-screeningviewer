@@ -785,11 +785,98 @@ const ScreeningViewer = ({ ...props }) => {
 
     const myStateArr = React.useMemo(() => {
         // if(!myPercentArr) return null;
+        //#@!#@!
+        // console.log("dataArr",dataArr);
 
+        let tempStateArr=[];
+        for(let i = 0 ; i <dataArr.length ; i++){
+            let data = dataArr[i];
+            let type = data.screeningType;
+            let tempstate="양호";
+            
+            // console.log("type",type);
+            if(type==='pursuit'){
+                const {clockwise_err,anticlockwise_err}= data.analysis;
+        
+                // console.log(clockwise_err,anticlockwise_err);
+
+                if(clockwise_err<=1.5 && anticlockwise_err<=1.5 ){
+                    tempstate="양호"
+                }
+                else if(clockwise_err<=2 && anticlockwise_err<=2){
+                    tempstate="미흡"
+                }
+                else{
+                    tempstate="주의"
+                }           
+            }
+            else if(type==='saccade'){
+
+
+                const {down_saccade_delay ,left_saccade_delay ,right_saccade_delay , up_saccade_delay,
+                    down_fixation_stability , left_fixation_stability , right_fixation_stability , up_fixation_stability
+                } = data.analysis;
+                
+                if( down_saccade_delay>=0.15 && down_saccade_delay<=0.37 &&
+                    left_saccade_delay>=0.15 && left_saccade_delay<=0.37 &&
+                    right_saccade_delay>=0.15 && right_saccade_delay<=0.37 &&
+                    up_saccade_delay>=0.15 && up_saccade_delay<=0.37 &&
+                    down_fixation_stability<=0.1 &&
+                    up_fixation_stability<=0.1 &&
+                    left_fixation_stability<=0.1 &&
+                    right_fixation_stability<=0.1
+                    ){
+                    tempstate="양호";    
+                }
+                else if( down_saccade_delay>=0.37 && down_saccade_delay<=0.46 &&
+                    left_saccade_delay>=0.37 && left_saccade_delay<=0.46 &&
+                    right_saccade_delay>=0.37 && right_saccade_delay<=0.46 &&
+                    up_saccade_delay>=0.37 && up_saccade_delay<=0.46 &&
+                    down_fixation_stability<=0.1 &&
+                    up_fixation_stability<=0.1 &&
+                    left_fixation_stability<=0.1 &&
+                    right_fixation_stability<=0.1
+                    ){
+                    tempstate="미흡";
+                }
+                else{
+                    tempstate="주의";
+                }
+            }
+            else if(type==='antisaccade'){
+ 
+                const {avgErrTime ,left_antisaccade_delay,right_antisaccade_delay } = data;
+                const avgErrTimePercent = avgErrTime/0.5 *100;
+                if(avgErrTimePercent<=20 &&
+                    right_antisaccade_delay<=300 &&
+                    left_antisaccade_delay<=300
+                    ){
+                    tempstate="양호";    
+                }
+                else if(avgErrTimePercent<=50 &&
+                    right_antisaccade_delay<=500 &&
+                    left_antisaccade_delay<=500){
+                        tempstate="미흡";    
+                }
+                else{
+                    tempstate="주의"; 
+                }
+           
+            }
+            tempStateArr.push(tempstate);
+        }
+        // console.log("tempStateArr",tempStateArr);
+
+        return tempStateArr;
+
+
+        /*
         let stateArr = [];
         for (let i = 0; i < myPercentArr.length; i++) {
             let myPercent = myPercentArr[i];
             let mystate;
+            
+
             if (myPercent <= 10) {
                 mystate = '최우수'
 
@@ -816,9 +903,10 @@ const ScreeningViewer = ({ ...props }) => {
 
             }
             stateArr.push(mystate);
-        }
+        }        
         return stateArr;
-    }, [myPercentArr])
+        */
+    }, [dataArr])
 
     const handlePDFstart = () => {
         set_progressNow(0);
@@ -1271,7 +1359,7 @@ const ScreeningViewer = ({ ...props }) => {
                                                 bold: true
                                             },
                                             {
-                                                text: `${myState}`,
+                                                text: `${myState}`, 
                                                 colSpan: 1,
                                                 fontSize: 9,
                                                 margin: [0, 5, 0, 5],
@@ -3779,13 +3867,13 @@ const ScreeningViewer = ({ ...props }) => {
             </div>
             <div className="rightContents">
                 {selScreeningType === 'saccade' && targetGroupData &&
-                    <SaccadeView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData} />
+                    <SaccadeView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData}  myState={myStateArr[selDataIndex]}/>
                 }
                 {selScreeningType === 'pursuit' &&
-                    <PursuitView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData} />
+                    <PursuitView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData}  myState={myStateArr[selDataIndex]} />
                 }
                 {selScreeningType === 'antisaccade' &&
-                    <AntiSaccadeView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData} />
+                    <AntiSaccadeView data={dataArr[selDataIndex]} targetGroupData={targetGroupData} everyGroupData={everyGroupData} myState={myStateArr[selDataIndex]} />
                 }
                 {isPossiblePDF === true && selScreeningType === "보고서 다운로드" &&
                     <DownLoadPDF dataArr={dataArr}
@@ -3822,7 +3910,7 @@ const ScreeningViewer = ({ ...props }) => {
 
 
 const SaccadeView = ({ ...props }) => {
-    const { data, targetGroupData, everyGroupData } = props;
+    const { data, targetGroupData, everyGroupData  , myState} = props;
 
     const radarChartOption = React.useMemo(() => {
         return {
@@ -5157,36 +5245,6 @@ const SaccadeView = ({ ...props }) => {
         return p;
     }, [data, targetGroupData]);
 
-    const myState = React.useMemo(() => {
-        let mystate;
-        if (myPercent <= 10) {
-            mystate = '최우수'
-
-
-        }
-        else if (myPercent > 10 && myPercent <= 25) {
-            mystate = '우수'
-
-
-        }
-        else if (myPercent > 25 && myPercent <= 75) {
-            mystate = "양호"
-
-
-        }
-        else if (myPercent > 75 && myPercent <= 90) {
-            mystate = "미흡"
-
-
-        }
-        else {
-            mystate = "주의"
-
-
-        }
-        return mystate;
-    }, [myPercent])
-
 
     return (<div className="SaccadeView">
         <div className="row">
@@ -5521,7 +5579,7 @@ const SaccadeView = ({ ...props }) => {
 
 
 const PursuitView = ({ ...props }) => {
-    const { data, targetGroupData, everyGroupData } = props;
+    const { data, targetGroupData, everyGroupData , myState } = props;
     const [showGazeViewer, set_showGazeViewer] = React.useState(false);
 
 
@@ -6183,7 +6241,7 @@ const PursuitView = ({ ...props }) => {
                     label: "my err",
                     data: [data.analysis.clockwise_err, data.analysis.anticlockwise_err],
                     // backgroundColor: themeColors,
-                    // backgroundColor: "#2763DB", //#@! 파랑으로 바꿔바
+                    // backgroundColor: "#2763DB", // 파랑으로 바꿔바
                     backgroundColor:'red',
                     barPercentage: 0.8,
                     categoryPercentage: 0.5,
@@ -6330,35 +6388,7 @@ const PursuitView = ({ ...props }) => {
         // console.log("p",p);
         return p;
     }, [data, targetGroupData]);
-    const myState = React.useMemo(() => {
-        let mystate;
-        if (myPercent <= 10) {
-            mystate = '최우수'
 
-
-        }
-        else if (myPercent > 10 && myPercent <= 25) {
-            mystate = '우수'
-
-
-        }
-        else if (myPercent > 25 && myPercent <= 75) {
-            mystate = "양호"
-
-
-        }
-        else if (myPercent > 75 && myPercent <= 90) {
-            mystate = "미흡"
-
-
-        }
-        else {
-            mystate = "주의"
-
-
-        }
-        return mystate;
-    }, [myPercent])
 
     return (<div className="PursuitView">
         <div className="row">
@@ -6579,7 +6609,7 @@ const PursuitView = ({ ...props }) => {
 }
 
 const AntiSaccadeView = ({ ...props }) => {
-    const { data, targetGroupData, everyGroupData } = props;
+    const { data, targetGroupData, everyGroupData ,myState } = props;
 
     const [showGazeViewer, set_showGazeViewer] = React.useState(false);
     const transparentCanvasRef = React.useRef();
@@ -7981,35 +8011,6 @@ const AntiSaccadeView = ({ ...props }) => {
         return p;
     }, [data, targetGroupData]);
 
-    const myState = React.useMemo(() => {
-        let mystate;
-        if (myPercent <= 10) {
-            mystate = '최우수'
-
-
-        }
-        else if (myPercent > 10 && myPercent <= 25) {
-            mystate = '우수'
-
-
-        }
-        else if (myPercent > 25 && myPercent <= 75) {
-            mystate = "양호"
-
-
-        }
-        else if (myPercent > 75 && myPercent <= 90) {
-            mystate = "미흡"
-
-
-        }
-        else {
-            mystate = "주의"
-
-
-        }
-        return mystate;
-    }, [myPercent])
 
     return (<div className="AntiSaccadeView">
         <div className="row">
