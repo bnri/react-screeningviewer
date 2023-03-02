@@ -700,7 +700,7 @@ const BarChartGrade = ({ ...props }) => {
 const ScreeningViewer = ({ ...props }) => {
     const { dataArr } = props;
     const { onClose } = props;
-    const { groupData, userInformArr, AgencyLogoBase64, resultInformArr } = props;
+    const { groupData, userInformArr, AgencyLogoBase64, orgLogo, resultInformArr } = props;
     const { isPossiblePDF } = props;
     const [selDataIndex, set_selDataIndex] = React.useState(0);
 
@@ -1143,7 +1143,7 @@ const ScreeningViewer = ({ ...props }) => {
             ],
 
             images: {
-                'readerseyeLogo': imgbase64forPDF['리더스아이로고가로'],
+                'readerseyeLogo': orgLogo ? orgLogo : imgbase64forPDF['리더스아이로고가로'],
                 '학원로고': AgencyLogoBase64 ? AgencyLogoBase64 : imgbase64forPDF['기본로고'],
                 // defaultAgencyLogo: defaultagencylogo,
                 '최우수': imgbase64forPDF['최우수'],
@@ -3893,7 +3893,13 @@ const ScreeningViewer = ({ ...props }) => {
 
             <div className="PDFprogress">
 
-                <div>
+                <div style={{
+                    height: 200,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    textAlign: 'center'
+                }}>
                     보고서 변환중입니다.
                     잠시만 기다려주세요.
                     <br/>
